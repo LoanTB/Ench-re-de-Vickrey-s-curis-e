@@ -28,7 +28,7 @@ ehthumbs.db
 Thumbs.db
 
 # Fichiers spécifiques à IntelliJ IDEA
-../.idea/
+.idea/
 *.iws
 *.iml
 *.ipr
