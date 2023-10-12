@@ -1,4 +1,4 @@
-package com.projetenchere.Bidder.View.cli;
+package com.projetenchere.Bidder.View.commandLineInterface;
 
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 
