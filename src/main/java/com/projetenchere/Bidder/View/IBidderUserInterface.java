@@ -1,6 +1,6 @@
 package com.projetenchere.Bidder.View;
 
-public interface IUserInterface {
+public interface IBidderUserInterface {
 
     public void displayCurrentBid();
 

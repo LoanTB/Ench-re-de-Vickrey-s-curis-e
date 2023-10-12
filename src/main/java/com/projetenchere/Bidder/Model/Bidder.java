@@ -1,4 +1,4 @@
-package com.projetenchere.Bidder;
+package com.projetenchere.Bidder.Model;
 
 class Bidder {
 

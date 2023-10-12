@@ -1,8 +1,8 @@
 package com.projetenchere.Bidder.View.cli;
 
-import com.projetenchere.Bidder.View.IUserInterface;
+import com.projetenchere.Bidder.View.IBidderUserInterface;
 
-public class CommandLineInterface implements IUserInterface {
+public class BidderCommandLineInterface implements IBidderUserInterface {
     @Override
     public void displayCurrentBid() {
 

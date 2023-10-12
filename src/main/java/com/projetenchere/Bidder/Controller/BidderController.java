@@ -1,2 +1,4 @@
-package com.projetenchere.Bidder.Controller;public class BidderController {
+package com.projetenchere.Bidder.Controller;
+
+public class BidderController {
 }
