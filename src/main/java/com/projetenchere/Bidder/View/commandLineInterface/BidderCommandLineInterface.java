@@ -11,14 +11,23 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     public BidderCommandLineInterface() {
     }
 
+    private void showMessage(String message) {
+        System.out.println(message);
+    }
+
+    private String readMessage() {
+        return scanner.nextLine();
+    }
+
     @Override
     public void displayCurrentBid() {
+        //TODO: fetch current bid from Authority
 
     }
 
     @Override
     public Offer readOffer() {
-        String offerString = scanner.nextLine();
+        String offerString = readMessage();
         return new Offer(offerString);
     }
 
@@ -27,9 +36,9 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     }
 
+
     @Override
     public void tellOfferLost() {
 
     }
-    //TODO
 }
