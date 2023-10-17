@@ -11,11 +11,12 @@ public class BidderApp {
         BidderController controller = new BidderController();
         Bid currentBid = controller.fetchCurrentBid();
         controller.showBid(currentBid);
-        Offer offer = controller.readOfferFromInterface();
-        controller.sendOffer(offer);
-
-
-
+        if (controller.askSellerIfAlreadySentOffer()) {
+            controller.whenAlreadySentOffer();
+        } else {
+            Offer offer = controller.readOfferFromInterface();
+            controller.sendOffer(offer);
+        }
     }
 
 

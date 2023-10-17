@@ -18,6 +18,11 @@ public class BidderController {
         //TODO: fetch Bid with network
     }
 
+    public boolean askSellerIfAlreadySentOffer() {
+        //TODO: ask seller over network
+        return true;
+    }
+
     public void showBid(Bid bid) {
         ui.displayBid(bid);
     }
@@ -25,4 +30,31 @@ public class BidderController {
     public void sendOffer(Offer offer) {
         //TODO: send offer with network
     }
+
+    private int fetchPriceToPay() {
+        // returns -1 if offer lost
+        //TODO: ask over network
+        return 0;
+    }
+
+    private void checkWinAndTell() {
+         int priceToPay = fetchPriceToPay();
+         if (priceToPay == -1) {
+             ui.tellOfferLost();
+         }
+         else {
+             ui.tellOfferWon(priceToPay);
+         }
+
+    }
+
+    public void whenAlreadySentOffer() {
+        if (fetchCurrentBid().isOver()) {
+            checkWinAndTell();
+        } else {
+            ui.tellOfferAlreadySent();
+        }
+    }
+
+
 }
