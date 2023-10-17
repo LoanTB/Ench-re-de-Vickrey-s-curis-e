@@ -1,6 +1,7 @@
 package com.projetenchere.Bidder.View.commandLineInterface;
 
 import com.projetenchere.Bidder.View.IBidderUserInterface;
+import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.Offer;
 
 import java.util.Scanner;
@@ -11,7 +12,7 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     public BidderCommandLineInterface() {
     }
 
-    private void showMessage(String message) {
+    public void showMessage(String message) {
         System.out.println(message);
     }
 
@@ -20,8 +21,8 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
-    public void displayCurrentBid() {
-        //TODO: fetch current bid from Authority
+    public void displayBid(Bid bid) {
+        showMessage(bid._toString());
 
     }
 
@@ -33,12 +34,12 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     @Override
     public void tellOfferWon(int priceToPay) {
-
+        showMessage("Your offer won, you have to pay " + priceToPay + "€");
     }
 
 
     @Override
     public void tellOfferLost() {
-
+        showMessage("Your offer lost");
     }
 }
