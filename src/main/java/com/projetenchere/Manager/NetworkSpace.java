@@ -1,8 +1,10 @@
 package com.projetenchere.Manager;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class NetworkSpace {
     public static <myClass> Object recevoirObjet(int port, String className_DonnerPara) {
@@ -18,7 +20,6 @@ public class NetworkSpace {
             String className_RecupClient = (String) objectInput.readObject();
             System.out.println(className_DonnerPara);
             if (!className_RecupClient.equals(className_DonnerPara)){
-                // Erreur car on appel un objet qui n'est pas de même type que celui renvoyer
                 throw new ArithmeticException("Type transmit entre client/serveur est different");
             }
 
@@ -26,6 +27,7 @@ public class NetworkSpace {
             Class<?> myClass = Class.forName(className_RecupClient);
             myClass objetRecu = (myClass) objectInput.readObject();
 
+            // On ferme le socket et la connexion
             objectInput.close();
             input.close();
             clientSocket.close();
@@ -54,11 +56,23 @@ public class NetworkSpace {
             objectOutput.writeObject(objetEnvoi);
             objectOutput.flush();
 
+            // On ferme le socket et la connexion
             objectOutput.close();
             output.close();
             clientSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    public static void getMyIP() {
+        try {
+            InetAddress localHost = InetAddress.getLocalHost();
+            String ipAddress = localHost.getHostAddress();
+            System.out.println("Adresse IP de la machine locale : " + ipAddress);
+        } catch ( UnknownHostException e) {
+            System.err.println("Impossible de récupérer l'adresse IP : " + e.getMessage());
         }
     }
 }

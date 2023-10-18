@@ -27,4 +27,12 @@ public class Test_ObjetTransiter implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "Test_ObjetTransiter{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

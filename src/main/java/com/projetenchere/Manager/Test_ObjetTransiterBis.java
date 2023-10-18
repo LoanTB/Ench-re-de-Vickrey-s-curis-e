@@ -1,6 +1,7 @@
 package com.projetenchere.Manager;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Test_ObjetTransiterBis implements Serializable {
     private String signal;
@@ -26,5 +27,13 @@ public class Test_ObjetTransiterBis implements Serializable {
 
     public void setPaloJSP(int[] paloJSP) {
         this.paloJSP = paloJSP;
+    }
+
+    @Override
+    public String toString() {
+        return "Test_ObjetTransiterBis{" +
+                "signal='" + signal + '\'' +
+                ", paloJSP=" + Arrays.toString(paloJSP) +
+                '}';
     }
 }
