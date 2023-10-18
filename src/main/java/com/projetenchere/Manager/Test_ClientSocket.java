@@ -12,20 +12,26 @@ import java.nio.charset.StandardCharsets;
 
 public class Test_ClientSocket {
     public static void main(String[] args) throws IOException {
+        String serverAddress = "172.16.214.1";
+        int serverPort = 12345;
+        Test_ObjetTransiterBis objetEnvoi = new Test_ObjetTransiterBis("le signal", new int[] {1,2});
+        envoiObjet(serverAddress, serverPort, objetEnvoi);
+    }
+
+    public static void envoiObjet(String serverAddress, int serverPort, Object objetEnvoi) throws IOException {
         try {
-            String serverAddress = "172.16.214.1";
-            int serverPort = 12345;
+            // Connexion au serveur
             Socket clientSocket = new Socket(serverAddress, serverPort);
             OutputStream output = clientSocket.getOutputStream();
             ObjectOutputStream objectOutput = new ObjectOutputStream(output);
 
-            // Envoie du type
-            Test_ObjetTransiterBis objetEnvoi = new Test_ObjetTransiterBis("le signal", new int[] {1,2});
-            String firstString = objetEnvoi.getClass().getName();
-            objectOutput.writeObject(firstString);
+            // Envoi du type de l'objet
+            String className_Envoi = objetEnvoi.getClass().getName();
+            System.out.println(className_Envoi);
+            objectOutput.writeObject(className_Envoi);
             objectOutput.flush();
 
-            // Envoie de l'objet
+            // Envoi de l'objet
             objectOutput.writeObject(objetEnvoi);
             objectOutput.flush();
 
