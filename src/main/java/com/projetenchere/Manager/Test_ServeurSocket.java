@@ -10,8 +10,9 @@ import java.net.Socket;
 public class Test_ServeurSocket {
     public static void main(String[] args) throws IOException {
         try {
-            Test_ObjetTransiterBis objetRecu = (Test_ObjetTransiterBis) recevoirObjet(12345, Test_ObjetTransiterBis.class.getName());
-            System.out.println("Objet reçu : " + objetRecu.getSignal());
+            //Test_ObjetTransiterBis objetRecu = (Test_ObjetTransiterBis) recevoirObjet(12345, Test_ObjetTransiterBis.class.getName());
+            int objetRecu = (int) recevoirObjet(12345, Integer.class.getName());
+            System.out.println("Objet reçu : " + objetRecu);
 
         } catch (ArithmeticException e) {
             e.printStackTrace();
@@ -29,6 +30,7 @@ public class Test_ServeurSocket {
             // On verrifie que l'objet attendue est le même que celui envoyer
             // Recupération de la className_RecupClient
             String className_RecupClient = (String) objectInput.readObject();
+            System.out.println(className_DonnerPara);
             if (!className_RecupClient.equals(className_DonnerPara)){
                 // Erreur car on appel un objet qui n'est pas de même type que celui renvoyer
                 throw new ArithmeticException("Type transmit entre client/serveur est different");

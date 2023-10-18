@@ -15,7 +15,8 @@ public class Test_ClientSocket {
         String serverAddress = "172.16.214.1";
         int serverPort = 12345;
         Test_ObjetTransiterBis objetEnvoi = new Test_ObjetTransiterBis("le signal", new int[] {1,2});
-        envoiObjet(serverAddress, serverPort, objetEnvoi);
+        int a = 1;
+        envoiObjet(serverAddress, serverPort, a);
     }
 
     public static void envoiObjet(String serverAddress, int serverPort, Object objetEnvoi) throws IOException {
