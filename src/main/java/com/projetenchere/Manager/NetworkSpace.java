@@ -1,10 +1,7 @@
 package com.projetenchere.Manager;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.*;
 
 public class NetworkSpace {
     public static <myClass> Object recevoirObjet(int port, String className_DonnerPara) {
@@ -36,7 +33,7 @@ public class NetworkSpace {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        throw new ArithmeticException("Fonction 'recevoirObjet' mal terminer");
+        throw new ArithmeticException("Fonction 'recevoirObjet' c'est mal terminer");
     }
 
     public static void envoiObjet(String serverAddress, int serverPort, Object objetEnvoi) {
@@ -66,13 +63,29 @@ public class NetworkSpace {
     }
 
 
-    public static void getMyIP() {
+    public static String getMyIP() {
         try {
             InetAddress localHost = InetAddress.getLocalHost();
-            String ipAddress = localHost.getHostAddress();
-            System.out.println("Adresse IP de la machine locale : " + ipAddress);
+            return localHost.getHostAddress();
         } catch ( UnknownHostException e) {
             System.err.println("Impossible de récupérer l'adresse IP : " + e.getMessage());
         }
+        throw new ArithmeticException("Fonction 'getMyIP' c'est mal terminer");
     }
+
+    /*public static boolean testPort(String serverHostname, int serverPort) {
+        try {
+            InetAddress serverAddress = InetAddress.getByName(serverHostname);
+            InetSocketAddress serverSocketAddress = new InetSocketAddress(serverAddress, serverPort);
+
+            Socket socket = new Socket();
+            socket.connect(serverSocketAddress, 3000);
+            socket.close();
+
+            return true;
+        } catch (IOException e) {
+            System.err.println("Impossible de récupérer le port du serveur distant : " + e.getMessage());
+        }
+        throw new ArithmeticException("Fonction 'testPort' c'est mal terminer");
+    }*/
 }
