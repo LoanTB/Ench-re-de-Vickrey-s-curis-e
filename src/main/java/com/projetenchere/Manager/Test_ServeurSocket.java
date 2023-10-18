@@ -1,39 +1,51 @@
-
-
 package com.projetenchere.Manager;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.io.Serializable;
+
 
 public class Test_ServeurSocket {
     public static void main(String[] args) throws IOException {
         try {
-            int port = 12345;
+            Test_ObjetTransiterBis objetRecu = (Test_ObjetTransiterBis) recevoirObjet(12345, Test_ObjetTransiterBis.class.getName());
+            System.out.println("Objet reçu : " + objetRecu.getSignal());
+
+        } catch (ArithmeticException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static <myClass> Object recevoirObjet(int port, String className_DonnerPara) throws IOException {
+        try {
+            // Création du serveur et attente/connexion avec le client
             ServerSocket serverSocket = new ServerSocket(port);
             Socket clientSocket = serverSocket.accept();
-            System.out.println("Attente de connexions entrantes...");
-
             InputStream input = clientSocket.getInputStream();
             ObjectInputStream objectInput = new ObjectInputStream(input);
-            System.out.println("Connexion établie avec le client.");
 
-            Test_ObjetTransiter objetRecu = (Test_ObjetTransiter)objectInput.readObject();
+            // On verrifie que l'objet attendue est le même que celui envoyer
+            // Recupération de la className_RecupClient
+            String className_RecupClient = (String) objectInput.readObject();
+            if (!className_RecupClient.equals(className_DonnerPara)){
+                // Erreur car on appel un objet qui n'est pas de même type que celui renvoyer
+                throw new ArithmeticException("Type transmit entre client/serveur est different");
+            }
 
-            System.out.println("Objet reçu : " + objetRecu.getMessage());
+            // On veux récupère l'objet
+            Class<?> myClass = Class.forName(className_RecupClient);
+            myClass objetRecu = (myClass) objectInput.readObject();
 
+            objectInput.close();
+            input.close();
             clientSocket.close();
             serverSocket.close();
-            System.out.println("Ca passe");
-        } catch (IOException e) {
+            return objetRecu;
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
+        throw new ArithmeticException("Fonction 'recevoirObjet' mal terminer");
     }
 }
