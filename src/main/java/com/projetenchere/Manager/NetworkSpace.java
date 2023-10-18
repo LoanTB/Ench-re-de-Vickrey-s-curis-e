@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class NetworkSpace {
-    public static <myClass> Object recevoirObjet(int port, String className_DonnerPara) throws IOException {
+    public static <myClass> Object recevoirObjet(int port, String className_DonnerPara) {
         try {
             // Création du serveur et attente/connexion avec le client
             ServerSocket serverSocket = new ServerSocket(port);
@@ -37,7 +37,7 @@ public class NetworkSpace {
         throw new ArithmeticException("Fonction 'recevoirObjet' mal terminer");
     }
 
-    public static void envoiObjet(String serverAddress, int serverPort, Object objetEnvoi) throws IOException {
+    public static void envoiObjet(String serverAddress, int serverPort, Object objetEnvoi) {
         try {
             // Connexion au serveur
             Socket clientSocket = new Socket(serverAddress, serverPort);
