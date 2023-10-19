@@ -1,6 +1,6 @@
-package com.projetenchere.Util;
+package com.projetenchere.common;
 
-import com.projetenchere.common.Util.NetworkUtil;
+import com.projetenchere.common.network.NetworkUtil;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
@@ -26,7 +26,7 @@ public class NetworkUtilTest {
 
         clientThread = new Thread(() -> { // Thread client
             try {
-                data[1] = NetworkUtil.recevoirObjet(24681,String.class);
+                data[1] = (String) NetworkUtil.recevoirObjet(24681);
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException("Erreur côté client: " + e);
             }
