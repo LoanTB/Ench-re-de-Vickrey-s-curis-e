@@ -3,10 +3,10 @@ package com.projetenchere.common.network;
 import java.io.Serializable;
 
 public class ObjectSender implements Serializable {
-    final String IP_serder;
-    final int PORT_sender;
-    final Object object;
-    final Class<?> objectClass;
+    private final String IP_serder;
+    private final int PORT_sender;
+    private final Object object;
+    private final Class<?> objectClass;
 
     public ObjectSender(String IP_serder, int PORT_sender, Object object, Class<?> objectClass) {
         this.IP_serder = IP_serder;
