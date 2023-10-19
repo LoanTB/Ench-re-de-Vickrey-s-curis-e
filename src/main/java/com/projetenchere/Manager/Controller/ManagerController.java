@@ -1,28 +1,56 @@
-package com.projetenchere.Manager;
+package com.projetenchere.Manager.Controller;
 
-/*--- Java libraries ---*/
-import java.io.*;
-import java.util.*;
+import com.projetenchere.Manager.ManagerApp;
+import com.projetenchere.Manager.View.IManagerUserInterface;
+import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
+import com.projetenchere.common.Model.Offer;
+import com.projetenchere.common.Model.Bid;
 
-class Manager {
+import java.util.Arrays;
+import java.util.List;
 
-/*------ Auction launch ------*/
+
+public class ManagerController {
+
+    public static final IManagerUserInterface ui = new ManagerCommandLineInterface();
+
+
     //Creer l'enchère.
+    /*
+    public List<Bid> createBid()
+    {
+
+    }*/
+
+    //Generer
+    /*
+    public void generateKeyPair()
+    {
+
+    }
+    */
 
     //Lancer l'enchère donc l'envoyer aux Bidders + envoyer la clé publique.
+    /*
+    public void sendBid(List<Bid> bids, )
+    {
 
-/*------ Offer received ------*/
+    }*/
 
     //Recevoir les offres.
 
-/*------ Price processing ------*/
+    /*
+    public List<EncryptedOffer> fetchEncryptedOffers()
+    {
+
+    }
+    */
 
     //Déchiffrer les offres.
 
-    /**
-     *
-     * @return boolean, false if the manager say "n" and true if it say "y".
-     */
+
+
+    /*
     public static boolean checkWinner()
     {
         String confirmation = "";
@@ -49,13 +77,9 @@ class Manager {
             }
         }
         return false;
-    }
+    }*/
 
-    /**
-     *
-     * @param prices to sort.
-     * @return winner price.
-     */
+    /*
     private static int getWinnerPrice(int[] prices)
     {
         System.out.println("Original : ");
@@ -74,10 +98,6 @@ class Manager {
         return prices[prices.length -2];
     }
 
-    /**
-     *
-     * @param BidderPrice
-     */
     public static void priceProcessing(int[] BidderPrice)
     {
         boolean correct = false;
@@ -87,5 +107,18 @@ class Manager {
             correct = checkWinner();
         }
     }
+    */
+
+    /*
+    public void showPrices(List<>){
+        ui.displayPrices(List<>);
+    }
+
+    public void sendWinnerAndPrice()
+    {
+
+    }
+
+     */
 
 }
