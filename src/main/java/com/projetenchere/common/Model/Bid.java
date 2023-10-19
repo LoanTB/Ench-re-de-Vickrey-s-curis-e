@@ -7,7 +7,7 @@ public class Bid {
     private String BidName;
     private String BidDescription;
     private LocalDate date;
-    public void Bid(String name, String description)
+    public Bid(String name, String description)
     {
         LocalDateTime localDateTime = LocalDateTime.now();
         date=LocalDate.from(localDateTime);
