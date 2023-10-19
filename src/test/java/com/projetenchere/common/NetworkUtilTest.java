@@ -18,7 +18,7 @@ public class NetworkUtilTest {
         serverThread = new Thread(() -> { // Thread serveur
             try {
                 data[0] =  new String("Je suis un test");
-                NetworkUtil.envoiObjet(NetworkUtil.getMyIP(), 24681,data[0]);
+                NetworkUtil.send(NetworkUtil.getMyIP(), 24681,data[0]);
             } catch (IOException e) {
                 throw new RuntimeException("Erreur côté serveur: " + e);
             }
@@ -26,7 +26,7 @@ public class NetworkUtilTest {
 
         clientThread = new Thread(() -> { // Thread client
             try {
-                data[1] = (String) NetworkUtil.recevoirObjet(24681);
+                data[1] = (String) NetworkUtil.receive(24681);
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException("Erreur côté client: " + e);
             }
