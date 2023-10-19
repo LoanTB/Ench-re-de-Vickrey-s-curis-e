@@ -4,25 +4,23 @@ import java.text.DecimalFormat;
 
 public class Offer {
     private final String idBidder;
-    private final float value;
+    private final double value;
 
-    public Offer(String idBidder, float value) {
+    public Offer(String idBidder, double value) {
         this.idBidder = idBidder;
         this.value = value;
     }
 
-    public Offer(String idBidder, String value){// throws NumberFormatException
+    public Offer(String idBidder, String value){
         this.idBidder = idBidder;
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        this.value = Float.parseFloat(df.format(value));
+        this.value = Double.parseDouble(value);
     }
 
     public String getIdBidder() {
         return idBidder;
     }
 
-    public float getValue() {
+    public double getValue() {
         return value;
     }
 }
