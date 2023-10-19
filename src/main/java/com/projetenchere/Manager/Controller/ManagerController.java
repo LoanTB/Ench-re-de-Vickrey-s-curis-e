@@ -5,8 +5,10 @@ import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
 import com.projetenchere.common.Model.Offer;
 import com.projetenchere.common.Model.Bid;
+import com.projetenchere.common.Util.EncryptionUtil;
 
-import java.util.Arrays;
+import java.security.KeyPair;
+import java.security.PublicKey;
 import java.util.List;
 
 
@@ -14,70 +16,51 @@ public class ManagerController {
 
     public static final IManagerUserInterface ui = new ManagerCommandLineInterface();
 
+    //Generer
+    public KeyPair generateManagerKeys() throws Exception {
+        KeyPair ManagerKeys = EncryptionUtil.generateKeyPair();
+        return ManagerKeys;
+    }
+
 
     //Creer l'enchère.
-    /*
-    public List<Bid> createBid()
+
+    public Bid createBid()
     {
-
-    }*/
-
-    //Generer
-    /*
-    public void generateKeyPair()
-    {
-
+        return new Bid();
     }
-    */
+
 
     //Lancer l'enchère donc l'envoyer aux Bidders + envoyer la clé publique.
-    /*
-    public void sendBid(List<Bid> bids, )
-    {
 
-    }*/
+    public void sendBidAndKey(Bid currentBid, PublicKey managerPublicKey)
+    {
+        //TODO : SendObjects.
+    }
+
 
     //Recevoir les offres.
 
     /*
     public List<EncryptedOffer> fetchEncryptedOffers()
     {
-
+        //TODO : FetchObjects ?
     }
     */
 
     //Déchiffrer les offres.
+/*
+    public List<Offer> decryptEncryptedOffers(List<EncryptedOffer> ReceivedOffers){
+        //TODO : Decrypt each offers.
+        //return List<Offer> DecryptedOffers;
 
+    }
 
-
-    /*
-    public static boolean checkWinner()
+    public float getWinnerPrice(List<Offer> DecryptedOffers)
     {
-        String confirmation = "";
-        boolean waitConfirmation = true;
-        Scanner scan = new Scanner(System.in);
-        while(waitConfirmation)
-        {
-            System.out.println("Est-ce correct ? y/n");
-            confirmation = scan.nextLine();
-            confirmation = confirmation.replaceAll("\n","");
-            confirmation = confirmation.toLowerCase();
-
-            if (confirmation.startsWith("y"))
-            {
-                waitConfirmation=false;
-                System.out.println("Ok.");
-                return true;
-            }
-            if (confirmation.startsWith("n"))
-            {
-                waitConfirmation=false;
-                System.out.println("Resort...");
-                return false;
-            }
-        }
-        return false;
-    }*/
+        //TODO : Adapt int[] to List<Offer>.
+    }
+*/
 
     /*
     private static int getWinnerPrice(int[] prices)
@@ -118,7 +101,6 @@ public class ManagerController {
     {
 
     }
-
      */
 
 }
