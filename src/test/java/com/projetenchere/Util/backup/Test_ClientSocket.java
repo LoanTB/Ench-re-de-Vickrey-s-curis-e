@@ -1,7 +1,9 @@
-package com.projetenchere.Manager;
+package com.projetenchere.Util.backup;
 
 
-public class Test_ClientSocket extends NetworkSpace{
+import com.projetenchere.common.Util.NetworkSpace;
+
+public class Test_ClientSocket extends NetworkSpace {
     public static void main(String[] args) {
         //String serverIP = "192.168.43.174";
         String serverIP = getMyIP();

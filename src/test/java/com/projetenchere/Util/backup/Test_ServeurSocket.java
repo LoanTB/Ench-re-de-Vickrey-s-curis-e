@@ -1,8 +1,7 @@
-package com.projetenchere.Manager;
+package com.projetenchere.Util.backup;
 
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import com.projetenchere.common.Util.NetworkSpace;
 
 public class Test_ServeurSocket extends NetworkSpace {
     public static void main(String[] args) {

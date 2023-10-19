@@ -1,4 +1,4 @@
-package com.projetenchere.Manager;
+package com.projetenchere.Util.backup;
 
 import java.io.Serializable;
 import java.util.Arrays;

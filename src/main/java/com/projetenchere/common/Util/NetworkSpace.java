@@ -1,4 +1,4 @@
-package com.projetenchere.Manager;
+package com.projetenchere.common.Util;
 
 import java.io.*;
 import java.net.*;
