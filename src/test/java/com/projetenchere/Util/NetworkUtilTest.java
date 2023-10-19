@@ -13,9 +13,9 @@ public class NetworkUtilTest {
 
     @Test
     public void test_basic_string_transmission() throws InterruptedException {
-        final String[] data = new String[2];
+        final String[] data = new String[2]; // Pour avoir de la mémoire partagé avec les threads
 
-        serverThread = new Thread(() -> {
+        serverThread = new Thread(() -> { // Thread serveur
             try {
                 data[0] =  new String("Je suis un test");
                 NetworkUtil.envoiObjet(NetworkUtil.getMyIP(), 24681,data[0]);
@@ -24,7 +24,7 @@ public class NetworkUtilTest {
             }
         });
 
-        clientThread = new Thread(() -> {
+        clientThread = new Thread(() -> { // Thread client
             try {
                 data[1] = NetworkUtil.recevoirObjet(24681,String.class);
             } catch (IOException | ClassNotFoundException e) {
