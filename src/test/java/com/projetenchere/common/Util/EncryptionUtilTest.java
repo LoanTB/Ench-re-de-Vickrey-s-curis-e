@@ -1,6 +1,5 @@
-package com.projetenchere.Util;
+package com.projetenchere.common.Util;
 
-import com.projetenchere.common.Util.EncryptionUtil;
 import org.junit.jupiter.api.Test;
 
 import java.security.KeyPair;
@@ -22,14 +21,14 @@ public class EncryptionUtilTest {
         System.out.println("Clé privée : "+ manager_privKey_str);
         System.out.println("Clé publique : "+ manager_pubKey_str);
 
-        String message = "Oui j'ai fait un test alors que j'aime pas ça";
-        System.out.println("Message d'origine : "+message);
-        byte[] encrypted_message = EncryptionUtil.encrypt(message, manager_publicKey);
+        double price = 12.34;
+        System.out.println("Prix d'origine : "+price);
+        byte[] encryptedPrice = EncryptionUtil.encrypt(price, manager_publicKey);
         System.out.print("Message chiffré : ");
-        System.out.println(new String(encrypted_message, 0));
-        String decrypted_message_UC = EncryptionUtil.decrypt(encrypted_message,manager_privateKey);
-        System.out.println("Message déchiffré : "+message);
+        System.out.println(new String(encryptedPrice, 0));
+        double decryptedPrice = EncryptionUtil.decrypt(encryptedPrice,manager_privateKey);
+        System.out.println("Prix déchiffré : "+decryptedPrice);
 
-        assertEquals(message, decrypted_message_UC);
+        assertEquals(price, decryptedPrice);
     }
 }
