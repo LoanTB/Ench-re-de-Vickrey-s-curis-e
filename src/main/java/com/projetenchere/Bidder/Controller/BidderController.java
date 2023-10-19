@@ -6,14 +6,16 @@ import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.Offer;
 
 public class BidderController {
-    public static final IBidderUserInterface ui = new BidderCommandLineInterface();
+    public final IBidderUserInterface ui = new BidderCommandLineInterface();
+    public String publicKey;
+    public Bid currentBid;
 
 
     public Offer readOfferFromInterface() {
         return ui.readOffer();
     }
 
-    public Bid fetchCurrentBid() {
+    public Bid fetchInitPackage() {
         return new Bid();
         //TODO: fetch Bid with network
     }
@@ -49,7 +51,7 @@ public class BidderController {
     }
 
     public void whenAlreadySentOffer() {
-        if (fetchCurrentBid().isOver()) {
+        if (fetchInitPackage().isOver()) {
             checkWinAndTell();
         } else {
             ui.tellOfferAlreadySent();
