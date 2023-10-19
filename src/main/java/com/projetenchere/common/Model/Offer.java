@@ -11,3 +11,5 @@ public class Offer {
         this.value = Float.parseFloat(df.format(value));
     }
 }
+
+
