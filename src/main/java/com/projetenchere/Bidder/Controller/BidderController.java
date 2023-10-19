@@ -1,13 +1,19 @@
 package com.projetenchere.Bidder.Controller;
 
+import com.projetenchere.Bidder.Controller.network.BidderNetworkController;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
 import com.projetenchere.common.Model.Bid;
+import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Offer;
+
+import java.io.IOException;
+import java.security.PublicKey;
 
 public class BidderController {
     public final IBidderUserInterface ui = new BidderCommandLineInterface();
-    public String publicKey;
+    public final BidderNetworkController network = new BidderNetworkController();
+    public PublicKey publicKey;
     public Bid currentBid;
 
 
@@ -15,9 +21,12 @@ public class BidderController {
         return ui.readOffer();
     }
 
-    public Bid fetchInitPackage() {
-        return new Bid();
-        //TODO: fetch Bid with network
+    public void loadInitPackage() throws IOException, ClassNotFoundException {
+         BidStarter bidStart = network.askForInitPackage();
+         this.currentBid = bidStart.getCurrentBid();
+         this.publicKey = bidStart.getManagerPublicKey();
+
+
     }
 
     public boolean askSellerIfAlreadySentOffer() {
