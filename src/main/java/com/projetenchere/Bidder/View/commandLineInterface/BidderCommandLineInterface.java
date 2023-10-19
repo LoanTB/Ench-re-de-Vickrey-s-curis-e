@@ -29,7 +29,7 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     @Override
     public Offer readOffer() {
         String offerString = readMessage();
-        return new Offer(offerString);
+        return new Offer("ID_Bidder",offerString);// TODO : Change ID_Bidder by the real name of the bidder
     }
 
     @Override
