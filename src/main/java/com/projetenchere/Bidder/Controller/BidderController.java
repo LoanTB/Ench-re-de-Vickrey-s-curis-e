@@ -34,8 +34,8 @@ public class BidderController {
         return true;
     }
 
-    public void showBid(Bid bid) {
-        ui.displayBid(bid);
+    public void showBid() {
+        ui.displayBid(this.currentBid);
     }
 
     public void sendOffer(Offer offer) {
@@ -59,8 +59,14 @@ public class BidderController {
 
     }
 
-    public void whenAlreadySentOffer() {
-        if (fetchInitPackage().isOver()) {
+    public void fetchInitPackage() throws IOException, ClassNotFoundException {
+        BidStarter bidStarter = network.askForInitPackage();
+        this.currentBid = bidStarter.getCurrentBid();
+        this.publicKey = bidStarter.getManagerPublicKey();
+    }
+
+    public void whenAlreadySentOffer() throws IOException, ClassNotFoundException {
+        if (this.currentBid.isOver()) {
             checkWinAndTell();
         } else {
             ui.tellOfferAlreadySent();

@@ -1,6 +1,7 @@
 package com.projetenchere.Bidder.Controller.network;
 
 import com.projetenchere.common.Model.BidStarter;
+import com.projetenchere.common.Model.Offer;
 import com.projetenchere.common.network.NetworkUtil;
 import com.projetenchere.common.network.ObjectSender;
 
@@ -27,8 +28,11 @@ public class BidderNetworkController {
                 greet,
                 greet.getClass());
         NetworkUtil.send(MANAGER_ADDRESS, MANAGER_PORT, objectSender);
-        return (BidStarter)
+        ObjectSender receiver = NetworkUtil.receive(24683);
+        if (!receiver.getObjectClass().equals(BidStarter.class)) {
+            throw new ClassNotFoundException("Received wrong class");
+        } else {
+            return (BidStarter) receiver.getObject();
+        }
     }
-
-
 }
