@@ -2,7 +2,7 @@ package com.projetenchere.Manager.Controller;
 
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.BidStarter;
-import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.network.NetworkUtil;
 import com.projetenchere.common.network.ObjectSender;
@@ -12,10 +12,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.PublicKey;
 import java.util.Set;
+import java.util.HashSet;
 
 public class ManagerNetworkController {
     private String ManagerIp;
-    private int ManagerPort = 2468;
+    private int ManagerPort = 2463;
 
     public String getManagerIp() {
         return ManagerIp;
@@ -43,14 +44,10 @@ public class ManagerNetworkController {
         NetworkUtil.send(ManagerIp,ManagerPort,pack);
     }
 
-    public Set<EncryptedPrice> fetchEncryptedPrice() throws IOException, ClassNotFoundException {
+    public EncryptedPrices fetchEncryptedPrice() throws IOException, ClassNotFoundException {
         ObjectSender request = NetworkUtil.receive(ManagerPort);
-        if(request.getObjectClass() == Set<EncryptedPrice>.class)
-        {
-            Set<EncryptedPrice> pack = request.getObject();
-            return pack;
-        }
-        return null;
+        EncryptedPrices pack = (EncryptedPrices)request.getObjectClass().cast(request.getObject());
+        return pack;
     }
 
     public void sendWinnerAndPrice(Winner result) throws IOException {

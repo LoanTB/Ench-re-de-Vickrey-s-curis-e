@@ -21,13 +21,12 @@ public class ManagerApp {
         PrivateKey managerPrivateKey = ManagerKeys.getPrivate();
         PublicKey managerPublicKey = ManagerKeys.getPublic();
 
-        BidStarter currentBidStarter = new BidStarter(managerPublicKey,currentBid);
+        String sellerAdress = controller.askSellerAdress();
+        BidStarter currentBidStarter = new BidStarter(managerPublicKey,currentBid,sellerAdress);
+
         networkController.waitAskInitPackByBidder(currentBidStarter);
 
-    //Recevoir les prix.
-        //ManagerNetworkController.fetchEncryptedPrice();
-    //Traiter les prix.
-
+        //networkController.fetchEncryptedPrice();
 
     }
 }

@@ -5,9 +5,9 @@ import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
 import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Bid;
-import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.Util.EncryptionUtil;
+import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
 
 import java.security.KeyPair;
 import java.security.PublicKey;
@@ -28,11 +28,16 @@ public class ManagerController {
         return ui.askBidInformations();
     }
 
-    public Set<Double> decryptEncryptedPrice(Set<EncryptedPrice> ReceivedPrices){ //ADD : retour List<Offer>
+    public String askSellerAdress(){
+        return ui.askSellerAdress();
+    }
+
+    public Set<Double> decryptEncryptedPrice(Set<EncryptedPrices> ReceivedPrices){
+        //ADD : retour List<Offer>
         //TODO : Decrypt each offers.
         Set<Double> decryptedPrice = new HashSet<>();
-        for(EncryptedPrice encrypted : ReceivedPrices){
-            decryptedPrice = add(EncryptionUtil.decrypt(encrypted.getPrice()));
+        for(EncryptedPrices encrypted : ReceivedPrices){
+            decryptedPrice.add(EncryptionUtil.decrypt(encrypted.getPrice()));
         }
         return decryptedPrice;
     }

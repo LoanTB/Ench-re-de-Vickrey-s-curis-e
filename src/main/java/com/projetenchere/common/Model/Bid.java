@@ -4,35 +4,35 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Bid {
-    final private String BidName;
-    final private String BidDescription;
-    final private LocalDate date;
-    public Bid(String name, String description)
+    final private String bidName;
+    final private String bidDescription;
+    final private LocalDate date; // date de création
+    final private LocalDateTime dateTime; // date de fin
+
+    public Bid(String name, String description, LocalDateTime endTime)
     {
         LocalDateTime localDateTime = LocalDateTime.now();
-        date=LocalDate.from(localDateTime);
-        BidDescription=description;
-        BidName=name;
+        date = LocalDate.from(localDateTime);
+        bidDescription = description;
+        bidName = name;
+        dateTime = endTime;
     }
 
-    public String getBidName() {
-        return BidName;
-    }
+    public String getBidName() { return bidName; }
 
-    public String getBidDescription() {
-        return BidDescription;
-    }
+    public String getBidDescription() { return bidDescription; }
 
-    public LocalDate getDate(){
-        return date;
-    }
+    public LocalDate getDate(){ return date; }
+
+    public LocalDateTime getDateTime() { return dateTime; }
 
     public String _toString() {
-        return "Nom : "+ BidName + " Date : " + date.toString() +" Description : " + BidDescription + ".";
+        return "Nom : "+ bidName + " Date de création : " + date.toString() +" Description : " + bidDescription + "." + " Date de fin ; " + dateTime;
     }
 
     public boolean isOver() {
-        return true;
+        LocalDateTime now = LocalDateTime.now();
+        return now.isAfter(dateTime); // Check si le temps actuel est après la date de fin
     }
 
 }
