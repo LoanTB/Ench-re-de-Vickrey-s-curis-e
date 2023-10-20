@@ -8,7 +8,6 @@ import com.projetenchere.common.network.ObjectSender;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.*;
 
 public class SellerNetworkController {
     private final String SellerIp;
@@ -23,12 +22,12 @@ public class SellerNetworkController {
         NetworkUtil.send(SellerIp,SellerPort,objectSender);
     }
 
-    public EncryptedOffer getObjectSenderRequests() throws IOException, ClassNotFoundException {
+    public ObjectSender getEncryptedOfferRequests() throws IOException, ClassNotFoundException {
         ObjectSender request;
         do {
             request = NetworkUtil.receive(SellerPort);
         } while (!request.getObjectClass().equals(EncryptedOffer.class));
-        return (EncryptedOffer) request.getObjectClass().cast(request.getObject());
+        return request;
     }
 
     public Winner getWinnerRequests() throws IOException, ClassNotFoundException {
@@ -37,5 +36,13 @@ public class SellerNetworkController {
             request = NetworkUtil.receive(SellerPort);
         } while (!request.getObjectClass().equals(Winner.class));
         return (Winner) request.getObjectClass().cast(request.getObject());
+    }
+
+    public String getSellerIp() {
+        return SellerIp;
+    }
+
+    public int getSellerPort() {
+        return SellerPort;
     }
 }

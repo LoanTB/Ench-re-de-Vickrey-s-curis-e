@@ -18,6 +18,24 @@ public class SellerController {
         ui.diplayHello();
     }
 
+    public void displayOfferReceived(EncryptedOffer encryptedOffer){
+        ui.displayOfferReceived(encryptedOffer);
+    }
+
+    public void displayWinner(List<EncryptedOffer> encryptedOffers, List<Double> biddersWinStatus, Winner winner){
+        String winnerID = this.getWinnerID(encryptedOffers,biddersWinStatus);
+        Double price = winner.getPriceToPay();
+        ui.displayWinner(winnerID,price);
+    }
+
+    public void displayEncryptedPriceSended(){
+        ui.displayEncryptedPriceSended();
+    }
+
+    public void displayResultsSent(){
+        ui.displayResultsSent();
+    }
+
     public EncryptedPrices getEncryptedPrices(List<EncryptedOffer> encryptedOffers){
         Set<byte[]> encryptedPrices = new HashSet<>();
         for (EncryptedOffer encryptedOffer: encryptedOffers){
