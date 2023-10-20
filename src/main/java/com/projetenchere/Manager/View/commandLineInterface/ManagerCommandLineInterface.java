@@ -44,7 +44,7 @@ public class ManagerCommandLineInterface implements IManagerUserInterface{
     }
 
     @Override
-    public void displayPrices(List<Offer> DecryptedOffer){
+    public void displayPrices(List<Double> DecryptedPrice){
 
     };
 

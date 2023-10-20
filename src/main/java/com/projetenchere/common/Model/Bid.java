@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Bid {
-    private String BidName;
-    private String BidDescription;
-    private LocalDate date;
-    public void Bid(String name, String description)
+    final private String BidName;
+    final private String BidDescription;
+    final private LocalDate date;
+    public Bid(String name, String description)
     {
         LocalDateTime localDateTime = LocalDateTime.now();
         date=LocalDate.from(localDateTime);

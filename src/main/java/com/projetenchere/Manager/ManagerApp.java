@@ -14,6 +14,8 @@ public class ManagerApp {
         System.out.println("Bienvenue Manager !");
 
         ManagerController controller = new ManagerController();
+        ManagerNetworkController networkController = new ManagerNetworkController();
+
         //Lancer enchère.
 
         Bid currentBid = controller.createBid();
@@ -24,17 +26,17 @@ public class ManagerApp {
 
         //TODO : Recevoir requête Enchérisseur.
 
-        ManagerNetworkController networkController = new ManagerNetworkController();
 
 
 
-        //Recevoir les prix.
 
-        //controller.fetchEncryptedOffers();
 
-        //Traiter les prix.
 
-        //Manager.priceProcessing(BidderPrice);
+
+    //Recevoir les prix.
+        //ManagerNetworkController.fetchEncryptedPrice();
+    //Traiter les prix.
+
 
 
 
