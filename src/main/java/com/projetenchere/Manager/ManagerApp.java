@@ -1,31 +1,32 @@
 package com.projetenchere.Manager;
 
 import com.projetenchere.Manager.Controller.ManagerController;
+import com.projetenchere.Manager.Controller.ManagerNetworkController;
+import com.projetenchere.common.Model.Bid;
+import com.projetenchere.common.Model.BidStarter;
 
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.Base64;
+
 
 public class ManagerApp {
     public static void main(String[] args) throws Exception {
         System.out.println("Bienvenue Manager !");
-
         ManagerController controller = new ManagerController();
-        //Lancer enchère.
+        ManagerNetworkController networkController = new ManagerNetworkController();
 
+        Bid currentBid = controller.createBid();
         KeyPair ManagerKeys = controller.generateManagerKeys();
-
-
         PrivateKey managerPrivateKey = ManagerKeys.getPrivate();
         PublicKey managerPublicKey = ManagerKeys.getPublic();
 
-        //Recevoir les prix.
+        BidStarter currentBidStarter = new BidStarter(managerPublicKey,currentBid);
+        networkController.waitAskInitPackByBidder(currentBidStarter);
 
-        //Traiter les prix.
-
-        //Manager.priceProcessing(BidderPrice);
-
+    //Recevoir les prix.
+        //ManagerNetworkController.fetchEncryptedPrice();
+    //Traiter les prix.
 
 
     }
