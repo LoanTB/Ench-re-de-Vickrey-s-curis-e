@@ -26,4 +26,9 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     public void displayOfferReceived(EncryptedOffer encryptedOffer) {
         showMessage("Nouvelle offre reçue de "+encryptedOffer.getIdBidder()+".");
     }
+
+    @Override
+    public void diplayHello() {
+        showMessage("Bienvenue vendeur !");
+    }
 }
