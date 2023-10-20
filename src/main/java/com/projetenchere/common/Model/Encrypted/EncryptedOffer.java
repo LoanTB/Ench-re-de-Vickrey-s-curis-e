@@ -9,13 +9,21 @@ public class EncryptedOffer {
     private final String idBidder;
     private final byte[] value;
 
-    public EncryptedOffer(String idBidder, float value, PublicKey publicKey) {
+    public EncryptedOffer(String idBidder, double value, PublicKey publicKey) throws Exception {
         this.idBidder = idBidder;
         this.value = EncryptionUtil.encrypt(value,publicKey);
     }
 
-    public EncryptedOffer(Offer offer, PublicKey publicKey) {
+    public EncryptedOffer(Offer offer, PublicKey publicKey) throws Exception {
         this.idBidder = offer.getIdBidder();
         this.value = EncryptionUtil.encrypt(offer.getValue(),publicKey);
+    }
+
+    public String getIdBidder() {
+        return idBidder;
+    }
+
+    public byte[] getValue() {
+        return value;
     }
 }
