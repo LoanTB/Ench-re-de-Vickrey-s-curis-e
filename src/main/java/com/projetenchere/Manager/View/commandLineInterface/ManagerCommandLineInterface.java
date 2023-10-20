@@ -28,7 +28,12 @@ public class ManagerCommandLineInterface implements IManagerUserInterface{
         String description = askBidDescription();
         return new Bid(name,description);
     }
-
+    @Override
+    public String askSellerAdress(){
+        showMessage("Veuillez saisir l'addresse du vendeur : ");
+        String name = readMessage();
+        return name;
+    }
     @Override
     public String askBidDescription() {
         showMessage("Veuillez saisir la description de l'enchère : ");
