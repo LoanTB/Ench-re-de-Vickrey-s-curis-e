@@ -7,23 +7,23 @@ import java.security.PublicKey;
 
 public class EncryptedOffer {
     private final String idBidder;
-    private final byte[] value;
+    private final byte[] price;
 
-    public EncryptedOffer(String idBidder, double value, PublicKey publicKey) throws Exception {
+    public EncryptedOffer(String idBidder, double price, PublicKey publicKey) throws Exception {
         this.idBidder = idBidder;
-        this.value = EncryptionUtil.encrypt(value,publicKey);
+        this.price = EncryptionUtil.encrypt(price,publicKey);
     }
 
     public EncryptedOffer(Offer offer, PublicKey publicKey) throws Exception {
         this.idBidder = offer.getIdBidder();
-        this.value = EncryptionUtil.encrypt(offer.getValue(),publicKey);
+        this.price = EncryptionUtil.encrypt(offer.getValue(),publicKey);
     }
 
     public String getIdBidder() {
         return idBidder;
     }
 
-    public byte[] getValue() {
-        return value;
+    public byte[] getPrice() {
+        return price;
     }
 }
