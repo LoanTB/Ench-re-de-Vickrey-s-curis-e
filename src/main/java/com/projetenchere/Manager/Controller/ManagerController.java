@@ -3,14 +3,16 @@ package com.projetenchere.Manager.Controller;
 import com.projetenchere.Manager.ManagerApp;
 import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
-import com.projetenchere.common.Model.Offer;
+import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Bid;
+import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.Util.EncryptionUtil;
 
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.util.List;
-
+import java.util.ArrayList;
 
 public class ManagerController {
 
@@ -18,89 +20,48 @@ public class ManagerController {
 
     //Generer
     public KeyPair generateManagerKeys() throws Exception {
-        KeyPair ManagerKeys = EncryptionUtil.generateKeyPair();
-        return ManagerKeys;
+        return EncryptionUtil.generateKeyPair();
     }
-
 
     //Creer l'enchère.
 
     public Bid createBid()
     {
-        return new Bid();
+        return ui.askBidInformations();
     }
 
-
-    //Lancer l'enchère donc l'envoyer aux Bidders + envoyer la clé publique.
-
-    public void sendBidAndKey(Bid currentBid, PublicKey managerPublicKey)
-    {
-        //TODO : SendObjects.
-    }
-
-
-    //Recevoir les offres.
-
-    /*
-    public List<EncryptedOffer> fetchEncryptedOffers()
-    {
-        //TODO : FetchObjects ?
-    }
-    */
 
     //Déchiffrer les offres.
-/*
-    public List<Offer> decryptEncryptedOffers(List<EncryptedOffer> ReceivedOffers){
+    public void decryptEncryptedOffers(Set<EncryptedPrice> ReceivedPrices){ //ADD : retour List<Offer>
         //TODO : Decrypt each offers.
-        //return List<Offer> DecryptedOffers;
-
+        return ;
     }
 
-    public float getWinnerPrice(List<Offer> DecryptedOffers)
-    {
-        //TODO : Adapt int[] to List<Offer>.
+    public void showPrices(List<Double> DecryptedPrice){
+        ui.displayPrices(DecryptedPrice);
     }
-*/
 
-    /*
-    private static int getWinnerPrice(int[] prices)
-    {
-        System.out.println("Original : ");
-        for(int num : prices)
-        {
-            System.out.println(num + "");
+    public Winner getWinnerPrice(PublicKey managerKey, Set<EncryptedPrice> ReceivedPrices) throws Exception {
+
+        double firstPrice = 0;
+        double secondePrice = 0;
+        double priceProcess = 0;
+        for(EncryptedPrice index : ReceivedPrices){
+            priceProcess = EncryptionUtil.decrypt(index.getPrice());
+            if(priceProcess > secondePrice){
+                if(priceProcess > firstPrice){
+                    secondePrice = firstPrice;
+                    firstPrice = priceProcess;
+                }
+                else{
+                    secondePrice = priceProcess;
+                }
+            }
         }
-        Arrays.sort(prices); //Tri du plus petit au plus grand.
-        System.out.println("Sorted : ");
 
-        for(int num : prices)
-        {
-            System.out.println(num + "");
-        }
+        byte[] winnerCypher = EncryptionUtil.encrypt(secondePrice,managerKey);
 
-        return prices[prices.length -2];
+        return new Winner(winnerCypher,firstPrice);
     }
-
-    public static void priceProcessing(int[] BidderPrice)
-    {
-        boolean correct = false;
-        while(!correct) {
-            int winnerPrice = getWinnerPrice(BidderPrice);
-            System.out.println("Winner price is : " + winnerPrice);
-            correct = checkWinner();
-        }
-    }
-    */
-
-    /*
-    public void showPrices(List<>){
-        ui.displayPrices(List<>);
-    }
-
-    public void sendWinnerAndPrice()
-    {
-
-    }
-     */
 
 }

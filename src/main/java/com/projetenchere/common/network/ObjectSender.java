@@ -3,12 +3,12 @@ package com.projetenchere.common.network;
 import java.io.Serializable;
 
 public class ObjectSender implements Serializable {
-    final String IP_serder;
-    final String PORT_sender;
-    final Object object;
-    final Class<?> objectClass;
+    private final String IP_serder;
+    private final int PORT_sender;
+    private final Object object;
+    private final Class<?> objectClass;
 
-    public ObjectSender(String IP_serder, String PORT_sender, Object object, Class<?> objectClass) {
+    public ObjectSender(String IP_serder, int PORT_sender, Object object, Class<?> objectClass) {
         this.IP_serder = IP_serder;
         this.PORT_sender = PORT_sender;
         if (!objectClass.isInstance(object)){
@@ -16,5 +16,21 @@ public class ObjectSender implements Serializable {
         }
         this.object = object;
         this.objectClass = objectClass;
+    }
+
+    public String getIP_serder() {
+        return IP_serder;
+    }
+
+    public int getPORT_sender() {
+        return PORT_sender;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public Class<?> getObjectClass() {
+        return objectClass;
     }
 }
