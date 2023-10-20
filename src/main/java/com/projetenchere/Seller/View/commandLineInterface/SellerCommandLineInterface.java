@@ -28,7 +28,19 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     }
 
     @Override
+    public void displayEncryptedPriceSended() {
+        showMessage("Prix chiffrés envoyés à l'autorité de gestion pour traitement...");
+    }
+
+    @Override
+    public void displayResultsSent() {
+        showMessage("Résultats envoyés aux enchérisseurs.");
+    }
+
+    @Override
     public void diplayHello() {
         showMessage("Bienvenue vendeur !");
     }
+
+
 }

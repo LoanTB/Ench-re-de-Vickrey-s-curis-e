@@ -8,4 +8,8 @@ public interface ISellerUserInterface {
     void diplayHello();
     void displayWinner(String winnerID, Double price);
     void displayOfferReceived(EncryptedOffer encryptedOffer);
+
+    void displayEncryptedPriceSended();
+
+    void displayResultsSent();
 }
