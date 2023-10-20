@@ -1,27 +1,31 @@
 package com.projetenchere.common.Util;
+
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import javax.crypto.*;
+import java.nio.ByteBuffer;
 
 public class EncryptionUtil {
     public static KeyPair generateKeyPair() throws Exception {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(2048); // Taille de la clé
+        keyPairGenerator.initialize(2048);
         return keyPairGenerator.generateKeyPair();
     }
 
-    public static byte[] encrypt(String text, PublicKey publicKey) throws Exception {
-        Cipher cipher = Cipher.getInstance("RSA");  
+    public static byte[] encrypt(double number, PublicKey publicKey) throws Exception {
+        Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        return cipher.doFinal(text.getBytes());
+        byte[] bytes = ByteBuffer.allocate(Double.BYTES).putDouble(number).array();
+        return cipher.doFinal(bytes);
     }
 
-    public static String decrypt(byte[] ciphertext, PrivateKey privateKey) throws Exception {
+    public static double decrypt(byte[] encryptedNumber, PrivateKey privateKey) throws Exception {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
-        byte[] decryptedBytes = cipher.doFinal(ciphertext);
-        return new String(decryptedBytes);
+        byte[] decryptedBytes = cipher.doFinal(encryptedNumber);
+        ByteBuffer wrapped = ByteBuffer.wrap(decryptedBytes);
+        return wrapped.getDouble();
     }
 }
