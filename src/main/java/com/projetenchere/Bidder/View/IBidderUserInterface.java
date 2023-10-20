@@ -1,14 +1,20 @@
 package com.projetenchere.Bidder.View;
+import com.projetenchere.common.Model.Bid;
+import com.projetenchere.common.Model.Offer;
+
 
 public interface IBidderUserInterface {
 
-    public void displayCurrentBid();
+    void displayBid(Bid bid);
 
-    public void getOffer();
+    Offer readOffer();
 
-    public void tellOfferWon(int priceToPay);
+    void tellOfferWon(int priceToPay);
 
-    public void tellOfferLost();
+    void tellOfferLost();
+
+    void tellOfferAlreadySent();
+
 
 
 
