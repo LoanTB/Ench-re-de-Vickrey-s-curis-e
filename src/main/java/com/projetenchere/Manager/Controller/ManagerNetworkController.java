@@ -2,6 +2,7 @@ package com.projetenchere.Manager.Controller;
 
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.BidStarter;
+import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.network.NetworkUtil;
 import com.projetenchere.common.network.ObjectSender;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.PublicKey;
+import java.util.Set;
 
 public class ManagerNetworkController {
     private String ManagerIp;
@@ -28,17 +30,27 @@ public class ManagerNetworkController {
         setManagerIp(ManagerIp);
     }
 
-    //Recevoir les offres.
-    public void fetchEncryptedPrice() //ADD : Retour : List<EncryptedOffer>
-    {
-        //TODO : FetchObjects ?
+    public void waitAskInitPackByBidder(BidStarter currentBidStarter) throws IOException, ClassNotFoundException {
+       //TODO : Attendre toutes les requêtes ????
+        ObjectSender request = NetworkUtil.receive(ManagerPort);
+        if(request.getObject() == "getBidderInitPackage"){
+            sendBidAndKey(currentBidStarter);
+        }
     }
 
-    public void sendBidAndKey(Bid currentBid, PublicKey managerPublicKey)
-    {
-        BidStarter currentBidStarter = new BidStarter(managerPublicKey,currentBid);
+    public void sendBidAndKey(BidStarter currentStarter) throws IOException {
+        ObjectSender pack = new ObjectSender(ManagerIp,ManagerPort,currentStarter,BidStarter.class);
+        NetworkUtil.send(ManagerIp,ManagerPort,pack);
+    }
 
-        //TODO : SendObjects. ????
+    public Set<EncryptedPrice> fetchEncryptedPrice() throws IOException, ClassNotFoundException {
+        ObjectSender request = NetworkUtil.receive(ManagerPort);
+        if(request.getObjectClass() == Set<EncryptedPrice>.class)
+        {
+            Set<EncryptedPrice> pack = request.getObject();
+            return pack;
+        }
+        return null;
     }
 
     public void sendWinnerAndPrice(Winner result) throws IOException {
