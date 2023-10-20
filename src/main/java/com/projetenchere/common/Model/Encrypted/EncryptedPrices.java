@@ -3,13 +3,13 @@ package com.projetenchere.common.Model.Encrypted;
 import java.util.Set;
 
 public class EncryptedPrices {
-    private final Set<byte[]> pices;
+    private final Set<byte[]> prices;
 
     public EncryptedPrices(Set<byte[]> pices) {
-        this.pices = pices;
+        this.prices = pices;
     }
 
-    public Set<byte[]> getPices() {
-        return pices;
+    public Set<byte[]> getPrices() {
+        return prices;
     }
 }
