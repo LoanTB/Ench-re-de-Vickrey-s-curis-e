@@ -1,15 +1,14 @@
 package com.projetenchere.Manager.Controller;
 
-import com.projetenchere.Manager.ManagerApp;
 import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
-import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.Util.EncryptionUtil;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
 
 import java.security.KeyPair;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.List;
 import java.util.Set;
@@ -32,18 +31,16 @@ public class ManagerController {
         return ui.askSellerAdress();
     }
 
-    public Set<Double> decryptEncryptedPrice(Set<EncryptedPrices> ReceivedPrices){
-        //ADD : retour List<Offer>
-        //TODO : Decrypt each offers.
+    public Set<Double> decryptEncryptedPrice(EncryptedPrices receivedPrices, PrivateKey managerPrivateKey) throws Exception {
         Set<Double> decryptedPrice = new HashSet<>();
-        for(EncryptedPrices encrypted : ReceivedPrices){
-            decryptedPrice.add(EncryptionUtil.decrypt(encrypted.getPrice()));
+        for(byte[] encrypted : receivedPrices.getPrices()){
+            decryptedPrice.add(EncryptionUtil.decrypt(encrypted,managerPrivateKey));
         }
         return decryptedPrice;
     }
 
-    public void showPrices(List<Double> DecryptedPrice){
-        ui.displayPrices(DecryptedPrice);
+    public void showPrices(List<Double> decryptedPrice){
+        ui.displayPrices(decryptedPrice);
     }
 
     public Winner getWinnerPrice(PublicKey managerKey, Set<Double> prices) throws Exception {
