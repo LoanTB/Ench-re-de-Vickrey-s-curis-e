@@ -35,4 +35,14 @@ public class BidderNetworkController {
             return (BidStarter) receiver.getObject();
         }
     }
+
+    public void sendOffer(Offer offer, String sellerIP) throws IOException {
+        ObjectSender objectSender = new ObjectSender(
+                NetworkUtil.getMyIP(),
+                24681,
+                offer,
+                offer.getClass());
+        NetworkUtil.send(sellerIP, 24682, objectSender);
+    }
+
 }

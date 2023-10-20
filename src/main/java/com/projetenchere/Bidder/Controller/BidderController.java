@@ -13,6 +13,7 @@ import java.security.PublicKey;
 public class BidderController {
     public final IBidderUserInterface ui = new BidderCommandLineInterface();
     public final BidderNetworkController network = new BidderNetworkController();
+    public String sellerIP;
     public PublicKey publicKey;
     public Bid currentBid;
 
@@ -63,6 +64,7 @@ public class BidderController {
         BidStarter bidStarter = network.askForInitPackage();
         this.currentBid = bidStarter.getCurrentBid();
         this.publicKey = bidStarter.getManagerPublicKey();
+        this.sellerIP = bidStarter.getSellerAdress();
     }
 
     public void whenAlreadySentOffer() throws IOException, ClassNotFoundException {
