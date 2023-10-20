@@ -16,16 +16,16 @@ public class NetworkUtil {
              Socket clientSocket = serverSocket.accept();
              ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream())) {
 
-            Object object = objectInput.readObject();
-            if (object instanceof ObjectSender) {
-                return (ObjectSender) object;
+            Object data = objectInput.readObject();
+            if (data instanceof ObjectSender) {
+                return (ObjectSender) data;
             } else {
                 throw new InvalidClassException("Received object is not an instance of ObjectSender");
             }
         }
     }
 
-    public static void send(String serverAddress, int serverPort, Object data) throws IOException {
+    public static void send(String serverAddress, int serverPort, ObjectSender data) throws IOException {
         try (Socket clientSocket = new Socket(serverAddress, serverPort);
              ObjectOutputStream objectOutput = new ObjectOutputStream(clientSocket.getOutputStream())) {
             objectOutput.writeObject(data);

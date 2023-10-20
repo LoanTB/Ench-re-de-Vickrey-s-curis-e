@@ -13,6 +13,7 @@ import java.security.PublicKey;
 public class BidderController {
     public final IBidderUserInterface ui = new BidderCommandLineInterface();
     public final BidderNetworkController network = new BidderNetworkController();
+    public String sellerIP;
     public PublicKey publicKey;
     public Bid currentBid;
 
@@ -34,22 +35,16 @@ public class BidderController {
         return true;
     }
 
-    public void showBid(Bid bid) {
-        ui.displayBid(bid);
+    public void showBid() {
+        ui.displayBid(this.currentBid);
     }
 
     public void sendOffer(Offer offer) {
         //TODO: send offer with network
     }
 
-    private int fetchPriceToPay() {
-        // returns -1 if offer lost
-        //TODO: ask over network
-        return 0;
-    }
-
-    private void checkWinAndTell() {
-         int priceToPay = fetchPriceToPay();
+    public void waitForPrice() throws IOException, ClassNotFoundException {
+         int priceToPay = network.fetchPrice();
          if (priceToPay == -1) {
              ui.tellOfferLost();
          }
@@ -59,13 +54,10 @@ public class BidderController {
 
     }
 
-    public void whenAlreadySentOffer() {
-        if (fetchInitPackage().isOver()) {
-            checkWinAndTell();
-        } else {
-            ui.tellOfferAlreadySent();
-        }
+    public void fetchInitPackage() throws IOException, ClassNotFoundException {
+        BidStarter bidStarter = network.askForInitPackage();
+        this.currentBid = bidStarter.getCurrentBid();
+        this.publicKey = bidStarter.getManagerPublicKey();
+        this.sellerIP = bidStarter.getSellerAdress();
     }
-
-
 }

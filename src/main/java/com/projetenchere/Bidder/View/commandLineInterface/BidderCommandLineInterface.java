@@ -47,4 +47,5 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     public void tellOfferAlreadySent() {
         showMessage("You have already sent an offer for this bid.");
     }
+
 }
