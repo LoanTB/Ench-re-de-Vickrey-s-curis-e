@@ -3,11 +3,26 @@ package com.projetenchere.common.Model;
 import java.text.DecimalFormat;
 
 public class Offer {
-    private final float value;
+    private final String idBidder;
+    private final double value;
 
-    public Offer(String value) throws NumberFormatException{
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        this.value = Float.parseFloat(df.format(value));
+    public Offer(String idBidder, double value) {
+        this.idBidder = idBidder;
+        this.value = value;
+    }
+
+    public Offer(String idBidder, String value){
+        this.idBidder = idBidder;
+        this.value = Double.parseDouble(value);
+    }
+
+    public String getIdBidder() {
+        return idBidder;
+    }
+
+    public double getValue() {
+        return value;
     }
 }
+
+
