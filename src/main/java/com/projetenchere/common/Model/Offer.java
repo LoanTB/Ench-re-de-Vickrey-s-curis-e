@@ -4,24 +4,24 @@ import java.text.DecimalFormat;
 
 public class Offer {
     private final String idBidder;
-    private final double value;
+    private final double price;
 
-    public Offer(String idBidder, double value) {
+    public Offer(String idBidder, double price) {
         this.idBidder = idBidder;
-        this.value = value;
+        this.price = price;
     }
 
-    public Offer(String idBidder, String value){
+    public Offer(String idBidder, String price){
         this.idBidder = idBidder;
-        this.value = Double.parseDouble(value);
+        this.price = Double.parseDouble(price);
     }
 
     public String getIdBidder() {
         return idBidder;
     }
 
-    public double getValue() {
-        return value;
+    public double getPrice() {
+        return price;
     }
 }
 

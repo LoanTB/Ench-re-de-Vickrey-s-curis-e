@@ -11,6 +11,7 @@ public interface IManagerUserInterface {
     public Bid askBidInformations();
     public String askBidName();
     public String askBidDescription();
+    public String askSellerAdress();
     public void displayPrices(List<Double> DecryptedPrice);
     public void displayWinnerPrice();
 

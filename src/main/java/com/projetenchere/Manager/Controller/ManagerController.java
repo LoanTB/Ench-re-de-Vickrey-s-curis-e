@@ -5,61 +5,66 @@ import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
 import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Bid;
-import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.Util.EncryptionUtil;
+import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
 
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 public class ManagerController {
 
     public static final IManagerUserInterface ui = new ManagerCommandLineInterface();
 
-    //Generer
     public KeyPair generateManagerKeys() throws Exception {
         return EncryptionUtil.generateKeyPair();
     }
-
-    //Creer l'enchère.
 
     public Bid createBid()
     {
         return ui.askBidInformations();
     }
 
+    public String askSellerAdress(){
+        return ui.askSellerAdress();
+    }
 
-    //Déchiffrer les offres.
-    public void decryptEncryptedOffers(Set<EncryptedPrice> ReceivedPrices){ //ADD : retour List<Offer>
+    public Set<Double> decryptEncryptedPrice(Set<EncryptedPrices> ReceivedPrices){
+        //ADD : retour List<Offer>
         //TODO : Decrypt each offers.
-        return ;
+        Set<Double> decryptedPrice = new HashSet<>();
+        for(EncryptedPrices encrypted : ReceivedPrices){
+            decryptedPrice.add(EncryptionUtil.decrypt(encrypted.getPrice()));
+        }
+        return decryptedPrice;
     }
 
     public void showPrices(List<Double> DecryptedPrice){
         ui.displayPrices(DecryptedPrice);
     }
 
-    public Winner getWinnerPrice(PublicKey managerKey, Set<EncryptedPrice> ReceivedPrices) throws Exception {
+    public Winner getWinnerPrice(PublicKey managerKey, Set<Double> prices) throws Exception {
 
         double firstPrice = 0;
-        double secondePrice = 0;
-        double priceProcess = 0;
-        for(EncryptedPrice index : ReceivedPrices){
-            priceProcess = EncryptionUtil.decrypt(index.getPrice());
-            if(priceProcess > secondePrice){
+        double secondPrice = 0;
+
+        for(Double priceProcess : prices){
+
+            if(priceProcess > secondPrice){
                 if(priceProcess > firstPrice){
-                    secondePrice = firstPrice;
+                    secondPrice = firstPrice;
                     firstPrice = priceProcess;
                 }
                 else{
-                    secondePrice = priceProcess;
+                    secondPrice = priceProcess;
                 }
             }
         }
 
-        byte[] winnerCypher = EncryptionUtil.encrypt(secondePrice,managerKey);
+        byte[] winnerCypher = EncryptionUtil.encrypt(secondPrice,managerKey);
 
         return new Winner(winnerCypher,firstPrice);
     }
