@@ -12,7 +12,7 @@ public class BidderApp {
         controller.fetchInitPackage();
         controller.showBid();
         if (controller.askSellerIfAlreadySentOffer()) {
-            controller.whenAlreadySentOffer();
+            controller.waitForPrice();
         } else {
             Offer offer = controller.readOfferFromInterface();
             controller.sendOffer(offer);

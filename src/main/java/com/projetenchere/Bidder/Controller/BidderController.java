@@ -43,14 +43,8 @@ public class BidderController {
         //TODO: send offer with network
     }
 
-    private int fetchPriceToPay() {
-        // returns -1 if offer lost
-        //TODO: ask over network
-        return 0;
-    }
-
-    private void checkWinAndTell() {
-         int priceToPay = fetchPriceToPay();
+    public void waitForPrice() throws IOException, ClassNotFoundException {
+         int priceToPay = network.fetchPrice();
          if (priceToPay == -1) {
              ui.tellOfferLost();
          }
@@ -66,14 +60,4 @@ public class BidderController {
         this.publicKey = bidStarter.getManagerPublicKey();
         this.sellerIP = bidStarter.getSellerAdress();
     }
-
-    public void whenAlreadySentOffer() throws IOException, ClassNotFoundException {
-        if (this.currentBid.isOver()) {
-            checkWinAndTell();
-        } else {
-            ui.tellOfferAlreadySent();
-        }
-    }
-
-
 }
