@@ -4,6 +4,7 @@ import com.projetenchere.Manager.Controller.ManagerController;
 import com.projetenchere.Manager.Controller.ManagerNetworkController;
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.BidStarter;
+import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
 
 import java.security.KeyPair;
@@ -22,14 +23,12 @@ public class ManagerApp {
         System.out.println("Vous avez créé l'enchère : ");
         System.out.println(currentBid._toString());
 
-
         KeyPair ManagerKeys = controller.generateManagerKeys();
         PrivateKey managerPrivateKey = ManagerKeys.getPrivate();
         PublicKey managerPublicKey = ManagerKeys.getPublic();
 
-
-        String sellerAdress = controller.askSellerAdress();
-        BidStarter currentBidStarter = new BidStarter(managerPublicKey,currentBid,sellerAdress);
+        String sellerAddress = controller.askSellerAddress();
+        BidStarter currentBidStarter = new BidStarter(managerPublicKey,currentBid,sellerAddress);
 
         networkController.waitAskInitPackByBidder(currentBidStarter);
 
@@ -39,7 +38,11 @@ public class ManagerApp {
 
         controller.showPrices(currentDecryptedPrices);
 
-        //networkController.sendWinnerAndPrice();
+        Winner winnerForCurrentBid = controller.getWinnerPrice(managerPublicKey, currentDecryptedPrices);
+
+        networkController.sendWinnerAndPrice(winnerForCurrentBid);
+
+        System.out.println("Fin des enchères !");
     }
 }
 

@@ -26,7 +26,7 @@ public class ManagerController {
         return ui.askBidInformations();
     }
 
-    public String askSellerAdress(){
+    public String askSellerAddress(){
         return ui.askSellerAdress();
     }
 
