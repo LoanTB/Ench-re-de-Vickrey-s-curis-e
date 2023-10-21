@@ -40,7 +40,7 @@ public class ManagerApp {
 
         Winner winnerForCurrentBid = controller.getWinnerPrice(managerPublicKey, currentDecryptedPrices);
 
-        networkController.sendWinnerAndPrice(winnerForCurrentBid);
+        networkController.sendWinnerAndPrice(sellerAddress, winnerForCurrentBid);
 
         System.out.println("Fin des enchères !");
     }

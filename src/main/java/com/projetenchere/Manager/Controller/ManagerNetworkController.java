@@ -52,9 +52,9 @@ public class ManagerNetworkController {
         return pack;
     }
 
-    public void sendWinnerAndPrice(Winner result) throws IOException {
+    public void sendWinnerAndPrice(String sellerAddress,Winner result) throws IOException {
         ObjectSender pack = new ObjectSender(ManagerIp,ManagerPort,result,Winner.class);
-        NetworkUtil.send(ManagerIp,ManagerPort,pack); //ATTENTION Destiné au seller. ip à changer à l'avenir.
+        NetworkUtil.send(sellerAddress,ManagerPort,pack); //ATTENTION Destiné au seller. ip à changer à l'avenir.
     }
 
 }
