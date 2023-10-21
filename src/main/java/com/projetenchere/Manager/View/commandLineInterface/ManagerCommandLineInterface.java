@@ -6,7 +6,6 @@ import com.projetenchere.common.Model.Bid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -73,21 +72,18 @@ public class ManagerCommandLineInterface implements IManagerUserInterface{
     @Override
     public String askSellerAdress(){
         showMessage("Veuillez saisir l'addresse du vendeur : ");
-        String name = readMessage();
-        return name;
+        return readMessage();
     }
     @Override
     public String askBidDescription() {
         showMessage("Veuillez saisir la description de l'enchère : ");
-        String description = readMessage();
-        return description;
+        return readMessage();
     }
 
     @Override
     public String askBidName(){
         showMessage("Veuillez saisir le nom de l'enchère : ");
-        String name = readMessage();
-        return name;
+        return readMessage();
     }
 
     @Override
@@ -95,11 +91,11 @@ public class ManagerCommandLineInterface implements IManagerUserInterface{
         for(Double price : AllPrices){
             System.out.println(price);
         }
-    };
+    }
 
     @Override
     public void displayWinnerPrice(){
 
-    };
+    }
 
 }
