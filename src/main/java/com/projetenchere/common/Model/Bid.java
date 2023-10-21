@@ -27,7 +27,7 @@ public class Bid {
     public LocalDateTime getEndDateTime() { return endDateTime; }
 
     public String _toString() {
-        return "Nom : "+ bidName + " Date de création : " + date.toString() +" Description : " + bidDescription + "." + " Date de fin ; " + endDateTime;
+        return "Nom : "+ bidName + "\nDate de création : " + date.toString() +"\nDescription : " + bidDescription + "." + "\nDate de fin : " + endDateTime.toString() + ".";
     }
 
     public boolean isOver() {
