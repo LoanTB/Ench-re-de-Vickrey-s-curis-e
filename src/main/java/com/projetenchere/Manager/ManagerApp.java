@@ -17,9 +17,14 @@ public class ManagerApp {
         ManagerNetworkController networkController = new ManagerNetworkController();
 
         Bid currentBid = controller.createBid();
+        System.out.println("Vous avez créé l'enchère : ");
+        System.out.println(currentBid._toString());
+
+
         KeyPair ManagerKeys = controller.generateManagerKeys();
         PrivateKey managerPrivateKey = ManagerKeys.getPrivate();
         PublicKey managerPublicKey = ManagerKeys.getPublic();
+
 
         String sellerAdress = controller.askSellerAdress();
         BidStarter currentBidStarter = new BidStarter(managerPublicKey,currentBid,sellerAdress);

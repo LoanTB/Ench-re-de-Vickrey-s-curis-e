@@ -51,8 +51,15 @@ public class ManagerCommandLineInterface implements IManagerUserInterface{
             showMessage("Veuillez saisir la date de fin de l'enchère au format dd-MM-yyyy HH:mm:ss ");
             dateStr = readMessage();
             if(isValidDateFormat(dateStr,formatter)){
+
                 dateTime = LocalDateTime.parse(dateStr,formatter);
-                checkType=false;
+                if(dateTime.isAfter(LocalDateTime.now())){
+                    checkType=false;
+                }
+                else{
+                    System.err.println("Erreur : La date de fin ne peut pas être dans le passé.");
+                }
+
             }else{
                 System.err.println("Erreur : Mauvais format de date saisi.");
             }
