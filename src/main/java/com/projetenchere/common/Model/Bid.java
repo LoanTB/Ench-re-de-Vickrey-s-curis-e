@@ -9,8 +9,7 @@ public class Bid {
     final private LocalDate date; // date de création
     final private LocalDateTime endDateTime; // date de fin
 
-    public Bid(String name, String description, LocalDateTime endTime)
-    {
+    public Bid(String name, String description, LocalDateTime endTime) {
         LocalDateTime localDateTime = LocalDateTime.now();
         date = LocalDate.from(localDateTime);
         bidDescription = description;
@@ -18,16 +17,24 @@ public class Bid {
         endDateTime = endTime;
     }
 
-    public String getBidName() { return bidName; }
+    public String getBidName() {
+        return bidName;
+    }
 
-    public String getBidDescription() { return bidDescription; }
+    public String getBidDescription() {
+        return bidDescription;
+    }
 
-    public LocalDate getDate(){ return date; }
+    public LocalDate getDate() {
+        return date;
+    }
 
-    public LocalDateTime getEndDateTime() { return endDateTime; }
+    public LocalDateTime getEndDateTime() {
+        return endDateTime;
+    }
 
     public String _toString() {
-        return "Nom : "+ bidName + "\nDate de création : " + date.toString() +"\nDescription : " + bidDescription + "." + "\nDate de fin : " + endDateTime.toString() + ".";
+        return "Nom : " + bidName + "\nDate de création : " + date.toString() + "\nDescription : " + bidDescription + "." + "\nDate de fin : " + endDateTime.toString() + ".";
     }
 
     public boolean isOver() {

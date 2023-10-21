@@ -8,13 +8,19 @@ import java.util.Set;
 
 public interface IManagerUserInterface {
 
-     Bid askBidInformations();
-     String askBidName();
-     String askBidDescription();
-     LocalDateTime askBidEndTime();
-     String askSellerAdress();
-     void displayPrices(Set<Double> DecryptedPrice);
-     void displayWinnerPrice(Winner winner);
+    Bid askBidInformations();
+
+    String askBidName();
+
+    String askBidDescription();
+
+    LocalDateTime askBidEndTime();
+
+    String askSellerAdress();
+
+    void displayPrices(Set<Double> DecryptedPrice);
+
+    void displayWinnerPrice(Winner winner);
 
 
 }
