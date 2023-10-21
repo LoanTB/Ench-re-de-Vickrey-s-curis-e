@@ -8,9 +8,6 @@ import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
 
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.util.Set;
 
 
