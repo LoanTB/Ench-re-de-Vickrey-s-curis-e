@@ -2,6 +2,7 @@ package com.projetenchere.Manager.View.commandLineInterface;
 
 import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.common.Model.Bid;
+import com.projetenchere.common.Model.Winner;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -94,8 +95,8 @@ public class ManagerCommandLineInterface implements IManagerUserInterface{
     }
 
     @Override
-    public void displayWinnerPrice(){
-
+    public void displayWinnerPrice(Winner winner){
+        System.out.println("Prix gagnant : " + winner.getPriceToPay());
     }
 
 }

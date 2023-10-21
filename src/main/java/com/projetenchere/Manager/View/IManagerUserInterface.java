@@ -1,6 +1,7 @@
 package com.projetenchere.Manager.View;
 
 import com.projetenchere.common.Model.Bid;
+import com.projetenchere.common.Model.Winner;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -13,7 +14,7 @@ public interface IManagerUserInterface {
      LocalDateTime askBidEndTime();
      String askSellerAdress();
      void displayPrices(Set<Double> DecryptedPrice);
-     void displayWinnerPrice();
+     void displayWinnerPrice(Winner winner);
 
 
 }

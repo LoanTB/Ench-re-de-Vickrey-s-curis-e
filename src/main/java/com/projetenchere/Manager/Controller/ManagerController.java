@@ -65,4 +65,8 @@ public class ManagerController {
         return new Winner(winnerCypher,firstPrice);
     }
 
+    public void showWinnerPrice(Winner winner){
+        ui.displayWinnerPrice(winner);
+    }
+
 }
