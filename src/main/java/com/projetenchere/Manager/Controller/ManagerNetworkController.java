@@ -32,7 +32,6 @@ public class ManagerNetworkController {
     }
 
     public void waitAskInitPackByBidder(BidStarter currentBidStarter) throws IOException, ClassNotFoundException {
-       //TODO : Attendre toutes les requêtes ????
         Bid currentBid = currentBidStarter.getCurrentBid();
         while (!currentBid.isOver()) {
             ObjectSender request = NetworkUtil.receive(ManagerPort);

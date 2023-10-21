@@ -4,10 +4,12 @@ import com.projetenchere.Manager.Controller.ManagerController;
 import com.projetenchere.Manager.Controller.ManagerNetworkController;
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.BidStarter;
+import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
 
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Set;
 
 
 public class ManagerApp {
@@ -31,8 +33,13 @@ public class ManagerApp {
 
         networkController.waitAskInitPackByBidder(currentBidStarter);
 
-        //networkController.fetchEncryptedPrice();
+        EncryptedPrices currentEncryptedPrices = networkController.fetchEncryptedPrice();
 
+        Set<Double> currentDecryptedPrices = controller.decryptEncryptedPrice(currentEncryptedPrices, managerPrivateKey);
+
+        controller.showPrices(currentDecryptedPrices);
+
+        //networkController.sendWinnerAndPrice();
     }
 }
 

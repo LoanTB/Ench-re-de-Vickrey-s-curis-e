@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class ManagerCommandLineInterface implements IManagerUserInterface{
     public static final Scanner scanner = new Scanner(System.in);
@@ -90,8 +91,10 @@ public class ManagerCommandLineInterface implements IManagerUserInterface{
     }
 
     @Override
-    public void displayPrices(List<Double> DecryptedPrice){
-
+    public void displayPrices(Set<Double> AllPrices){
+        for(Double price : AllPrices){
+            System.out.println(price);
+        }
     };
 
     @Override

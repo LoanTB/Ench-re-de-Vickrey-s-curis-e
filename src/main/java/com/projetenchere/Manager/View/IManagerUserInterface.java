@@ -4,6 +4,7 @@ import com.projetenchere.common.Model.Bid;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface IManagerUserInterface {
 
@@ -12,7 +13,7 @@ public interface IManagerUserInterface {
     public String askBidDescription();
     public LocalDateTime askBidEndTime();
     public String askSellerAdress();
-    public void displayPrices(List<Double> DecryptedPrice);
+    public void displayPrices(Set<Double> DecryptedPrice);
     public void displayWinnerPrice();
 
 

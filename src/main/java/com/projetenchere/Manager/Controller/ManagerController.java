@@ -10,7 +10,6 @@ import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -39,7 +38,7 @@ public class ManagerController {
         return decryptedPrice;
     }
 
-    public void showPrices(List<Double> decryptedPrice){
+    public void showPrices(Set<Double> decryptedPrice){
         ui.displayPrices(decryptedPrice);
     }
 
