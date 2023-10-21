@@ -11,26 +11,25 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 public class ManagerNetworkController {
-    private String ManagerIp;
+    final private String ManagerIp;
     final private int ManagerPort = 2463;
 
     public String getManagerIp() {
         return ManagerIp;
     }
 
-    public void setManagerIp(String managerIp) {
-        ManagerIp = managerIp;
+    public int getManagerPort() {
+        return ManagerPort;
     }
 
     public ManagerNetworkController() throws UnknownHostException {
-        String ManagerIp = NetworkUtil.getMyIP();
-        setManagerIp(ManagerIp);
+        ManagerIp = NetworkUtil.getMyIP();
     }
 
     public void waitAskInitPackByBidder(BidStarter currentBidStarter) throws IOException, ClassNotFoundException {
         Bid currentBid = currentBidStarter.getCurrentBid();
         while (!currentBid.isOver()) {
-            ObjectSender request = NetworkUtil.receive(ManagerPort);
+            ObjectSender request = NetworkUtil.receive(getManagerPort());
             if (request.getObject() == "getBidderInitPackage") {
                 sendBidAndKey(currentBidStarter);
             }
@@ -38,19 +37,19 @@ public class ManagerNetworkController {
     }
 
     public void sendBidAndKey(BidStarter currentStarter) throws IOException {
-        ObjectSender pack = new ObjectSender(ManagerIp,ManagerPort,currentStarter,BidStarter.class);
-        NetworkUtil.send(ManagerIp,ManagerPort,pack);
+        ObjectSender pack = new ObjectSender(getManagerIp(),getManagerPort(),currentStarter,BidStarter.class);
+        NetworkUtil.send(getManagerIp(),getManagerPort(),pack);
     }
 
     public EncryptedPrices fetchEncryptedPrice() throws IOException, ClassNotFoundException {
-        ObjectSender request = NetworkUtil.receive(ManagerPort);
+        ObjectSender request = NetworkUtil.receive(getManagerPort());
         EncryptedPrices pack = (EncryptedPrices)request.getObjectClass().cast(request.getObject());
         return pack;
     }
 
     public void sendWinnerAndPrice(String sellerAddress,Winner result) throws IOException {
-        ObjectSender pack = new ObjectSender(ManagerIp,ManagerPort,result,Winner.class);
-        NetworkUtil.send(sellerAddress,ManagerPort,pack); //ATTENTION Destiné au seller. ip à changer à l'avenir.
+        ObjectSender pack = new ObjectSender(getManagerIp(),getManagerPort(),result,Winner.class);
+        NetworkUtil.send(sellerAddress,getManagerPort(),pack); //ATTENTION Destiné au seller. ip à changer à l'avenir.
     }
 
 }
