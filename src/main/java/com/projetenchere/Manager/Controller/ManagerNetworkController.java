@@ -8,15 +8,11 @@ import com.projetenchere.common.network.NetworkUtil;
 import com.projetenchere.common.network.ObjectSender;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.security.PublicKey;
-import java.util.Set;
-import java.util.HashSet;
 
 public class ManagerNetworkController {
     private String ManagerIp;
-    private int ManagerPort = 2463;
+    final private int ManagerPort = 2463;
 
     public String getManagerIp() {
         return ManagerIp;
