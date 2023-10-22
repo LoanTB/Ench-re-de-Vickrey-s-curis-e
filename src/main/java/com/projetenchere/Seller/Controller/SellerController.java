@@ -37,7 +37,7 @@ public class SellerController {
         return (!this.currentBid.isOver());
     }
 
-    public void receiveOffersUntilAuctionEnd(){
+    public void receiveOffersUntilBidEnd(){
         EncryptedOffer offerReceived;
         while (auctionInProgress()){
             try{
