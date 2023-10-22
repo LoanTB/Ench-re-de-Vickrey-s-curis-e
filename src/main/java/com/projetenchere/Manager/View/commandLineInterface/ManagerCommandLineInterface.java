@@ -9,43 +9,14 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ManagerCommandLineInterface implements IManagerUserInterface {
     public static final Scanner scanner = new Scanner(System.in);
 
     public ManagerCommandLineInterface() {
 
-    }
-    public void showMessage(String message) {
-        System.out.println(message);
-    }
-
-    public String readMessage(int maxLength) {
-        String input = "";
-        boolean askinput = true;
-         while (askinput){
-             input = scanner.nextLine();
-             if(input.length() > maxLength){
-                 System.err.println("Le champ dépasse la taille maximale autorisée. Veuillez réessayer.");
-             }
-             if(input.length() <= 2 ){
-                 System.err.println("Entrée trop courte. Veuillez réessayer.");
-             }
-             else {
-                askinput = false;
-             }
-         }
-         return input;
-    }
-
-    @Override
-    public Bid askBidInformations() {
-        String name = askBidName();
-        String description = askBidDescription();
-        LocalDateTime end = askBidEndTime();
-        return new Bid(name, description, end);
     }
 
     private static boolean isValidDateFormat(String value, DateTimeFormatter formatter) {
@@ -55,6 +26,35 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
         } catch (DateTimeParseException e) {
             return false;
         }
+    }
+
+    public void showMessage(String message) {
+        System.out.println(message);
+    }
+
+    public String readMessage(int maxLength) {
+        String input = "";
+        boolean askinput = true;
+        while (askinput) {
+            input = scanner.nextLine();
+            if (input.length() > maxLength) {
+                System.err.println("Le champ dépasse la taille maximale autorisée. Veuillez réessayer.");
+            }
+            if (input.length() <= 2) {
+                System.err.println("Entrée trop courte. Veuillez réessayer.");
+            } else {
+                askinput = false;
+            }
+        }
+        return input;
+    }
+
+    @Override
+    public Bid askBidInformations() {
+        String name = askBidName();
+        String description = askBidDescription();
+        LocalDateTime end = askBidEndTime();
+        return new Bid(name, description, end);
     }
 
     @Override
@@ -91,9 +91,10 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
     @Override
     public String askBidName() {
         int maxLength = 20;
-        showMessage("Veuillez saisir le nom de l'enchère (taille max "+ maxLength +" caractères) : ");
+        showMessage("Veuillez saisir le nom de l'enchère (taille max " + maxLength + " caractères) : ");
         return readMessage(maxLength);
     }
+
     @Override
     public String askSellerAddress() {
         String input = "";
@@ -119,6 +120,7 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
         }
         return input;
     }
+
     @Override
     public void displayPrices(Set<Double> AllPrices) {
         for (Double price : AllPrices) {

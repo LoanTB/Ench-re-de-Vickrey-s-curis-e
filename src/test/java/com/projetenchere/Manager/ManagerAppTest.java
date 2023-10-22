@@ -5,7 +5,10 @@ import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.Util.EncryptionUtil;
 
 import org.junit.jupiter.api.Test;
+
+import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -65,15 +68,22 @@ public class ManagerAppTest {
         ManagerController controller = new ManagerController();
         controller.generateManagerKeys();
         PublicKey key = controller.manager.getManagerPublicKey();
+        PrivateKey pince = controller.manager.getManagerPrivateKey();
+
         Set<Double> prices = new HashSet<>();
         prices.add(5.1);
         prices.add(6.8);
+        prices.add(1.8);
 
+        byte[] maxEnc = EncryptionUtil.encrypt(6.8,key);
         Winner win = controller.getWinnerPrice(key,prices);
-        Double check = EncryptionUtil.decrypt(win.getEncryptedMaxprice(),controller.manager.getManagerPrivateKey());
 
-        assert check != win.getPriceToPay() : "Les prix ne doivent pas être pareil";
-        System.out.println("Prix chiffré de winner et le prix à payer de winner sont différents.");
+        Double ech = EncryptionUtil.decrypt(maxEnc,pince);
+        Double pec = EncryptionUtil.decrypt(win.getEncryptedMaxprice(),pince);
+
+        assert ech.equals(pec) : "Même prix";
+        System.out.println("Même prix");
+
     }
 
     @Test
