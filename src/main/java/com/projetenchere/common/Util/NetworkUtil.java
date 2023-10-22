@@ -12,7 +12,7 @@ public class NetworkUtil {
 
     public static ObjectSender receive(int port) throws IOException, ClassNotFoundException, InvalidClassException {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            serverSocket.setSoTimeout(60000);// 1 minute
+            serverSocket.setSoTimeout(5000);// 5 seconds
             try (Socket clientSocket = serverSocket.accept();
                  ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream())) {
 
