@@ -5,7 +5,8 @@ import com.projetenchere.Seller.Controller.SellerController;
 import java.io.IOException;
 
 public class SellerApp {
-    public static void main(String[] args) throws ClassNotFoundException, IOException {
+    public static void main(String[] args) throws IOException {
+
         SellerController controller = new SellerController();
 
         controller.diplayHello();
