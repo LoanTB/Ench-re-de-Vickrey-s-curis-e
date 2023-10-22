@@ -18,12 +18,12 @@ public class ManagerNetworkController {
     final private int managerPort = 24683;
     private String sellerAddress;
     private int sellerPort = 24682;
-    private int bidderPort = 24681;
-
+   // private int bidderPort = 24681;
+/*
     public int getBidderPort() {
         return bidderPort;
     }
-
+ */
     public String getManagerIp() {
         return managerIp;
     }
@@ -64,15 +64,15 @@ public class ManagerNetworkController {
                 ObjectSender request = NetworkUtil.receive(getManagerPort());
                 if ((request.getObject()).equals("getBidderInitPackage")) {
                     sleep(1);
-                    sendBidAndKey(currentBidStarter);
+                    sendBidAndKey(currentBidStarter,request.getPORT_sender(), request.getIP_sender());
                 }
             }catch (SocketTimeoutException ignored){}
         }
     }
 
-    public void sendBidAndKey(BidStarter currentStarter) throws IOException {
+    public void sendBidAndKey(BidStarter currentStarter, int portSender, String ipSender) throws IOException {
         ObjectSender pack = new ObjectSender(getManagerIp(), getManagerPort(), currentStarter, BidStarter.class);
-        NetworkUtil.send(getManagerIp(), getBidderPort(), pack);
+        NetworkUtil.send(ipSender, portSender, pack);
     }
 
     public EncryptedPrices fetchEncryptedPrice() throws IOException, ClassNotFoundException {

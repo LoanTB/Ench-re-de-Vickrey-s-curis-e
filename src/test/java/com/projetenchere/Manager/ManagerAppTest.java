@@ -1,13 +1,12 @@
 package com.projetenchere.Manager;
 
 import com.projetenchere.Manager.Controller.ManagerController;
-import com.projetenchere.common.Util.EncryptionUtil;
-import org.junit.jupiter.api.Test;
-
-import java.security.PublicKey;
-import java.util.Base64;
-import java.util.HashSet;
 import com.projetenchere.common.Model.Winner;
+import com.projetenchere.common.Util.EncryptionUtil;
+
+import org.junit.jupiter.api.Test;
+import java.security.PublicKey;
+import java.util.HashSet;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -16,6 +15,23 @@ public class ManagerAppTest {
     public void test_if_main_method_was_implemented() {
         assertDoesNotThrow(() -> ManagerApp.main(new String[1]));
     }
+
+    @Test
+    public void test_decryptEncryptedPrice_differentKeys_sameValue() throws Exception {
+        ManagerController controller = new ManagerController();
+        controller.generateManagerKeys();
+        double value = 2.1;
+        byte[] valueEnc =  EncryptionUtil.encrypt(value,controller.manager.getManagerPublicKey());
+
+        controller.generateManagerKeys();
+        double value2 = 2.1;
+        byte[] valueEnc2 =  EncryptionUtil.encrypt(value,controller.manager.getManagerPublicKey());
+
+        assert valueEnc != valueEnc2 : "Les chiffrés doivnet être différents";
+        System.out.println("Chiffrés sont différents.");
+    }
+
+
 
     @Test
     public void test_showprices() throws Exception{
@@ -54,10 +70,7 @@ public class ManagerAppTest {
         prices.add(6.8);
 
         Winner win = controller.getWinnerPrice(key,prices);
-        //controller.showWinnerPrice(win);
-        //System.out.println(Base64.getEncoder().encodeToString(win.getEncryptedMaxprice()));
         Double check = EncryptionUtil.decrypt(win.getEncryptedMaxprice(),controller.manager.getManagerPrivateKey());
-        //System.out.println(check);
 
         assert check != win.getPriceToPay() : "Les prix ne doivent pas être pareil";
         System.out.println("Prix chiffré de winner et le prix à payer de winner sont différents.");
