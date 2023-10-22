@@ -10,6 +10,8 @@ import com.projetenchere.common.Util.NetworkUtil;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import static java.lang.Thread.sleep;
+
 public class ManagerNetworkController {
     final private String managerIp;
     final private int managerPort = 24683;
@@ -54,11 +56,12 @@ public class ManagerNetworkController {
         NetworkUtil.send(getSellerAddress(), getSellerPort(), pack);
     }
 
-    public void waitAskInitPackByBidder(BidStarter currentBidStarter) throws IOException, ClassNotFoundException {
+    public void waitAskInitPackByBidder(BidStarter currentBidStarter) throws IOException, ClassNotFoundException, InterruptedException {
         Bid currentBid = currentBidStarter.getCurrentBid();
         while (!currentBid.isOver()) {
             ObjectSender request = NetworkUtil.receive(getManagerPort());
             if ((request.getObject()).equals("getBidderInitPackage")) {
+                sleep(1);
                 sendBidAndKey(currentBidStarter);
             }
         }
