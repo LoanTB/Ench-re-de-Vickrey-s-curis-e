@@ -11,21 +11,24 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 public class SellerNetworkController {
-    private final String SellerIp;
-    private final int SellerPort = 24682;
+    private final String sellerIp;
+    private final String managerIp;
+    private final int sellerPort = 24682;
+    private final int managerPort = 24683;
 
     public SellerNetworkController() throws UnknownHostException {
-        SellerIp = NetworkUtil.getMyIP();
+        sellerIp = NetworkUtil.getMyIP();
+        managerIp = NetworkUtil.getMyIP();
     }
 
     public void sendEncryptedPrices(EncryptedPrices encryptedPrices) throws IOException {
-        sendData(SellerIp,SellerPort,encryptedPrices);
+        sendData(managerIp, managerPort,encryptedPrices);
     }
 
     public ObjectSender fetchEncryptedOffer() throws IOException, ClassNotFoundException {
         ObjectSender request;
         do {
-            request = NetworkUtil.receive(SellerPort);
+            request = NetworkUtil.receive(sellerPort);
         } while (!request.getObjectClass().equals(EncryptedOffer.class));
         return request;
     }
@@ -49,13 +52,13 @@ public class SellerNetworkController {
     public ObjectSender waitData(){
         while (true){
             try{
-                return NetworkUtil.receive(SellerPort);
+                return NetworkUtil.receive(sellerPort);
             } catch (IOException | ClassNotFoundException ignored){}
         }
     }
 
     public void sendData(String IP, Integer PORT, Object data) throws IOException {
-        ObjectSender objectSender = new ObjectSender(SellerIp,SellerPort,data,data.getClass());
+        ObjectSender objectSender = new ObjectSender(sellerIp, sellerPort,data,data.getClass());
         NetworkUtil.send(IP,PORT,objectSender);
     }
 }
