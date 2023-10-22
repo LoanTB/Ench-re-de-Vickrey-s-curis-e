@@ -2,16 +2,25 @@ package com.projetenchere.Seller.Controller;
 
 import com.projetenchere.Seller.View.ISellerUserInterface;
 import com.projetenchere.Seller.View.commandLineInterface.SellerCommandLineInterface;
+import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Model.Winner;
+import com.projetenchere.common.network.ObjectSender;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.*;
 
 
 public class SellerController {
 
-    public static final ISellerUserInterface ui = new SellerCommandLineInterface();
+    private static final ISellerUserInterface ui = new SellerCommandLineInterface();
+    private Bid currentBid;
+    SellerNetworkController networkController = new SellerNetworkController();
+
+    public SellerController() throws UnknownHostException {
+    }
 
 
     public void diplayHello(){
@@ -42,6 +51,14 @@ public class SellerController {
             encryptedPrices.add(encryptedOffer.getPrice());
         }
         return new EncryptedPrices(encryptedPrices);
+    }
+
+    public ObjectSender getEncryptedOfferRequests() throws IOException, ClassNotFoundException {
+        return networkController.getEncryptedOfferRequests();
+    }
+
+    public void sendEncryptedPrices(List<EncryptedOffer> offers) throws IOException {
+        networkController.sendEncryptedPrices(getEncryptedPrices(offers));
     }
 
     public List<Double> getBiddersWinStatus(List<EncryptedOffer> encryptedOffers, Winner winner){
