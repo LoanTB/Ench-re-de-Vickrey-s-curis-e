@@ -76,14 +76,12 @@ public class ManagerNetworkController {
     }
 
     public EncryptedPrices fetchEncryptedPrice() throws IOException, ClassNotFoundException {
-        ObjectSender request = null;
+        EncryptedPrices pack = null;
         try{
-            request = NetworkUtil.receive(getManagerPort());
+            ObjectSender request = NetworkUtil.receive(getManagerPort());
+            pack = (EncryptedPrices) request.getObjectClass().cast(request.getObject());
         }
         catch (SocketTimeoutException ignored){}
-
-        EncryptedPrices pack = (EncryptedPrices) request.getObjectClass().cast(request.getObject());
-
         return pack;
     }
 
