@@ -47,14 +47,15 @@ public class BidderNetworkController {
         NetworkUtil.send(sellerIP, 24682, objectSender);
     }
 
-    public int fetchPrice() throws IOException, ClassNotFoundException {
+    public double fetchPrice() throws IOException, ClassNotFoundException {
         while (true) {
             try {
                 ObjectSender receiver = NetworkUtil.receive(24681);
-                if (!receiver.getObjectClass().equals(int.class)) {
+                if (!receiver.getObjectClass().equals(Double.class)) {
+                    System.out.println(receiver.getObjectClass());
                     throw new ClassNotFoundException("Did not receive the required class");
                 } else {
-                    return (int) receiver.getObject();
+                    return (Double) receiver.getObject();
                 }
             } catch (SocketTimeoutException ignored){}
         }
