@@ -11,26 +11,6 @@ import java.security.PublicKey;
 public class Manager {
     private PrivateKey managerPrivateKey;
     private PublicKey managerPublicKey;
-    private Bid currentBid;
-    private Winner winnerForCurrentBid;
-    
-    public EncryptedPrices getPricesReceived() {
-        return pricesReceived;
-    }
-
-    public void setPricesReceived(EncryptedPrices pricesReceived) {
-        this.pricesReceived = pricesReceived;
-    }
-
-    private EncryptedPrices pricesReceived;
-
-    public Bid getCurrentBid() {
-        return currentBid;
-    }
-
-    public void setCurrentBid(Bid currentBid) {
-        this.currentBid = currentBid;
-    }
 
     public void setManagerKeys(KeyPair managerKeys) {
         managerPrivateKey = managerKeys.getPrivate();
@@ -45,12 +25,6 @@ public class Manager {
         return managerPublicKey;
     }
 
-    public Winner getWinnerForCurrentBid() {
-        return winnerForCurrentBid;
-    }
 
-    public void setWinnerForCurrentBid(Winner winnerForCurrentBid) {
-        this.winnerForCurrentBid = winnerForCurrentBid;
-    }
 
 }

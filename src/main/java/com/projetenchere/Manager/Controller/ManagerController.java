@@ -32,25 +32,26 @@ public class ManagerController {
         networkController.setSellerAddress(ui.askSellerAddress());
     }
 
-    public void initBid() throws IOException {
-        manager.setCurrentBid(createBid());
+    public Bid initBid() throws IOException {
+        Bid currentBid = createBid();
         System.out.println("Vous avez créé l'enchère : ");
-        System.out.println((manager.getCurrentBid())._toString());
+        System.out.println(currentBid._toString());
         askSellerAddress();
-        networkController.sendBidToSeller(manager.getCurrentBid());
+        networkController.sendBidToSeller(currentBid);
+        return currentBid;
     }
 
     public void generateManagerKeys() throws Exception {
         manager.setManagerKeys(EncryptionUtil.generateKeyPair());
     }
 
-    public void launchBid() throws IOException, ClassNotFoundException {
-        BidStarter currentBidStarter = new BidStarter(manager.getManagerPublicKey(), manager.getCurrentBid(), networkController.getSellerAddress());
+    public void launchBid(Bid currentBid) throws IOException, ClassNotFoundException {
+        BidStarter currentBidStarter = new BidStarter(manager.getManagerPublicKey(), currentBid, networkController.getSellerAddress());
         networkController.waitAskInitPackByBidder(currentBidStarter);
     }
 
-    public void waitEncryptedPrices() throws IOException, ClassNotFoundException {
-        manager.setPricesReceived(networkController.fetchEncryptedPrice());
+    public EncryptedPrices waitEncryptedPrices() throws IOException, ClassNotFoundException {
+        return networkController.fetchEncryptedPrice();
     }
 
     public Set<Double> decryptEncryptedPrice(EncryptedPrices receivedPrices, PrivateKey managerPrivateKey) throws Exception {
@@ -87,20 +88,20 @@ public class ManagerController {
         return new Winner(winnerCypher, firstPrice);
     }
 
+
+    public Winner processPrices(EncryptedPrices encrypted) throws Exception {
+        Set<Double> currentDecryptedPrices = decryptEncryptedPrice(encrypted, manager.getManagerPrivateKey());
+        showPrices(currentDecryptedPrices);
+
+       Winner win = getWinnerPrice(manager.getManagerPublicKey(), currentDecryptedPrices);
+        return win;
+    }
     public void showWinnerPrice(Winner winner) {
         ui.displayWinnerPrice(winner);
     }
 
-    public void processPrices() throws Exception {
-        Set<Double> currentDecryptedPrices = decryptEncryptedPrice(manager.getPricesReceived(), manager.getManagerPrivateKey());
-        showPrices(currentDecryptedPrices);
-
-        manager.setWinnerForCurrentBid(getWinnerPrice(manager.getManagerPublicKey(), currentDecryptedPrices));
-        showWinnerPrice(manager.getWinnerForCurrentBid());
-    }
-
-    public void endBid() throws IOException {
-        networkController.sendWinnerAndPrice(manager.getWinnerForCurrentBid());
+    public void endBid(Winner win) throws IOException {
+        networkController.sendWinnerAndPrice(win);
     }
 
 }
