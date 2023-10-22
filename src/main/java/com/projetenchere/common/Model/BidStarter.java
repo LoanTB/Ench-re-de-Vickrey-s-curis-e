@@ -1,19 +1,19 @@
 package com.projetenchere.common.Model;
 
+import java.io.Serializable;
 import java.security.PublicKey;
 
-public class BidStarter {
+public class BidStarter implements Serializable {
     private PublicKey managerPublicKey;
     private Bid currentBid;
+    private String sellerAddress;
 
-    private String sellerAdress;
-
-    public String getSellerAdress() {
-        return sellerAdress;
+    public String getSellerAddress() {
+        return sellerAddress;
     }
 
-    public void setSellerAdress(String addrSeller) {
-        this.sellerAdress = addrSeller;
+    public void setSellerAddress(String addrSeller) {
+        this.sellerAddress = addrSeller;
     }
 
     public PublicKey getManagerPublicKey() {
@@ -35,6 +35,6 @@ public class BidStarter {
     public BidStarter(PublicKey key, Bid bid, String addrSeller) {
         setCurrentBid(bid);
         setManagerPublicKey(key);
-        setSellerAdress(addrSeller);
+        setSellerAddress(addrSeller);
     }
 }

@@ -6,11 +6,12 @@ import com.projetenchere.common.Model.Sendable.ObjectSender;
 import com.projetenchere.common.Util.NetworkUtil;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 public class BidderNetworkController {
-    private static final String MANAGER_ADDRESS = "localhost";
-    private static final int MANAGER_PORT = 24681;
+    private static final String MANAGER_ADDRESS = "127.0.0.1";
+    private static final int MANAGER_PORT = 24683;
 
     private String myIp() {
         try {
@@ -23,12 +24,12 @@ public class BidderNetworkController {
     public BidStarter askForInitPackage() throws IOException, ClassNotFoundException {
         String greet = "getBidderInitPackage";
         ObjectSender objectSender = new ObjectSender(
-                NetworkUtil.getMyIP(),
+                myIp(),
                 24681,
                 greet,
                 greet.getClass());
         NetworkUtil.send(MANAGER_ADDRESS, MANAGER_PORT, objectSender);
-        ObjectSender receiver = NetworkUtil.receive(24683);
+        ObjectSender receiver = NetworkUtil.receive(24681);
         if (!receiver.getObjectClass().equals(BidStarter.class)) {
             throw new ClassNotFoundException("Received wrong class");
         } else {
@@ -38,7 +39,7 @@ public class BidderNetworkController {
 
     public void sendOffer(Offer offer, String sellerIP) throws IOException {
         ObjectSender objectSender = new ObjectSender(
-                NetworkUtil.getMyIP(),
+                myIp(),
                 24681,
                 offer,
                 offer.getClass());
@@ -46,11 +47,15 @@ public class BidderNetworkController {
     }
 
     public int fetchPrice() throws IOException, ClassNotFoundException {
-        ObjectSender receiver = NetworkUtil.receive(24682);
-        if (!receiver.getObjectClass().equals(int.class)) {
-            throw new ClassNotFoundException("Did not receive the required class");
-        } else {
-            return (int) receiver.getObject();
+        while (true) {
+            try {
+                ObjectSender receiver = NetworkUtil.receive(24681);
+                if (!receiver.getObjectClass().equals(int.class)) {
+                    throw new ClassNotFoundException("Did not receive the required class");
+                } else {
+                    return (int) receiver.getObject();
+                }
+            } catch (SocketTimeoutException ignored){}
         }
     }
 

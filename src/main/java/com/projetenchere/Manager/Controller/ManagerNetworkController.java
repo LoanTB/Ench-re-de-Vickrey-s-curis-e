@@ -10,27 +10,58 @@ import com.projetenchere.common.Util.NetworkUtil;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import static java.lang.Thread.sleep;
+
 public class ManagerNetworkController {
-    final private String ManagerIp;
-    final private int ManagerPort = 2463;
+    final private String managerIp;
+    final private int managerPort = 24683;
+    private String sellerAddress;
+    private int sellerPort = 24682;
+    private int bidderPort = 24681;
+
+    public int getBidderPort() {
+        return bidderPort;
+    }
 
     public String getManagerIp() {
-        return ManagerIp;
+        return managerIp;
     }
 
     public int getManagerPort() {
-        return ManagerPort;
+        return managerPort;
+    }
+
+    public String getSellerAddress() {
+        return sellerAddress;
+    }
+
+    public void setSellerAddress(String sellerAddress) {
+        this.sellerAddress = sellerAddress;
+    }
+
+    public void setSellerPort(int sellerPort) {
+        sellerPort = sellerPort;
+    }
+
+    public int getSellerPort() {
+        return sellerPort;
     }
 
     public ManagerNetworkController() throws UnknownHostException {
-        ManagerIp = NetworkUtil.getMyIP();
+        managerIp = NetworkUtil.getMyIP();
     }
 
-    public void waitAskInitPackByBidder(BidStarter currentBidStarter) throws IOException, ClassNotFoundException {
+    public void sendBidToSeller(Bid currentBid) throws IOException {
+        ObjectSender pack = new ObjectSender(getManagerIp(), getManagerPort(), currentBid, Bid.class);
+        NetworkUtil.send(getSellerAddress(), getSellerPort(), pack);
+    }
+
+    public void waitAskInitPackByBidder(BidStarter currentBidStarter) throws IOException, ClassNotFoundException, InterruptedException {
         Bid currentBid = currentBidStarter.getCurrentBid();
         while (!currentBid.isOver()) {
             ObjectSender request = NetworkUtil.receive(getManagerPort());
-            if (request.getObject() == "getBidderInitPackage") {
+            if ((request.getObject()).equals("getBidderInitPackage")) {
+                sleep(1);
                 sendBidAndKey(currentBidStarter);
             }
         }
@@ -38,7 +69,7 @@ public class ManagerNetworkController {
 
     public void sendBidAndKey(BidStarter currentStarter) throws IOException {
         ObjectSender pack = new ObjectSender(getManagerIp(), getManagerPort(), currentStarter, BidStarter.class);
-        NetworkUtil.send(getManagerIp(), getManagerPort(), pack);
+        NetworkUtil.send(getManagerIp(), getBidderPort(), pack);
     }
 
     public EncryptedPrices fetchEncryptedPrice() throws IOException, ClassNotFoundException {
@@ -47,9 +78,9 @@ public class ManagerNetworkController {
         return pack;
     }
 
-    public void sendWinnerAndPrice(String sellerAddress, Winner result) throws IOException {
+    public void sendWinnerAndPrice(Winner result) throws IOException {
         ObjectSender pack = new ObjectSender(getManagerIp(), getManagerPort(), result, Winner.class);
-        NetworkUtil.send(sellerAddress, getManagerPort(), pack); //ATTENTION Destiné au seller. ip à changer à l'avenir.
+        NetworkUtil.send(getSellerAddress(), getSellerPort(), pack);
     }
 
 }

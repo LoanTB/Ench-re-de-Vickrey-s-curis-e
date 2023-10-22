@@ -22,25 +22,13 @@ public class BidderController {
         return ui.readOffer();
     }
 
-    public void loadInitPackage() throws IOException, ClassNotFoundException {
-         BidStarter bidStart = network.askForInitPackage();
-         this.currentBid = bidStart.getCurrentBid();
-         this.publicKey = bidStart.getManagerPublicKey();
-
-
-    }
-
-    public boolean askSellerIfAlreadySentOffer() {
-        //TODO: ask seller over network
-        return true;
-    }
-
     public void showBid() {
         ui.displayBid(this.currentBid);
     }
 
-    public void sendOffer(Offer offer) {
-        //TODO: send offer with network
+    public void readAndSendOffer() throws IOException {
+        Offer offer = readOfferFromInterface();
+        network.sendOffer(offer, sellerIP);
     }
 
     public void waitForPrice() throws IOException, ClassNotFoundException {
@@ -58,6 +46,6 @@ public class BidderController {
         BidStarter bidStarter = network.askForInitPackage();
         this.currentBid = bidStarter.getCurrentBid();
         this.publicKey = bidStarter.getManagerPublicKey();
-        this.sellerIP = bidStarter.getSellerAdress();
+        this.sellerIP = bidStarter.getSellerAddress();
     }
 }

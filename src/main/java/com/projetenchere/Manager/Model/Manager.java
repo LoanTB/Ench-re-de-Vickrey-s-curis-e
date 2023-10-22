@@ -1,5 +1,9 @@
 package com.projetenchere.Manager.Model;
 
+import com.projetenchere.common.Model.Bid;
+import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
+import com.projetenchere.common.Model.Winner;
+
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -7,7 +11,6 @@ import java.security.PublicKey;
 public class Manager {
     private PrivateKey managerPrivateKey;
     private PublicKey managerPublicKey;
-    private String sellerAddress;
 
     public void setManagerKeys(KeyPair managerKeys) {
         managerPrivateKey = managerKeys.getPrivate();
@@ -22,12 +25,6 @@ public class Manager {
         return managerPublicKey;
     }
 
-    public String getSellerAddress() {
-        return sellerAddress;
-    }
 
-    public void setSellerAddress(String sellerAddress) {
-        this.sellerAddress = sellerAddress;
-    }
 
 }

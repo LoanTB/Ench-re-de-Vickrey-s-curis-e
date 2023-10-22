@@ -31,33 +31,6 @@ public class ManagerAppTest {
         controller.showPrices(prices);
     }
 
-    /*
-    @Test
-    public void test_decryptEncryptedPrice() throws Exception{
-        ManagerController controller = new ManagerController();
-        KeyPair pair = controller.generateManagerKeys();
-        PrivateKey keyPv = pair.getPrivate();
-        PublicKey keyPub = pair.getPublic();
-        List<EncryptedOffer> prices = new ArrayList<>();
-
-        prices.add(new EncryptedOffer("mimi",5.1,keyPub));
-        prices.add(new EncryptedOffer("momo",6.8,keyPub));
-        prices.add(new EncryptedOffer("mumu",39.3,keyPub));
-        prices.add(new EncryptedOffer("mama",25.2,keyPub));
-
-        int a = 0;
-        for (EncryptedOffer encrypted : prices){
-            String bin = new String(encrypted.getPrice());
-            System.out.println( a + " - "+ bin);
-            a++;
-            byte[] priceBin = encrypted.getPrice();
-            = controller.decryptEncryptedPrice(priceBin);
-
-        }
-
-    }
-*/
-
     @Test
     void main() {
     }
