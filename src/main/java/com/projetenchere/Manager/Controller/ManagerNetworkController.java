@@ -56,9 +56,9 @@ public class ManagerNetworkController {
         Bid currentBid = currentBidStarter.getCurrentBid();
         while (!currentBid.isOver()) {
             try {
-                ObjectSender request = NetworkUtil.receive(getManagerPort());
+                ObjectSender request = NetworkUtil.receive(getManagerPort(),5000);
                 if ((request.getObject()).equals("getBidderInitPackage")) {
-                    sleep(1);
+                    sleep(50);
                     sendBidAndKey(currentBidStarter, request.getPORT_sender(), request.getIP_sender());
                 }
             } catch (SocketTimeoutException ignored) {
@@ -73,10 +73,9 @@ public class ManagerNetworkController {
 
     public EncryptedPrices fetchEncryptedPrice() throws IOException, ClassNotFoundException {
         EncryptedPrices pack = null;
-        try {
-            ObjectSender request = NetworkUtil.receive(getManagerPort());
+        while (pack == null){
+            ObjectSender request = NetworkUtil.receive(getManagerPort(),0);
             pack = (EncryptedPrices) request.getObjectClass().cast(request.getObject());
-        } catch (SocketTimeoutException ignored) {
         }
         return pack;
     }

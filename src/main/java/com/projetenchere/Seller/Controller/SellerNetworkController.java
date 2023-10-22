@@ -28,7 +28,7 @@ public class SellerNetworkController {
     public ObjectSender fetchEncryptedOffer() throws IOException, ClassNotFoundException {
         ObjectSender request;
         do {
-            request = NetworkUtil.receive(sellerPort);
+            request = NetworkUtil.receive(sellerPort, 5000);
         } while (!request.getObjectClass().equals(EncryptedOffer.class));
         return request;
     }
@@ -50,10 +50,10 @@ public class SellerNetworkController {
     }
 
     public ObjectSender waitData(){
-        while (true){
-            try{
-                return NetworkUtil.receive(sellerPort);
-            } catch (IOException | ClassNotFoundException ignored){}
+        try {
+            return NetworkUtil.receive(sellerPort, 0);
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

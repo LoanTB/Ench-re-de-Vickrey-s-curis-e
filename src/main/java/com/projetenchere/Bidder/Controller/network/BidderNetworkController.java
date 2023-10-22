@@ -30,7 +30,7 @@ public class BidderNetworkController {
                 greet,
                 greet.getClass());
         NetworkUtil.send(MANAGER_ADDRESS, MANAGER_PORT, objectSender);
-        ObjectSender receiver = NetworkUtil.receive(localPort);
+        ObjectSender receiver = NetworkUtil.receive(localPort,30000);
         if (!receiver.getObjectClass().equals(BidStarter.class)) {
             throw new ClassNotFoundException("Received wrong class");
         } else {
@@ -48,16 +48,12 @@ public class BidderNetworkController {
     }
 
     public double fetchPrice(int localPort) throws IOException, ClassNotFoundException {
-        while (true) {
-            try {
-                ObjectSender receiver = NetworkUtil.receive(localPort);
-                if (!receiver.getObjectClass().equals(Double.class)) {
-                    System.out.println(receiver.getObjectClass());
-                    throw new ClassNotFoundException("Did not receive the required class");
-                } else {
-                    return (Double) receiver.getObject();
-                }
-            } catch (SocketTimeoutException ignored){}
+        ObjectSender receiver = NetworkUtil.receive(localPort,0);
+        if (!receiver.getObjectClass().equals(Double.class)) {
+            System.out.println(receiver.getObjectClass());
+            throw new ClassNotFoundException("Did not receive the required class");
+        } else {
+            return (Double) receiver.getObject();
         }
     }
 
