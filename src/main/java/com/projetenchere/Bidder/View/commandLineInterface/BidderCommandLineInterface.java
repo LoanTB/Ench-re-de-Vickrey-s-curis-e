@@ -28,24 +28,21 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     @Override
     public Offer readOffer() {
+        showMessage("Quelle est votre prix ?");
         String offerString = readMessage();
         return new Offer("ID_Bidder",offerString);// TODO : Change ID_Bidder by the real name of the bidder
     }
 
     @Override
     public void tellOfferWon(int priceToPay) {
-        showMessage("Your offer won, you have to pay " + priceToPay + "€");
+        showMessage("Votre offre a gagné, vous devez payer " + priceToPay + "€");
     }
 
 
     @Override
     public void tellOfferLost() {
-        showMessage("Your offer lost");
+        showMessage("Votre offre a perdu");
     }
 
-    @Override
-    public void tellOfferAlreadySent() {
-        showMessage("You have already sent an offer for this bid.");
-    }
 
 }
