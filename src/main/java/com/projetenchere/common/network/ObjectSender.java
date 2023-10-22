@@ -18,7 +18,7 @@ public class ObjectSender implements Serializable {
         this.objectClass = objectClass;
     }
 
-    public String getIP_serder() {
+    public String getIP_sender() {
         return IP_serder;
     }
 
