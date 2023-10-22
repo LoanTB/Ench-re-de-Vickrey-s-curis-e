@@ -7,6 +7,7 @@ import java.io.IOException;
 public class BidderApp {
     public static void main(String[] args) throws Exception {
         BidderController controller = new BidderController();
+        controller.readName();
         controller.fetchInitPackage();
         controller.showBid();
         controller.readAndSendOffer();

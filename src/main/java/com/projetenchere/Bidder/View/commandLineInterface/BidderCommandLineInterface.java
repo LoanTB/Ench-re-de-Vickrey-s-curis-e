@@ -1,5 +1,6 @@
 package com.projetenchere.Bidder.View.commandLineInterface;
 
+import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.Offer;
@@ -27,14 +28,14 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
-    public Offer readOffer() {
+    public Offer readOffer(Bidder bidder) {
         showMessage("Quel est votre prix ?");
         String offerString = readMessage();
-        return new Offer("ID_Bidder",offerString);// TODO : Change ID_Bidder by the real name of the bidder
+        return new Offer(bidder.getId(), offerString);
     }
 
     @Override
-    public void tellOfferWon(int priceToPay) {
+    public void tellOfferWon(double priceToPay) {
         showMessage("Votre offre a gagné, vous devez payer " + priceToPay + "€");
     }
 
@@ -42,6 +43,12 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     @Override
     public void tellOfferLost() {
         showMessage("Votre offre a perdu");
+    }
+
+    @Override
+    public String readName() {
+        showMessage("Quel est votre nom ?");
+        return readMessage();
     }
 
 

@@ -1,6 +1,7 @@
 package com.projetenchere.Bidder.Controller;
 
 import com.projetenchere.Bidder.Controller.network.BidderNetworkController;
+import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
 import com.projetenchere.common.Model.Bid;
@@ -12,19 +13,26 @@ import java.io.IOException;
 import java.security.PublicKey;
 
 public class BidderController {
-    public final IBidderUserInterface ui = new BidderCommandLineInterface();
-    public final BidderNetworkController network = new BidderNetworkController();
-    public String sellerIP;
-    public PublicKey publicKey;
-    public Bid currentBid;
+    private final IBidderUserInterface ui = new BidderCommandLineInterface();
+    private final BidderNetworkController network = new BidderNetworkController();
 
 
-    public Offer readOfferFromInterface() {
-        return ui.readOffer();
+    private String sellerIP;
+    private PublicKey publicKey;
+    private Bid currentBid;
+    private final Bidder bidder = new Bidder();
+
+
+    public Offer readOfferFromInterface(){
+        return ui.readOffer(bidder);
     }
 
     public void showBid() {
         ui.displayBid(this.currentBid);
+    }
+
+    public void readName() {
+        this.bidder.setId(ui.readName());
     }
 
     public void readAndSendOffer() throws Exception {
@@ -34,8 +42,9 @@ public class BidderController {
     }
 
     public void waitForPrice() throws IOException, ClassNotFoundException {
-         int priceToPay = network.fetchPrice();
-         if (priceToPay == -1) {
+         double priceToPay = network.fetchPrice();
+         System.out.println(priceToPay);
+         if (priceToPay < 0D){
              ui.tellOfferLost();
          }
          else {
