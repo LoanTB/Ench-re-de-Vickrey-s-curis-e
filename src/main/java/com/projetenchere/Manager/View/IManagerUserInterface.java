@@ -4,6 +4,7 @@ import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.Winner;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 public interface IManagerUserInterface {
@@ -18,9 +19,7 @@ public interface IManagerUserInterface {
 
     String askSellerAddress();
 
-    void displayPrices(Set<Double> DecryptedPrice);
-
     void displayWinnerPrice(Winner winner);
 
-
+    void displayPrices(List<Double> decryptedPrice);
 }

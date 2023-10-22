@@ -7,8 +7,8 @@ import com.projetenchere.common.Model.Winner;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,7 +122,7 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
     }
 
     @Override
-    public void displayPrices(Set<Double> AllPrices) {
+    public void displayPrices(List<Double> AllPrices) {
         for (Double price : AllPrices) {
             System.out.println(price);
         }
