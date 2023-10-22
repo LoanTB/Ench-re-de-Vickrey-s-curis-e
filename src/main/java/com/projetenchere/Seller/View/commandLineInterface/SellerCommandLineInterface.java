@@ -3,6 +3,10 @@ package com.projetenchere.Seller.View.commandLineInterface;
 import com.projetenchere.Seller.View.ISellerUserInterface;
 import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.Formatter;
 import java.util.Scanner;
 
 public class SellerCommandLineInterface implements ISellerUserInterface {
@@ -41,6 +45,7 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     public void diplayHello() {
         showMessage("Bienvenue vendeur !");
     }
+
 
 
 }
