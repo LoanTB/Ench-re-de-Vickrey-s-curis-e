@@ -19,10 +19,10 @@ public class SellerNetworkController {
     }
 
     public void sendEncryptedPrices(EncryptedPrices encryptedPrices) throws IOException {
-        send(SellerIp,SellerPort,encryptedPrices);
+        sendData(SellerIp,SellerPort,encryptedPrices);
     }
 
-    public ObjectSender getEncryptedOfferRequests() throws IOException, ClassNotFoundException {
+    public ObjectSender fetchEncryptedOffer() throws IOException, ClassNotFoundException {
         ObjectSender request;
         do {
             request = NetworkUtil.receive(SellerPort);
@@ -30,23 +30,23 @@ public class SellerNetworkController {
         return request;
     }
 
-    public Bid getBidRequest() {
+    public Bid fetchBid() {
         ObjectSender request;
         do {
-            request = waitRequest();
+            request = waitData();
         } while (!request.getObjectClass().equals(Bid.class));
         return (Bid) request.getObjectClass().cast(request.getObject());
     }
 
-    public Winner getWinnerRequest() {
+    public Winner fetchWinner() {
         ObjectSender request;
         do {
-            request = waitRequest();
+            request = waitData();
         } while (!request.getObjectClass().equals(Winner.class));
         return (Winner) request.getObjectClass().cast(request.getObject());
     }
 
-    public ObjectSender waitRequest(){
+    public ObjectSender waitData(){
         while (true){
             try{
                 return NetworkUtil.receive(SellerPort);
@@ -54,7 +54,7 @@ public class SellerNetworkController {
         }
     }
 
-    public void send(String IP, Integer PORT, Object data) throws IOException {
+    public void sendData(String IP, Integer PORT, Object data) throws IOException {
         ObjectSender objectSender = new ObjectSender(SellerIp,SellerPort,data,data.getClass());
         NetworkUtil.send(IP,PORT,objectSender);
     }

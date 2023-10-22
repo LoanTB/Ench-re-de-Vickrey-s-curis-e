@@ -3,15 +3,15 @@ package com.projetenchere.Seller;
 import com.projetenchere.Seller.Controller.SellerController;
 
 import java.io.IOException;
-import java.util.List;
 
 public class SellerApp {
-    public static void main(String[] args) throws ClassNotFoundException, IOException {
+    public static void main(String[] args) throws IOException {
+
         SellerController controller = new SellerController();
 
         controller.diplayHello();
 
-        controller.requestCurrentBid();
+        controller.fetchCurrentBid();
 
         controller.receiveOffersUntilAuctionEnd();
 
@@ -19,7 +19,7 @@ public class SellerApp {
 
         controller.displayEncryptedPriceSended();
 
-        controller.requestWinner();
+        controller.fetchWinner();
 
         controller.displayWinner();
 
