@@ -88,7 +88,6 @@ public class ManagerController {
         return new Winner(winnerCypher, firstPrice);
     }
 
-
     public Winner processPrices(EncryptedPrices encrypted) throws Exception {
         Set<Double> currentDecryptedPrices = decryptEncryptedPrice(encrypted, manager.getManagerPrivateKey());
         showPrices(currentDecryptedPrices);

@@ -18,6 +18,5 @@ public class ManagerApp {
         controller.endBid(winnerForCurrentBid);
         System.out.println("Fin des enchères !");
 
-
     }
 }
