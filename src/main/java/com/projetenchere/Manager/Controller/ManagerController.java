@@ -87,7 +87,6 @@ public class ManagerController {
 
         return new Winner(winnerCypher, firstPrice);
     }
-
     public Winner processPrices(EncryptedPrices encrypted) throws Exception {
         Set<Double> currentDecryptedPrices = decryptEncryptedPrice(encrypted, manager.getManagerPrivateKey());
         showPrices(currentDecryptedPrices);
@@ -98,9 +97,7 @@ public class ManagerController {
     public void showWinnerPrice(Winner winner) {
         ui.displayWinnerPrice(winner);
     }
-
     public void endBid(Winner win) throws IOException {
         networkController.sendWinnerAndPrice(win);
     }
-
 }

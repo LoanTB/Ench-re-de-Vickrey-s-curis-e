@@ -8,6 +8,7 @@ import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.Util.NetworkUtil;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 import static java.lang.Thread.sleep;
@@ -59,11 +60,14 @@ public class ManagerNetworkController {
     public void waitAskInitPackByBidder(BidStarter currentBidStarter) throws IOException, ClassNotFoundException, InterruptedException {
         Bid currentBid = currentBidStarter.getCurrentBid();
         while (!currentBid.isOver()) {
-            ObjectSender request = NetworkUtil.receive(getManagerPort());
-            if ((request.getObject()).equals("getBidderInitPackage")) {
-                sleep(1);
-                sendBidAndKey(currentBidStarter);
-            }
+            ObjectSender request = null;
+            try{
+                request = NetworkUtil.receive(getManagerPort());
+                if ((request.getObject()).equals("getBidderInitPackage")) {
+                    sleep(1);
+                    sendBidAndKey(currentBidStarter);
+                }
+            }catch (SocketTimeoutException ignored){}
         }
     }
 
@@ -73,8 +77,14 @@ public class ManagerNetworkController {
     }
 
     public EncryptedPrices fetchEncryptedPrice() throws IOException, ClassNotFoundException {
-        ObjectSender request = NetworkUtil.receive(getManagerPort());
+        ObjectSender request = null;
+        try{
+            request = NetworkUtil.receive(getManagerPort());
+        }
+        catch (SocketTimeoutException ignored){}
+
         EncryptedPrices pack = (EncryptedPrices) request.getObjectClass().cast(request.getObject());
+
         return pack;
     }
 
