@@ -60,9 +60,8 @@ public class ManagerNetworkController {
     public void waitAskInitPackByBidder(BidStarter currentBidStarter) throws IOException, ClassNotFoundException, InterruptedException {
         Bid currentBid = currentBidStarter.getCurrentBid();
         while (!currentBid.isOver()) {
-            ObjectSender request = null;
             try{
-                request = NetworkUtil.receive(getManagerPort());
+                ObjectSender request = NetworkUtil.receive(getManagerPort());
                 if ((request.getObject()).equals("getBidderInitPackage")) {
                     sleep(1);
                     sendBidAndKey(currentBidStarter);
