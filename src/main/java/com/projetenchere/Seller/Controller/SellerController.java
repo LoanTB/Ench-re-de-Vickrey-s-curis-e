@@ -10,7 +10,6 @@ import com.projetenchere.common.Model.Serializable.ObjectSender;
 import com.projetenchere.common.Model.Winner;
 
 import java.io.IOException;
-import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.*;
 
@@ -23,12 +22,14 @@ public class SellerController {
     private Winner winner = null;
     SellerNetworkController networkController = new SellerNetworkController();
 
+    public SellerController() throws UnknownHostException {}
+
     public Bid getCurrentBid() {
         return currentBid;
     }
 
-    public void requestCurrentBid(){
-        this.currentBid = networkController.getBidRequest();
+    public void fetchCurrentBid(){
+        this.currentBid = networkController.fetchBid();
     }
 
     public boolean auctionInProgress(){
@@ -39,7 +40,7 @@ public class SellerController {
         EncryptedOffer offerReceived;
         while (auctionInProgress()){
             try{
-                ObjectSender request = getEncryptedOfferRequests();
+                ObjectSender request = fetchEncryptedOffer();
                 offerReceived = (EncryptedOffer) request.getObjectClass().cast(request.getObject());
                 seller.addEncryptedOffer(offerReceived);
                 seller.addBidderIp(request.getIP_sender());
@@ -48,8 +49,6 @@ public class SellerController {
             } catch (IOException | ClassNotFoundException e){}
         }
     }
-
-    public SellerController() throws UnknownHostException {}
 
     public void diplayHello(){
         ui.diplayHello();
@@ -83,16 +82,16 @@ public class SellerController {
         return new EncryptedPrices(encryptedPrices);
     }
 
-    public ObjectSender getEncryptedOfferRequests() throws IOException, ClassNotFoundException {
-        return networkController.getEncryptedOfferRequests();
+    public ObjectSender fetchEncryptedOffer() throws IOException, ClassNotFoundException {
+        return networkController.fetchEncryptedOffer();
     }
 
     public void sendEncryptedPrices() throws IOException {
         networkController.sendEncryptedPrices(getEncryptedPrices(seller.getEncryptedOffers()));
     }
 
-    public void requestWinner() {
-        winner = networkController.getWinnerRequest();
+    public void fetchWinner() {
+        winner = networkController.fetchWinner();
     }
 
     public void sendResults() throws IOException {
@@ -101,7 +100,7 @@ public class SellerController {
         List<Double> results = getBiddersWinStatus();
         if (IPs.size() == PORTs.size() && IPs.size() == results.size()){
             for (int i=0;i< IPs.size();i++){
-                networkController.send(IPs.get(i),PORTs.get(i),results.get(i));
+                networkController.sendData(IPs.get(i),PORTs.get(i),results.get(i));
             }
         } else {
             throw new IllegalArgumentException("All three lists must be the same size.");
