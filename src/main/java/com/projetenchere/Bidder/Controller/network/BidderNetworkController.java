@@ -6,6 +6,7 @@ import com.projetenchere.common.Model.Sendable.ObjectSender;
 import com.projetenchere.common.Util.NetworkUtil;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 public class BidderNetworkController {
@@ -23,7 +24,7 @@ public class BidderNetworkController {
     public BidStarter askForInitPackage() throws IOException, ClassNotFoundException {
         String greet = "getBidderInitPackage";
         ObjectSender objectSender = new ObjectSender(
-                NetworkUtil.getMyIP(),
+                myIp(),
                 24681,
                 greet,
                 greet.getClass());
@@ -38,7 +39,7 @@ public class BidderNetworkController {
 
     public void sendOffer(Offer offer, String sellerIP) throws IOException {
         ObjectSender objectSender = new ObjectSender(
-                NetworkUtil.getMyIP(),
+                myIp(),
                 24681,
                 offer,
                 offer.getClass());
@@ -46,11 +47,15 @@ public class BidderNetworkController {
     }
 
     public int fetchPrice() throws IOException, ClassNotFoundException {
-        ObjectSender receiver = NetworkUtil.receive(24682);
-        if (!receiver.getObjectClass().equals(int.class)) {
-            throw new ClassNotFoundException("Did not receive the required class");
-        } else {
-            return (int) receiver.getObject();
+        while (true) {
+            try {
+                ObjectSender receiver = NetworkUtil.receive(24681);
+                if (!receiver.getObjectClass().equals(int.class)) {
+                    throw new ClassNotFoundException("Did not receive the required class");
+                } else {
+                    return (int) receiver.getObject();
+                }
+            } catch (SocketTimeoutException ignored){}
         }
     }
 
