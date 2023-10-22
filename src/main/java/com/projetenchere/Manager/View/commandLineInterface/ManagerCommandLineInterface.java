@@ -16,7 +16,6 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
     public ManagerCommandLineInterface() {
 
     }
-
     public void showMessage(String message) {
         System.out.println(message);
     }
@@ -67,13 +66,6 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
         return dateTime;
     }
 
-
-    @Override
-    public String askSellerAdress() {
-        showMessage("Veuillez saisir l'addresse du vendeur : ");
-        return readMessage();
-    }
-
     @Override
     public String askBidDescription() {
         showMessage("Veuillez saisir la description de l'enchère : ");
@@ -85,7 +77,11 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
         showMessage("Veuillez saisir le nom de l'enchère : ");
         return readMessage();
     }
-
+    @Override
+    public String askSellerAddress() {
+        showMessage("Veuillez saisir l'addresse du vendeur : ");
+        return readMessage();
+    }
     @Override
     public void displayPrices(Set<Double> AllPrices) {
         for (Double price : AllPrices) {

@@ -13,6 +13,8 @@ import java.net.UnknownHostException;
 public class ManagerNetworkController {
     final private String ManagerIp;
     final private int ManagerPort = 2463;
+    private String sellerAddress;
+    private final int SellerPort = 24682;
 
     public String getManagerIp() {
         return ManagerIp;
@@ -22,8 +24,26 @@ public class ManagerNetworkController {
         return ManagerPort;
     }
 
+    public String getSellerAddress() {
+        return sellerAddress;
+    }
+
+    public void setSellerAddress(String sellerAddress) {
+        this.sellerAddress = sellerAddress;
+    }
+
+
+    public int getSellerPort() {
+        return SellerPort;
+    }
+
     public ManagerNetworkController() throws UnknownHostException {
         ManagerIp = NetworkUtil.getMyIP();
+    }
+
+    public void sendBidToSeller(Bid currentBid) throws IOException {
+        ObjectSender pack = new ObjectSender(getManagerIp(), getManagerPort(), currentBid, Bid.class);
+        NetworkUtil.send(getSellerAddress(), getSellerPort(), pack);
     }
 
     public void waitAskInitPackByBidder(BidStarter currentBidStarter) throws IOException, ClassNotFoundException {
@@ -47,9 +67,9 @@ public class ManagerNetworkController {
         return pack;
     }
 
-    public void sendWinnerAndPrice(String sellerAddress, Winner result) throws IOException {
+    public void sendWinnerAndPrice(Winner result) throws IOException {
         ObjectSender pack = new ObjectSender(getManagerIp(), getManagerPort(), result, Winner.class);
-        NetworkUtil.send(sellerAddress, getManagerPort(), pack); //ATTENTION Destiné au seller. ip à changer à l'avenir.
+        NetworkUtil.send(getSellerAddress(), getSellerPort(), pack);
     }
 
 }
