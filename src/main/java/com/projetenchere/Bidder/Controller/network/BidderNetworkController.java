@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 public class BidderNetworkController {
-    private static final String MANAGER_ADDRESS = "localhost";
-    private static final int MANAGER_PORT = 24681;
+    private static final String MANAGER_ADDRESS = "127.0.0.1";
+    private static final int MANAGER_PORT = 24683;
 
     private String myIp() {
         try {
@@ -28,7 +28,7 @@ public class BidderNetworkController {
                 greet,
                 greet.getClass());
         NetworkUtil.send(MANAGER_ADDRESS, MANAGER_PORT, objectSender);
-        ObjectSender receiver = NetworkUtil.receive(24683);
+        ObjectSender receiver = NetworkUtil.receive(24681);
         if (!receiver.getObjectClass().equals(BidStarter.class)) {
             throw new ClassNotFoundException("Received wrong class");
         } else {

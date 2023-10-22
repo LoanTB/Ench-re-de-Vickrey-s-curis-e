@@ -39,8 +39,9 @@ public class BidderController {
         ui.displayBid(this.currentBid);
     }
 
-    public void sendOffer(Offer offer) {
-        //TODO: send offer with network
+    public void readAndSendOffer() throws IOException {
+        Offer offer = readOfferFromInterface();
+        network.sendOffer(offer, sellerIP);
     }
 
     public void waitForPrice() throws IOException, ClassNotFoundException {
