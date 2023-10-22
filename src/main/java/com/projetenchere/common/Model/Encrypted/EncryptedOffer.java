@@ -3,9 +3,10 @@ package com.projetenchere.common.Model.Encrypted;
 import com.projetenchere.common.Model.Offer;
 import com.projetenchere.common.Util.EncryptionUtil;
 
+import java.io.Serializable;
 import java.security.PublicKey;
 
-public class EncryptedOffer {
+public class EncryptedOffer implements Serializable {
     private final String idBidder;
     private final byte[] value;
 
