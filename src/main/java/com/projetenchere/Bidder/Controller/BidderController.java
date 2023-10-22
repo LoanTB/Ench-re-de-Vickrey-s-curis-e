@@ -59,6 +59,6 @@ public class BidderController {
         BidStarter bidStarter = network.askForInitPackage();
         this.currentBid = bidStarter.getCurrentBid();
         this.publicKey = bidStarter.getManagerPublicKey();
-        this.sellerIP = bidStarter.getSellerAdress();
+        this.sellerIP = bidStarter.getSellerAddress();
     }
 }
