@@ -13,8 +13,7 @@ public class Manager {
     private PublicKey managerPublicKey;
     private Bid currentBid;
     private Winner winnerForCurrentBid;
-
-
+    
     public EncryptedPrices getPricesReceived() {
         return pricesReceived;
     }
