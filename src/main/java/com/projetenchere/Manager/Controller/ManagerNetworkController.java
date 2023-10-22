@@ -11,22 +11,22 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 public class ManagerNetworkController {
-    final private String ManagerIp;
-    final private int ManagerPort = 24683;
+    final private String managerIp;
+    final private int managerPort = 24683;
     private String sellerAddress;
-    private int SellerPort = 24682;
-    private int BidderPort = 24681;
+    private int sellerPort = 24682;
+    private int bidderPort = 24681;
 
     public int getBidderPort() {
-        return BidderPort;
+        return bidderPort;
     }
 
     public String getManagerIp() {
-        return ManagerIp;
+        return managerIp;
     }
 
     public int getManagerPort() {
-        return ManagerPort;
+        return managerPort;
     }
 
     public String getSellerAddress() {
@@ -38,15 +38,15 @@ public class ManagerNetworkController {
     }
 
     public void setSellerPort(int sellerPort) {
-        SellerPort = sellerPort;
+        sellerPort = sellerPort;
     }
 
     public int getSellerPort() {
-        return SellerPort;
+        return sellerPort;
     }
 
     public ManagerNetworkController() throws UnknownHostException {
-        ManagerIp = NetworkUtil.getMyIP();
+        managerIp = NetworkUtil.getMyIP();
     }
 
     public void sendBidToSeller(Bid currentBid) throws IOException {

@@ -1,9 +1,10 @@
 package com.projetenchere.common.Model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Bid {
+public class Bid implements Serializable {
     final private String bidName;
     final private String bidDescription;
     final private LocalDate date; // date de création
