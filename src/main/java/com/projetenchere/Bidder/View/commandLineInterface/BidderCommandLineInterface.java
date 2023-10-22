@@ -28,7 +28,7 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     @Override
     public Offer readOffer() {
-        showMessage("Quelle est votre prix ?");
+        showMessage("Quel est votre prix ?");
         String offerString = readMessage();
         return new Offer("ID_Bidder",offerString);// TODO : Change ID_Bidder by the real name of the bidder
     }
