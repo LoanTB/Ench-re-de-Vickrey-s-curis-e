@@ -44,7 +44,7 @@ public class NetworkUtilTest {
         serverThread = new Thread(() -> {
             try {
                 data[0] =  new ObjectSender(NetworkUtil.getMyIP(),24681,new String("Oui !"),String.class);
-                NetworkUtil.send(data[1].getIP_serder(),data[1].getPORT_sender(),data[0]);
+                NetworkUtil.send(data[1].getIP_sender(),data[1].getPORT_sender(),data[0]);
             } catch (IOException e) {
                 throw new RuntimeException("Erreur côté serveur: " + e);
             }
