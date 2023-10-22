@@ -22,15 +22,15 @@ public class BidderNetworkController {
         }
     }
 
-    public BidStarter askForInitPackage() throws IOException, ClassNotFoundException {
+    public BidStarter askForInitPackage(int localPort) throws IOException, ClassNotFoundException {
         String greet = "getBidderInitPackage";
         ObjectSender objectSender = new ObjectSender(
                 myIp(),
-                24681,
+                localPort,
                 greet,
                 greet.getClass());
         NetworkUtil.send(MANAGER_ADDRESS, MANAGER_PORT, objectSender);
-        ObjectSender receiver = NetworkUtil.receive(24681);
+        ObjectSender receiver = NetworkUtil.receive(localPort);
         if (!receiver.getObjectClass().equals(BidStarter.class)) {
             throw new ClassNotFoundException("Received wrong class");
         } else {
@@ -38,19 +38,19 @@ public class BidderNetworkController {
         }
     }
 
-    public void sendOffer(EncryptedOffer offer, String sellerIP) throws IOException {
+    public void sendOffer(EncryptedOffer offer, String sellerIP, int localPort) throws IOException {
         ObjectSender objectSender = new ObjectSender(
                 myIp(),
-                24681,
+                localPort,
                 offer,
                 offer.getClass());
         NetworkUtil.send(sellerIP, 24682, objectSender);
     }
 
-    public double fetchPrice() throws IOException, ClassNotFoundException {
+    public double fetchPrice(int localPort) throws IOException, ClassNotFoundException {
         while (true) {
             try {
-                ObjectSender receiver = NetworkUtil.receive(24681);
+                ObjectSender receiver = NetworkUtil.receive(localPort);
                 if (!receiver.getObjectClass().equals(Double.class)) {
                     System.out.println(receiver.getObjectClass());
                     throw new ClassNotFoundException("Did not receive the required class");

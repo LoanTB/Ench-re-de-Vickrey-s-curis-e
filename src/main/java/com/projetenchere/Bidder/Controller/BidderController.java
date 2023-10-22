@@ -27,6 +27,10 @@ public class BidderController {
         return ui.readOffer(bidder);
     }
 
+    public void readPort() {
+        this.bidder.setPort(ui.readPort());
+    }
+
     public void showBid() {
         ui.displayBid(this.currentBid);
     }
@@ -38,11 +42,11 @@ public class BidderController {
     public void readAndSendOffer() throws Exception {
         Offer offer = readOfferFromInterface();
         EncryptedOffer encryptedOffer = new EncryptedOffer(offer, publicKey);
-        network.sendOffer(encryptedOffer, sellerIP);
+        network.sendOffer(encryptedOffer, sellerIP, bidder.getPort());
     }
 
     public void waitForPrice() throws IOException, ClassNotFoundException {
-         double priceToPay = network.fetchPrice();
+         double priceToPay = network.fetchPrice(bidder.getPort());
          System.out.println(priceToPay);
          if (priceToPay < 0D){
              ui.tellOfferLost();
@@ -54,7 +58,7 @@ public class BidderController {
     }
 
     public void fetchInitPackage() throws IOException, ClassNotFoundException {
-        BidStarter bidStarter = network.askForInitPackage();
+        BidStarter bidStarter = network.askForInitPackage(bidder.getPort());
         this.currentBid = bidStarter.getCurrentBid();
         this.publicKey = bidStarter.getManagerPublicKey();
         this.sellerIP = bidStarter.getSellerAddress();

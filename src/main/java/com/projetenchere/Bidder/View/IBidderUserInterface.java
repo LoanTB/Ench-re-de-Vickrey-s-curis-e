@@ -15,6 +15,7 @@ public interface IBidderUserInterface {
     void tellOfferLost();
 
     String readName();
+    int readPort();
 
 
 

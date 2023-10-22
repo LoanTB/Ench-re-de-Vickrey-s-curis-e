@@ -51,5 +51,12 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
         return readMessage();
     }
 
+    @Override
+    public int readPort() {
+        showMessage("Quel port voulez-vous utiliser ?");
+        String portString = readMessage();
+        return Integer.parseInt(portString);
+    }
+
 
 }
