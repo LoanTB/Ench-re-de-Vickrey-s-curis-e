@@ -8,51 +8,48 @@ import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.Util.NetworkUtil;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.security.PublicKey;
-import java.util.Set;
-import java.util.HashSet;
 
 public class ManagerNetworkController {
-    private String ManagerIp;
-    private int ManagerPort = 2463;
+    final private String ManagerIp;
+    final private int ManagerPort = 2463;
 
     public String getManagerIp() {
         return ManagerIp;
     }
 
-    public void setManagerIp(String managerIp) {
-        ManagerIp = managerIp;
+    public int getManagerPort() {
+        return ManagerPort;
     }
 
     public ManagerNetworkController() throws UnknownHostException {
-        String ManagerIp = NetworkUtil.getMyIP();
-        setManagerIp(ManagerIp);
+        ManagerIp = NetworkUtil.getMyIP();
     }
 
     public void waitAskInitPackByBidder(BidStarter currentBidStarter) throws IOException, ClassNotFoundException {
-       //TODO : Attendre toutes les requêtes ????
-        ObjectSender request = NetworkUtil.receive(ManagerPort);
-        if(request.getObject() == "getBidderInitPackage"){
-            sendBidAndKey(currentBidStarter);
+        Bid currentBid = currentBidStarter.getCurrentBid();
+        while (!currentBid.isOver()) {
+            ObjectSender request = NetworkUtil.receive(getManagerPort());
+            if (request.getObject() == "getBidderInitPackage") {
+                sendBidAndKey(currentBidStarter);
+            }
         }
     }
 
     public void sendBidAndKey(BidStarter currentStarter) throws IOException {
-        ObjectSender pack = new ObjectSender(ManagerIp,ManagerPort,currentStarter,BidStarter.class);
-        NetworkUtil.send(ManagerIp,ManagerPort,pack);
+        ObjectSender pack = new ObjectSender(getManagerIp(), getManagerPort(), currentStarter, BidStarter.class);
+        NetworkUtil.send(getManagerIp(), getManagerPort(), pack);
     }
 
     public EncryptedPrices fetchEncryptedPrice() throws IOException, ClassNotFoundException {
-        ObjectSender request = NetworkUtil.receive(ManagerPort);
-        EncryptedPrices pack = (EncryptedPrices)request.getObjectClass().cast(request.getObject());
+        ObjectSender request = NetworkUtil.receive(getManagerPort());
+        EncryptedPrices pack = (EncryptedPrices) request.getObjectClass().cast(request.getObject());
         return pack;
     }
 
-    public void sendWinnerAndPrice(Winner result) throws IOException {
-        ObjectSender pack = new ObjectSender(ManagerIp,ManagerPort,result,Winner.class);
-        NetworkUtil.send(ManagerIp,ManagerPort,pack); //ATTENTION Destiné au seller. ip à changer à l'avenir.
+    public void sendWinnerAndPrice(String sellerAddress, Winner result) throws IOException {
+        ObjectSender pack = new ObjectSender(getManagerIp(), getManagerPort(), result, Winner.class);
+        NetworkUtil.send(sellerAddress, getManagerPort(), pack); //ATTENTION Destiné au seller. ip à changer à l'avenir.
     }
 
 }

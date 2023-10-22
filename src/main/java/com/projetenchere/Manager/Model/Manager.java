@@ -1,9 +1,33 @@
 package com.projetenchere.Manager.Model;
 
-import com.projetenchere.Manager.Controller.ManagerController;
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
-import java.io.*;
-import java.util.*;
+public class Manager {
+    private PrivateKey managerPrivateKey;
+    private PublicKey managerPublicKey;
+    private String sellerAddress;
 
-class Manager {
+    public void setManagerKeys(KeyPair managerKeys) {
+        managerPrivateKey = managerKeys.getPrivate();
+        managerPublicKey = managerKeys.getPublic();
+    }
+
+    public PrivateKey getManagerPrivateKey() {
+        return managerPrivateKey;
+    }
+
+    public PublicKey getManagerPublicKey() {
+        return managerPublicKey;
+    }
+
+    public String getSellerAddress() {
+        return sellerAddress;
+    }
+
+    public void setSellerAddress(String sellerAddress) {
+        this.sellerAddress = sellerAddress;
+    }
+
 }

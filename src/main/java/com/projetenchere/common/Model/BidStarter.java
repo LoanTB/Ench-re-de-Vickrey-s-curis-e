@@ -13,7 +13,7 @@ public class BidStarter {
     }
 
     public void setSellerAdress(String addrSeller) {
-        this.sellerAdress = sellerAdress;
+        this.sellerAdress = addrSeller;
     }
 
     public PublicKey getManagerPublicKey() {
@@ -32,8 +32,7 @@ public class BidStarter {
         this.currentBid = currentBid;
     }
 
-    public BidStarter(PublicKey key, Bid bid, String addrSeller)
-    {
+    public BidStarter(PublicKey key, Bid bid, String addrSeller) {
         setCurrentBid(bid);
         setManagerPublicKey(key);
         setSellerAdress(addrSeller);
