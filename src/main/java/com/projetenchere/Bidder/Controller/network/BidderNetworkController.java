@@ -1,6 +1,7 @@
 package com.projetenchere.Bidder.Controller.network;
 
 import com.projetenchere.common.Model.BidStarter;
+import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Offer;
 import com.projetenchere.common.Model.Sendable.ObjectSender;
 import com.projetenchere.common.Util.NetworkUtil;
@@ -37,7 +38,7 @@ public class BidderNetworkController {
         }
     }
 
-    public void sendOffer(Offer offer, String sellerIP) throws IOException {
+    public void sendOffer(EncryptedOffer offer, String sellerIP) throws IOException {
         ObjectSender objectSender = new ObjectSender(
                 myIp(),
                 24681,

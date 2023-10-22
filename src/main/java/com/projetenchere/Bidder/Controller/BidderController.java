@@ -5,6 +5,7 @@ import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.BidStarter;
+import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Offer;
 
 import java.io.IOException;
@@ -26,9 +27,10 @@ public class BidderController {
         ui.displayBid(this.currentBid);
     }
 
-    public void readAndSendOffer() throws IOException {
+    public void readAndSendOffer() throws Exception {
         Offer offer = readOfferFromInterface();
-        network.sendOffer(offer, sellerIP);
+        EncryptedOffer encryptedOffer = new EncryptedOffer(offer, publicKey);
+        network.sendOffer(encryptedOffer, sellerIP);
     }
 
     public void waitForPrice() throws IOException, ClassNotFoundException {
