@@ -3,7 +3,7 @@ package com.projetenchere.Manager.Controller;
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
-import com.projetenchere.common.Model.Serializable.ObjectSender;
+import com.projetenchere.common.Model.Sendable.ObjectSender;
 import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.Util.NetworkUtil;
 

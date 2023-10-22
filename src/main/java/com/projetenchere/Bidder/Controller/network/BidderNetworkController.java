@@ -2,7 +2,7 @@ package com.projetenchere.Bidder.Controller.network;
 
 import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Offer;
-import com.projetenchere.common.Model.Serializable.ObjectSender;
+import com.projetenchere.common.Model.Sendable.ObjectSender;
 import com.projetenchere.common.Util.NetworkUtil;
 
 import java.io.IOException;

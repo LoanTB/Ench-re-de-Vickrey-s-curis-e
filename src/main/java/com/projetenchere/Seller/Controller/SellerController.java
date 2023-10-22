@@ -6,7 +6,7 @@ import com.projetenchere.Seller.View.commandLineInterface.SellerCommandLineInter
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
-import com.projetenchere.common.Model.Serializable.ObjectSender;
+import com.projetenchere.common.Model.Sendable.ObjectSender;
 import com.projetenchere.common.Model.Winner;
 
 import java.io.IOException;
