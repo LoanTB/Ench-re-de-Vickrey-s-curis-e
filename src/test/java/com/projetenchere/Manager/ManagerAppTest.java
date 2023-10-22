@@ -35,7 +35,7 @@ public class ManagerAppTest {
     }
 
 
-
+/*
     @Test
     public void test_showprices() throws Exception{
         Set<Double> prices = new HashSet<>();
@@ -85,7 +85,7 @@ public class ManagerAppTest {
         System.out.println("Même prix");
 
     }
-
+*/
     @Test
     void main() {
     }

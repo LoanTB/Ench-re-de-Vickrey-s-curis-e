@@ -10,13 +10,17 @@ public class ManagerApp {
         System.out.println("Bienvenue Manager !");
         ManagerController controller = new ManagerController();
         Bid currentBid = controller.initBid();
+        System.out.println("Génération de clé...");
         controller.generateManagerKeys();
+        System.out.println("Lancement de l'enchère ...");
         controller.launchBid(currentBid);
+        System.out.println("Reception des prix ...");
         EncryptedPrices pricesReceived = controller.waitEncryptedPrices();
+        System.out.println("Traitement des prix ...");
         Winner winnerForCurrentBid = controller.processPrices(pricesReceived);
+        System.out.println("Prix traités. Gagnant : ");
         controller.showWinnerPrice(winnerForCurrentBid);
         controller.endBid(winnerForCurrentBid);
         System.out.println("Fin des enchères !");
-
     }
 }
