@@ -17,13 +17,12 @@ public class ManagerNetworkController {
     final private String managerIp;
     final private int managerPort = 24683;
     private String sellerAddress;
-    private int sellerPort = 24682;
-   // private int bidderPort = 24681;
-/*
-    public int getBidderPort() {
-        return bidderPort;
+    private final int sellerPort = 24682;
+
+    public ManagerNetworkController() throws UnknownHostException {
+        managerIp = NetworkUtil.getMyIP();
     }
- */
+
     public String getManagerIp() {
         return managerIp;
     }
@@ -40,16 +39,12 @@ public class ManagerNetworkController {
         this.sellerAddress = sellerAddress;
     }
 
-    public void setSellerPort(int sellerPort) {
-        sellerPort = sellerPort;
-    }
-
     public int getSellerPort() {
         return sellerPort;
     }
 
-    public ManagerNetworkController() throws UnknownHostException {
-        managerIp = NetworkUtil.getMyIP();
+    public void setSellerPort(int sellerPort) {
+        sellerPort = sellerPort;
     }
 
     public void sendBidToSeller(Bid currentBid) throws IOException {
@@ -60,13 +55,14 @@ public class ManagerNetworkController {
     public void waitAskInitPackByBidder(BidStarter currentBidStarter) throws IOException, ClassNotFoundException, InterruptedException {
         Bid currentBid = currentBidStarter.getCurrentBid();
         while (!currentBid.isOver()) {
-            try{
+            try {
                 ObjectSender request = NetworkUtil.receive(getManagerPort());
                 if ((request.getObject()).equals("getBidderInitPackage")) {
                     sleep(1);
-                    sendBidAndKey(currentBidStarter,request.getPORT_sender(), request.getIP_sender());
+                    sendBidAndKey(currentBidStarter, request.getPORT_sender(), request.getIP_sender());
                 }
-            }catch (SocketTimeoutException ignored){}
+            } catch (SocketTimeoutException ignored) {
+            }
         }
     }
 
@@ -77,11 +73,11 @@ public class ManagerNetworkController {
 
     public EncryptedPrices fetchEncryptedPrice() throws IOException, ClassNotFoundException {
         EncryptedPrices pack = null;
-        try{
+        try {
             ObjectSender request = NetworkUtil.receive(getManagerPort());
             pack = (EncryptedPrices) request.getObjectClass().cast(request.getObject());
+        } catch (SocketTimeoutException ignored) {
         }
-        catch (SocketTimeoutException ignored){}
         return pack;
     }
 
