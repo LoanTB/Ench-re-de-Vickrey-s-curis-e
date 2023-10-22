@@ -46,7 +46,7 @@ public class SellerController {
                 seller.addBidderIp(request.getIP_sender());
                 seller.addBidderPort(request.getPORT_sender());
                 displayOfferReceived(offerReceived);
-            } catch (IOException | ClassNotFoundException e){}
+            } catch (IOException | ClassNotFoundException ignored){}
         }
     }
 
