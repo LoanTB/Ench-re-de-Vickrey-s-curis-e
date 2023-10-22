@@ -33,7 +33,7 @@ public class SellerApp {
                 ObjectSender request = networkController.getEncryptedOfferRequests();
                 offerRecieved = (EncryptedOffer) request.getObjectClass().cast(request.getObject());
                 seller.addEncryptedOffer(offerRecieved);
-                seller.addBidderIp(request.getIP_serder());
+                seller.addBidderIp(request.getIP_sender());
                 seller.addBidderPort(request.getPORT_sender());
                 controller.displayOfferReceived(offerRecieved);
             } catch (SocketTimeoutException e){}
