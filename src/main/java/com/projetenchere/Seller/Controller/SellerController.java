@@ -5,13 +5,12 @@ import com.projetenchere.Seller.View.commandLineInterface.SellerCommandLineInter
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
+import com.projetenchere.common.Model.Serializable.ObjectSender;
 import com.projetenchere.common.Model.Winner;
-import com.projetenchere.common.network.ObjectSender;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
-
 
 public class SellerController {
 
@@ -19,9 +18,7 @@ public class SellerController {
     private Bid currentBid;
     SellerNetworkController networkController = new SellerNetworkController();
 
-    public SellerController() throws UnknownHostException {
-    }
-
+    public SellerController() throws UnknownHostException {}
 
     public void diplayHello(){
         ui.diplayHello();
@@ -61,9 +58,27 @@ public class SellerController {
         networkController.sendEncryptedPrices(getEncryptedPrices(offers));
     }
 
+    public Bid getBid() {
+        return networkController.getBidRequest();
+    }
+
+    public Winner getWinner() {
+        return networkController.getWinnerRequest();
+    }
+
+    public void sendResults(List<String> IPs, List<Integer> PORTs, List<Double> results) throws IOException {
+        if (IPs.size() == PORTs.size() && IPs.size() == results.size()){
+            for (int i=0;i< IPs.size();i++){
+                networkController.send(IPs.get(i),PORTs.get(i),results.get(i));
+            }
+        } else {
+            throw new IllegalArgumentException("All three lists must be the same size.");
+        }
+    }
+
     public List<Double> getBiddersWinStatus(List<EncryptedOffer> encryptedOffers, Winner winner){
         boolean haveAWinner = false;
-        List<Double> winStatus = new ArrayList<Double>();
+        List<Double> winStatus = new ArrayList<>();
         for (int i=0;i<encryptedOffers.size();i++){
             if (Arrays.equals(encryptedOffers.get(i).getPrice(), winner.getEncryptedMaxprice()) && !haveAWinner){
                 winStatus.add(winner.getPriceToPay());

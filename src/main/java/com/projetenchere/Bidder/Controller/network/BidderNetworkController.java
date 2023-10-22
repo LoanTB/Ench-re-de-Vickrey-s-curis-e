@@ -2,8 +2,8 @@ package com.projetenchere.Bidder.Controller.network;
 
 import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Offer;
-import com.projetenchere.common.network.NetworkUtil;
-import com.projetenchere.common.network.ObjectSender;
+import com.projetenchere.common.Model.Serializable.ObjectSender;
+import com.projetenchere.common.Util.NetworkUtil;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
