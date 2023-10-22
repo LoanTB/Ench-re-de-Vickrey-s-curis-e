@@ -30,13 +30,14 @@ public class SellerController {
 
     public void fetchCurrentBid(){
         this.currentBid = networkController.fetchBid();
+        ui.displayBidReceived();
     }
 
     public boolean auctionInProgress(){
         return (!this.currentBid.isOver());
     }
 
-    public void receiveOffersUntilAuctionEnd(){
+    public void receiveOffersUntilBidEnd(){
         EncryptedOffer offerReceived;
         while (auctionInProgress()){
             try{
@@ -46,7 +47,7 @@ public class SellerController {
                 seller.addBidderIp(request.getIP_sender());
                 seller.addBidderPort(request.getPORT_sender());
                 displayOfferReceived(offerReceived);
-            } catch (IOException | ClassNotFoundException e){}
+            } catch (IOException | ClassNotFoundException ignored){}
         }
     }
 

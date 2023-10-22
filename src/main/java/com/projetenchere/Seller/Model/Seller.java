@@ -2,13 +2,14 @@ package com.projetenchere.Seller.Model;
 
 import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Seller {
 
-    private List<String> biddersIps;
-    private List<Integer> biddersPorts;
-    private List<EncryptedOffer> encryptedOffers;
+    private final List<String> biddersIps = new ArrayList<>();
+    private final List<Integer> biddersPorts = new ArrayList<>();
+    private final List<EncryptedOffer> encryptedOffers = new ArrayList<>();
 
     public void addBidderIp(String ip){
         biddersIps.add(ip);
@@ -23,7 +24,6 @@ public class Seller {
     public List<EncryptedOffer> getEncryptedOffers() {
         return encryptedOffers;
     }
-
     public List<String> getBiddersIps() {
         return biddersIps;
     }

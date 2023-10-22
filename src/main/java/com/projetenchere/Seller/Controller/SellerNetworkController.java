@@ -50,7 +50,7 @@ public class SellerNetworkController {
         while (true){
             try{
                 return NetworkUtil.receive(SellerPort);
-            } catch (IOException | ClassNotFoundException e){}
+            } catch (IOException | ClassNotFoundException ignored){}
         }
     }
 

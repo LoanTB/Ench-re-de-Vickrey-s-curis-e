@@ -42,6 +42,11 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
         showMessage("Bienvenue vendeur !");
     }
 
+    @Override
+    public void displayBidReceived(){
+        showMessage("Enchère reçue.");
+    }
+
 
 
 }
