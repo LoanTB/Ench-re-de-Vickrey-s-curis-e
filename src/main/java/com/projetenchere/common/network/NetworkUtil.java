@@ -36,7 +36,6 @@ public class NetworkUtil {
     }
 
     public static String getMyIP() throws UnknownHostException {
-        InetAddress localHost = InetAddress.getLocalHost();
-        return localHost.getHostAddress();
+        return InetAddress.getLocalHost().getHostAddress();
     }
 }
