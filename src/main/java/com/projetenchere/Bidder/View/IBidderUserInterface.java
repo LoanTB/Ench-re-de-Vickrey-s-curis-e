@@ -13,9 +13,6 @@ public interface IBidderUserInterface {
 
     void tellOfferLost();
 
-    void tellOfferAlreadySent();
-
-
 
 
 }
