@@ -5,7 +5,6 @@ import java.security.PublicKey;
 public class BidStarter {
     private PublicKey managerPublicKey;
     private Bid currentBid;
-
     private String sellerAdress;
 
     public String getSellerAdress() {

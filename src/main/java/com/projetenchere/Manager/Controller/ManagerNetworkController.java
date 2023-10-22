@@ -3,7 +3,7 @@ package com.projetenchere.Manager.Controller;
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
-import com.projetenchere.common.Model.Serializable.ObjectSender;
+import com.projetenchere.common.Model.Sendable.ObjectSender;
 import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.Util.NetworkUtil;
 
@@ -12,9 +12,14 @@ import java.net.UnknownHostException;
 
 public class ManagerNetworkController {
     final private String ManagerIp;
-    final private int ManagerPort = 2463;
+    final private int ManagerPort = 24683;
     private String sellerAddress;
     private int SellerPort = 24682;
+    private int BidderPort = 24681;
+
+    public int getBidderPort() {
+        return BidderPort;
+    }
 
     public String getManagerIp() {
         return ManagerIp;
@@ -53,7 +58,7 @@ public class ManagerNetworkController {
         Bid currentBid = currentBidStarter.getCurrentBid();
         while (!currentBid.isOver()) {
             ObjectSender request = NetworkUtil.receive(getManagerPort());
-            if (request.getObject() == "getBidderInitPackage") {
+            if ((request.getObject()).equals("getBidderInitPackage")) {
                 sendBidAndKey(currentBidStarter);
             }
         }
@@ -61,7 +66,7 @@ public class ManagerNetworkController {
 
     public void sendBidAndKey(BidStarter currentStarter) throws IOException {
         ObjectSender pack = new ObjectSender(getManagerIp(), getManagerPort(), currentStarter, BidStarter.class);
-        NetworkUtil.send(getManagerIp(), getManagerPort(), pack);
+        NetworkUtil.send(getManagerIp(), getBidderPort(), pack);
     }
 
     public EncryptedPrices fetchEncryptedPrice() throws IOException, ClassNotFoundException {

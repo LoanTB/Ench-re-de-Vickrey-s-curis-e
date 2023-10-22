@@ -9,6 +9,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class ManagerCommandLineInterface implements IManagerUserInterface {
     public static final Scanner scanner = new Scanner(System.in);
@@ -20,8 +22,22 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
         System.out.println(message);
     }
 
-    public String readMessage() {
-        return scanner.nextLine();
+    public String readMessage(int maxLength) {
+        String input = "";
+        boolean askinput = true;
+         while (askinput){
+             input = scanner.nextLine();
+             if(input.length() > maxLength){
+                 System.err.println("Le champ dépasse la taille maximale autorisée. Veuillez réessayer.");
+             }
+             if(input.length() <= 2 ){
+                 System.err.println("Entrée trop courte. Veuillez réessayer.");
+             }
+             else {
+                askinput = false;
+             }
+         }
+         return input;
     }
 
     @Override
@@ -48,8 +64,8 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
         LocalDateTime dateTime = LocalDateTime.now();
         String dateStr = "";
         while (checkType) {
-            showMessage("Veuillez saisir la date de fin de l'enchère au format dd-MM-yyyy HH:mm:ss ");
-            dateStr = readMessage();
+            showMessage("Veuillez saisir la date de fin de l'enchère au format dd-MM-yyyy HH:mm:ss");
+            dateStr = readMessage(19);
             if (isValidDateFormat(dateStr, formatter)) {
 
                 dateTime = LocalDateTime.parse(dateStr, formatter);
@@ -69,18 +85,39 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
     @Override
     public String askBidDescription() {
         showMessage("Veuillez saisir la description de l'enchère : ");
-        return readMessage();
+        return readMessage(50);
     }
 
     @Override
     public String askBidName() {
-        showMessage("Veuillez saisir le nom de l'enchère : ");
-        return readMessage();
+        int maxLength = 20;
+        showMessage("Veuillez saisir le nom de l'enchère (taille max "+ maxLength +" caractères) : ");
+        return readMessage(maxLength);
     }
     @Override
     public String askSellerAddress() {
-        showMessage("Veuillez saisir l'addresse du vendeur : ");
-        return readMessage();
+        String input = "";
+        boolean askAddress = true;
+
+        String ipAddressPattern = "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
+                "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
+                "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
+                "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
+
+        Pattern pattern = Pattern.compile(ipAddressPattern);
+
+        while (askAddress) {
+            showMessage("Veuillez saisir l'addresse IP  du vendeur au format xxx.xxx.xxx.xxx  : ");
+
+            input = readMessage(15);
+            Matcher matcher = pattern.matcher(input);
+            if (!matcher.matches()) {
+                showMessage("Adresse IP invalide. Veuillez réessayer.");
+            } else {
+                askAddress = false;
+            }
+        }
+        return input;
     }
     @Override
     public void displayPrices(Set<Double> AllPrices) {
