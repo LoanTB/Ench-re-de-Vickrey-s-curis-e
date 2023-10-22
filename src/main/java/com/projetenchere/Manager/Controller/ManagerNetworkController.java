@@ -14,7 +14,7 @@ public class ManagerNetworkController {
     final private String ManagerIp;
     final private int ManagerPort = 2463;
     private String sellerAddress;
-    private final int SellerPort = 24682;
+    private int SellerPort = 24682;
 
     public String getManagerIp() {
         return ManagerIp;
@@ -32,6 +32,9 @@ public class ManagerNetworkController {
         this.sellerAddress = sellerAddress;
     }
 
+    public void setSellerPort(int sellerPort) {
+        SellerPort = sellerPort;
+    }
 
     public int getSellerPort() {
         return SellerPort;

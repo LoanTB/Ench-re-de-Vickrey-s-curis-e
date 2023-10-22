@@ -19,7 +19,7 @@ import java.util.Set;
 public class ManagerController {
     public final IManagerUserInterface ui = new ManagerCommandLineInterface();
     public final ManagerNetworkController networkController = new ManagerNetworkController();
-    public Manager manager = new Manager();
+    public final Manager manager = new Manager();
 
     public ManagerController() throws UnknownHostException {
     }
