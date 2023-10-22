@@ -30,6 +30,7 @@ public class SellerController {
 
     public void fetchCurrentBid(){
         this.currentBid = networkController.fetchBid();
+        ui.displayBidReceived();
     }
 
     public boolean auctionInProgress(){

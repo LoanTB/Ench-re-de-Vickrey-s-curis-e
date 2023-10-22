@@ -12,6 +12,7 @@ public interface ISellerUserInterface {
     void displayOfferReceived(EncryptedOffer encryptedOffer);
     void displayEncryptedPriceSended();
     void displayResultsSent();
+    void displayBidReceived();
 
 
 }
