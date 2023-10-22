@@ -27,7 +27,7 @@ public class NetworkUtilTest {
 
         clientThread = new Thread(() -> {
             try {
-                data[1] = (ObjectSender) NetworkUtil.receive(24681);
+                data[1] = (ObjectSender) NetworkUtil.receive(24681,1000);
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException("Erreur côté client: " + e);
             }
@@ -52,7 +52,7 @@ public class NetworkUtilTest {
 
         clientThread = new Thread(() -> {
             try {
-                data[1] = (ObjectSender) NetworkUtil.receive(data[1].getPORT_sender());
+                data[1] = (ObjectSender) NetworkUtil.receive(data[1].getPORT_sender(),1000);
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException("Erreur côté client: " + e);
             }

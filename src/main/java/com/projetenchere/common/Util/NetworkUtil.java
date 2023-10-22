@@ -10,9 +10,9 @@ import java.net.*;
 
 public class NetworkUtil {
 
-    public static ObjectSender receive(int port) throws IOException, ClassNotFoundException, InvalidClassException {
+    public static ObjectSender receive(int port, int timout) throws IOException, ClassNotFoundException, InvalidClassException {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            serverSocket.setSoTimeout(5000);// 5 seconds
+            serverSocket.setSoTimeout(timout);
             try (Socket clientSocket = serverSocket.accept();
                  ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream())) {
 
