@@ -1,4 +1,6 @@
-package com.projetenchere.common.network;
+package com.projetenchere.common.Util;
+
+import com.projetenchere.common.Model.Serializable.ObjectSender;
 
 import java.io.IOException;
 import java.io.InvalidClassException;
