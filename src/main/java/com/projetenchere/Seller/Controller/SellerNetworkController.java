@@ -22,6 +22,8 @@ public class SellerNetworkController {
         NetworkUtil.send(SellerIp,SellerPort,objectSender);
     }
 
+
+
     public ObjectSender getEncryptedOfferRequests() throws IOException, ClassNotFoundException {
         ObjectSender request;
         do {

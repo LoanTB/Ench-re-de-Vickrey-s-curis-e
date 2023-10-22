@@ -20,42 +20,48 @@ public class SellerApp {
     public static void main(String[] args) throws ClassNotFoundException, IOException {
         Seller seller = new Seller();
         SellerController controller = new SellerController();
-        SellerNetworkController networkController = new SellerNetworkController();
+
 
         controller.diplayHello();
 
         int end = 1;// TODO : Connaitre la date de fin d'une enchère
         int now = 0;
 
-        EncryptedOffer offerRecieved;
+        EncryptedOffer offerReceived;
         while (end-now > 0){
             try{
-                ObjectSender request = networkController.getEncryptedOfferRequests();
-                offerRecieved = (EncryptedOffer) request.getObjectClass().cast(request.getObject());
-                seller.addEncryptedOffer(offerRecieved);
-                seller.addBidderIp(request.getIP_serder());
+                ObjectSender request = controller.getEncryptedOfferRequests();
+                offerReceived = (EncryptedOffer) request.getObjectClass().cast(request.getObject());
+                seller.addEncryptedOffer(offerReceived);
+                seller.addBidderIp(request.getIP_sender());
                 seller.addBidderPort(request.getPORT_sender());
-                controller.displayOfferReceived(offerRecieved);
+                controller.displayOfferReceived(offerReceived);
             } catch (SocketTimeoutException e){}
         }
 
-        networkController.sendEncryptedPrices(controller.getEncryptedPrices(seller.getEncryptedOffers()));
+        controller.sendEncryptedPrices(seller.getEncryptedOffers());
         controller.displayEncryptedPriceSended();
 
         Winner winner = null;
+        //TODO: refactorer
+        /*
         while (winner == null){
             try{
-                winner = networkController.getWinnerRequests();
+
+                // winner = networkController.getWinnerRequests();
             } catch (SocketTimeoutException e){}
-        }
+        }*/
 
         List<Double> biddersWinStatus = controller.getBiddersWinStatus(seller.getEncryptedOffers(),winner);
         controller.displayWinner(seller.getEncryptedOffers(),biddersWinStatus,winner);
 
+        //TODO: refactorer
+        /*
         for (int i=0;i<biddersWinStatus.size();i++){
-            ObjectSender data = new ObjectSender(networkController.getSellerIp(), networkController.getSellerPort(), biddersWinStatus.get(i), Double.class);
+
+            //TODO: ObjectSender data = new ObjectSender(networkController.getSellerIp(), networkController.getSellerPort(), biddersWinStatus.get(i), Double.class);
             NetworkUtil.send(seller.getBiddersIps().get(i),seller.getBiddersPorts().get(i),data);
-        }
+        }*/
 
         controller.displayResultsSent();
     }
