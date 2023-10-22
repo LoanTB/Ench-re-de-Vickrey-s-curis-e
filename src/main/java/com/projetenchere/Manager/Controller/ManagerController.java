@@ -45,7 +45,7 @@ public class ManagerController {
         manager.setManagerKeys(EncryptionUtil.generateKeyPair());
     }
 
-    public void launchBid(Bid currentBid) throws IOException, ClassNotFoundException {
+    public void launchBid(Bid currentBid) throws IOException, ClassNotFoundException, InterruptedException {
         BidStarter currentBidStarter = new BidStarter(manager.getManagerPublicKey(), currentBid, networkController.getSellerAddress());
         networkController.waitAskInitPackByBidder(currentBidStarter);
     }

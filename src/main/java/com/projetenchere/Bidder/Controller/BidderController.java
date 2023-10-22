@@ -22,19 +22,6 @@ public class BidderController {
         return ui.readOffer();
     }
 
-    public void loadInitPackage() throws IOException, ClassNotFoundException {
-         BidStarter bidStart = network.askForInitPackage();
-         this.currentBid = bidStart.getCurrentBid();
-         this.publicKey = bidStart.getManagerPublicKey();
-
-
-    }
-
-    public boolean askSellerIfAlreadySentOffer() {
-        //TODO: ask seller over network
-        return true;
-    }
-
     public void showBid() {
         ui.displayBid(this.currentBid);
     }
