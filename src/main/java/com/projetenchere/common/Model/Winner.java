@@ -1,6 +1,8 @@
 package com.projetenchere.common.Model;
 
-public class Winner {
+import java.io.Serializable;
+
+public class Winner implements Serializable{
     final byte[] encryptedMaxprice;
     final double priceToPay;
 
