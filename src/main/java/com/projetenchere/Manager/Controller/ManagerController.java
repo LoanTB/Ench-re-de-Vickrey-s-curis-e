@@ -81,23 +81,26 @@ public class ManagerController {
                 }
             }
         }
-        if(secondPrice == 0){
+        if (secondPrice == 0) {
             secondPrice = firstPrice;
         }
-        byte[] winnerCypher = EncryptionUtil.encrypt(secondPrice, managerKey);
+        byte[] winnerCypher = EncryptionUtil.encrypt(firstPrice, managerKey);
 
-        return new Winner(winnerCypher, firstPrice);
+        return new Winner(winnerCypher, secondPrice);
     }
+
     public Winner processPrices(EncryptedPrices encrypted) throws Exception {
         Set<Double> currentDecryptedPrices = decryptEncryptedPrice(encrypted, manager.getManagerPrivateKey());
         showPrices(currentDecryptedPrices);
 
-       Winner win = getWinnerPrice(manager.getManagerPublicKey(), currentDecryptedPrices);
+        Winner win = getWinnerPrice(manager.getManagerPublicKey(), currentDecryptedPrices);
         return win;
     }
+
     public void showWinnerPrice(Winner winner) {
         ui.displayWinnerPrice(winner);
     }
+
     public void endBid(Winner win) throws IOException {
         networkController.sendWinnerAndPrice(win);
     }
