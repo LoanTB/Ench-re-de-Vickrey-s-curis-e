@@ -72,7 +72,6 @@ public class ManagerController {
         double secondPrice = 0;
 
         for (Double priceProcess : prices) {
-
             if (priceProcess > secondPrice) {
                 if (priceProcess > firstPrice) {
                     secondPrice = firstPrice;
@@ -82,7 +81,9 @@ public class ManagerController {
                 }
             }
         }
-
+        if(secondPrice == 0){
+            secondPrice = firstPrice;
+        }
         byte[] winnerCypher = EncryptionUtil.encrypt(secondPrice, managerKey);
 
         return new Winner(winnerCypher, firstPrice);
