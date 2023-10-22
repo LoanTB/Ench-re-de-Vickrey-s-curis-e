@@ -16,7 +16,7 @@ public interface IManagerUserInterface {
 
     LocalDateTime askBidEndTime();
 
-    String askSellerAdress();
+    String askSellerAddress();
 
     void displayPrices(Set<Double> DecryptedPrice);
 
