@@ -3,7 +3,7 @@ package com.projetenchere.Seller.Controller;
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
-import com.projetenchere.common.Model.Serializable.ObjectSender;
+import com.projetenchere.common.Model.Sendable.ObjectSender;
 import com.projetenchere.common.Model.Winner;
 import com.projetenchere.common.Util.NetworkUtil;
 
@@ -50,7 +50,7 @@ public class SellerNetworkController {
         while (true){
             try{
                 return NetworkUtil.receive(SellerPort);
-            } catch (IOException | ClassNotFoundException e){}
+            } catch (IOException | ClassNotFoundException ignored){}
         }
     }
 
