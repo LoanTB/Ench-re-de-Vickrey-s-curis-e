@@ -1,29 +1,28 @@
 package com.projetenchere.common.Model;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 
-public class Offer {
+public class Offer implements Serializable {
     private final String idBidder;
-    private final float value;
+    private final double price;
 
-    public Offer(String idBidder, float value) {
+    public Offer(String idBidder, double price) {
         this.idBidder = idBidder;
-        this.value = value;
+        this.price = price;
     }
 
-    public Offer(String idBidder, String value){// throws NumberFormatException
+    public Offer(String idBidder, String price){
         this.idBidder = idBidder;
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        this.value = Float.parseFloat(df.format(value));
+        this.price = Double.parseDouble(price);
     }
 
     public String getIdBidder() {
         return idBidder;
     }
 
-    public float getValue() {
-        return value;
+    public double getPrice() {
+        return price;
     }
 }
 

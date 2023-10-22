@@ -1,5 +1,6 @@
 package com.projetenchere.Bidder.View.commandLineInterface;
 
+import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.Offer;
@@ -22,29 +23,42 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     @Override
     public void displayBid(Bid bid) {
+        showMessage("Bienvenue!");
+        showMessage("Enchère Actuelle :");
         showMessage(bid._toString());
 
     }
 
     @Override
-    public Offer readOffer() {
+    public Offer readOffer(Bidder bidder) {
+        showMessage("Quel est votre prix ?");
         String offerString = readMessage();
-        return new Offer("ID_Bidder",offerString);// TODO : Change ID_Bidder by the real name of the bidder
+        return new Offer(bidder.getId(), offerString);
     }
 
     @Override
-    public void tellOfferWon(int priceToPay) {
-        showMessage("Your offer won, you have to pay " + priceToPay + "€");
+    public void tellOfferWon(double priceToPay) {
+        showMessage("Votre offre a gagné, vous devez payer " + priceToPay + "€");
     }
 
 
     @Override
     public void tellOfferLost() {
-        showMessage("Your offer lost");
+        showMessage("Votre offre a perdu");
     }
 
     @Override
-    public void tellOfferAlreadySent() {
-        showMessage("You have already sent an offer for this bid.");
+    public String readName() {
+        showMessage("Quel est votre nom ?");
+        return readMessage();
     }
+
+    @Override
+    public int readPort() {
+        showMessage("Quel port voulez-vous utiliser ?");
+        String portString = readMessage();
+        return Integer.parseInt(portString);
+    }
+
+
 }

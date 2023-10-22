@@ -1,45 +1,54 @@
 package com.projetenchere.Bidder.Controller;
 
+import com.projetenchere.Bidder.Controller.network.BidderNetworkController;
+import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
 import com.projetenchere.common.Model.Bid;
+import com.projetenchere.common.Model.BidStarter;
+import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Offer;
 
+import java.io.IOException;
+import java.security.PublicKey;
+
 public class BidderController {
-    public static final IBidderUserInterface ui = new BidderCommandLineInterface();
+    private final IBidderUserInterface ui = new BidderCommandLineInterface();
+    private final BidderNetworkController network = new BidderNetworkController();
 
 
-    public Offer readOfferFromInterface() {
-        return ui.readOffer();
+    private String sellerIP;
+    private PublicKey publicKey;
+    private Bid currentBid;
+    private final Bidder bidder = new Bidder();
+
+
+    public Offer readOfferFromInterface(){
+        return ui.readOffer(bidder);
     }
 
-    public Bid fetchCurrentBid() {
-        return new Bid();
-        //TODO: fetch Bid with network
+    public void readPort() {
+        this.bidder.setPort(ui.readPort());
     }
 
-    public boolean askSellerIfAlreadySentOffer() {
-        //TODO: ask seller over network
-        return true;
+    public void showBid() {
+        ui.displayBid(this.currentBid);
     }
 
-    public void showBid(Bid bid) {
-        ui.displayBid(bid);
+    public void readName() {
+        this.bidder.setId(ui.readName());
     }
 
-    public void sendOffer(Offer offer) {
-        //TODO: send offer with network
+    public void readAndSendOffer() throws Exception {
+        Offer offer = readOfferFromInterface();
+        EncryptedOffer encryptedOffer = new EncryptedOffer(offer, publicKey);
+        network.sendOffer(encryptedOffer, sellerIP, bidder.getPort());
     }
 
-    private int fetchPriceToPay() {
-        // returns -1 if offer lost
-        //TODO: ask over network
-        return 0;
-    }
-
-    private void checkWinAndTell() {
-         int priceToPay = fetchPriceToPay();
-         if (priceToPay == -1) {
+    public void waitForPrice() throws IOException, ClassNotFoundException {
+         double priceToPay = network.fetchPrice(bidder.getPort());
+         System.out.println(priceToPay);
+         if (priceToPay < 0D){
              ui.tellOfferLost();
          }
          else {
@@ -48,13 +57,10 @@ public class BidderController {
 
     }
 
-    public void whenAlreadySentOffer() {
-        if (fetchCurrentBid().isOver()) {
-            checkWinAndTell();
-        } else {
-            ui.tellOfferAlreadySent();
-        }
+    public void fetchInitPackage() throws IOException, ClassNotFoundException {
+        BidStarter bidStarter = network.askForInitPackage(bidder.getPort());
+        this.currentBid = bidStarter.getCurrentBid();
+        this.publicKey = bidStarter.getManagerPublicKey();
+        this.sellerIP = bidStarter.getSellerAddress();
     }
-
-
 }

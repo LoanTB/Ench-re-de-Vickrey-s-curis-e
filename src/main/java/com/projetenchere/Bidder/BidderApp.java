@@ -1,22 +1,18 @@
 package com.projetenchere.Bidder;
 
 import com.projetenchere.Bidder.Controller.BidderController;
-import com.projetenchere.Bidder.Controller.BidderNetworkController;
-import com.projetenchere.Bidder.Model.Bidder;
-import com.projetenchere.common.Model.Bid;
-import com.projetenchere.common.Model.Offer;
+
+import java.io.IOException;
 
 public class BidderApp {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         BidderController controller = new BidderController();
-        Bid currentBid = controller.fetchCurrentBid();
-        controller.showBid(currentBid);
-        if (controller.askSellerIfAlreadySentOffer()) {
-            controller.whenAlreadySentOffer();
-        } else {
-            Offer offer = controller.readOfferFromInterface();
-            controller.sendOffer(offer);
-        }
+        controller.readName();
+        controller.readPort();
+        controller.fetchInitPackage();
+        controller.showBid();
+        controller.readAndSendOffer();
+        controller.waitForPrice();
     }
 
 
