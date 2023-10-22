@@ -23,6 +23,8 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     @Override
     public void displayBid(Bid bid) {
+        showMessage("Bienvenue!");
+        showMessage("Enchère Actuelle :");
         showMessage(bid._toString());
 
     }
