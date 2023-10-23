@@ -3,15 +3,16 @@ package com.projetenchere.common.Model.Encrypted;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class EncryptedPrices implements Serializable {
-    private final List<byte[]> prices;
+    private final Set<byte[]> prices;
 
-    public EncryptedPrices(ArrayList<byte[]> prices) {
+    public EncryptedPrices(Set<byte[]> prices) {
         this.prices = prices;
     }
 
-    public List<byte[]> getPrices() {
+    public Set<byte[]> getPrices() {
         return prices;
     }
 }

@@ -79,7 +79,7 @@ public class SellerController {
     }
 
     public EncryptedPrices getEncryptedPrices(List<EncryptedOffer> encryptedOffers){
-        ArrayList<byte[]> encryptedPrices = new ArrayList<>();
+        Set<byte[]> encryptedPrices = new HashSet<>();
         for (EncryptedOffer encryptedOffer: encryptedOffers){
             encryptedPrices.add(encryptedOffer.getPrice());
         }

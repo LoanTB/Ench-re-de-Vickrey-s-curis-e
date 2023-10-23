@@ -16,10 +16,10 @@ public class ManagerApp {
         controller.launchBid(currentBid);
         System.out.println("Reception des prix ...");
         EncryptedPrices pricesReceived = controller.waitEncryptedPrices();
-        System.out.println("Traitement des prix :");
+        System.out.println("Traitement des prix...");
         Winner winnerForCurrentBid = controller.processPrices(pricesReceived);
-        System.out.println("\nPrix traités.");
         controller.showWinnerPrice(winnerForCurrentBid);
+        System.out.println("Envoie du prix gagnant...");
         controller.endBid(winnerForCurrentBid);
         System.out.println("Fin des enchères !");
     }

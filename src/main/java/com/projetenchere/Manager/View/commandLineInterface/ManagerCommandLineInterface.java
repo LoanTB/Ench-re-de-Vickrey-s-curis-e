@@ -7,7 +7,6 @@ import com.projetenchere.common.Model.Winner;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,9 +14,7 @@ import java.util.regex.Pattern;
 public class ManagerCommandLineInterface implements IManagerUserInterface {
     public static final Scanner scanner = new Scanner(System.in);
 
-    public ManagerCommandLineInterface() {
-
-    }
+    public ManagerCommandLineInterface() {}
 
     private static boolean isValidDateFormat(String value, DateTimeFormatter formatter) {
         try {
@@ -119,13 +116,6 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
             }
         }
         return input;
-    }
-
-    @Override
-    public void displayPrices(List<Double> AllPrices) {
-        for (Double price : AllPrices) {
-            System.out.println(price);
-        }
     }
 
     @Override

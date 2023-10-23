@@ -53,51 +53,28 @@ public class ManagerController {
         return networkController.fetchEncryptedPrice();
     }
 
-    public List<Double> decryptEncryptedPrice(EncryptedPrices receivedPrices, PrivateKey managerPrivateKey) throws Exception {
-        List<Double> decryptedPrice = new ArrayList<>();
-        for (byte[] encrypted : receivedPrices.getPrices()) {
-            decryptedPrice.add(EncryptionUtil.decrypt(encrypted, managerPrivateKey));
-        }
-        return decryptedPrice;
-    }
-
-    public void showPrices(List<Double> decryptedPrice) {
-        ui.displayPrices(decryptedPrice);
-    }
-
-    public Winner getWinnerPrice(EncryptedPrices encryptedPrices, List<Double> prices) throws Exception {
-
-        Double firstPrice = 0.0;
-        Double secondPrice = 0.0;
-
-        int indexMax = 0;
-        for (int i = 0 ; i<prices.size();i++){
-            Double priceProcess = prices.get(i);
-            if (priceProcess > secondPrice) {
-                if (priceProcess > firstPrice) {
-                    secondPrice = firstPrice;
-                    firstPrice = priceProcess;
-                    indexMax = i;
-                } else {
-                    secondPrice = priceProcess;
-                }
+    public Winner processPrices(EncryptedPrices encryptedPrices) throws Exception {
+        double price1 = 0;
+        byte[] encrypted1 = null;
+        double decrypted;
+        for (byte[] encrypted : encryptedPrices.getPrices()) {
+            decrypted = EncryptionUtil.decrypt(encrypted,manager.getManagerPrivateKey());
+            if (decrypted > price1){
+                price1 = decrypted;
+                encrypted1 = encrypted;
             }
         }
-        if (secondPrice.equals(0.0)) {
-            secondPrice = firstPrice;
+        double price2 = -1;
+        for (byte[] encrypted : encryptedPrices.getPrices()) {
+            decrypted = EncryptionUtil.decrypt(encrypted,manager.getManagerPrivateKey());
+            if (decrypted > price2 && decrypted != price1){
+                price2 = decrypted;
+            }
         }
-
-        byte[] winnerCypher = encryptedPrices.getPrices().get(indexMax);
-
-        return new Winner(winnerCypher, secondPrice);
-    }
-
-    public Winner processPrices(EncryptedPrices encrypted) throws Exception {
-        List<Double> currentDecryptedPrices = decryptEncryptedPrice(encrypted, manager.getManagerPrivateKey());
-        showPrices(currentDecryptedPrices);
-
-        Winner win = getWinnerPrice(encrypted, currentDecryptedPrices);
-        return win;
+        if (price2 == -1){
+            price2 = price1;
+        }
+        return new Winner(encrypted1,price2);
     }
 
     public void showWinnerPrice(Winner winner) {

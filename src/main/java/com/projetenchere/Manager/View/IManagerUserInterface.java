@@ -20,5 +20,4 @@ public interface IManagerUserInterface {
 
     void displayWinnerPrice(Winner winner);
 
-    void displayPrices(List<Double> decryptedPrice);
 }
