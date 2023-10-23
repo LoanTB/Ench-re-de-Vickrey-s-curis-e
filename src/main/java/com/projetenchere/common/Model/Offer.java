@@ -1,7 +1,6 @@
 package com.projetenchere.common.Model;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 
 public class Offer implements Serializable {
     private final String idBidder;

@@ -6,7 +6,11 @@ import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.*;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 public class NetworkUtil {
 
@@ -37,7 +41,7 @@ public class NetworkUtil {
         }
     }
 
-    public static String getMyIP() throws UnknownHostException {
+    public static String getMyIP() throws UnknownHostException{
         return InetAddress.getLocalHost().getHostAddress();
     }
 }

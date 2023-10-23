@@ -2,12 +2,10 @@ package com.projetenchere.Bidder.Controller.network;
 
 import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Model.Offer;
 import com.projetenchere.common.Model.Sendable.ObjectSender;
 import com.projetenchere.common.Util.NetworkUtil;
 
 import java.io.IOException;
-import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 public class BidderNetworkController {

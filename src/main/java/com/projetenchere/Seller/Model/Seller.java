@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Seller {
-
     private final List<String> biddersIps = new ArrayList<>();
     private final List<Integer> biddersPorts = new ArrayList<>();
     private final List<EncryptedOffer> encryptedOffers = new ArrayList<>();

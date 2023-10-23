@@ -12,7 +12,6 @@ import com.projetenchere.common.Util.EncryptionUtil;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
