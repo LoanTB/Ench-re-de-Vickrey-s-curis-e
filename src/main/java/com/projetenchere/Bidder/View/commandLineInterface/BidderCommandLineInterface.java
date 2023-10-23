@@ -25,8 +25,7 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     public void displayBid(Bid bid) {
         showMessage("Bienvenue!");
         showMessage("Enchère Actuelle :");
-        showMessage(bid._toString());
-
+        showMessage(bid._toString()+"\n");
     }
 
     @Override
@@ -65,9 +64,15 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     @Override
     public int readPort() {
-        showMessage("Quel port voulez-vous utiliser ?");
+        showMessage("Quel port voulez-vous utiliser ? (49152 à 65535)");
         String portString = readMessage();
-        return Integer.parseInt(portString);
+        int port = Integer.parseInt(portString);
+        while (port < 49152 || port > 65535){
+            showMessage("Port invalide, entrez un port valide (entre 49152 et 65535) :");
+            portString = readMessage();
+            port = Integer.parseInt(portString);
+        }
+        return port;
     }
 
 

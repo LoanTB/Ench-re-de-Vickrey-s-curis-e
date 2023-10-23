@@ -49,7 +49,7 @@ public class BidderController {
     public void waitForPrice() throws IOException, ClassNotFoundException {
         ui.tellWaitOfferResult();
          double priceToPay = network.fetchPrice(bidder.getPort());
-         System.out.println(priceToPay);
+         //System.out.println(priceToPay);
          if (priceToPay < 0D){
              ui.tellOfferLost();
          }

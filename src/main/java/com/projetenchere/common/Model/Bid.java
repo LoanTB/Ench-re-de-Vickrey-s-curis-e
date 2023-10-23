@@ -35,7 +35,10 @@ public class Bid implements Serializable {
     }
 
     public String _toString() {
-        return "Nom : " + bidName + "\nDate de création : " + date.toString() + "\nDescription : " + bidDescription + "." + "\nDate de fin : " + endDateTime.toString() + ".";
+        return "Nom : " + bidName +
+                "\nDate de création : " + date.toString() +
+                "\nDescription : " + bidDescription + "." +
+                "\nDate de fin : " + endDateTime.toString() + ".";
     }
 
     public boolean isOver() {

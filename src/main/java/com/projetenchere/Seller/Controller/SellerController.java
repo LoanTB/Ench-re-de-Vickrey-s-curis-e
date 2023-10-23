@@ -32,7 +32,7 @@ public class SellerController {
 
     public void fetchCurrentBid(){
         this.currentBid = networkController.fetchBid();
-        ui.displayBidReceived();
+        ui.displayBidReceived(this.currentBid._toString());
     }
 
     public boolean auctionInProgress(){
@@ -40,6 +40,7 @@ public class SellerController {
     }
 
     public void receiveOffersUntilBidEnd(){
+        ui.waitOffers();
         EncryptedOffer offerReceived;
         while (auctionInProgress()){
             try{

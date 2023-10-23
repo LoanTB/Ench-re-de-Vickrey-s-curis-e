@@ -19,7 +19,7 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
 
     @Override
     public void displayWinner(String winnerID, Double price) {
-        showMessage("Le grand gagnant est "+winnerID+" ! La mise à payer est de "+price);
+        showMessage("Le grand gagnant est "+winnerID+" ! La mise à payer est de "+price+"€.");
     }
 
     @Override
@@ -43,10 +43,14 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     }
 
     @Override
-    public void displayBidReceived(){
-        showMessage("Enchère reçue.");
+    public void displayBidReceived(String bid){
+        showMessage("Enchère reçue :");
+        showMessage(bid+"\n");
     }
 
-
+    @Override
+    public void waitOffers(){
+        showMessage("Attente d'offres...");
+    }
 
 }

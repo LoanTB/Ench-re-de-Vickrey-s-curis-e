@@ -16,9 +16,9 @@ public class ManagerApp {
         controller.launchBid(currentBid);
         System.out.println("Reception des prix ...");
         EncryptedPrices pricesReceived = controller.waitEncryptedPrices();
-        System.out.println("Traitement des prix ...");
+        System.out.println("Traitement des prix :");
         Winner winnerForCurrentBid = controller.processPrices(pricesReceived);
-        System.out.println("Prix traités. Gagnant : ");
+        System.out.println("\nPrix traités.");
         controller.showWinnerPrice(winnerForCurrentBid);
         controller.endBid(winnerForCurrentBid);
         System.out.println("Fin des enchères !");
