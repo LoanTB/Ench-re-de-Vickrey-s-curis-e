@@ -19,7 +19,7 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
 
     @Override
     public void displayWinner(String winnerID, Double price) {
-        showMessage("Le grand gagnant est "+winnerID+" ! La mise à payé est de "+price);
+        showMessage("Le grand gagnant est "+winnerID+" ! La mise à payer est de "+price);
     }
 
     @Override
