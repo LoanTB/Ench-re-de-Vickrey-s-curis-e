@@ -56,9 +56,9 @@ public class ManagerNetworkController {
         Bid currentBid = currentBidStarter.getCurrentBid();
         while (!currentBid.isOver()) {
             try {
-                ObjectSender request = NetworkUtil.receive(getManagerPort(),5000);
+                ObjectSender request = NetworkUtil.receive(getManagerPort(),2000);
                 if ((request.getObject()).equals("getBidderInitPackage")) {
-                    sleep(50);
+                    sleep(100);
                     sendBidAndKey(currentBidStarter, request.getPORT_sender(), request.getIP_sender());
                 }
             } catch (SocketTimeoutException ignored) {

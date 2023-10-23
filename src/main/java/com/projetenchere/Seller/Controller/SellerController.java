@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
 
+import static java.lang.Thread.sleep;
+
 public class SellerController {
 
     private static final ISellerUserInterface ui = new SellerCommandLineInterface();
@@ -87,7 +89,8 @@ public class SellerController {
         return networkController.fetchEncryptedOffer();
     }
 
-    public void sendEncryptedPrices() throws IOException {
+    public void sendEncryptedPrices() throws IOException, InterruptedException {
+        sleep(3000);
         networkController.sendEncryptedPrices(getEncryptedPrices(seller.getEncryptedOffers()));
     }
 
