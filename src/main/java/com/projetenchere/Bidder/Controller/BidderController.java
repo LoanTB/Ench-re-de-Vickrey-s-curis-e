@@ -43,9 +43,11 @@ public class BidderController {
         Offer offer = readOfferFromInterface();
         EncryptedOffer encryptedOffer = new EncryptedOffer(offer, publicKey);
         network.sendOffer(encryptedOffer, sellerIP, bidder.getPort());
+        ui.tellOfferSent();
     }
 
     public void waitForPrice() throws IOException, ClassNotFoundException {
+        ui.tellWaitOfferResult();
          double priceToPay = network.fetchPrice(bidder.getPort());
          System.out.println(priceToPay);
          if (priceToPay < 0D){

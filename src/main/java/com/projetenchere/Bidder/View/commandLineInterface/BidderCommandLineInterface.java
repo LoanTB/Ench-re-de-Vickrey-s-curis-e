@@ -48,6 +48,16 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
+    public void tellOfferSent(){
+        showMessage("Votre offre a bien été envoyé");
+    }
+
+    @Override
+    public void tellWaitOfferResult(){
+        showMessage("Attente des résultats...");
+    }
+
+    @Override
     public String readName() {
         showMessage("Quel est votre nom ?");
         return readMessage();
