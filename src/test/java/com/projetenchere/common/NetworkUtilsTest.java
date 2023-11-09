@@ -1,13 +1,13 @@
 package com.projetenchere.common;
 
-import com.projetenchere.common.Util.NetworkUtil;
+import com.projetenchere.common.Util.NetworkUtils;
 import com.projetenchere.common.Model.Sendable.ObjectSender;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class NetworkUtilTest {
+public class NetworkUtilsTest {
 
     Thread serverThread;
     Thread clientThread;
@@ -18,8 +18,8 @@ public class NetworkUtilTest {
 
         serverThread = new Thread(() -> {
             try {
-                data[0] =  new ObjectSender(NetworkUtil.getMyIP(),24681,new String("Super message !"),String.class);
-                NetworkUtil.send(NetworkUtil.getMyIP(), 24681,data[0]);
+                data[0] =  new ObjectSender(NetworkUtils.getMyIP(),24681,new String("Super message !"),String.class);
+                NetworkUtils.send(NetworkUtils.getMyIP(), 24681,data[0]);
             } catch (IOException e) {
                 throw new RuntimeException("Erreur côté serveur: " + e);
             }
@@ -27,7 +27,7 @@ public class NetworkUtilTest {
 
         clientThread = new Thread(() -> {
             try {
-                data[1] = (ObjectSender) NetworkUtil.receive(24681,1000);
+                data[1] = (ObjectSender) NetworkUtils.receive(24681,1000);
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException("Erreur côté client: " + e);
             }
@@ -43,8 +43,8 @@ public class NetworkUtilTest {
 
         serverThread = new Thread(() -> {
             try {
-                data[0] =  new ObjectSender(NetworkUtil.getMyIP(),24681,new String("Oui !"),String.class);
-                NetworkUtil.send(data[1].getIP_sender(),data[1].getPORT_sender(),data[0]);
+                data[0] =  new ObjectSender(NetworkUtils.getMyIP(),24681,new String("Oui !"),String.class);
+                NetworkUtils.send(data[1].getIP_sender(),data[1].getPORT_sender(),data[0]);
             } catch (IOException e) {
                 throw new RuntimeException("Erreur côté serveur: " + e);
             }
@@ -52,7 +52,7 @@ public class NetworkUtilTest {
 
         clientThread = new Thread(() -> {
             try {
-                data[1] = (ObjectSender) NetworkUtil.receive(data[1].getPORT_sender(),1000);
+                data[1] = (ObjectSender) NetworkUtils.receive(data[1].getPORT_sender(),1000);
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException("Erreur côté client: " + e);
             }

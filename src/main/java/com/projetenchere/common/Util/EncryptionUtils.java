@@ -7,7 +7,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.nio.ByteBuffer;
 
-public class EncryptionUtil {
+public class EncryptionUtils {
     public static KeyPair generateKeyPair() throws Exception {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);

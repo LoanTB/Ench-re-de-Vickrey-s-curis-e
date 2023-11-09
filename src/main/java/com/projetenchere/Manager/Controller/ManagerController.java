@@ -7,13 +7,10 @@ import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Model.Winner;
-import com.projetenchere.common.Util.EncryptionUtil;
+import com.projetenchere.common.Util.EncryptionUtils;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.security.PrivateKey;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ManagerController {
     public final IManagerUserInterface ui = new ManagerCommandLineInterface();
@@ -41,7 +38,7 @@ public class ManagerController {
     }
 
     public void generateManagerKeys() throws Exception {
-        manager.setManagerKeys(EncryptionUtil.generateKeyPair());
+        manager.setManagerKeys(EncryptionUtils.generateKeyPair());
     }
 
     public void launchBid(Bid currentBid) throws IOException, ClassNotFoundException, InterruptedException {
@@ -58,7 +55,7 @@ public class ManagerController {
         byte[] encrypted1 = null;
         double decrypted;
         for (byte[] encrypted : encryptedPrices.getPrices()) {
-            decrypted = EncryptionUtil.decrypt(encrypted,manager.getManagerPrivateKey());
+            decrypted = EncryptionUtils.decrypt(encrypted,manager.getManagerPrivateKey());
             if (decrypted > price1){
                 price1 = decrypted;
                 encrypted1 = encrypted;
@@ -66,7 +63,7 @@ public class ManagerController {
         }
         double price2 = -1;
         for (byte[] encrypted : encryptedPrices.getPrices()) {
-            decrypted = EncryptionUtil.decrypt(encrypted,manager.getManagerPrivateKey());
+            decrypted = EncryptionUtils.decrypt(encrypted,manager.getManagerPrivateKey());
             if (decrypted > price2 && decrypted != price1){
                 price2 = decrypted;
             }

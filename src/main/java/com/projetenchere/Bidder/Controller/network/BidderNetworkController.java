@@ -3,7 +3,7 @@ package com.projetenchere.Bidder.Controller.network;
 import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Sendable.ObjectSender;
-import com.projetenchere.common.Util.NetworkUtil;
+import com.projetenchere.common.Util.NetworkUtils;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -14,7 +14,7 @@ public class BidderNetworkController {
 
     private String myIp() {
         try {
-            return NetworkUtil.getMyIP();
+            return NetworkUtils.getMyIP();
         } catch (UnknownHostException e) {
             return "localhost";
         }
@@ -27,8 +27,8 @@ public class BidderNetworkController {
                 localPort,
                 greet,
                 greet.getClass());
-        NetworkUtil.send(MANAGER_ADDRESS, MANAGER_PORT, objectSender);
-        ObjectSender receiver = NetworkUtil.receive(localPort,30000);
+        NetworkUtils.send(MANAGER_ADDRESS, MANAGER_PORT, objectSender);
+        ObjectSender receiver = NetworkUtils.receive(localPort,30000);
         if (!receiver.getObjectClass().equals(BidStarter.class)) {
             throw new ClassNotFoundException("Received wrong class");
         } else {
@@ -42,11 +42,11 @@ public class BidderNetworkController {
                 localPort,
                 offer,
                 offer.getClass());
-        NetworkUtil.send(sellerIP, 24682, objectSender);
+        NetworkUtils.send(sellerIP, 24682, objectSender);
     }
 
     public double fetchPrice(int localPort) throws IOException, ClassNotFoundException {
-        ObjectSender receiver = NetworkUtil.receive(localPort,0);
+        ObjectSender receiver = NetworkUtils.receive(localPort,0);
         if (!receiver.getObjectClass().equals(Double.class)) {
             System.out.println(receiver.getObjectClass());
             throw new ClassNotFoundException("Did not receive the required class");

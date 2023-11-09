@@ -1,7 +1,7 @@
 package com.projetenchere.common.Model.Encrypted;
 
 import com.projetenchere.common.Model.Offer;
-import com.projetenchere.common.Util.EncryptionUtil;
+import com.projetenchere.common.Util.EncryptionUtils;
 
 import java.io.Serializable;
 import java.security.PublicKey;
@@ -12,12 +12,12 @@ public class EncryptedOffer implements Serializable {
 
     public EncryptedOffer(String idBidder, double price, PublicKey publicKey) throws Exception {
         this.idBidder = idBidder;
-        this.price = EncryptionUtil.encrypt(price,publicKey);
+        this.price = EncryptionUtils.encrypt(price,publicKey);
     }
 
     public EncryptedOffer(Offer offer, PublicKey publicKey) throws Exception {
         this.idBidder = offer.getIdBidder();
-        this.price = EncryptionUtil.encrypt(offer.getPrice(),publicKey);
+        this.price = EncryptionUtils.encrypt(offer.getPrice(),publicKey);
     }
 
     public String getIdBidder() {
