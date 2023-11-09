@@ -1,5 +1,8 @@
 package com.projetenchere.common.Model.Sendable;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class ObjectSender implements Serializable {
@@ -33,4 +36,14 @@ public class ObjectSender implements Serializable {
     public Class<?> getObjectClass() {
         return objectClass;
     }
+
+    public byte[] getBytes() {
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
+            objectOutputStream.writeObject(this);
+            return byteArrayOutputStream.toByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+
