@@ -1,4 +1,4 @@
-package com.projetenchere.common.Util;
+package com.projetenchere.common.Utils;
 
 import java.security.Signature;
 import java.security.PublicKey;

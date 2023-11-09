@@ -5,7 +5,7 @@ import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Model.Sendable.ObjectSender;
 import com.projetenchere.common.Model.Winner;
-import com.projetenchere.common.Util.NetworkUtils;
+import com.projetenchere.common.Utils.NetworkUtils;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;

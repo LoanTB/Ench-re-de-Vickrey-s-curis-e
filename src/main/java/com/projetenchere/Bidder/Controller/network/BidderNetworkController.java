@@ -3,7 +3,7 @@ package com.projetenchere.Bidder.Controller.network;
 import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Sendable.ObjectSender;
-import com.projetenchere.common.Util.NetworkUtils;
+import com.projetenchere.common.Utils.NetworkUtils;
 
 import java.io.IOException;
 import java.net.UnknownHostException;

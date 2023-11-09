@@ -7,7 +7,7 @@ import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.BidStarter;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Model.Winner;
-import com.projetenchere.common.Util.EncryptionUtils;
+import com.projetenchere.common.Utils.EncryptionUtils;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
