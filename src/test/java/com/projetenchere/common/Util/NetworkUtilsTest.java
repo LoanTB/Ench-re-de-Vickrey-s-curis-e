@@ -1,4 +1,4 @@
-package com.projetenchere.common;
+package com.projetenchere.common.Util;
 
 import com.projetenchere.common.Util.NetworkUtils;
 import com.projetenchere.common.Model.Sendable.ObjectSender;
