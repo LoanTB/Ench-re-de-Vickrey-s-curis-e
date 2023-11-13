@@ -7,7 +7,7 @@ import java.security.SignatureException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-public class SignatureUtils {
+public class SignatureUtil {
     private static final String SIGNATURE_ALGORITHM = "SHA256withRSA";
 
     public static Signature initSignatureForSigning(PrivateKey privateKey) throws SignatureException {

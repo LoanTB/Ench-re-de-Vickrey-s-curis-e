@@ -1,7 +1,7 @@
 package com.projetenchere.Manager;
 
 import com.projetenchere.Manager.Controller.ManagerController;
-import com.projetenchere.common.Utils.EncryptionUtils;
+import com.projetenchere.common.Utils.EncryptionUtil;
 
 import org.junit.jupiter.api.Test;
 
@@ -18,11 +18,11 @@ public class ManagerAppTest {
         ManagerController controller = new ManagerController();
         controller.generateManagerKeys();
         double value = 2.1;
-        byte[] valueEnc =  EncryptionUtils.encrypt(value,controller.manager.getManagerPublicKey());
+        byte[] valueEnc =  EncryptionUtil.encrypt(value,controller.manager.getManagerPublicKey());
 
         controller.generateManagerKeys();
         double value2 = 2.1;
-        byte[] valueEnc2 =  EncryptionUtils.encrypt(value,controller.manager.getManagerPublicKey());
+        byte[] valueEnc2 =  EncryptionUtil.encrypt(value,controller.manager.getManagerPublicKey());
 
         assert valueEnc != valueEnc2 : "Les chiffrés doivnet être différents";
         System.out.println("Chiffrés sont différents.");
@@ -51,7 +51,7 @@ public class ManagerAppTest {
 
         Winner win = controller.getWinnerPrice(key,prices);
 
-        Double check = EncryptionUtils.decrypt(win.getEncryptedMaxprice(),controller.manager.getManagerPrivateKey());
+        Double check = EncryptionUtil.decrypt(win.getEncryptedMaxprice(),controller.manager.getManagerPrivateKey());
 
         assert check == win.getPriceToPay() : "Les prix doivent être pareil";
         System.out.println("Prix chiffré de winner et le prix à payer de winner sont différents.");
@@ -69,11 +69,11 @@ public class ManagerAppTest {
         prices.add(6.8);
         prices.add(1.8);
 
-        byte[] maxEnc = EncryptionUtils.encrypt(6.8,key);
+        byte[] maxEnc = EncryptionUtil.encrypt(6.8,key);
         Winner win = controller.getWinnerPrice(key,prices);
 
-        Double ech = EncryptionUtils.decrypt(maxEnc,pince);
-        Double pec = EncryptionUtils.decrypt(win.getEncryptedMaxprice(),pince);
+        Double ech = EncryptionUtil.decrypt(maxEnc,pince);
+        Double pec = EncryptionUtil.decrypt(win.getEncryptedMaxprice(),pince);
 
         assert ech.equals(pec) : "Même prix";
         System.out.println("Même prix");

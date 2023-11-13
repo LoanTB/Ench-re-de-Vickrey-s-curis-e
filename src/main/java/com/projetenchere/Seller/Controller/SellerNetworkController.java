@@ -5,7 +5,7 @@ import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Model.Sendable.ObjectSender;
 import com.projetenchere.common.Model.Winner;
-import com.projetenchere.common.Utils.NetworkUtils;
+import com.projetenchere.common.Utils.NetworkUtil;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -17,8 +17,8 @@ public class SellerNetworkController {
     private final int managerPort = 24683;
 
     public SellerNetworkController() throws UnknownHostException {
-        sellerIp = NetworkUtils.getMyIP();
-        managerIp = NetworkUtils.getMyIP();
+        sellerIp = NetworkUtil.getMyIP();
+        managerIp = NetworkUtil.getMyIP();
     }
 
     public void sendEncryptedPrices(EncryptedPrices encryptedPrices) throws IOException {
@@ -28,7 +28,7 @@ public class SellerNetworkController {
     public ObjectSender fetchEncryptedOffer() throws IOException, ClassNotFoundException {
         ObjectSender request;
         do {
-            request = NetworkUtils.receive(sellerPort, 5000);
+            request = NetworkUtil.receive(sellerPort, 5000);
         } while (!request.getObjectClass().equals(EncryptedOffer.class));
         return request;
     }
@@ -51,7 +51,7 @@ public class SellerNetworkController {
 
     public ObjectSender waitData(){
         try {
-            return NetworkUtils.receive(sellerPort, 0);
+            return NetworkUtil.receive(sellerPort, 0);
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -59,6 +59,6 @@ public class SellerNetworkController {
 
     public void sendData(String IP, Integer PORT, Object data) throws IOException {
         ObjectSender objectSender = new ObjectSender(sellerIp, sellerPort,data,data.getClass());
-        NetworkUtils.send(IP,PORT,objectSender);
+        NetworkUtil.send(IP,PORT,objectSender);
     }
 }

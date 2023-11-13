@@ -4,8 +4,8 @@ import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Offer;
 import com.projetenchere.common.Model.Sendable.ObjectSender;
-import com.projetenchere.common.Utils.EncryptionUtils;
-import com.projetenchere.common.Utils.NetworkUtils;
+import com.projetenchere.common.Utils.EncryptionUtil;
+import com.projetenchere.common.Utils.NetworkUtil;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -35,7 +35,7 @@ public class SellerControllerTest {
             Bid data = new Bid("TEST","TEST", LocalDateTime.parse("22-10-2023 16:00:00", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
             ObjectSender objectSender = new ObjectSender(localhost,SellerPort,data,data.getClass());
             try {
-                NetworkUtils.send(localhost,SellerPort,objectSender);
+                NetworkUtil.send(localhost,SellerPort,objectSender);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -62,13 +62,13 @@ public class SellerControllerTest {
             Bid bid = new Bid("TEST", "TEST", LocalDateTime.now().plusSeconds(5));
             ObjectSender objectSender = new ObjectSender(localhost, SellerPort, bid, bid.getClass());
             try {
-                NetworkUtils.send(localhost, SellerPort, objectSender);
+                NetworkUtil.send(localhost, SellerPort, objectSender);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             KeyPair managerKeys = null;
             try {
-                managerKeys = EncryptionUtils.generateKeyPair();
+                managerKeys = EncryptionUtil.generateKeyPair();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -82,7 +82,7 @@ public class SellerControllerTest {
             }
             objectSender = new ObjectSender(localhost, SellerPort, encryptedOffer, encryptedOffer.getClass());
             try {
-                NetworkUtils.send(localhost, SellerPort, objectSender);
+                NetworkUtil.send(localhost, SellerPort, objectSender);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

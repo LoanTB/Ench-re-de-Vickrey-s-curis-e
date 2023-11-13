@@ -12,7 +12,7 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-public class NetworkUtils {
+public class NetworkUtil {
 
     public static ObjectSender receive(int port, int timout) throws IOException, ClassNotFoundException, InvalidClassException {
         try (ServerSocket serverSocket = new ServerSocket(port)) {

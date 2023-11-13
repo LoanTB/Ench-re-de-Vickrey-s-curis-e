@@ -9,10 +9,10 @@ import java.util.Base64;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class EncryptionUtilsTest {
+public class EncryptionUtilTest {
     @Test
     public void test_String_data_retention_during_encryption() throws Exception {
-        KeyPair managerKeys = EncryptionUtils.generateKeyPair();
+        KeyPair managerKeys = EncryptionUtil.generateKeyPair();
         PrivateKey manager_privateKey = managerKeys.getPrivate();
         PublicKey manager_publicKey = managerKeys.getPublic();
 
@@ -23,10 +23,10 @@ public class EncryptionUtilsTest {
 
         double price = 12.34;
         System.out.println("Prix d'origine : "+price);
-        byte[] encryptedPrice = EncryptionUtils.encrypt(price, manager_publicKey);
+        byte[] encryptedPrice = EncryptionUtil.encrypt(price, manager_publicKey);
         System.out.print("Message chiffré : ");
         System.out.println(new String(encryptedPrice, 0));
-        double decryptedPrice = EncryptionUtils.decrypt(encryptedPrice,manager_privateKey);
+        double decryptedPrice = EncryptionUtil.decrypt(encryptedPrice,manager_privateKey);
         System.out.println("Prix déchiffré : "+decryptedPrice);
 
         assertEquals(price, decryptedPrice);
