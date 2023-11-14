@@ -1,7 +1,7 @@
 package com.projetenchere.Seller.View.commandLineInterface;
 
 import com.projetenchere.Seller.View.ISellerUserInterface;
-import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 
 import java.util.Scanner;
 

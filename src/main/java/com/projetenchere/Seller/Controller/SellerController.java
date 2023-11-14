@@ -3,11 +3,11 @@ package com.projetenchere.Seller.Controller;
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.ISellerUserInterface;
 import com.projetenchere.Seller.View.commandLineInterface.SellerCommandLineInterface;
-import com.projetenchere.common.Model.Bid;
-import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
-import com.projetenchere.common.Model.Sendable.ObjectSender;
-import com.projetenchere.common.Model.Winner;
+import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
+import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
+import com.projetenchere.common.Models.Network.Communication.Winner;
 
 import java.io.IOException;
 import java.net.UnknownHostException;

@@ -1,6 +1,7 @@
 package com.projetenchere.common.Utils;
 
-import com.projetenchere.common.Model.Sendable.ObjectSender;
+import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
+import com.projetenchere.common.Utils.Network.NetworkUtil;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 

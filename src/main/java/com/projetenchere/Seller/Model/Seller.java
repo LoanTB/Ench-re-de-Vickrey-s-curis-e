@@ -1,6 +1,6 @@
 package com.projetenchere.Seller.Model;
 
-import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 
 import java.util.ArrayList;
 import java.util.List;

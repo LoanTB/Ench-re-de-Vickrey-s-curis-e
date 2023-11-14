@@ -1,6 +1,6 @@
 package com.projetenchere.common.Utils;
 
-import com.projetenchere.common.Model.Sendable.ObjectSender;
+import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import org.junit.jupiter.api.Test;
 
 import java.security.KeyPair;
@@ -32,6 +32,5 @@ public class SignatureUtilTest {
         assertFalse(SignatureUtil.verifyDataSignature(objectSender.getBytes(),signFraud, keyPair.getPublic()));
         // La signature et la clé sont bonnes.
         assertTrue(SignatureUtil.verifyDataSignature(objectSender.getBytes(),sign, keyPair.getPublic()));
-
     }
 }

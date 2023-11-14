@@ -1,4 +1,4 @@
-package com.projetenchere.common.Model;
+package com.projetenchere.common.Models.Network.Communication;
 
 import java.io.Serializable;
 

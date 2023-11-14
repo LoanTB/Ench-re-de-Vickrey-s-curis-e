@@ -2,8 +2,8 @@ package com.projetenchere.Bidder.View.commandLineInterface;
 
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
-import com.projetenchere.common.Model.Bid;
-import com.projetenchere.common.Model.Offer;
+import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.Models.Offer;
 
 import java.util.Scanner;
 

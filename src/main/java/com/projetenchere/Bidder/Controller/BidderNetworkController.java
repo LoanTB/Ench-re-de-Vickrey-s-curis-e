@@ -1,9 +1,9 @@
-package com.projetenchere.Bidder.Controller.network;
+package com.projetenchere.Bidder.Controller;
 
-import com.projetenchere.common.Model.BidStarter;
-import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Model.Sendable.ObjectSender;
-import com.projetenchere.common.Utils.NetworkUtil;
+import com.projetenchere.common.Models.Network.Communication.CurrentBids;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
+import com.projetenchere.common.Utils.Network.NetworkUtil;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -20,7 +20,7 @@ public class BidderNetworkController {
         }
     }
 
-    public BidStarter askForInitPackage(int localPort) throws IOException, ClassNotFoundException {
+    public CurrentBids askForInitPackage(int localPort) throws IOException, ClassNotFoundException {
         String greet = "getBidderInitPackage";
         ObjectSender objectSender = new ObjectSender(
                 myIp(),
@@ -29,10 +29,10 @@ public class BidderNetworkController {
                 greet.getClass());
         NetworkUtil.send(MANAGER_ADDRESS, MANAGER_PORT, objectSender);
         ObjectSender receiver = NetworkUtil.receive(localPort,30000);
-        if (!receiver.getObjectClass().equals(BidStarter.class)) {
+        if (!receiver.getObjectClass().equals(CurrentBids.class)) {
             throw new ClassNotFoundException("Received wrong class");
         } else {
-            return (BidStarter) receiver.getObject();
+            return (CurrentBids) receiver.getObject();
         }
     }
 
@@ -54,7 +54,4 @@ public class BidderNetworkController {
             return (Double) receiver.getObject();
         }
     }
-
-
-
 }

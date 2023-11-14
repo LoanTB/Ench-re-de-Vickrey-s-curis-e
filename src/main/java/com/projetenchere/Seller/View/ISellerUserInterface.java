@@ -1,6 +1,6 @@
 package com.projetenchere.Seller.View;
 
-import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 
 public interface ISellerUserInterface {
     void diplayHello();

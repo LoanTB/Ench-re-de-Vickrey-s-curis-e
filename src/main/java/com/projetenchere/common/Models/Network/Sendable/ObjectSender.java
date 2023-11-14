@@ -1,4 +1,4 @@
-package com.projetenchere.common.Model.Sendable;
+package com.projetenchere.common.Models.Network.Sendable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -1,11 +1,11 @@
 package com.projetenchere.Seller.Controller;
 
-import com.projetenchere.common.Model.Bid;
-import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Model.Offer;
-import com.projetenchere.common.Model.Sendable.ObjectSender;
+import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Offer;
+import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Utils.EncryptionUtil;
-import com.projetenchere.common.Utils.NetworkUtil;
+import com.projetenchere.common.Utils.Network.NetworkUtil;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -51,7 +51,7 @@ public class SellerControllerTest {
         serverThread.join();
         clientThread.join();
 
-        assertEquals(controller.getCurrentBid().getBidDescription(),"TEST");
+        assertEquals(controller.getCurrentBid().getDescription(),"TEST");
     }
 
     @Test
@@ -99,6 +99,6 @@ public class SellerControllerTest {
         serverThread.join();
         clientThread.join();
 
-        assertEquals(controller.getCurrentBid().getBidDescription(),"TEST");
+        assertEquals(controller.getCurrentBid().getDescription(),"TEST");
     }
 }

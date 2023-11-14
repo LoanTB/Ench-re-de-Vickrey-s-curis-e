@@ -1,13 +1,12 @@
 package com.projetenchere.Bidder.Controller;
 
-import com.projetenchere.Bidder.Controller.network.BidderNetworkController;
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
-import com.projetenchere.common.Model.Bid;
-import com.projetenchere.common.Model.BidStarter;
-import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Model.Offer;
+import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.Models.Network.Communication.CurrentBids;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Offer;
 
 import java.io.IOException;
 import java.security.PublicKey;
@@ -60,9 +59,9 @@ public class BidderController {
     }
 
     public void fetchInitPackage() throws IOException, ClassNotFoundException {
-        BidStarter bidStarter = network.askForInitPackage(bidder.getPort());
-        this.currentBid = bidStarter.getCurrentBid();
-        this.publicKey = bidStarter.getManagerPublicKey();
-        this.sellerIP = bidStarter.getSellerAddress();
+        CurrentBids currentBids = network.askForInitPackage(bidder.getPort());
+        this.currentBid = currentBids.getCurrentBid();
+        this.publicKey = currentBids.getManagerPublicKey();
+        this.sellerIP = currentBids.getSellerAddress();
     }
 }

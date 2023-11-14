@@ -1,6 +1,6 @@
-package com.projetenchere.common.Model.Encrypted;
+package com.projetenchere.common.Models.Encrypted;
 
-import com.projetenchere.common.Model.Offer;
+import com.projetenchere.common.Models.Offer;
 import com.projetenchere.common.Utils.EncryptionUtil;
 
 import java.io.Serializable;

@@ -1,14 +1,15 @@
 package com.projetenchere.Manager.View;
 
-import com.projetenchere.common.Model.Bid;
-import com.projetenchere.common.Model.Winner;
+import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.Models.Network.Communication.Winner;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public interface IManagerUserInterface {
 
     Bid askBidInformations();
+
+    int askBidId();
 
     String askBidName();
 

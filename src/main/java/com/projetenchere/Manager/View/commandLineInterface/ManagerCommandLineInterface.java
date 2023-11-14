@@ -1,8 +1,9 @@
 package com.projetenchere.Manager.View.commandLineInterface;
 
 import com.projetenchere.Manager.View.IManagerUserInterface;
-import com.projetenchere.common.Model.Bid;
-import com.projetenchere.common.Model.Winner;
+import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.Models.Network.Communication.Winner;
+import com.projetenchere.common.Models.Network.NetworkContactInformation;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -48,10 +49,11 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
 
     @Override
     public Bid askBidInformations() {
+        int id = askBidId();
         String name = askBidName();
         String description = askBidDescription();
         LocalDateTime end = askBidEndTime();
-        return new Bid(name, description, end);
+        return new Bid(id, name, description, end, new NetworkContactInformation(askSellerAddress(),24682));
     }
 
     @Override
@@ -90,6 +92,12 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
         int maxLength = 20;
         showMessage("Veuillez saisir le nom de l'enchère (taille max " + maxLength + " caractères) : ");
         return readMessage(maxLength);
+    }
+
+    @Override
+    public int askBidId() {
+        showMessage("Veuillez saisir l'id de l'enchère : ");
+        return Integer.parseInt(scanner.nextLine()); // TODO : Verifier l'entrée utilisateur
     }
 
     @Override
