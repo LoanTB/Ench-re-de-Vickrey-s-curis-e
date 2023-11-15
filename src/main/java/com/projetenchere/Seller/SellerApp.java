@@ -8,11 +8,11 @@ public class SellerApp {
     public static void main(String[] args) throws IOException, InterruptedException {
         SellerController controller = new SellerController();
         controller.diplayHello();
-        controller.fetchCurrentBid();
+        controller.createMyBid();
         controller.receiveOffersUntilBidEnd();
         controller.sendEncryptedPrices();
         controller.displayEncryptedPriceSended();
-        controller.fetchWinner();
+        controller.waitFetchWinner();
         controller.displayWinner();
         controller.sendResults();
         controller.displayResultsSent();

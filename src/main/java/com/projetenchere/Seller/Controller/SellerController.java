@@ -1,72 +1,73 @@
 package com.projetenchere.Seller.Controller;
 
+import com.projetenchere.Seller.Controller.Network.SellerNetworkController;
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.ISellerUserInterface;
 import com.projetenchere.Seller.View.commandLineInterface.SellerCommandLineInterface;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
-import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
 
-import static java.lang.Thread.sleep;
-
 public class SellerController {
-
     private static final ISellerUserInterface ui = new SellerCommandLineInterface();
-    private Bid currentBid;
+    private Bid myBid;
     private final Seller seller = new Seller();
-
     private Winner winner = null;
-    SellerNetworkController networkController = new SellerNetworkController();
+    SellerNetworkController networkController = new SellerNetworkController(this);
 
     public SellerController() throws UnknownHostException {}
 
-    public Bid getCurrentBid() {
-        return currentBid;
+    public Bid getMyBid() {
+        return myBid;
     }
 
-    public void fetchCurrentBid(){
-        this.currentBid = networkController.fetchBid();
-        ui.displayBidReceived(this.currentBid._toString());
+    public void setWinner(Winner winner){
+        this.winner = winner;
+    }
+
+    public void createMyBid(){
+        this.myBid = ui.askBidInformations();
     }
 
     public boolean auctionInProgress(){
-        return (!this.currentBid.isOver());
+        return (!this.myBid.isOver());
     }
 
-    public void receiveOffersUntilBidEnd(){
+    public void receiveOffersUntilBidEnd() throws IOException {
         ui.waitOffers();
-        EncryptedOffer offerReceived;
-        while (auctionInProgress()){
-            try{
-                ObjectSender request = fetchEncryptedOffer();
-                offerReceived = (EncryptedOffer) request.getObjectClass().cast(request.getObject());
-                seller.addEncryptedOffer(offerReceived);
-                seller.addBidderIp(request.getIP_sender());
-                seller.addBidderPort(request.getPORT_sender());
-                displayOfferReceived(offerReceived);
-            } catch (IOException | ClassNotFoundException ignored){}
+        networkController.startListening(networkController.getSellerPort());
+        while (auctionInProgress()) {
+            try {
+                wait(1000); // Eviter une utilisation excessive du CPU
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void diplayHello(){
-        ui.diplayHello();
+    public void saveEncryptedOffer(EncryptedOffer encryptedOffer, String bidderIp, int bidderPort){
+        seller.addEncryptedOffer(encryptedOffer);
+        seller.addBidderIp(bidderIp);
+        seller.addBidderPort(bidderPort);
+        displayOfferReceived(encryptedOffer);
     }
+
+    public void diplayHello(){ui.diplayHello();}
 
     public void displayOfferReceived(EncryptedOffer encryptedOffer){
         ui.displayOfferReceived(encryptedOffer);
     }
 
     public void displayWinner(){
-        List<EncryptedOffer>  encryptedOffers = seller.getEncryptedOffers();
+        List<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
         List<Double> biddersWinStatus = getBiddersWinStatus();
-        String winnerID = this.getWinnerID(encryptedOffers,biddersWinStatus);
-        Double price = winner.getPriceToPay();
+        String winnerID = getWinnerID(encryptedOffers,biddersWinStatus);
+        Double price = winner.getPrice();
         ui.displayWinner(winnerID,price);
     }
 
@@ -83,32 +84,28 @@ public class SellerController {
         for (EncryptedOffer encryptedOffer: encryptedOffers){
             encryptedPrices.add(encryptedOffer.getPrice());
         }
-        return new EncryptedPrices(encryptedPrices);
-    }
-
-    public ObjectSender fetchEncryptedOffer() throws IOException, ClassNotFoundException {
-        return networkController.fetchEncryptedOffer();
+        return new EncryptedPrices(myBid.getId(),encryptedPrices);
     }
 
     public void sendEncryptedPrices() throws IOException, InterruptedException {
-        sleep(3000);
         networkController.sendEncryptedPrices(getEncryptedPrices(seller.getEncryptedOffers()));
     }
 
-    public void fetchWinner() {
-        winner = networkController.fetchWinner();
+    public void waitFetchWinner() {
+        while (winner == null) {
+            try {
+                wait(1000); // Eviter une utilisation excessive du CPU
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void sendResults() throws IOException {
-        List<String> IPs = seller.getBiddersIps();
-        List<Integer> PORTs = seller.getBiddersPorts();
-        List<Double> results = getBiddersWinStatus();
-        if (IPs.size() == PORTs.size() && IPs.size() == results.size()){
-            for (int i=0;i< IPs.size();i++){
-                networkController.sendData(IPs.get(i),PORTs.get(i),results.get(i));
-            }
+        if (seller.getBiddersIps().size() == seller.getBiddersPorts().size() && seller.getBiddersIps().size() == getBiddersWinStatus().size()){
+            networkController.sendResults(seller.getBiddersIps(),seller.getBiddersPorts(),getBiddersWinStatus());
         } else {
-            throw new IllegalArgumentException("All three lists must be the same size.");
+            throw new IllegalArgumentException("Les liste de contacts enchérisseur et liste des gagnants ne concordent pas");
         }
     }
 
@@ -117,8 +114,8 @@ public class SellerController {
         boolean haveAWinner = false;
         List<Double> winStatus = new ArrayList<>();
         for (int i=0;i<encryptedOffers.size();i++){
-            if (Arrays.equals(encryptedOffers.get(i).getPrice(), winner.getEncryptedMaxprice()) && !haveAWinner){
-                winStatus.add(winner.getPriceToPay());
+            if (Arrays.equals(encryptedOffers.get(i).getPrice(), winner.getEncryptedId()) && !haveAWinner){
+                winStatus.add(winner.getPrice());
                 haveAWinner = true;
             } else {
                 winStatus.add(-1.0);

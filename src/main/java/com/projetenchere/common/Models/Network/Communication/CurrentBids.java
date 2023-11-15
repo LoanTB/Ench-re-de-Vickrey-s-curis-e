@@ -8,11 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CurrentBids implements Serializable {
-    private final PublicKey managerPublicKey;
+    private final SecurityInformations managerInformations;
     private final List<Bid> currentBids = new ArrayList<>();
 
-    public PublicKey getManagerPublicKey() {
-        return managerPublicKey;
+    public CurrentBids(SecurityInformations managerInformations) {
+        this.managerInformations = managerInformations;
+    }
+
+    public SecurityInformations getManagerInformations() {
+        return managerInformations;
     }
 
     public List<Bid> getCurrentBids() {
@@ -37,10 +41,6 @@ public class CurrentBids implements Serializable {
         }
     }
 
-    public CurrentBids(PublicKey key) {
-        managerPublicKey = key;
-    }
-
     public boolean isOver(int id) {
         for (Bid bid:currentBids){
             if (bid.getId() == id){
@@ -48,5 +48,15 @@ public class CurrentBids implements Serializable {
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        String s = "CurrentBids{currentBids=";
+        for (Bid bid : currentBids){
+            s += bid.toString();
+        }
+        s += "}";
+        return s;
     }
 }

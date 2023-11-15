@@ -3,20 +3,26 @@ package com.projetenchere.common.Models.Network.Communication;
 import java.io.Serializable;
 
 public class Winner implements Serializable{
-    final byte[] encryptedMaxprice;
-    final double priceToPay;
+    private final int bidId;
+    final byte[] encryptedId;
+    final double price;
 
-    public Winner(byte[] encrypted, double price){
-        encryptedMaxprice = encrypted;
-        priceToPay = price;
+    public Winner(int bidId, byte[] encryptedId, double price){
+        this.bidId = bidId;
+        this.encryptedId = encryptedId;
+        this.price = price;
     }
 
-    public byte[] getEncryptedMaxprice() {
-        return encryptedMaxprice;
+    public int getBidId() {
+        return bidId;
     }
 
-    public double getPriceToPay() {
-        return priceToPay;
+    public byte[] getEncryptedId() {
+        return encryptedId;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
 }

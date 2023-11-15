@@ -68,7 +68,7 @@ public class ManagerController {
         if (price2 == -1){
             price2 = price1;
         }
-        Winner winner = new Winner(encrypted1,price2);
+        Winner winner = new Winner(encryptedPrices.getBidId(), encrypted1,price2);
         showWinnerPrice(winner);
         return winner;
     }

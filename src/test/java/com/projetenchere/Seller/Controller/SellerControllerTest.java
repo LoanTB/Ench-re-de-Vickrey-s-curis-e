@@ -51,7 +51,7 @@ public class SellerControllerTest {
         serverThread.join();
         clientThread.join();
 
-        assertEquals(controller.getCurrentBid().getDescription(),"TEST");
+        assertEquals(controller.getMyBid().getDescription(),"TEST");
     }
 
     @Test
@@ -99,6 +99,6 @@ public class SellerControllerTest {
         serverThread.join();
         clientThread.join();
 
-        assertEquals(controller.getCurrentBid().getDescription(),"TEST");
+        assertEquals(controller.getMyBid().getDescription(),"TEST");
     }
 }

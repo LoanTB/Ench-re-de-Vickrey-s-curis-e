@@ -3,6 +3,7 @@ package com.projetenchere.Bidder.View.commandLineInterface;
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Offer;
 
 import java.util.Scanner;
@@ -22,10 +23,10 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
-    public void displayBid(Bid bid) {
+    public void displayBid(CurrentBids currentBids) {
         showMessage("Bienvenue!");
         showMessage("Enchère Actuelle :");
-        showMessage(bid._toString()+"\n");
+        showMessage(currentBids.toString()+"\n");
     }
 
     @Override

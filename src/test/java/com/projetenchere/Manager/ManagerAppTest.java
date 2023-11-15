@@ -51,9 +51,9 @@ public class ManagerAppTest {
 
         Winner win = controller.getWinnerPrice(key,prices);
 
-        Double check = EncryptionUtil.decrypt(win.getEncryptedMaxprice(),controller.manager.getManagerPrivateKey());
+        Double check = EncryptionUtil.decrypt(win.getEncryptedId(),controller.manager.getManagerPrivateKey());
 
-        assert check == win.getPriceToPay() : "Les prix doivent être pareil";
+        assert check == win.getPrice() : "Les prix doivent être pareil";
         System.out.println("Prix chiffré de winner et le prix à payer de winner sont différents.");
     }
 
@@ -73,7 +73,7 @@ public class ManagerAppTest {
         Winner win = controller.getWinnerPrice(key,prices);
 
         Double ech = EncryptionUtil.decrypt(maxEnc,pince);
-        Double pec = EncryptionUtil.decrypt(win.getEncryptedMaxprice(),pince);
+        Double pec = EncryptionUtil.decrypt(win.getEncryptedId(),pince);
 
         assert ech.equals(pec) : "Même prix";
         System.out.println("Même prix");

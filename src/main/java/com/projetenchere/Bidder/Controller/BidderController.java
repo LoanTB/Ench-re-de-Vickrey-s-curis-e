@@ -1,26 +1,46 @@
 package com.projetenchere.Bidder.Controller;
 
+import com.projetenchere.Bidder.Controller.Network.BidderNetworkController;
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
-import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Models.Offer;
 
 import java.io.IOException;
-import java.security.PublicKey;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BidderController {
     private final IBidderUserInterface ui = new BidderCommandLineInterface();
-    private final BidderNetworkController network = new BidderNetworkController();
+    private final BidderNetworkController networkController = new BidderNetworkController(this);
 
 
-    private String sellerIP;
-    private PublicKey publicKey;
-    private Bid currentBid;
+//    private String sellerIP;
+//    private PublicKey publicKey;
+    private CurrentBids currentBids;
+
+    private final List<Integer> participatedBid = new ArrayList<>();
+
+    private final List<WinStatus> results = new ArrayList<>();
     private final Bidder bidder = new Bidder();
 
+    public BidderController() throws UnknownHostException {}
+
+    public void setCurrentBids(CurrentBids currentBids) {
+        this.currentBids = currentBids;
+    }
+
+    public void addResult(WinStatus result){
+        results.add(result);
+    }
+
+    public List<Integer> getParticipatedBid(){
+        return participatedBid;
+    }
 
     public Offer readOfferFromInterface(){
         return ui.readOffer(bidder);
@@ -31,7 +51,7 @@ public class BidderController {
     }
 
     public void showBid() {
-        ui.displayBid(this.currentBid);
+        ui.displayBid(this.currentBids);
     }
 
     public void readName() {
@@ -40,28 +60,28 @@ public class BidderController {
 
     public void readAndSendOffer() throws Exception {
         Offer offer = readOfferFromInterface();
-        EncryptedOffer encryptedOffer = new EncryptedOffer(offer, publicKey);
-        network.sendOffer(encryptedOffer, sellerIP, bidder.getPort());
+        EncryptedOffer encryptedOffer = new EncryptedOffer(offer, networkController.getManagerInformations().getPublicKey());
+        networkController.sendOffer(encryptedOffer);
         ui.tellOfferSent();
     }
 
     public void waitForPrice() throws IOException, ClassNotFoundException {
         ui.tellWaitOfferResult();
-         double priceToPay = network.fetchPrice(bidder.getPort());
-         //System.out.println(priceToPay);
-         if (priceToPay < 0D){
-             ui.tellOfferLost();
-         }
-         else {
-             ui.tellOfferWon(priceToPay);
-         }
-
+        while (results.isEmpty()) {
+            try {
+                wait(1000); // Eviter une utilisation excessive du CPU
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if (results.get(0).isWinner()){
+            ui.tellOfferWon(results.get(0).getPrice());
+        } else {
+            ui.tellOfferLost();
+        }
     }
 
     public void fetchInitPackage() throws IOException, ClassNotFoundException {
-        CurrentBids currentBids = network.askForInitPackage(bidder.getPort());
-        this.currentBid = currentBids.getCurrentBid();
-        this.publicKey = currentBids.getManagerPublicKey();
-        this.sellerIP = currentBids.getSellerAddress();
+        networkController.askForInitPackage(bidder.getPort());
     }
 }

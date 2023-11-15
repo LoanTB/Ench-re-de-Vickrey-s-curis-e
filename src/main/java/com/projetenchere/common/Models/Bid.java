@@ -1,5 +1,6 @@
 package com.projetenchere.common.Models;
 
+import com.projetenchere.common.Models.Network.Communication.SecurityInformations;
 import com.projetenchere.common.Models.Network.NetworkContactInformation;
 
 import java.io.Serializable;
@@ -12,14 +13,14 @@ public class Bid implements Serializable {
     private final String description;
     private LocalDateTime startDateTime = null;
     private final LocalDateTime endDateTime;
-    private final NetworkContactInformation sellerNCI;
+    private final SecurityInformations sellerInformations;
 
-    public Bid(int id, String name, String description, LocalDateTime endDateTime, NetworkContactInformation sellerNCI) {
+    public Bid(int id, String name, String description, LocalDateTime endDateTime, SecurityInformations sellerInformations) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.endDateTime = endDateTime;
-        this.sellerNCI = sellerNCI;
+        this.sellerInformations = sellerInformations;
     }
 
     public int getId() {
@@ -42,9 +43,9 @@ public class Bid implements Serializable {
         return endDateTime;
     }
 
-    public String getSellerIp(){return sellerNCI.getIp();}
+    public String getSellerIp(){return sellerInformations.getNetworkContactInformation().getIp();}
 
-    public int getSellerPort(){return sellerNCI.getPort();}
+    public int getSellerPort(){return sellerInformations.getNetworkContactInformation().getPort();}
 
     public void startBid(){
         startDateTime = LocalDateTime.from(LocalDateTime.now());

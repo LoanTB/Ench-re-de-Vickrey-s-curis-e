@@ -128,7 +128,7 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
 
     @Override
     public void displayWinnerPrice(Winner winner) {
-        System.out.println("Prix gagnant : " + winner.getPriceToPay());
+        System.out.println("Prix gagnant : " + winner.getPrice());
     }
 
 }

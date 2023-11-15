@@ -1,19 +1,19 @@
 package com.projetenchere.Manager.Controller.Network.Handlers;
 
-import com.projetenchere.Manager.Controller.ManagerController;
-import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
-import com.projetenchere.common.Models.Network.Communication.Winner;
+import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Network.NetworkContactInformation;
 import com.projetenchere.common.Models.Network.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Utils.Network.NetworkUtil;
 
-public class PriceDecryptionRequestRequestHandler implements RequestHandler {
-    private final ManagerController managerController;
+import java.io.IOException;
+
+public class InitPackageRequestHandler implements RequestHandler {
+    private final CurrentBids currentCurrentBidsStarters;
     private final NetworkContactInformation managerNCI;
 
-    public PriceDecryptionRequestRequestHandler(ManagerController managerController, NetworkContactInformation managerNCI) {
-        this.managerController = managerController;
+    public InitPackageRequestHandler(CurrentBids currentCurrentBidsStarters, NetworkContactInformation managerNCI) {
+        this.currentCurrentBidsStarters = currentCurrentBidsStarters;
         this.managerNCI = managerNCI;
     }
 
@@ -26,11 +26,11 @@ public class PriceDecryptionRequestRequestHandler implements RequestHandler {
                     new ObjectSender(
                             managerNCI.getIp(),
                             managerNCI.getPort(),
-                            managerController.processPrices((EncryptedPrices) objectSender.getObject()),
-                            Winner.class
+                            currentCurrentBidsStarters,
+                            CurrentBids.class
                     )
             );
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

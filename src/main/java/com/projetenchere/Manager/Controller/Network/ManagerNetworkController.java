@@ -1,8 +1,8 @@
 package com.projetenchere.Manager.Controller.Network;
 
 import com.projetenchere.Manager.Controller.ManagerController;
-import com.projetenchere.Manager.Controller.Network.Handlers.InitPackageRequestRequestHandler;
-import com.projetenchere.Manager.Controller.Network.Handlers.PriceDecryptionRequestRequestHandler;
+import com.projetenchere.Manager.Controller.Network.Handlers.InitPackageRequestHandler;
+import com.projetenchere.Manager.Controller.Network.Handlers.PriceDecryptionRequestHandler;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
@@ -32,7 +32,9 @@ public class ManagerNetworkController {
         managerNCI = new NetworkContactInformation(NetworkUtil.getMyIP(),24683);
     }
 
-    public void savePublicKey(PublicKey publicKey){currentBids = new CurrentBids(publicKey);}
+    public void savePublicKey(PublicKey publicKey){
+        currentBids = new CurrentBids(publicKey);
+    }
 
     public String getManagerIp() {
         return managerNCI.getIp();
@@ -74,10 +76,10 @@ public class ManagerNetworkController {
 
     private RequestHandler determineHandler(ObjectSender objectSender) {
         if (objectSender.getObject().equals("InitPackageRequest")) {
-            return new InitPackageRequestRequestHandler(currentBids,managerNCI);
+            return new InitPackageRequestHandler(currentBids,managerNCI);
         }
         if (objectSender.getObjectClass() == EncryptedPrices.class && currentBids.isOver(((EncryptedPrices)objectSender.getObject()).getBidId())) {
-            return new PriceDecryptionRequestRequestHandler(managerController,managerNCI);
+            return new PriceDecryptionRequestHandler(managerController,managerNCI);
         }
         return null;
     }
