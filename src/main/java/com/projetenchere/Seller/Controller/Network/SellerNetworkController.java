@@ -5,9 +5,10 @@ import com.projetenchere.Seller.Controller.Network.Handlers.WinnerRequestHandler
 import com.projetenchere.Seller.Controller.SellerController;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
-import com.projetenchere.common.Models.Network.Communication.NetworkContactInformation;
-import com.projetenchere.common.Models.Network.Communication.SecurityInformations;
-import com.projetenchere.common.Models.Network.Handlers.InformationsRequestHandler;
+import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
+import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
+import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
+import com.projetenchere.common.Models.Network.Handlers.InformationsRequestWithAckHandler;
 import com.projetenchere.common.Models.Network.NetworkController;
 import com.projetenchere.common.Models.Network.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
@@ -21,20 +22,17 @@ import java.util.List;
 
 public class SellerNetworkController extends NetworkController {
     private final SellerController controller;
-    private final KeyPair keys = EncryptionUtil.generateKeyPair();
 
     public SellerNetworkController(SellerController controller) throws Exception {
         this.controller = controller;
-        myNCI = new NetworkContactInformation(NetworkUtil.getMyIP(),24682);
-        saveMyInformations(keys.getPublic());
-        saveInformations(new SecurityInformations("Manager",new NetworkContactInformation("127.0.0.1",24683)));
+        myInformations = new PrivateSecurityInformations(new NetworkContactInformation("127.0.0.1",24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());
     }
 
     @Override
     protected RequestHandler determineSpecificsHandler(ObjectSender objectSender) {
-        if (objectSender.getObjectClass().equals(SecurityInformations.class) &&
-                !informationContainsPublicKey(((SecurityInformations) objectSender.getObject()).getId())) {
-            return new InformationsRequestHandler(this);
+        if (objectSender.getObjectClass().equals(PublicSecurityInformations.class) &&
+                !informationContainsPublicKey(((PublicSecurityInformations) objectSender.getObject()).getId())) {
+            return new InformationsRequestWithAckHandler(this);
         }
         if (objectSender.getObjectClass().equals(EncryptedOffer.class) && controller.auctionInProgress()) {
             return new EncryptedPricesRequestHandler(controller);
@@ -55,8 +53,8 @@ public class SellerNetworkController extends NetworkController {
                     ips.get(i),
                     ports.get(i),
                     new ObjectSender(
-                            myNCI.getIp(),
-                            myNCI.getPort(),
+                            myInformations.getNetworkContactInformation().getIp(),
+                            myInformations.getNetworkContactInformation().getPort(),
                             results.get(i),
                             results.get(i).getClass()
                     )

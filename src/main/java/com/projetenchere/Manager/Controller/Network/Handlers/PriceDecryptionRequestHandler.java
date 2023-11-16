@@ -3,7 +3,7 @@ package com.projetenchere.Manager.Controller.Network.Handlers;
 import com.projetenchere.Manager.Controller.ManagerController;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.Network.Communication.Winner;
-import com.projetenchere.common.Models.Network.Communication.NetworkContactInformation;
+import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Models.Network.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Utils.Network.NetworkUtil;

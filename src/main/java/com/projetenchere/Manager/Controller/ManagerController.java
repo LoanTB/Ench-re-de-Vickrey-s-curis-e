@@ -22,7 +22,7 @@ public class ManagerController extends Controller {
     public final Manager manager = new Manager();
     private CurrentBids currentBids = null;
 
-    public ManagerController() throws UnknownHostException {}
+    public ManagerController() throws Exception {}
 
     private Bid createBid() {
         int id = ui.askBidId();
@@ -59,21 +59,20 @@ public class ManagerController extends Controller {
 
     public void generateManagerKeys() throws Exception {
         manager.setManagerKeys(EncryptionUtil.generateKeyPair());
-        networkController.saveMyInformations(manager.getManagerPublicKey());
         currentBids = new CurrentBids(networkController.getMyInformations());
     }
 
-    public void initConnexion() throws IOException {
-        networkController.startListening();
+    public void initConnexion() {
+        Thread thread = new Thread(networkController);
+        thread.start();
     }
 
-    public void launchBids() throws IOException, ClassNotFoundException, InterruptedException {
+    public void launchBids(){
         startAllBids();
     }
 
-    public void launchBid(int id) throws IOException, ClassNotFoundException, InterruptedException {
+    public void launchBid(int id){
         startBid(id);
-        networkController.startListening();
     }
 
     public Winner processPrices(EncryptedPrices encryptedPrices) throws Exception {

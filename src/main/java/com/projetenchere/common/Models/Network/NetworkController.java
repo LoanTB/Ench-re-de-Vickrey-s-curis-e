@@ -1,7 +1,8 @@
 package com.projetenchere.common.Models.Network;
 
-import com.projetenchere.common.Models.Network.Communication.NetworkContactInformation;
-import com.projetenchere.common.Models.Network.Communication.SecurityInformations;
+import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
+import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
+import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Utils.Network.NetworkUtil;
 
@@ -16,27 +17,30 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public abstract class NetworkController {
+public abstract class NetworkController implements Runnable {
     private final ExecutorService executor = Executors.newFixedThreadPool(5);
-    private final List<SecurityInformations> informations = new ArrayList<>();
-    protected NetworkContactInformation myNCI;
+    private final List<PublicSecurityInformations> informations = new ArrayList<>();
+    protected PrivateSecurityInformations myInformations;
 
-    public void startListening() throws IOException {
-        ServerSocket serverSocket = new ServerSocket(myNCI.getPort());
-        while (!Thread.currentThread().isInterrupted()) {
-            try {
-                Socket clientSocket = serverSocket.accept();
-                ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
-                ObjectSender request = (ObjectSender) objectInput.readObject();
+    @Override
+    public void run() {
+        try (ServerSocket serverSocket = new ServerSocket(myInformations.getNetworkContactInformation().getPort())) {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    Socket clientSocket = serverSocket.accept();
+                    ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
+                    ObjectSender request = (ObjectSender) objectInput.readObject();
 
-                RequestHandler requestHandler = determineCommonHandler(request);
-                if (requestHandler != null) {
-                    executor.submit(() -> requestHandler.handle(request));
+                    RequestHandler requestHandler = determineCommonHandler(request);
+                    if (requestHandler != null) {
+                        executor.submit(() -> requestHandler.handle(request));
+                    }
+                } catch (SocketTimeoutException | ClassNotFoundException ignored) {
                 }
-            } catch (SocketTimeoutException | ClassNotFoundException ignored) {
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        serverSocket.close();
     }
 
     private RequestHandler determineCommonHandler(ObjectSender objectSender){
@@ -47,7 +51,7 @@ public abstract class NetworkController {
         return null;
     }
 
-    public void saveInformations(SecurityInformations informations){
+    public void saveInformations(PublicSecurityInformations informations){
         if (this.informations.contains(informations)){
             this.informations.set(this.informations.indexOf(informations),informations);
         } else {
@@ -55,27 +59,23 @@ public abstract class NetworkController {
         }
     }
 
-    public void saveMyInformations(PublicKey publicKey){
-        saveInformations(new SecurityInformations("MyInformations",myNCI,publicKey));
-    }
-
-    public SecurityInformations getMyInformations(){
+    public PublicSecurityInformations getMyInformations(){
         return getInformationsOf("MyInformations");
     }
 
-    public SecurityInformations getInformationsOf(String id){
-        for (SecurityInformations securityInformations : this.informations){
-            if (securityInformations.getId().equals(id)){
-                return securityInformations;
+    public PublicSecurityInformations getInformationsOf(String id){
+        for (PublicSecurityInformations publicSecurityInformations : this.informations){
+            if (publicSecurityInformations.getId().equals(id)){
+                return publicSecurityInformations;
             }
         }
         return null;
     }
 
     public boolean informationContainsPublicKey(String id){
-        SecurityInformations securityInformations = getInformationsOf(id);
-        if (securityInformations != null){
-            return !(securityInformations.getPublicKey() == null);
+        PublicSecurityInformations publicSecurityInformations = getInformationsOf(id);
+        if (publicSecurityInformations != null){
+            return !(publicSecurityInformations.getSignaturePublicKey() == null);
         } else {
             return false;
         }
@@ -86,13 +86,13 @@ public abstract class NetworkController {
     }
 
     public void sendTo(String id, Object object) throws IOException {
-        SecurityInformations target = getInformationsOf(id);
+        PublicSecurityInformations target = getInformationsOf(id);
         NetworkUtil.send(
                 target.getNetworkContactInformation().getIp(),
                 target.getNetworkContactInformation().getPort(),
                 new ObjectSender(
-                        myNCI.getIp(),
-                        myNCI.getPort(),
+                        myInformations.getNetworkContactInformation().getIp(),
+                        myInformations.getNetworkContactInformation().getPort(),
                         object,
                         object.getClass()
                 )

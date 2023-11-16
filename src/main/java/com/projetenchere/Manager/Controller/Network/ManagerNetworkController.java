@@ -5,13 +5,14 @@ import com.projetenchere.Manager.Controller.Network.Handlers.InitPackageRequestH
 import com.projetenchere.Manager.Controller.Network.Handlers.PriceDecryptionRequestHandler;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
-import com.projetenchere.common.Models.Network.Communication.NetworkContactInformation;
-import com.projetenchere.common.Models.Network.Communication.SecurityInformations;
-import com.projetenchere.common.Models.Network.Handlers.InformationsRequestHandler;
+import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
+import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
+import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Models.Network.Handlers.InformationsRequestWithReplyHandler;
 import com.projetenchere.common.Models.Network.NetworkController;
 import com.projetenchere.common.Models.Network.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
+import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.Network.NetworkUtil;
 
 import java.io.IOException;
@@ -20,30 +21,22 @@ import java.net.UnknownHostException;
 public class ManagerNetworkController extends NetworkController {
     private final ManagerController controller;
 
-    public ManagerNetworkController(ManagerController controller) throws UnknownHostException {
+    public ManagerNetworkController(ManagerController controller) throws Exception {
         this.controller = controller;
-        myNCI = new NetworkContactInformation(NetworkUtil.getMyIP(),24683);
-    }
-
-    public String getManagerIp() {
-        return myNCI.getIp();
-    }
-
-    public int getManagerPort() {
-        return myNCI.getPort();
+        myInformations = new PrivateSecurityInformations(new NetworkContactInformation(NetworkUtil.getMyIP(),24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());
     }
 
     @Override
     public RequestHandler determineSpecificsHandler(ObjectSender objectSender) {
-        if (objectSender.getObjectClass().equals(SecurityInformations.class) &&
-                !informationContainsPublicKey(((SecurityInformations) objectSender.getObject()).getId())) {
+        if (objectSender.getObjectClass().equals(PublicSecurityInformations.class) &&
+                !informationContainsPublicKey(((PublicSecurityInformations) objectSender.getObject()).getId())) {
             return new InformationsRequestWithReplyHandler(this);
         }
         if (objectSender.getObject().equals("InitPackageRequest")) {
-            return new InitPackageRequestHandler(controller.getCurrentBids(),myNCI);
+            return new InitPackageRequestHandler(controller.getCurrentBids(),myInformations.getNetworkContactInformation());
         }
         if (objectSender.getObjectClass() == EncryptedPrices.class && controller.getCurrentBids().isOver(((EncryptedPrices)objectSender.getObject()).getBidId())) {
-            return new PriceDecryptionRequestHandler(controller,myNCI);
+            return new PriceDecryptionRequestHandler(controller,myInformations.getNetworkContactInformation());
         }
         return null;
     }
@@ -51,8 +44,9 @@ public class ManagerNetworkController extends NetworkController {
     public void sendBidToSeller(Bid bid) throws IOException {
         NetworkUtil.send(bid.getSellerIp(),
                 bid.getSellerPort(),
-                new ObjectSender(getManagerIp(),
-                        getManagerPort(),
+                new ObjectSender(
+                        myInformations.getNetworkContactInformation().getIp(),
+                        myInformations.getNetworkContactInformation().getPort(),
                         bid,
                         Bid.class
                 )

@@ -33,7 +33,8 @@ public class SellerController extends Controller {
     }
 
     public void initConnexion() throws IOException {
-        networkController.startListening();
+        Thread thread = new Thread(networkController);
+        thread.start();
     }
 
     public void createMyBid(){
@@ -50,7 +51,6 @@ public class SellerController extends Controller {
 
     public void receiveOffersUntilBidEnd() throws IOException {
         ui.waitOffers();
-        networkController.startListening();
         while (auctionInProgress()) {
             try {
                 wait(1000); // Eviter une utilisation excessive du CPU

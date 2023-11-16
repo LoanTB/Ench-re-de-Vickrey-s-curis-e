@@ -1,17 +1,18 @@
 package com.projetenchere.common.Models.Network.Handlers;
 
+import com.projetenchere.common.Models.Network.Communication.Acknowledgment;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
-import com.projetenchere.common.Models.Network.NetworkController;
 import com.projetenchere.common.Models.Network.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
+import com.projetenchere.common.Models.Network.NetworkController;
 import com.projetenchere.common.Utils.Network.NetworkUtil;
 
 import java.io.IOException;
 
-public class InformationsRequestWithReplyHandler implements RequestHandler {
+public class InformationsRequestWithAckHandler implements RequestHandler {
     private final NetworkController networkController;
 
-    public InformationsRequestWithReplyHandler(NetworkController networkController) {
+    public InformationsRequestWithAckHandler(NetworkController networkController) {
         this.networkController = networkController;
     }
 
@@ -25,8 +26,8 @@ public class InformationsRequestWithReplyHandler implements RequestHandler {
                     new ObjectSender(
                             networkController.getMyInformations().getNetworkContactInformation().getIp(),
                             networkController.getMyInformations().getNetworkContactInformation().getPort(),
-                            networkController.getMyInformations(),
-                            PublicSecurityInformations.class
+                            new Acknowledgment("OK"),
+                            Acknowledgment.class
                     )
             );
         } catch (IOException e) {

@@ -1,6 +1,6 @@
 package com.projetenchere.common.Models;
 
-import com.projetenchere.common.Models.Network.Communication.SecurityInformations;
+import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,9 +12,9 @@ public class Bid implements Serializable {
     private final String description;
     private LocalDateTime startDateTime = null;
     private final LocalDateTime endDateTime;
-    private final SecurityInformations sellerInformations;
+    private final PublicSecurityInformations sellerInformations;
 
-    public Bid(int id, String name, String description, LocalDateTime endDateTime, SecurityInformations sellerInformations) {
+    public Bid(int id, String name, String description, LocalDateTime endDateTime, PublicSecurityInformations sellerInformations) {
         this.id = id;
         this.name = name;
         this.description = description;

@@ -24,7 +24,7 @@ public class BidderController extends Controller {
     private final List<WinStatus> results = new ArrayList<>();
     private final Bidder bidder = new Bidder();
 
-    public BidderController() throws UnknownHostException {}
+    public BidderController() throws Exception {}
 
     public void setCurrentBids(CurrentBids currentBids) {
         this.currentBids = currentBids;
@@ -56,7 +56,7 @@ public class BidderController extends Controller {
 
     public void readAndSendOffer() throws Exception {
         Offer offer = readOfferFromInterface();
-        EncryptedOffer encryptedOffer = new EncryptedOffer(offer, networkController.getManagerInformations().getPublicKey());
+        EncryptedOffer encryptedOffer = new EncryptedOffer(offer, networkController.getManagerInformations().getSignaturePublicKey());
         networkController.sendOffer(encryptedOffer);
         ui.tellOfferSent();
     }
