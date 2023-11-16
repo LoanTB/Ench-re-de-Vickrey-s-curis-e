@@ -4,6 +4,7 @@ import com.projetenchere.Bidder.Controller.Network.BidderNetworkController;
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
+import com.projetenchere.common.Models.Controller;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
@@ -14,17 +15,12 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BidderController {
+public class BidderController extends Controller {
     private final IBidderUserInterface ui = new BidderCommandLineInterface();
     private final BidderNetworkController networkController = new BidderNetworkController(this);
 
-
-//    private String sellerIP;
-//    private PublicKey publicKey;
     private CurrentBids currentBids;
-
     private final List<Integer> participatedBid = new ArrayList<>();
-
     private final List<WinStatus> results = new ArrayList<>();
     private final Bidder bidder = new Bidder();
 
@@ -65,7 +61,7 @@ public class BidderController {
         ui.tellOfferSent();
     }
 
-    public void waitForPrice() throws IOException, ClassNotFoundException {
+    public void waitForPrice() {
         ui.tellWaitOfferResult();
         while (results.isEmpty()) {
             try {
@@ -82,6 +78,6 @@ public class BidderController {
     }
 
     public void fetchInitPackage() throws IOException, ClassNotFoundException {
-        networkController.askForInitPackage(bidder.getPort());
+        networkController.askForInitPackage();
     }
 }

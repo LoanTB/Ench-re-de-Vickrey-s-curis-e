@@ -1,9 +1,7 @@
 package com.projetenchere.Seller.View.commandLineInterface;
 
 import com.projetenchere.Seller.View.ISellerUserInterface;
-import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Network.NetworkContactInformation;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -109,15 +107,6 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
         return Integer.parseInt(scanner.nextLine()); // TODO : Verifier l'entrée utilisateur avec isValidInt
     }
 
-    @Override
-    public Bid askBidInformations() {
-        int id = askBidId();
-        String name = askBidName();
-        String description = askBidDescription();
-        LocalDateTime end = askBidEndTime();
-        return new Bid(id, name, description, end, new NetworkContactInformation(askSellerAddress(),24682));
-    }
-
     private static boolean isValidDateFormat(String value, DateTimeFormatter formatter) {
         try {
             LocalDateTime.parse(value, formatter);
@@ -132,7 +121,7 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
         boolean checkType = true;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.now();
-        String dateStr = "";
+        String dateStr;
         while (checkType) {
             showMessage("Veuillez saisir la date de fin de l'enchère au format dd-MM-yyyy HH:mm:ss");
             dateStr = readMessageWithMaxLen(19);

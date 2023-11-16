@@ -1,7 +1,6 @@
 package com.projetenchere.common.Models;
 
 import com.projetenchere.common.Models.Network.Communication.SecurityInformations;
-import com.projetenchere.common.Models.Network.NetworkContactInformation;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

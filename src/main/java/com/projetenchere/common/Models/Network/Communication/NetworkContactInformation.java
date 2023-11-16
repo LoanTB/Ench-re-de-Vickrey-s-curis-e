@@ -1,4 +1,4 @@
-package com.projetenchere.common.Models.Network;
+package com.projetenchere.common.Models.Network.Communication;
 
 public class NetworkContactInformation {
     final private String ip;

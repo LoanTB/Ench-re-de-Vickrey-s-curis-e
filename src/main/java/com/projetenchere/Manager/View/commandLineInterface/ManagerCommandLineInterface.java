@@ -1,9 +1,7 @@
 package com.projetenchere.Manager.View.commandLineInterface;
 
 import com.projetenchere.Manager.View.IManagerUserInterface;
-import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Network.Communication.Winner;
-import com.projetenchere.common.Models.Network.NetworkContactInformation;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -48,20 +46,11 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
     }
 
     @Override
-    public Bid askBidInformations() {
-        int id = askBidId();
-        String name = askBidName();
-        String description = askBidDescription();
-        LocalDateTime end = askBidEndTime();
-        return new Bid(id, name, description, end, new NetworkContactInformation(askSellerAddress(),24682));
-    }
-
-    @Override
     public LocalDateTime askBidEndTime() {
         boolean checkType = true;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.now();
-        String dateStr = "";
+        String dateStr;
         while (checkType) {
             showMessage("Veuillez saisir la date de fin de l'enchère au format dd-MM-yyyy HH:mm:ss");
             dateStr = readMessage(19);

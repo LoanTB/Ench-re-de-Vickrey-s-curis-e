@@ -5,46 +5,72 @@ import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
 import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.Models.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
+import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.time.LocalDateTime;
 
-public class ManagerController {
+public class ManagerController extends Controller {
     public final IManagerUserInterface ui = new ManagerCommandLineInterface();
     public final ManagerNetworkController networkController = new ManagerNetworkController(this);
+
     public final Manager manager = new Manager();
+    private CurrentBids currentBids = null;
 
     public ManagerController() throws UnknownHostException {}
 
     private Bid createBid() {
-        return ui.askBidInformations();
+        int id = ui.askBidId();
+        String name = ui.askBidName();
+        String description = ui.askBidDescription();
+        LocalDateTime end = ui.askBidEndTime();
+        return new Bid(id, name, description, end, networkController.getMyInformations());
     }
 
     public Bid initBid() throws IOException {
         Bid bid = createBid();
         System.out.println("Vous avez créé l'enchère : ");
         System.out.println(bid._toString());
-        networkController.addBid(bid);
+        addBid(bid);
         networkController.sendBidToSeller(bid);
         return bid;
     }
 
+    public CurrentBids getCurrentBids() {
+        return currentBids;
+    }
+
+    public void addBid(Bid bid){
+        currentBids.addCurrentBid(bid);
+    }
+
+    public void startAllBids(){
+        currentBids.startAllBids();
+    }
+
+    public void startBid(int id) {
+        currentBids.startBids(id);
+    }
+
     public void generateManagerKeys() throws Exception {
         manager.setManagerKeys(EncryptionUtil.generateKeyPair());
-        networkController.savePublicKey(manager.getManagerPublicKey());
+        networkController.saveMyInformations(manager.getManagerPublicKey());
+        currentBids = new CurrentBids(networkController.getMyInformations());
     }
 
     public void launchBids() throws IOException, ClassNotFoundException, InterruptedException {
-        networkController.startAllBids();
-        networkController.startListening(networkController.getManagerPort());
+        startAllBids();
+        networkController.startListening();
     }
 
     public void launchBid(int id) throws IOException, ClassNotFoundException, InterruptedException {
-        networkController.startBid(id);
-        networkController.startListening(networkController.getManagerPort());
+        startBid(id);
+        networkController.startListening();
     }
 
     public Winner processPrices(EncryptedPrices encryptedPrices) throws Exception {

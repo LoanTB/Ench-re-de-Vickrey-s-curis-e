@@ -5,20 +5,23 @@ import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.ISellerUserInterface;
 import com.projetenchere.Seller.View.commandLineInterface.SellerCommandLineInterface;
 import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.Models.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.time.LocalDateTime;
 import java.util.*;
 
-public class SellerController {
-    private static final ISellerUserInterface ui = new SellerCommandLineInterface();
-    private Bid myBid;
-    private final Seller seller = new Seller();
-    private Winner winner = null;
+public class SellerController extends Controller {
     SellerNetworkController networkController = new SellerNetworkController(this);
+    private static final ISellerUserInterface ui = new SellerCommandLineInterface();
+    private final Seller seller = new Seller();
+
+    private Bid myBid;
+    private Winner winner = null;
 
     public SellerController() throws UnknownHostException {}
 
@@ -31,7 +34,11 @@ public class SellerController {
     }
 
     public void createMyBid(){
-        this.myBid = ui.askBidInformations();
+        int id = ui.askBidId();
+        String name = ui.askBidName();
+        String description = ui.askBidDescription();
+        LocalDateTime end = ui.askBidEndTime();
+        this.myBid = new Bid(id, name, description, end, networkController.getMyInformations());
     }
 
     public boolean auctionInProgress(){
@@ -40,7 +47,7 @@ public class SellerController {
 
     public void receiveOffersUntilBidEnd() throws IOException {
         ui.waitOffers();
-        networkController.startListening(networkController.getSellerPort());
+        networkController.startListening();
         while (auctionInProgress()) {
             try {
                 wait(1000); // Eviter une utilisation excessive du CPU
@@ -87,7 +94,7 @@ public class SellerController {
         return new EncryptedPrices(myBid.getId(),encryptedPrices);
     }
 
-    public void sendEncryptedPrices() throws IOException, InterruptedException {
+    public void sendEncryptedPrices() throws IOException {
         networkController.sendEncryptedPrices(getEncryptedPrices(seller.getEncryptedOffers()));
     }
 
@@ -113,8 +120,8 @@ public class SellerController {
         List<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
         boolean haveAWinner = false;
         List<Double> winStatus = new ArrayList<>();
-        for (int i=0;i<encryptedOffers.size();i++){
-            if (Arrays.equals(encryptedOffers.get(i).getPrice(), winner.getEncryptedId()) && !haveAWinner){
+        for (EncryptedOffer encryptedOffer : encryptedOffers) {
+            if (Arrays.equals(encryptedOffer.getPrice(), winner.getEncryptedId()) && !haveAWinner) {
                 winStatus.add(winner.getPrice());
                 haveAWinner = true;
             } else {

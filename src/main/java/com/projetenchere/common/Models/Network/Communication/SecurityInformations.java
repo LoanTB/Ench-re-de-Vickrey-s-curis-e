@@ -1,7 +1,5 @@
 package com.projetenchere.common.Models.Network.Communication;
 
-import com.projetenchere.common.Models.Network.NetworkContactInformation;
-
 import java.security.PublicKey;
 
 public class SecurityInformations {
@@ -16,8 +14,8 @@ public class SecurityInformations {
         this.publicKey = publicKey;
     }
 
-    public SecurityInformations(NetworkContactInformation networkContactInformation) {
-        this.id = null;
+    public SecurityInformations(String id,NetworkContactInformation networkContactInformation) {
+        this.id = id;
         this.networkContactInformation = networkContactInformation;
         this.publicKey = null;
     }
@@ -32,5 +30,18 @@ public class SecurityInformations {
 
     public PublicKey getPublicKey() {
         return publicKey;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SecurityInformations that = (SecurityInformations) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }
