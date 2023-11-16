@@ -40,10 +40,6 @@ public abstract class NetworkController {
     }
 
     private RequestHandler determineCommonHandler(ObjectSender objectSender){
-        if (objectSender.getObjectClass().equals(SecurityInformations.class) &&
-                !informationContainsPublicKey(((SecurityInformations) objectSender.getObject()).getId())) {
-            return new InformationsRequestHandler(this);
-        }
         return determineSpecificsHandler(objectSender);
     }
 

@@ -7,6 +7,7 @@ import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Network.Communication.SecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Models.Network.Communication.NetworkContactInformation;
+import com.projetenchere.common.Models.Network.Handlers.InformationsRequestHandler;
 import com.projetenchere.common.Models.Network.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Models.Network.NetworkController;
@@ -36,6 +37,10 @@ public class BidderNetworkController extends NetworkController {
 
     @Override
     public RequestHandler determineSpecificsHandler(ObjectSender objectSender) {
+        if (objectSender.getObjectClass().equals(SecurityInformations.class) &&
+                !informationContainsPublicKey(((SecurityInformations) objectSender.getObject()).getId())) {
+            return new InformationsRequestHandler(this);
+        }
         if (objectSender.getObjectClass().equals(WinStatus.class) &&
                 controller.getParticipatedBid().contains(((WinStatus) objectSender.getObject()).getBidId())) {
             return new WinStatusRequestHandler(controller);
