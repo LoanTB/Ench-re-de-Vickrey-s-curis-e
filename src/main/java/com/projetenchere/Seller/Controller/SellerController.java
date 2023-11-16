@@ -11,7 +11,6 @@ import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -23,7 +22,7 @@ public class SellerController extends Controller {
     private Bid myBid;
     private Winner winner = null;
 
-    public SellerController() throws UnknownHostException {}
+    public SellerController() throws Exception {}
 
     public Bid getMyBid() {
         return myBid;
@@ -31,6 +30,10 @@ public class SellerController extends Controller {
 
     public void setWinner(Winner winner){
         this.winner = winner;
+    }
+
+    public void initConnexion() throws IOException {
+        networkController.startListening();
     }
 
     public void createMyBid(){
@@ -65,6 +68,17 @@ public class SellerController extends Controller {
     }
 
     public void diplayHello(){ui.diplayHello();}
+
+    public void initContactWithManager() throws IOException {
+        networkController.sendMySI("Manager");
+        while (networkController.informationContainsPublicKey("Manager")) {
+            try {
+                wait(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public void displayOfferReceived(EncryptedOffer encryptedOffer){
         ui.displayOfferReceived(encryptedOffer);

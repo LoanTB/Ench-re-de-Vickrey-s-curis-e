@@ -12,18 +12,22 @@ import com.projetenchere.common.Models.Network.NetworkController;
 import com.projetenchere.common.Models.Network.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Models.Network.Communication.Winner;
+import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.Network.NetworkUtil;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
+import java.security.KeyPair;
 import java.util.List;
 
 public class SellerNetworkController extends NetworkController {
     private final SellerController controller;
+    private final KeyPair keys = EncryptionUtil.generateKeyPair();
 
-    public SellerNetworkController(SellerController controller) throws UnknownHostException {
+    public SellerNetworkController(SellerController controller) throws Exception {
         this.controller = controller;
         myNCI = new NetworkContactInformation(NetworkUtil.getMyIP(),24682);
+        saveMyInformations(keys.getPublic());
+        saveInformations(new SecurityInformations("Manager",new NetworkContactInformation("127.0.0.1",24683)));
     }
 
     @Override
@@ -42,16 +46,7 @@ public class SellerNetworkController extends NetworkController {
     }
 
     public void sendEncryptedPrices(EncryptedPrices encryptedPrices) throws IOException {
-        NetworkUtil.send(
-                getInformationsOf("Manager").getNetworkContactInformation().getIp(),
-                getInformationsOf("Manager").getNetworkContactInformation().getPort(),
-                new ObjectSender(
-                        myNCI.getIp(),
-                        myNCI.getPort(),
-                        encryptedPrices,
-                        encryptedPrices.getClass()
-                )
-        );
+        sendTo("Manager",encryptedPrices);
     }
 
     public void sendResults(List<String> ips, List<Integer> ports, List<Double> results) throws IOException {
@@ -67,5 +62,9 @@ public class SellerNetworkController extends NetworkController {
                     )
             );
         }
+    }
+
+    public void sendMySI(String id) throws IOException {
+        sendTo(id,getMyInformations());
     }
 }

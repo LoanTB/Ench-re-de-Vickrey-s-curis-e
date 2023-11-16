@@ -63,9 +63,12 @@ public class ManagerController extends Controller {
         currentBids = new CurrentBids(networkController.getMyInformations());
     }
 
+    public void initConnexion() throws IOException {
+        networkController.startListening();
+    }
+
     public void launchBids() throws IOException, ClassNotFoundException, InterruptedException {
         startAllBids();
-        networkController.startListening();
     }
 
     public void launchBid(int id) throws IOException, ClassNotFoundException, InterruptedException {

@@ -9,6 +9,7 @@ public class ManagerApp {
     public static void main(String[] args) throws Exception {
         System.out.println("Bienvenue Manager !");
         ManagerController controller = new ManagerController();
+        controller.initConnexion();
         controller.initBid();
         System.out.println("Génération de clé...");
         controller.generateManagerKeys();

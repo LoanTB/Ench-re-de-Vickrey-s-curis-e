@@ -2,8 +2,8 @@ package com.projetenchere.common.Models.Network;
 
 import com.projetenchere.common.Models.Network.Communication.NetworkContactInformation;
 import com.projetenchere.common.Models.Network.Communication.SecurityInformations;
-import com.projetenchere.common.Models.Network.Handlers.InformationsRequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
+import com.projetenchere.common.Utils.Network.NetworkUtil;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -83,5 +83,19 @@ public abstract class NetworkController {
 
     public boolean existInformations(String id){
         return !(getInformationsOf(id) == null);
+    }
+
+    public void sendTo(String id, Object object) throws IOException {
+        SecurityInformations target = getInformationsOf(id);
+        NetworkUtil.send(
+                target.getNetworkContactInformation().getIp(),
+                target.getNetworkContactInformation().getPort(),
+                new ObjectSender(
+                        myNCI.getIp(),
+                        myNCI.getPort(),
+                        object,
+                        object.getClass()
+                )
+        );
     }
 }
