@@ -20,7 +20,7 @@ public class ManagerController extends Controller {
     public final ManagerNetworkController networkController = new ManagerNetworkController(this);
 
     public final Manager manager = new Manager();
-    private CurrentBids currentBids = null;
+    private final CurrentBids currentBids = new CurrentBids();
 
     public ManagerController() throws Exception {}
 
@@ -59,7 +59,6 @@ public class ManagerController extends Controller {
 
     public void generateManagerKeys() throws Exception {
         manager.setManagerKeys(EncryptionUtil.generateKeyPair());
-        currentBids = new CurrentBids();
     }
 
     public void initConnexion() {
