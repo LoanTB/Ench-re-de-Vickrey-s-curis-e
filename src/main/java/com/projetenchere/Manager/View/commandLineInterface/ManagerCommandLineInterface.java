@@ -99,6 +99,26 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
     }
 
     @Override
+    public void displayReceivedPrices() {
+        showMessage("Réception des prix...");
+    }
+
+    @Override
+    public void displayPriceProcessing() {
+        showMessage("Traitement des prix...");
+    }
+
+    @Override
+    public void displaySentWinnerPrice() {
+        showMessage("Envoie du prix gagnant...");
+    }
+
+    @Override
+    public void displayEndOfAuction() {
+        showMessage("Fin des echères !");
+    }
+
+    @Override
     public int askBidId() {
         showMessage("Veuillez saisir l'id de l'enchère : ");
         return Integer.parseInt(scanner.nextLine()); // TODO : Verifier l'entrée utilisateur

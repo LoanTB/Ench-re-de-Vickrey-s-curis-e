@@ -12,6 +12,14 @@ public interface IManagerUserInterface {
 
     void displayBidLaunch();
 
+    void displayReceivedPrices();
+
+    void displayPriceProcessing();
+
+    void displaySentWinnerPrice();
+
+    void displayEndOfAuction();
+
     int askBidId();
 
     String askBidName();
