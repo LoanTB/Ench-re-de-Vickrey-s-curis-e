@@ -32,16 +32,8 @@ public class ManagerController extends Controller {
         return new Bid(id, name, description, end, networkController.getMyInformations());
     }
 
-    public void initContactWithSeller() throws IOException {
-        networkController.sendMySI("Seller");
-        while (networkController.informationContainsPublicKey("Seller")) {
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
+
 
     public Bid initBid() throws IOException {
         Bid bid = createBid();
