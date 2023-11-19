@@ -84,6 +84,11 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
     }
 
     @Override
+    public void diplayHello() {
+        System.out.println("Bienvenue Manager !");
+    }
+
+    @Override
     public int askBidId() {
         showMessage("Veuillez saisir l'id de l'enchère : ");
         return Integer.parseInt(scanner.nextLine()); // TODO : Verifier l'entrée utilisateur

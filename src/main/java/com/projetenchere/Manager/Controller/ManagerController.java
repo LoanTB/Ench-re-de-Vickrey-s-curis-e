@@ -104,4 +104,8 @@ public class ManagerController extends Controller {
     public void showWinnerPrice(Winner winner) {
         ui.displayWinnerPrice(winner);
     }
+
+    public void diplayHello(){
+        ui.diplayHello();
+    }
 }

@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 
 public interface IManagerUserInterface {
 
+    void diplayHello();
+
     int askBidId();
 
     String askBidName();

@@ -4,8 +4,8 @@ import com.projetenchere.Manager.Controller.ManagerController;
 
 public class ManagerApp {
     public static void main(String[] args) throws Exception {
-        System.out.println("Bienvenue Manager !");
         ManagerController controller = new ManagerController();
+        controller.diplayHello();
         controller.initConnexion();
         controller.initBid();
         System.out.println("Génération de clé...");
