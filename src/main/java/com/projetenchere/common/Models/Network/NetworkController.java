@@ -45,9 +45,7 @@ public abstract class NetworkController implements Runnable {
         return determineSpecificsHandler(objectSender);
     }
 
-    protected RequestHandler determineSpecificsHandler(ObjectSender objectSender){
-        return null;
-    }
+    protected abstract RequestHandler determineSpecificsHandler(ObjectSender objectSender);
 
     public void saveInformations(PublicSecurityInformations informations){
         if (this.informations.contains(informations)){
