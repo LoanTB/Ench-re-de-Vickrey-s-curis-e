@@ -1,16 +1,22 @@
 package com.projetenchere.common.Controllers;
 
+import com.projetenchere.common.Models.Network.Communication.AuthenticationStatus;
 import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Handlers.RequestHandler;
+import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
+import com.projetenchere.common.Models.Network.Sendable.SecuredObjectSender;
+import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.NetworkUtil;
+import com.projetenchere.common.Utils.SerializationUtil;
+import com.projetenchere.common.Utils.SignatureUtil;
 
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -25,28 +31,52 @@ public abstract class NetworkController implements Runnable {
     public void run() {
         try (ServerSocket serverSocket = new ServerSocket(myInformations.getNetworkContactInformation().getPort())) {
             while (!Thread.currentThread().isInterrupted()) {
+                ObjectReceived request = null;
                 try {
                     Socket clientSocket = serverSocket.accept();
                     ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
-                    ObjectSender request = (ObjectSender) objectInput.readObject();
+                    Object object = objectInput.readObject();
+                    if (object instanceof ObjectSender) {
+                        request = new ObjectReceived((ObjectSender) object);
+                    } else if (object instanceof SecuredObjectSender securedRequest){
+                        for (PublicSecurityInformations securityInformations : informations){
+                            if (SignatureUtil.verifyDataSignature(
+                                    securedRequest.getEncryptedObjectSender(),
+                                    securedRequest.getSignatureBytes(),
+                                    securityInformations.getSignaturePublicKey()))
+                            {
+                                request = new ObjectReceived(
+                                        (ObjectSender) SerializationUtil.deserialize(
+                                                EncryptionUtil.decrypt(
+                                                        securedRequest.getEncryptedObjectSender(),
+                                                        myInformations.getEncryptionKeys().getPrivate()
+                                                )
+                                        ),
+                                        new AuthenticationStatus(securityInformations.getId())
+                                );
+                            }
+                        }
+                    } else {
+                        throw new InvalidClassException("Received object is not an instance of ObjectSender");
+                    }
 
                     RequestHandler requestHandler = determineCommonHandler(request);
                     if (requestHandler != null) {
-                        executor.submit(() -> requestHandler.handle(request));
+                        ObjectReceived finalRequest = request;
+                        executor.submit(() -> requestHandler.handle(finalRequest.getObjectSended()));
                     }
-                } catch (SocketTimeoutException | ClassNotFoundException ignored) {
-                }
+                } catch (Exception ignored){}
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private RequestHandler determineCommonHandler(ObjectSender objectSender){
+    private RequestHandler determineCommonHandler(ObjectReceived objectSender){
         return determineSpecificsHandler(objectSender);
     }
 
-    protected abstract RequestHandler determineSpecificsHandler(ObjectSender objectSender);
+    protected abstract RequestHandler determineSpecificsHandler(ObjectReceived objectSender);
 
     public void saveInformations(PublicSecurityInformations informations){
         if (this.informations.contains(informations)){
@@ -69,10 +99,10 @@ public abstract class NetworkController implements Runnable {
         return null;
     }
 
-    public boolean informationContainsPublicKey(String id){
+    public boolean informationContainsPublicKeys(String id){
         PublicSecurityInformations publicSecurityInformations = getInformationsOf(id);
         if (publicSecurityInformations != null){
-            return !(publicSecurityInformations.getSignaturePublicKey() == null);
+            return !(publicSecurityInformations.getSignaturePublicKey() == null || publicSecurityInformations.getEncryptionPublicKey() == null);
         } else {
             return false;
         }
@@ -82,17 +112,33 @@ public abstract class NetworkController implements Runnable {
         return !(getInformationsOf(id) == null);
     }
 
-    public void sendTo(String id, Object object) throws IOException {
+    public void sendTo(String id, Object object) throws Exception {
         PublicSecurityInformations target = getInformationsOf(id);
-        NetworkUtil.send(
-                target.getNetworkContactInformation().getIp(),
-                target.getNetworkContactInformation().getPort(),
-                new ObjectSender(
-                        myInformations.getNetworkContactInformation().getIp(),
-                        myInformations.getNetworkContactInformation().getPort(),
-                        object,
-                        object.getClass()
-                )
-        );
+        if (informationContainsPublicKeys(id)){
+            NetworkUtil.sendSecurely(
+                    target.getNetworkContactInformation().getIp(),
+                    target.getNetworkContactInformation().getPort(),
+                    new ObjectSender(
+                            myInformations.getNetworkContactInformation().getIp(),
+                            myInformations.getNetworkContactInformation().getPort(),
+                            object,
+                            object.getClass()
+                    ),
+                    myInformations.getSignatureKeys().getPrivate(),
+                    target.getEncryptionPublicKey()
+            );
+        } else {
+            NetworkUtil.send(
+                    target.getNetworkContactInformation().getIp(),
+                    target.getNetworkContactInformation().getPort(),
+                    new ObjectSender(
+                            myInformations.getNetworkContactInformation().getIp(),
+                            myInformations.getNetworkContactInformation().getPort(),
+                            object,
+                            object.getClass()
+                    )
+            );
+        }
+
     }
 }

@@ -12,12 +12,12 @@ public class EncryptedOffer implements Serializable {
 
     public EncryptedOffer(String idBidder, double price, PublicKey publicKey) throws Exception {
         this.idBidder = idBidder;
-        this.price = EncryptionUtil.encrypt(price,publicKey);
+        this.price = EncryptionUtil.encryptPrice(price,publicKey);
     }
 
     public EncryptedOffer(Offer offer, PublicKey publicKey) throws Exception {
         this.idBidder = offer.getIdBidder();
-        this.price = EncryptionUtil.encrypt(offer.getPrice(),publicKey);
+        this.price = EncryptionUtil.encryptPrice(offer.getPrice(),publicKey);
     }
 
     public String getIdBidder() {

@@ -23,10 +23,10 @@ public class EncryptionUtilTest {
 
         double price = 12.34;
         System.out.println("Prix d'origine : "+price);
-        byte[] encryptedPrice = EncryptionUtil.encrypt(price, manager_publicKey);
+        byte[] encryptedPrice = EncryptionUtil.encryptPrice(price, manager_publicKey);
         System.out.print("Message chiffré : ");
         System.out.println(new String(encryptedPrice, 0));
-        double decryptedPrice = EncryptionUtil.decrypt(encryptedPrice,manager_privateKey);
+        double decryptedPrice = EncryptionUtil.decryptPrice(encryptedPrice,manager_privateKey);
         System.out.println("Prix déchiffré : "+decryptedPrice);
 
         assertEquals(price, decryptedPrice);

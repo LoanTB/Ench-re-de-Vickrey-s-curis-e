@@ -22,15 +22,15 @@ public class SignatureUtilTest {
         // Création de l'outil de signature frauduleux
         Signature signatureFraud = SignatureUtil.initSignatureForSigning(keyPairFraud.getPrivate());
         // Récupération de la signature de l'objet à envoyer
-        byte[] sign = SignatureUtil.signData(objectSender.getBytes(),signature);
+        byte[] sign = SignatureUtil.signData(SerializationUtil.serialize(objectSender),signature);
         // Récupération de la signature de l'objet frauduleux à envoyer
-        byte[] signFraud = SignatureUtil.signData(objectSender.getBytes(),signatureFraud);
+        byte[] signFraud = SignatureUtil.signData(SerializationUtil.serialize(objectSender),signatureFraud);
         // Verification du signé
         // La clé est mauvaise.
-        assertFalse(SignatureUtil.verifyDataSignature(objectSender.getBytes(),sign, keyPairFraud.getPublic()));
+        assertFalse(SignatureUtil.verifyDataSignature(SerializationUtil.serialize(objectSender),sign, keyPairFraud.getPublic()));
         // La signature est mauvaise.
-        assertFalse(SignatureUtil.verifyDataSignature(objectSender.getBytes(),signFraud, keyPair.getPublic()));
+        assertFalse(SignatureUtil.verifyDataSignature(SerializationUtil.serialize(objectSender),signFraud, keyPair.getPublic()));
         // La signature et la clé sont bonnes.
-        assertTrue(SignatureUtil.verifyDataSignature(objectSender.getBytes(),sign, keyPair.getPublic()));
+        assertTrue(SignatureUtil.verifyDataSignature(SerializationUtil.serialize(objectSender),sign, keyPair.getPublic()));
     }
 }

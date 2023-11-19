@@ -5,6 +5,7 @@ import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
+import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Handlers.InformationsRequestWithAckHandler;
@@ -34,13 +35,13 @@ public class BidderNetworkController extends NetworkController {
 
 
     @Override
-    public RequestHandler determineSpecificsHandler(ObjectSender objectSender) {
-        if (objectSender.getObjectClass().equals(PublicSecurityInformations.class) &&
-                !informationContainsPublicKey(((PublicSecurityInformations) objectSender.getObject()).getId())) {
+    public RequestHandler determineSpecificsHandler(ObjectReceived objectReceived) {
+        if (objectReceived.getObjectSended().getObjectClass().equals(PublicSecurityInformations.class) &&
+                !informationContainsPublicKeys(((PublicSecurityInformations) objectReceived.getObjectSended().getObject()).getId())) {
             return new InformationsRequestWithAckHandler(this);
         }
-        if (objectSender.getObjectClass().equals(WinStatus.class) &&
-                controller.getParticipatedBid().contains(((WinStatus) objectSender.getObject()).getBidId())) {
+        if (objectReceived.getObjectSended().getObjectClass().equals(WinStatus.class) &&
+                controller.getParticipatedBid().contains(((WinStatus) objectReceived.getObjectSended().getObject()).getBidId())) {
             return new WinStatusRequestHandler(controller);
         }
         return null;

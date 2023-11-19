@@ -68,9 +68,9 @@ public class SellerController extends Controller {
 
     public void displayHello(){ui.displayHello();}
 
-    public void initContactWithManager() throws IOException {
+    public void initContactWithManager() throws Exception {
         networkController.sendMySI("Manager");
-        while (networkController.informationContainsPublicKey("Manager")) {
+        while (networkController.informationContainsPublicKeys("Manager")) {
             try {
                 wait(1000);
             } catch (InterruptedException e) {
@@ -107,7 +107,7 @@ public class SellerController extends Controller {
         return new EncryptedPrices(myBid.getId(),encryptedPrices);
     }
 
-    public void sendEncryptedPrices() throws IOException {
+    public void sendEncryptedPrices() throws Exception {
         networkController.sendEncryptedPrices(getEncryptedPrices(seller.getEncryptedOffers()));
     }
 

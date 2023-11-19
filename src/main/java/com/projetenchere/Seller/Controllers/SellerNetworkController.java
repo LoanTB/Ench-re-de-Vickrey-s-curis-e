@@ -10,6 +10,7 @@ import com.projetenchere.common.Models.Network.Communication.Informations.Public
 import com.projetenchere.common.Handlers.InformationsRequestWithAckHandler;
 import com.projetenchere.common.Controllers.NetworkController;
 import com.projetenchere.common.Handlers.RequestHandler;
+import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
@@ -27,21 +28,21 @@ public class SellerNetworkController extends NetworkController {
     }
 
     @Override
-    protected RequestHandler determineSpecificsHandler(ObjectSender objectSender) {
-        if (objectSender.getObjectClass().equals(PublicSecurityInformations.class) &&
-                !informationContainsPublicKey(((PublicSecurityInformations) objectSender.getObject()).getId())) {
+    protected RequestHandler determineSpecificsHandler(ObjectReceived objectReceived) {
+        if (objectReceived.getObjectSended().getObjectClass().equals(PublicSecurityInformations.class) &&
+                !informationContainsPublicKeys(((PublicSecurityInformations) objectReceived.getObjectSended().getObject()).getId())) {
             return new InformationsRequestWithAckHandler(this);
         }
-        if (objectSender.getObjectClass().equals(EncryptedOffer.class) && controller.auctionInProgress()) {
+        if (objectReceived.getObjectSended().getObjectClass().equals(EncryptedOffer.class) && controller.auctionInProgress()) {
             return new EncryptedPricesRequestHandler(controller);
         }
-        if (objectSender.getObjectClass().equals(Winner.class) && !controller.auctionInProgress()) {
+        if (objectReceived.getObjectSended().getObjectClass().equals(Winner.class) && !controller.auctionInProgress()) {
             return new WinnerRequestHandler(controller);
         }
         return null;
     }
 
-    public void sendEncryptedPrices(EncryptedPrices encryptedPrices) throws IOException {
+    public void sendEncryptedPrices(EncryptedPrices encryptedPrices) throws Exception {
         sendTo("Manager",encryptedPrices);
     }
 
@@ -60,7 +61,7 @@ public class SellerNetworkController extends NetworkController {
         }
     }
 
-    public void sendMySI(String id) throws IOException {
+    public void sendMySI(String id) throws Exception {
         sendTo(id, getMyPublicInformations());
     }
 }

@@ -77,7 +77,7 @@ public class ManagerController extends Controller {
         byte[] encrypted1 = null;
         double decrypted;
         for (byte[] encrypted : encryptedPrices.getPrices()) {
-            decrypted = EncryptionUtil.decrypt(encrypted,manager.getManagerPrivateKey());
+            decrypted = EncryptionUtil.decryptPrice(encrypted,manager.getManagerPrivateKey());
             if (decrypted > price1){
                 price1 = decrypted;
                 encrypted1 = encrypted;
@@ -85,7 +85,7 @@ public class ManagerController extends Controller {
         }
         double price2 = -1;
         for (byte[] encrypted : encryptedPrices.getPrices()) {
-            decrypted = EncryptionUtil.decrypt(encrypted,manager.getManagerPrivateKey());
+            decrypted = EncryptionUtil.decryptPrice(encrypted,manager.getManagerPrivateKey());
             if (decrypted > price2 && decrypted != price1){
                 price2 = decrypted;
             }

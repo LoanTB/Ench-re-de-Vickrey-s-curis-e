@@ -1,8 +1,5 @@
 package com.projetenchere.common.Models.Network.Sendable;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class ObjectSender implements Serializable {
@@ -10,6 +7,7 @@ public class ObjectSender implements Serializable {
     private final int PORT_sender;
     private final Object object;
     private final Class<?> objectClass;
+    private byte[] signatureBytes = null;
 
     public ObjectSender(String IP_sender, int PORT_sender, Object object, Class<?> objectClass) {
         this.IP_sender = IP_sender;
@@ -37,13 +35,8 @@ public class ObjectSender implements Serializable {
         return objectClass;
     }
 
-    public byte[] getBytes() {
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
-            objectOutputStream.writeObject(this);
-            return byteArrayOutputStream.toByteArray();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    public void setSignatureBytes(byte[] signatureBytes){this.signatureBytes = signatureBytes;}
+
+    public byte[] getSignatureBytes(){return signatureBytes;}
 }
 

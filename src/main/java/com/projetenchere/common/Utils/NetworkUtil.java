@@ -11,6 +11,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 public class NetworkUtil {
 
@@ -37,6 +39,19 @@ public class NetworkUtil {
         try (Socket clientSocket = new Socket(serverAddress, serverPort);
              ObjectOutputStream objectOutput = new ObjectOutputStream(clientSocket.getOutputStream())) {
             objectOutput.writeObject(data);
+            objectOutput.flush();
+        }
+    }
+
+    public static void sendSecurely(String serverAddress, int serverPort, ObjectSender data, PrivateKey signaturePrivateKey, PublicKey encryptionPublicKey) throws Exception {
+        data.setSignatureBytes(SignatureUtil.signData(SerializationUtil.serialize(data),SignatureUtil.initSignatureForSigning(signaturePrivateKey)));
+        try (Socket clientSocket = new Socket(serverAddress, serverPort);
+             ObjectOutputStream objectOutput = new ObjectOutputStream(clientSocket.getOutputStream())) {
+            objectOutput.writeObject(
+                    EncryptionUtil.encrypt(
+                            SerializationUtil.serialize(data),
+                            encryptionPublicKey)
+            );
             objectOutput.flush();
         }
     }

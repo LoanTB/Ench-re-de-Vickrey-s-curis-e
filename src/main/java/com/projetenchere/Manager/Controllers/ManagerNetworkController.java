@@ -10,6 +10,7 @@ import com.projetenchere.common.Models.Network.Communication.Informations.Public
 import com.projetenchere.common.Handlers.InformationsRequestWithReplyHandler;
 import com.projetenchere.common.Controllers.NetworkController;
 import com.projetenchere.common.Handlers.RequestHandler;
+import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.NetworkUtil;
@@ -25,21 +26,21 @@ public class ManagerNetworkController extends NetworkController {
     }
 
     @Override
-    public RequestHandler determineSpecificsHandler(ObjectSender objectSender) {
-        if (objectSender.getObjectClass().equals(PublicSecurityInformations.class) &&
-                !informationContainsPublicKey(((PublicSecurityInformations) objectSender.getObject()).getId())) {
+    public RequestHandler determineSpecificsHandler(ObjectReceived objectReceived) {
+        if (objectReceived.getObjectSended().getObjectClass().equals(PublicSecurityInformations.class) &&
+                !informationContainsPublicKeys(((PublicSecurityInformations) objectReceived.getObjectSended().getObject()).getId())) {
             return new InformationsRequestWithReplyHandler(this);
         }
-        if (objectSender.getObject().equals("InitPackageRequest")) {
+        if (objectReceived.getObjectSended().getObject().equals("InitPackageRequest")) {
             return new InitPackageRequestHandler(controller.getCurrentBids(),myInformations.getNetworkContactInformation());
         }
-        if (objectSender.getObjectClass() == EncryptedPrices.class && controller.getCurrentBids().isOver(((EncryptedPrices)objectSender.getObject()).getBidId())) {
+        if (objectReceived.getObjectSended().getObjectClass() == EncryptedPrices.class && controller.getCurrentBids().isOver(((EncryptedPrices)objectReceived.getObjectSended().getObject()).getBidId())) {
             return new PriceDecryptionRequestHandler(controller,myInformations.getNetworkContactInformation());
         }
         return null;
     }
 
-    public void sendMySI(String id) throws IOException {
+    public void sendMySI(String id) throws Exception {
         sendTo(id, getMyPublicInformations());
     }
 
