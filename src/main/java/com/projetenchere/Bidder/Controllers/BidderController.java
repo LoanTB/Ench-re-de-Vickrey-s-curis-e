@@ -6,6 +6,7 @@ import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInter
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKeys;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Models.Offer;
 
@@ -17,7 +18,12 @@ public class BidderController extends Controller {
     private final IBidderUserInterface ui = new BidderCommandLineInterface();
     private final BidderNetworkController networkController = new BidderNetworkController(this);
 
+    private CurrentBidsPublicKeys currentBidsPublicKeys;
+
     private CurrentBids currentBids;
+
+
+
     private final List<Integer> participatedBid = new ArrayList<>();
     private final List<WinStatus> results = new ArrayList<>();
     private final Bidder bidder = new Bidder();
@@ -26,6 +32,10 @@ public class BidderController extends Controller {
 
     public void setCurrentBids(CurrentBids currentBids) {
         this.currentBids = currentBids;
+    }
+
+    public void setCurrentBidsPublicKeys(CurrentBidsPublicKeys currentBidsPublicKeys) {
+        this.currentBidsPublicKeys = currentBidsPublicKeys;
     }
 
     public void addResult(WinStatus result){
