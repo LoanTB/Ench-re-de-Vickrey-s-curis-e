@@ -1,5 +1,8 @@
 package com.projetenchere.Bidder.Controllers;
 
+import com.projetenchere.Bidder.Handlers.CurrentBidsHandler;
+import com.projetenchere.Bidder.Handlers.CurrentBidsPublicKeysHandler;
+import com.projetenchere.Bidder.Handlers.PublicSecurityInformationHandler;
 import com.projetenchere.Bidder.Handlers.WinStatusRequestHandler;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
@@ -43,6 +46,15 @@ public class BidderNetworkController extends NetworkController {
                 controller.getParticipatedBid().contains(((WinStatus) objectSender.getObject()).getBidId())) {
             return new WinStatusRequestHandler(controller);
         }
+        if (objectSender.getObjectClass().equals(CurrentBids.class)) {
+            return new CurrentBidsHandler(controller);
+        }
+        if (objectSender.getObjectClass().equals(PublicSecurityInformations.class)) {
+            return new PublicSecurityInformationHandler(this);
+        }
+        if (objectSender.getObjectClass().equals(PublicSecurityInformations.class)) {
+            return new CurrentBidsPublicKeysHandler(controller);
+        }
         return null;
     }
 
@@ -59,14 +71,6 @@ public class BidderNetworkController extends NetworkController {
                         securityInformation.getClass()
                 )
         );
-        ObjectSender objectSender = NetworkUtil.receive(myInformations.getNetworkContactInformation().getPort(),30000); // On garde cette façon de recevoir car le blockage est utile
-        if (!objectSender.getObjectClass().equals(CurrentBids.class)) {
-            throw new ClassNotFoundException("Received wrong class");
-        } else {
-            CurrentBids currentBids = (CurrentBids) objectSender.getObject();
-            //saveInformations(currentBids.getManagerInformations()); TODO : InitContactWithManager
-            controller.setCurrentBids(currentBids);
-        }
     }
 
     public void sendOffer(EncryptedOffer encryptedOffer) throws IOException {
