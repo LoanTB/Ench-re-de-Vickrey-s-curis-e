@@ -70,7 +70,7 @@ public class ManagerController extends Controller {
 
     public void generateManagerKeys() throws Exception {
         manager.setManagerKeys(EncryptionUtil.generateKeyPair());
-        currentBids = new CurrentBids(networkController.getMyInformations());
+        currentBids = new CurrentBids();
     }
 
     public void initConnexion() {
