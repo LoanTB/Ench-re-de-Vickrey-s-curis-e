@@ -7,7 +7,7 @@ public class SellerApp {
         SellerController controller = new SellerController();
         controller.initConnexion();
         controller.initContactWithManager();
-        controller.diplayHello();
+        controller.displayHello();
         controller.createMyBid();
         controller.receiveOffersUntilBidEnd();
         controller.sendEncryptedPrices();

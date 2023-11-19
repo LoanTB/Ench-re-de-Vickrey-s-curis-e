@@ -67,7 +67,7 @@ public class SellerController extends Controller {
         displayOfferReceived(encryptedOffer);
     }
 
-    public void diplayHello(){ui.diplayHello();}
+    public void displayHello(){ui.displayHello();}
 
     public void initContactWithManager() throws IOException {
         networkController.sendMySI("Manager");
