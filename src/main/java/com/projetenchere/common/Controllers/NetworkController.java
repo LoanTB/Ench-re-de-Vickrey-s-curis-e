@@ -1,7 +1,8 @@
-package com.projetenchere.common.Models.Network;
+package com.projetenchere.common.Controllers;
 
 import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
+import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Utils.NetworkUtil;
 

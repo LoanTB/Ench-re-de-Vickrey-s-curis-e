@@ -1,8 +1,8 @@
-package com.projetenchere.Manager.Controller.Network.Handlers;
+package com.projetenchere.Manager.Handlers;
 
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
-import com.projetenchere.common.Models.Network.RequestHandler;
+import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Utils.NetworkUtil;
 

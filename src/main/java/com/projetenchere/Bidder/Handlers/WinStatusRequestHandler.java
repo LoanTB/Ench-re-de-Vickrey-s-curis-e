@@ -1,8 +1,8 @@
-package com.projetenchere.Bidder.Controller.Network.Handlers;
+package com.projetenchere.Bidder.Handlers;
 
-import com.projetenchere.Bidder.Controller.BidderController;
+import com.projetenchere.Bidder.Controllers.BidderController;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
-import com.projetenchere.common.Models.Network.RequestHandler;
+import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 
 public class WinStatusRequestHandler implements RequestHandler {

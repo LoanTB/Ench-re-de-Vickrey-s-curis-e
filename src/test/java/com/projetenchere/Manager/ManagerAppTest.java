@@ -1,6 +1,6 @@
 package com.projetenchere.Manager;
 
-import com.projetenchere.Manager.Controller.ManagerController;
+import com.projetenchere.Manager.Controllers.ManagerController;
 import com.projetenchere.common.Utils.EncryptionUtil;
 
 import org.junit.jupiter.api.Test;

@@ -1,11 +1,10 @@
-package com.projetenchere.Manager.Controller;
+package com.projetenchere.Manager.Controllers;
 
-import com.projetenchere.Manager.Controller.Network.ManagerNetworkController;
 import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.Controller;
+import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Network.Communication.Winner;

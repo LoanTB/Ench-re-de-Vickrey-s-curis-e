@@ -1,17 +1,16 @@
-package com.projetenchere.Bidder.Controller.Network;
+package com.projetenchere.Bidder.Controllers;
 
-import com.projetenchere.Bidder.Controller.BidderController;
-import com.projetenchere.Bidder.Controller.Network.Handlers.WinStatusRequestHandler;
+import com.projetenchere.Bidder.Handlers.WinStatusRequestHandler;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
-import com.projetenchere.common.Models.Network.Handlers.InformationsRequestWithAckHandler;
-import com.projetenchere.common.Models.Network.RequestHandler;
+import com.projetenchere.common.Handlers.InformationsRequestWithAckHandler;
+import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
-import com.projetenchere.common.Models.Network.NetworkController;
+import com.projetenchere.common.Controllers.NetworkController;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.NetworkUtil;
 
@@ -44,14 +43,9 @@ public class BidderNetworkController extends NetworkController {
                 controller.getParticipatedBid().contains(((WinStatus) objectSender.getObject()).getBidId())) {
             return new WinStatusRequestHandler(controller);
         }
-        if (objectSender.getObjectClass().equals(PublicSecurityInformations.class)) {
-            saveInformations((PublicSecurityInformations) objectSender.getObject());
-        }
-        if (objectSender.getObjectClass().equals(CurrentBids.class)) {
-            controller.setCurrentBids((CurrentBids) objectSender.getObject());
-        }
         return null;
     }
+
 
     public void sendBidderInfosToManager() throws IOException, ClassNotFoundException {
         PublicSecurityInformations securityInformation = new PublicSecurityInformations(myInformations);
@@ -65,6 +59,14 @@ public class BidderNetworkController extends NetworkController {
                         securityInformation.getClass()
                 )
         );
+        ObjectSender objectSender = NetworkUtil.receive(myInformations.getNetworkContactInformation().getPort(),30000); // On garde cette façon de recevoir car le blockage est utile
+        if (!objectSender.getObjectClass().equals(CurrentBids.class)) {
+            throw new ClassNotFoundException("Received wrong class");
+        } else {
+            CurrentBids currentBids = (CurrentBids) objectSender.getObject();
+            //saveInformations(currentBids.getManagerInformations()); TODO : InitContactWithManager
+            controller.setCurrentBids(currentBids);
+        }
     }
 
     public void sendOffer(EncryptedOffer encryptedOffer) throws IOException {

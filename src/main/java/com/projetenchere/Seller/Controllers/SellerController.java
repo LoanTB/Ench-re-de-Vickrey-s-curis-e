@@ -1,11 +1,10 @@
-package com.projetenchere.Seller.Controller;
+package com.projetenchere.Seller.Controllers;
 
-import com.projetenchere.Seller.Controller.Network.SellerNetworkController;
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.ISellerUserInterface;
 import com.projetenchere.Seller.View.commandLineInterface.SellerCommandLineInterface;
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.Controller;
+import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.Network.Communication.Winner;

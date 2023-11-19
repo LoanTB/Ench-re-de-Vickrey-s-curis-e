@@ -1,6 +1,6 @@
 package com.projetenchere.Manager;
 
-import com.projetenchere.Manager.Controller.ManagerController;
+import com.projetenchere.Manager.Controllers.ManagerController;
 
 public class ManagerApp {
     public static void main(String[] args) throws Exception {
@@ -13,7 +13,6 @@ public class ManagerApp {
         //TODO : "Supprimer" les méthodes de création par manager.
         // Enregistrer les informations de seller.
         //Envoyer mes informations au seller.
-        controller.initContactWithSeller();
 
         controller.initBid();
         controller.displayGenerateKey(); // "Génération de clé..."
