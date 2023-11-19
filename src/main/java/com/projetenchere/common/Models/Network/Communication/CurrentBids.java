@@ -1,23 +1,13 @@
 package com.projetenchere.common.Models.Network.Communication;
 
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CurrentBids implements Serializable {
-    private final PublicSecurityInformations managerInformations;
     private final List<Bid> currentBids = new ArrayList<>();
-
-    public CurrentBids(PublicSecurityInformations managerInformations) {
-        this.managerInformations = managerInformations;
-    }
-
-    public PublicSecurityInformations getManagerInformations() {
-        return managerInformations;
-    }
 
     public List<Bid> getCurrentBids() {
         return currentBids;
