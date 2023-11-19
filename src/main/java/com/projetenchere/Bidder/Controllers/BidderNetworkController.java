@@ -45,6 +45,15 @@ public class BidderNetworkController extends NetworkController {
                 controller.getParticipatedBid().contains(((WinStatus) objectReceived.getObjectSended().getObject()).getBidId())) {
             return new WinStatusRequestHandler(controller);
         }
+        if (objectSender.getObjectClass().equals(CurrentBids.class)) {
+            return new CurrentBidsHandler(controller);
+        }
+        if (objectSender.getObjectClass().equals(PublicSecurityInformations.class)) {
+            return new PublicSecurityInformationHandler(this);
+        }
+        if (objectSender.getObjectClass().equals(PublicSecurityInformations.class)) {
+            return new CurrentBidsPublicKeysHandler(controller);
+        }
         return null;
     }
 
