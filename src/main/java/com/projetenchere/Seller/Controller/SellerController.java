@@ -32,7 +32,7 @@ public class SellerController extends Controller {
         this.winner = winner;
     }
 
-    public void initConnexion() throws IOException {
+    public void initConnexion() {
         Thread thread = new Thread(networkController);
         thread.start();
     }
@@ -42,7 +42,7 @@ public class SellerController extends Controller {
         String name = ui.askBidName();
         String description = ui.askBidDescription();
         LocalDateTime end = ui.askBidEndTime();
-        this.myBid = new Bid(id, name, description, end, networkController.getMyInformations());
+        this.myBid = new Bid(id, name, description, end, networkController.getMyPublicInformations());
     }
 
     public boolean auctionInProgress(){

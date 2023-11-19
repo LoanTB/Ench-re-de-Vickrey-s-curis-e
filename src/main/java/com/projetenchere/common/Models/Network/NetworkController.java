@@ -55,8 +55,8 @@ public abstract class NetworkController implements Runnable {
         }
     }
 
-    public PublicSecurityInformations getMyInformations(){
-        return getInformationsOf("MyInformations");
+    public PublicSecurityInformations getMyPublicInformations(){
+        return new PublicSecurityInformations(myInformations);
     }
 
     public PublicSecurityInformations getInformationsOf(String id){
