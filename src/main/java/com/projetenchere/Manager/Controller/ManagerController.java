@@ -105,7 +105,15 @@ public class ManagerController extends Controller {
         ui.displayWinnerPrice(winner);
     }
 
-    public void diplayHello(){
-        ui.diplayHello();
+    public void displayHello(){
+        ui.displayHello();
+    }
+
+    public void displayGenerateKey() {
+        ui.displayGenerateKey();
+    }
+
+    public void displayBidLaunch() {
+        ui.displayBidLaunch();
     }
 }

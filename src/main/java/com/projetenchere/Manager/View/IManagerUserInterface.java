@@ -6,7 +6,11 @@ import java.time.LocalDateTime;
 
 public interface IManagerUserInterface {
 
-    void diplayHello();
+    void displayHello();
+
+    void displayGenerateKey();
+
+    void displayBidLaunch();
 
     int askBidId();
 

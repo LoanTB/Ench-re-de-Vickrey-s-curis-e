@@ -84,8 +84,18 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
     }
 
     @Override
-    public void diplayHello() {
-        System.out.println("Bienvenue Manager !");
+    public void displayHello() {
+        showMessage("Bienvenue Manager !");
+    }
+
+    @Override
+    public void displayGenerateKey() {
+        showMessage("Génération de clé...");
+    }
+
+    @Override
+    public void displayBidLaunch() {
+        showMessage("Lancement de l'enchère...");
     }
 
     @Override
