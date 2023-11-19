@@ -4,6 +4,7 @@ import com.projetenchere.Bidder.Controllers.BidderController;
 import com.projetenchere.Bidder.Controllers.BidderNetworkController;
 import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
+import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 
 public class PublicSecurityInformationHandler implements RequestHandler {
@@ -14,7 +15,7 @@ public class PublicSecurityInformationHandler implements RequestHandler {
     }
 
     @Override
-    public void handle(ObjectSender sender) {
-        this.controller.saveInformations((PublicSecurityInformations) sender.getObject());
+    public void handle(ObjectReceived objectReceived) {
+        this.controller.saveInformations((PublicSecurityInformations) objectReceived.getObjectSended().getObject());
     }
 }

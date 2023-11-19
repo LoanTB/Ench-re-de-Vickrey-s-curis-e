@@ -3,6 +3,7 @@ package com.projetenchere.Bidder.Handlers;
 import com.projetenchere.Bidder.Controllers.BidderController;
 import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKeys;
+import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 
 public class CurrentBidsPublicKeysHandler implements RequestHandler {
@@ -13,7 +14,7 @@ public class CurrentBidsPublicKeysHandler implements RequestHandler {
     }
 
     @Override
-    public void handle(ObjectSender objectSender) {
-        this.controller.setCurrentBidsPublicKeys((CurrentBidsPublicKeys) objectSender.getObject());
+    public void handle(ObjectReceived objectReceived) {
+        this.controller.setCurrentBidsPublicKeys((CurrentBidsPublicKeys) objectReceived.getObjectSended().getObject());
     }
 }
