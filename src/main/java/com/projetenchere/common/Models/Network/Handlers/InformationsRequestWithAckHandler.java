@@ -24,8 +24,8 @@ public class InformationsRequestWithAckHandler implements RequestHandler {
                     objectSender.getIP_sender(),
                     objectSender.getPORT_sender(),
                     new ObjectSender(
-                            networkController.getMyInformations().getNetworkContactInformation().getIp(),
-                            networkController.getMyInformations().getNetworkContactInformation().getPort(),
+                            networkController.getMyPublicInformations().getNetworkContactInformation().getIp(),
+                            networkController.getMyPublicInformations().getNetworkContactInformation().getPort(),
                             new Acknowledgment("OK"),
                             Acknowledgment.class
                     )

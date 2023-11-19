@@ -40,6 +40,10 @@ public class ManagerNetworkController extends NetworkController {
         return null;
     }
 
+    public void sendMySI(String id) throws IOException {
+        sendTo(id, getMyPublicInformations());
+    }
+
     public void sendBidToSeller(Bid bid) throws IOException {
         NetworkUtil.send(bid.getSellerIp(),
                 bid.getSellerPort(),

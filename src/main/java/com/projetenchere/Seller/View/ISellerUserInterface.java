@@ -5,7 +5,7 @@ import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import java.time.LocalDateTime;
 
 public interface ISellerUserInterface {
-    void diplayHello();
+    void displayHello();
     void displayWinner(String winnerID, Double price);
     void displayOfferReceived(EncryptedOffer encryptedOffer);
     void displayEncryptedPriceSended();

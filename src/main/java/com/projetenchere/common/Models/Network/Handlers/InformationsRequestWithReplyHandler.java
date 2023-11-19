@@ -23,9 +23,9 @@ public class InformationsRequestWithReplyHandler implements RequestHandler {
                     objectSender.getIP_sender(),
                     objectSender.getPORT_sender(),
                     new ObjectSender(
-                            networkController.getMyInformations().getNetworkContactInformation().getIp(),
-                            networkController.getMyInformations().getNetworkContactInformation().getPort(),
-                            networkController.getMyInformations(),
+                            networkController.getMyPublicInformations().getNetworkContactInformation().getIp(),
+                            networkController.getMyPublicInformations().getNetworkContactInformation().getPort(),
+                            networkController.getMyPublicInformations(),
                             PublicSecurityInformations.class
                     )
             );

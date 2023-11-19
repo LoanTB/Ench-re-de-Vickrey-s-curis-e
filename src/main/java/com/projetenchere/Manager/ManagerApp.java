@@ -7,6 +7,14 @@ public class ManagerApp {
         ManagerController controller = new ManagerController();
         controller.displayHello();
         controller.initConnexion();
+
+        //Recevoir l'enchère créé de seller.
+        //TODO : Recevoir l'enchère créé de seller
+        //TODO : "Supprimer" les méthodes de création par manager.
+        // Enregistrer les informations de seller.
+        //Envoyer mes informations au seller.
+        controller.initContactWithSeller();
+
         controller.initBid();
         controller.displayGenerateKey(); // "Génération de clé..."
         controller.generateManagerKeys();

@@ -60,7 +60,7 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     }
 
     @Override
-    public void diplayHello() {
+    public void displayHello() {
         showMessage("Bienvenue vendeur !");
     }
 
