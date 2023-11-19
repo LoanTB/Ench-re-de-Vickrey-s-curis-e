@@ -7,7 +7,7 @@ public class BidderApp {
         BidderController controller = new BidderController();
         controller.readName();
         controller.readPort();
-        controller.fetchInitPackage();
+        controller.sendBidderInfosToManager();
         controller.showBid();
         controller.readAndSendOffer();
         controller.waitForPrice();
