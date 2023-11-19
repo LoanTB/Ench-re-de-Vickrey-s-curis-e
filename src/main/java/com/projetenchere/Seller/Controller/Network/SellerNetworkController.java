@@ -62,6 +62,6 @@ public class SellerNetworkController extends NetworkController {
     }
 
     public void sendMySI(String id) throws IOException {
-        sendTo(id,getMyInformations());
+        sendTo(id, getMyPublicInformations());
     }
 }
