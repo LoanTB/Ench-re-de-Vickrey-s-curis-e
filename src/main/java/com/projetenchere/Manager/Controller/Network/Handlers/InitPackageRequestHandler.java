@@ -17,6 +17,8 @@ public class InitPackageRequestHandler implements RequestHandler {
         this.managerNCI = managerNCI;
     }
 
+    //TODO : Ajouter des packagesRequests
+
     @Override
     public void handle(ObjectSender objectSender) {
         try {
@@ -34,4 +36,5 @@ public class InitPackageRequestHandler implements RequestHandler {
             throw new RuntimeException(e);
         }
     }
+
 }
