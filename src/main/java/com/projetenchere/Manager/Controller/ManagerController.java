@@ -105,7 +105,31 @@ public class ManagerController extends Controller {
         ui.displayWinnerPrice(winner);
     }
 
-    public void diplayHello(){
-        ui.diplayHello();
+    public void displayHello(){
+        ui.displayHello();
+    }
+
+    public void displayGenerateKey() {
+        ui.displayGenerateKey();
+    }
+
+    public void displayBidLaunch() {
+        ui.displayBidLaunch();
+    }
+
+    public void displayReceivedPrices() {
+        ui.displayReceivedPrices();
+    }
+
+    public void displayPriceProcessing() {
+        ui.displayPriceProcessing();
+    }
+
+    public void displaySentWinnerPrice() {
+        ui.displaySentWinnerPrice();
+    }
+
+    public void displayEndOfAuction() {
+        ui.displayEndOfAuction();
     }
 }
