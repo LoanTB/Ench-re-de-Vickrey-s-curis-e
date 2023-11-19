@@ -11,7 +11,6 @@ import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Models.Offer;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +77,6 @@ public class BidderController extends Controller {
     }
 
     public void fetchInitPackage() throws IOException, ClassNotFoundException {
-        networkController.askForInitPackage();
+        networkController.sendBidderInfosToManager();
     }
 }
