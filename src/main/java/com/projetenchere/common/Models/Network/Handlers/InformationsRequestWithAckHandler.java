@@ -5,7 +5,7 @@ import com.projetenchere.common.Models.Network.Communication.Informations.Public
 import com.projetenchere.common.Models.Network.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Models.Network.NetworkController;
-import com.projetenchere.common.Utils.Network.NetworkUtil;
+import com.projetenchere.common.Utils.NetworkUtil;
 
 import java.io.IOException;
 

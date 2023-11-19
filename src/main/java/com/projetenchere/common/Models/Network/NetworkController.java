@@ -1,17 +1,15 @@
 package com.projetenchere.common.Models.Network;
 
-import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
-import com.projetenchere.common.Utils.Network.NetworkUtil;
+import com.projetenchere.common.Utils.NetworkUtil;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;

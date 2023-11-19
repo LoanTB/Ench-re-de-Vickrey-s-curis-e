@@ -14,10 +14,9 @@ import com.projetenchere.common.Models.Network.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
-import com.projetenchere.common.Utils.Network.NetworkUtil;
+import com.projetenchere.common.Utils.NetworkUtil;
 
 import java.io.IOException;
-import java.security.KeyPair;
 import java.util.List;
 
 public class SellerNetworkController extends NetworkController {

@@ -13,10 +13,9 @@ import com.projetenchere.common.Models.Network.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Models.Network.NetworkController;
 import com.projetenchere.common.Utils.EncryptionUtil;
-import com.projetenchere.common.Utils.Network.NetworkUtil;
+import com.projetenchere.common.Utils.NetworkUtil;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 public class BidderNetworkController extends NetworkController {
     private final BidderController controller;

@@ -6,7 +6,7 @@ import com.projetenchere.common.Models.Network.Communication.Winner;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Models.Network.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
-import com.projetenchere.common.Utils.Network.NetworkUtil;
+import com.projetenchere.common.Utils.NetworkUtil;
 
 public class PriceDecryptionRequestHandler implements RequestHandler {
     private final ManagerController managerController;
