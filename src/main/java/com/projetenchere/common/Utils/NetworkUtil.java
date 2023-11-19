@@ -1,6 +1,7 @@
 package com.projetenchere.common.Utils;
 
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
+import com.projetenchere.common.Models.Network.Sendable.SecuredObjectSender;
 
 import java.io.IOException;
 import java.io.InvalidClassException;
@@ -43,15 +44,10 @@ public class NetworkUtil {
         }
     }
 
-    public static void sendSecurely(String serverAddress, int serverPort, ObjectSender data, PrivateKey signaturePrivateKey, PublicKey encryptionPublicKey) throws Exception {
-        data.setSignatureBytes(SignatureUtil.signData(SerializationUtil.serialize(data),SignatureUtil.initSignatureForSigning(signaturePrivateKey)));
+    public static void send(String serverAddress, int serverPort, SecuredObjectSender data) throws IOException {
         try (Socket clientSocket = new Socket(serverAddress, serverPort);
              ObjectOutputStream objectOutput = new ObjectOutputStream(clientSocket.getOutputStream())) {
-            objectOutput.writeObject(
-                    EncryptionUtil.encrypt(
-                            SerializationUtil.serialize(data),
-                            encryptionPublicKey)
-            );
+            objectOutput.writeObject(data);
             objectOutput.flush();
         }
     }

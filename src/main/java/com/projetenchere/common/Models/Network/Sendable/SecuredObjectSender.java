@@ -13,7 +13,7 @@ public class SecuredObjectSender implements Serializable {
     private final byte[] encryptedObjectSender;
     private final byte[] signatureBytes;
 
-    public SecuredObjectSender(ObjectSender objectSender, PublicKey encryptionPublicKey, PrivateKey signaturePrivateKey) throws Exception {
+    public SecuredObjectSender(ObjectSender objectSender, PrivateKey signaturePrivateKey, PublicKey encryptionPublicKey) throws Exception {
         encryptedObjectSender = EncryptionUtil.encrypt(SerializationUtil.serialize(objectSender),encryptionPublicKey);
         signatureBytes = SignatureUtil.signData(encryptedObjectSender,SignatureUtil.initSignatureForSigning(signaturePrivateKey));
     }

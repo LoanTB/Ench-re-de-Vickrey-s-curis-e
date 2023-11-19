@@ -18,13 +18,14 @@ import com.projetenchere.common.Utils.NetworkUtil;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 public class SellerNetworkController extends NetworkController {
     private final SellerController controller;
 
     public SellerNetworkController(SellerController controller) throws Exception {
         this.controller = controller;
-        myInformations = new PrivateSecurityInformations(new NetworkContactInformation("127.0.0.1",24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());
+        myInformations = new PrivateSecurityInformations(UUID.randomUUID().toString(),new NetworkContactInformation("127.0.0.1",24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());
     }
 
     @Override
@@ -52,8 +53,8 @@ public class SellerNetworkController extends NetworkController {
                     ips.get(i),
                     ports.get(i),
                     new ObjectSender(
-                            myInformations.getNetworkContactInformation().getIp(),
-                            myInformations.getNetworkContactInformation().getPort(),
+                            myInformations.getNetworkContactInformation().ip(),
+                            myInformations.getNetworkContactInformation().port(),
                             results.get(i),
                             results.get(i).getClass()
                     )

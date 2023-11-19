@@ -2,6 +2,7 @@ package com.projetenchere.Manager.Handlers;
 
 import com.projetenchere.Manager.Controllers.ManagerController;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
+import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Handlers.RequestHandler;
@@ -18,15 +19,15 @@ public class PriceDecryptionRequestHandler implements RequestHandler {
     }
 
     @Override
-    public void handle(ObjectSender objectSender) {
+    public void handle(ObjectReceived objectReceived) {
         try {
             NetworkUtil.send(
-                    objectSender.getIP_sender(),
-                    objectSender.getPORT_sender(),
+                    objectReceived.getObjectSended().getIP_sender(),
+                    objectReceived.getObjectSended().getPORT_sender(),
                     new ObjectSender(
-                            managerNCI.getIp(),
-                            managerNCI.getPort(),
-                            managerController.processPrices((EncryptedPrices) objectSender.getObject()),
+                            managerNCI.ip(),
+                            managerNCI.port(),
+                            managerController.processPrices((EncryptedPrices) objectReceived.getObjectSended().getObject()),
                             Winner.class
                     )
             );

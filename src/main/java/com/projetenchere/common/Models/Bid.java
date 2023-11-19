@@ -42,9 +42,9 @@ public class Bid implements Serializable {
         return endDateTime;
     }
 
-    public String getSellerIp(){return sellerInformations.getNetworkContactInformation().getIp();}
+    public String getSellerIp(){return sellerInformations.getNetworkContactInformation().ip();}
 
-    public int getSellerPort(){return sellerInformations.getNetworkContactInformation().getPort();}
+    public int getSellerPort(){return sellerInformations.getNetworkContactInformation().port();}
 
     public void startBid(){
         startDateTime = LocalDateTime.from(LocalDateTime.now());

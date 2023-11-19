@@ -1,21 +1,8 @@
 package com.projetenchere.common.Models.Network.Communication.Informations;
 
-public class NetworkContactInformation {
-    final private String ip;
-    final private int port;
+import java.io.Serializable;
 
-    public NetworkContactInformation(String ip, int port) {
-        this.ip = ip;
-        this.port = port;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public int getPort() {
-        return port;
-    }
+public record NetworkContactInformation(String ip, int port) implements Serializable {
 
     @Override
     public String toString() {

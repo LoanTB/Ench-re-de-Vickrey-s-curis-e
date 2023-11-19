@@ -22,7 +22,7 @@ public class ManagerNetworkController extends NetworkController {
 
     public ManagerNetworkController(ManagerController controller) throws Exception {
         this.controller = controller;
-        myInformations = new PrivateSecurityInformations(new NetworkContactInformation(NetworkUtil.getMyIP(),24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());
+        myInformations = new PrivateSecurityInformations("Manager",new NetworkContactInformation(NetworkUtil.getMyIP(),24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());
     }
 
     @Override
@@ -48,8 +48,8 @@ public class ManagerNetworkController extends NetworkController {
         NetworkUtil.send(bid.getSellerIp(),
                 bid.getSellerPort(),
                 new ObjectSender(
-                        myInformations.getNetworkContactInformation().getIp(),
-                        myInformations.getNetworkContactInformation().getPort(),
+                        myInformations.getNetworkContactInformation().ip(),
+                        myInformations.getNetworkContactInformation().port(),
                         bid,
                         Bid.class
                 )

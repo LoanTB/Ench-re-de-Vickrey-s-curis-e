@@ -3,6 +3,7 @@ package com.projetenchere.Manager.Handlers;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Handlers.RequestHandler;
+import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Utils.NetworkUtil;
 
@@ -20,14 +21,14 @@ public class InitPackageRequestHandler implements RequestHandler {
     //TODO : Ajouter des packagesRequests
 
     @Override
-    public void handle(ObjectSender objectSender) {
+    public void handle(ObjectReceived objectReceived) {
         try {
             NetworkUtil.send(
-                    objectSender.getIP_sender(),
-                    objectSender.getPORT_sender(),
+                    objectReceived.getObjectSended().getIP_sender(),
+                    objectReceived.getObjectSended().getPORT_sender(),
                     new ObjectSender(
-                            managerNCI.getIp(),
-                            managerNCI.getPort(),
+                            managerNCI.ip(),
+                            managerNCI.port(),
                             currentCurrentBidsStarters,
                             CurrentBids.class
                     )

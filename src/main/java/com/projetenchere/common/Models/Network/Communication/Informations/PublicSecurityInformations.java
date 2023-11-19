@@ -1,8 +1,9 @@
 package com.projetenchere.common.Models.Network.Communication.Informations;
 
+import java.io.Serializable;
 import java.security.PublicKey;
 
-public class PublicSecurityInformations {
+public class PublicSecurityInformations implements Serializable {
     private final String id;
     private final NetworkContactInformation networkContactInformation;
     private final PublicKey signaturePublicKey;

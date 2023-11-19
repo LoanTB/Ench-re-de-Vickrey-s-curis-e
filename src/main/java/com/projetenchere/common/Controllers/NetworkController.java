@@ -29,7 +29,7 @@ public abstract class NetworkController implements Runnable {
 
     @Override
     public void run() {
-        try (ServerSocket serverSocket = new ServerSocket(myInformations.getNetworkContactInformation().getPort())) {
+        try (ServerSocket serverSocket = new ServerSocket(myInformations.getNetworkContactInformation().port())) {
             while (!Thread.currentThread().isInterrupted()) {
                 ObjectReceived request = null;
                 try {
@@ -52,7 +52,7 @@ public abstract class NetworkController implements Runnable {
                                                         myInformations.getEncryptionKeys().getPrivate()
                                                 )
                                         ),
-                                        new AuthenticationStatus(securityInformations.getId())
+                                        new AuthenticationStatus("OK",securityInformations.getId())
                                 );
                             }
                         }
@@ -63,7 +63,13 @@ public abstract class NetworkController implements Runnable {
                     RequestHandler requestHandler = determineCommonHandler(request);
                     if (requestHandler != null) {
                         ObjectReceived finalRequest = request;
-                        executor.submit(() -> requestHandler.handle(finalRequest.getObjectSended()));
+                        executor.submit(() -> {
+                            try {
+                                requestHandler.handle(finalRequest);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
                     }
                 } catch (Exception ignored){}
             }
@@ -72,11 +78,11 @@ public abstract class NetworkController implements Runnable {
         }
     }
 
-    private RequestHandler determineCommonHandler(ObjectReceived objectSender){
-        return determineSpecificsHandler(objectSender);
+    private RequestHandler determineCommonHandler(ObjectReceived objectReceived){
+        return determineSpecificsHandler(objectReceived);
     }
 
-    protected abstract RequestHandler determineSpecificsHandler(ObjectReceived objectSender);
+    protected abstract RequestHandler determineSpecificsHandler(ObjectReceived objectReceived);
 
     public void saveInformations(PublicSecurityInformations informations){
         if (this.informations.contains(informations)){
@@ -88,6 +94,10 @@ public abstract class NetworkController implements Runnable {
 
     public PublicSecurityInformations getMyPublicInformations(){
         return new PublicSecurityInformations(myInformations);
+    }
+
+    public void setMyInformations(PrivateSecurityInformations privateSecurityInformations){
+        myInformations = privateSecurityInformations;
     }
 
     public PublicSecurityInformations getInformationsOf(String id){
@@ -115,25 +125,26 @@ public abstract class NetworkController implements Runnable {
     public void sendTo(String id, Object object) throws Exception {
         PublicSecurityInformations target = getInformationsOf(id);
         if (informationContainsPublicKeys(id)){
-            NetworkUtil.sendSecurely(
-                    target.getNetworkContactInformation().getIp(),
-                    target.getNetworkContactInformation().getPort(),
-                    new ObjectSender(
-                            myInformations.getNetworkContactInformation().getIp(),
-                            myInformations.getNetworkContactInformation().getPort(),
-                            object,
-                            object.getClass()
-                    ),
-                    myInformations.getSignatureKeys().getPrivate(),
-                    target.getEncryptionPublicKey()
+            NetworkUtil.send(
+                    target.getNetworkContactInformation().ip(),
+                    target.getNetworkContactInformation().port(),
+                    new SecuredObjectSender(
+                            new ObjectSender(
+                                    myInformations.getNetworkContactInformation().ip(),
+                                    myInformations.getNetworkContactInformation().port(),
+                                    object,
+                                    object.getClass()),
+                            myInformations.getSignatureKeys().getPrivate(),
+                            target.getEncryptionPublicKey()
+                    )
             );
         } else {
             NetworkUtil.send(
-                    target.getNetworkContactInformation().getIp(),
-                    target.getNetworkContactInformation().getPort(),
+                    target.getNetworkContactInformation().ip(),
+                    target.getNetworkContactInformation().port(),
                     new ObjectSender(
-                            myInformations.getNetworkContactInformation().getIp(),
-                            myInformations.getNetworkContactInformation().getPort(),
+                            myInformations.getNetworkContactInformation().ip(),
+                            myInformations.getNetworkContactInformation().port(),
                             object,
                             object.getClass()
                     )

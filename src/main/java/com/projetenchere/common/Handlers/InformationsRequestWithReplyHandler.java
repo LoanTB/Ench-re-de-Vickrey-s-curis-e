@@ -2,6 +2,7 @@ package com.projetenchere.common.Handlers;
 
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Controllers.NetworkController;
+import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Utils.NetworkUtil;
 
@@ -15,15 +16,15 @@ public class InformationsRequestWithReplyHandler implements RequestHandler {
     }
 
     @Override
-    public void handle(ObjectSender objectSender) {
-        networkController.saveInformations((PublicSecurityInformations) objectSender.getObject());
+    public void handle(ObjectReceived objectReceived) {
+        networkController.saveInformations((PublicSecurityInformations) objectReceived.getObjectSended().getObject());
         try {
             NetworkUtil.send(
-                    objectSender.getIP_sender(),
-                    objectSender.getPORT_sender(),
+                    objectReceived.getObjectSended().getIP_sender(),
+                    objectReceived.getObjectSended().getPORT_sender(),
                     new ObjectSender(
-                            networkController.getMyPublicInformations().getNetworkContactInformation().getIp(),
-                            networkController.getMyPublicInformations().getNetworkContactInformation().getPort(),
+                            networkController.getMyPublicInformations().getNetworkContactInformation().ip(),
+                            networkController.getMyPublicInformations().getNetworkContactInformation().port(),
                             networkController.getMyPublicInformations(),
                             PublicSecurityInformations.class
                     )

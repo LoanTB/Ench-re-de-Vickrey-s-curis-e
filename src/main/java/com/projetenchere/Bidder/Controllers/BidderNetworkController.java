@@ -16,13 +16,14 @@ import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.NetworkUtil;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class BidderNetworkController extends NetworkController {
     private final BidderController controller;
 
     public BidderNetworkController(BidderController bidderController) throws Exception {
         controller = bidderController;
-        myInformations = new PrivateSecurityInformations(new NetworkContactInformation(NetworkUtil.getMyIP(),24683), EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());
+        myInformations = new PrivateSecurityInformations(UUID.randomUUID().toString(), new NetworkContactInformation(NetworkUtil.getMyIP(),24683), EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());
     }
 
     public PublicSecurityInformations getManagerInformations() {
@@ -51,16 +52,16 @@ public class BidderNetworkController extends NetworkController {
     public void sendBidderInfosToManager() throws IOException, ClassNotFoundException {
         PublicSecurityInformations securityInformation = new PublicSecurityInformations(myInformations);
         NetworkUtil.send(
-                getInformationsOf("Manager").getNetworkContactInformation().getIp(),
-                getInformationsOf("Manager").getNetworkContactInformation().getPort(),
+                getInformationsOf("Manager").getNetworkContactInformation().ip(),
+                getInformationsOf("Manager").getNetworkContactInformation().port(),
                 new ObjectSender(
-                        myInformations.getNetworkContactInformation().getIp(),
-                        myInformations.getNetworkContactInformation().getPort(),
+                        myInformations.getNetworkContactInformation().ip(),
+                        myInformations.getNetworkContactInformation().port(),
                         securityInformation,
                         securityInformation.getClass()
                 )
         );
-        ObjectSender objectSender = NetworkUtil.receive(myInformations.getNetworkContactInformation().getPort(),30000); // On garde cette façon de recevoir car le blockage est utile
+        ObjectSender objectSender = NetworkUtil.receive(myInformations.getNetworkContactInformation().port(),30000); // On garde cette façon de recevoir car le blockage est utile
         if (!objectSender.getObjectClass().equals(CurrentBids.class)) {
             throw new ClassNotFoundException("Received wrong class");
         } else {
@@ -72,11 +73,11 @@ public class BidderNetworkController extends NetworkController {
 
     public void sendOffer(EncryptedOffer encryptedOffer) throws IOException {
         NetworkUtil.send(
-                getInformationsOf("Seller").getNetworkContactInformation().getIp(),
-                getInformationsOf("Seller").getNetworkContactInformation().getPort(),
+                getInformationsOf("Seller").getNetworkContactInformation().ip(),
+                getInformationsOf("Seller").getNetworkContactInformation().port(),
                 new ObjectSender(
-                        myInformations.getNetworkContactInformation().getIp(),
-                        myInformations.getNetworkContactInformation().getPort(),
+                        myInformations.getNetworkContactInformation().ip(),
+                        myInformations.getNetworkContactInformation().port(),
                         encryptedOffer,
                         EncryptedOffer.class
                 )
