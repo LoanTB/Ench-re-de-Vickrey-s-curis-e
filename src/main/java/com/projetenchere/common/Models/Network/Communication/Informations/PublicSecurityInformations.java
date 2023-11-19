@@ -15,8 +15,8 @@ public class PublicSecurityInformations {
         this.encryptionPublicKey = encryptionPublicKey;
     }
 
-    public PublicSecurityInformations(String id, PrivateSecurityInformations privateSecurityInformations) {
-        this.id = id;
+    public PublicSecurityInformations(PrivateSecurityInformations privateSecurityInformations) {
+        this.id = privateSecurityInformations.getId();
         this.networkContactInformation = privateSecurityInformations.getNetworkContactInformation();
         this.signaturePublicKey = privateSecurityInformations.getSignatureKeys().getPublic();
         this.encryptionPublicKey = privateSecurityInformations.getEncryptionKeys().getPublic();
