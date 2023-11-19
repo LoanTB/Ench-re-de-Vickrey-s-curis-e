@@ -1,6 +1,6 @@
 package com.projetenchere.Bidder;
 
-import com.projetenchere.Bidder.Controller.BidderController;
+import com.projetenchere.Bidder.Controllers.BidderController;
 
 public class BidderApp {
     public static void main(String[] args) throws Exception {

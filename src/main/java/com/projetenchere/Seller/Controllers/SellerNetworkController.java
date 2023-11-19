@@ -1,16 +1,15 @@
-package com.projetenchere.Seller.Controller.Network;
+package com.projetenchere.Seller.Controllers;
 
-import com.projetenchere.Seller.Controller.Network.Handlers.EncryptedPricesRequestHandler;
-import com.projetenchere.Seller.Controller.Network.Handlers.WinnerRequestHandler;
-import com.projetenchere.Seller.Controller.SellerController;
+import com.projetenchere.Seller.Handlers.EncryptedPricesRequestHandler;
+import com.projetenchere.Seller.Handlers.WinnerRequestHandler;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
-import com.projetenchere.common.Models.Network.Handlers.InformationsRequestWithAckHandler;
-import com.projetenchere.common.Models.Network.NetworkController;
-import com.projetenchere.common.Models.Network.RequestHandler;
+import com.projetenchere.common.Handlers.InformationsRequestWithAckHandler;
+import com.projetenchere.common.Controllers.NetworkController;
+import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
@@ -62,6 +61,6 @@ public class SellerNetworkController extends NetworkController {
     }
 
     public void sendMySI(String id) throws IOException {
-        sendTo(id,getMyInformations());
+        sendTo(id, getMyPublicInformations());
     }
 }

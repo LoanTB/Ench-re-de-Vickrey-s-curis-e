@@ -1,8 +1,8 @@
-package com.projetenchere.Seller.Controller.Network.Handlers;
+package com.projetenchere.Seller.Handlers;
 
-import com.projetenchere.Seller.Controller.SellerController;
+import com.projetenchere.Seller.Controllers.SellerController;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Network.RequestHandler;
+import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 
 public class EncryptedPricesRequestHandler implements RequestHandler {

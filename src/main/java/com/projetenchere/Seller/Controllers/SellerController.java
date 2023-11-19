@@ -1,11 +1,10 @@
-package com.projetenchere.Seller.Controller;
+package com.projetenchere.Seller.Controllers;
 
-import com.projetenchere.Seller.Controller.Network.SellerNetworkController;
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.ISellerUserInterface;
 import com.projetenchere.Seller.View.commandLineInterface.SellerCommandLineInterface;
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.Controller;
+import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.Network.Communication.Winner;
@@ -32,7 +31,7 @@ public class SellerController extends Controller {
         this.winner = winner;
     }
 
-    public void initConnexion() throws IOException {
+    public void initConnexion() {
         Thread thread = new Thread(networkController);
         thread.start();
     }
@@ -42,7 +41,7 @@ public class SellerController extends Controller {
         String name = ui.askBidName();
         String description = ui.askBidDescription();
         LocalDateTime end = ui.askBidEndTime();
-        this.myBid = new Bid(id, name, description, end, networkController.getMyInformations());
+        this.myBid = new Bid(id, name, description, end, networkController.getMyPublicInformations());
     }
 
     public boolean auctionInProgress(){
@@ -67,7 +66,7 @@ public class SellerController extends Controller {
         displayOfferReceived(encryptedOffer);
     }
 
-    public void diplayHello(){ui.diplayHello();}
+    public void displayHello(){ui.displayHello();}
 
     public void initContactWithManager() throws IOException {
         networkController.sendMySI("Manager");

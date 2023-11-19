@@ -1,10 +1,9 @@
-package com.projetenchere.Bidder.Controller;
+package com.projetenchere.Bidder.Controllers;
 
-import com.projetenchere.Bidder.Controller.Network.BidderNetworkController;
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
-import com.projetenchere.common.Models.Controller;
+import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;

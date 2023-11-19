@@ -1,17 +1,16 @@
-package com.projetenchere.Bidder.Controller.Network;
+package com.projetenchere.Bidder.Controllers;
 
-import com.projetenchere.Bidder.Controller.BidderController;
-import com.projetenchere.Bidder.Controller.Network.Handlers.WinStatusRequestHandler;
+import com.projetenchere.Bidder.Handlers.WinStatusRequestHandler;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
-import com.projetenchere.common.Models.Network.Handlers.InformationsRequestWithAckHandler;
-import com.projetenchere.common.Models.Network.RequestHandler;
+import com.projetenchere.common.Handlers.InformationsRequestWithAckHandler;
+import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
-import com.projetenchere.common.Models.Network.NetworkController;
+import com.projetenchere.common.Controllers.NetworkController;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.NetworkUtil;
 
@@ -65,7 +64,7 @@ public class BidderNetworkController extends NetworkController {
             throw new ClassNotFoundException("Received wrong class");
         } else {
             CurrentBids currentBids = (CurrentBids) objectSender.getObject();
-            saveInformations(currentBids.getManagerInformations());
+            //saveInformations(currentBids.getManagerInformations()); TODO : InitContactWithManager
             controller.setCurrentBids(currentBids);
         }
     }
