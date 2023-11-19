@@ -41,7 +41,7 @@ public class ManagerNetworkController extends NetworkController {
     }
 
     public void sendMySI(String id) throws IOException {
-        sendTo(id,getMyInformations());
+        sendTo(id, getMyPublicInformations());
     }
 
     public void sendBidToSeller(Bid bid) throws IOException {

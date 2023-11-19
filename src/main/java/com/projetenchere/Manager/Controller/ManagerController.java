@@ -12,7 +12,6 @@ import com.projetenchere.common.Models.Network.Communication.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 
 public class ManagerController extends Controller {
@@ -29,7 +28,7 @@ public class ManagerController extends Controller {
         String name = ui.askBidName();
         String description = ui.askBidDescription();
         LocalDateTime end = ui.askBidEndTime();
-        return new Bid(id, name, description, end, networkController.getMyInformations());
+        return new Bid(id, name, description, end, networkController.getMyPublicInformations());
     }
 
     public Bid initBid() throws IOException {
