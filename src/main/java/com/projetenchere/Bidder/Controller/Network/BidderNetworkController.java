@@ -48,15 +48,16 @@ public class BidderNetworkController extends NetworkController {
     }
 
 
-    public void askForInitPackage() throws IOException, ClassNotFoundException {
+    public void sendBidderInfosToManager() throws IOException, ClassNotFoundException {
+        PublicSecurityInformations securityInformation = new PublicSecurityInformations(myInformations);
         NetworkUtil.send(
                 getInformationsOf("Manager").getNetworkContactInformation().getIp(),
                 getInformationsOf("Manager").getNetworkContactInformation().getPort(),
                 new ObjectSender(
                         myInformations.getNetworkContactInformation().getIp(),
                         myInformations.getNetworkContactInformation().getPort(),
-                        "InitPackageRequest",
-                        String.class
+                        securityInformation,
+                        myInformations.getClass()
                 )
         );
         ObjectSender objectSender = NetworkUtil.receive(myInformations.getNetworkContactInformation().getPort(),30000); // On garde cette façon de recevoir car le blockage est utile
