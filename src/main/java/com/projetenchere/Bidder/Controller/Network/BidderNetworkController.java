@@ -57,7 +57,7 @@ public class BidderNetworkController extends NetworkController {
                         myInformations.getNetworkContactInformation().getIp(),
                         myInformations.getNetworkContactInformation().getPort(),
                         securityInformation,
-                        myInformations.getClass()
+                        securityInformation.getClass()
                 )
         );
         ObjectSender objectSender = NetworkUtil.receive(myInformations.getNetworkContactInformation().getPort(),30000); // On garde cette façon de recevoir car le blockage est utile
