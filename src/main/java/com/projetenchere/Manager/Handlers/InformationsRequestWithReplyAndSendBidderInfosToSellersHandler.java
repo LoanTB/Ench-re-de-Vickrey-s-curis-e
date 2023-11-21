@@ -1,17 +1,18 @@
-package com.projetenchere.common.Handlers;
+package com.projetenchere.Manager.Handlers;
 
-import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Controllers.NetworkController;
+import com.projetenchere.common.Handlers.RequestHandler;
+import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 import com.projetenchere.common.Utils.NetworkUtil;
 
 import java.io.IOException;
 
-public class InformationsRequestWithReplyHandler implements RequestHandler {
+public class InformationsRequestWithReplyAndSendBidderInfosToSellersHandler implements RequestHandler {
     private final NetworkController networkController;
 
-    public InformationsRequestWithReplyHandler(NetworkController networkController) {
+    public InformationsRequestWithReplyAndSendBidderInfosToSellersHandler(NetworkController networkController) {
         this.networkController = networkController;
     }
 

@@ -2,7 +2,7 @@ package com.projetenchere.common.Utils;
 
 import com.projetenchere.common.Controllers.NetworkController;
 import com.projetenchere.common.Handlers.InformationsRequestWithAckHandler;
-import com.projetenchere.common.Handlers.InformationsRequestWithReplyHandler;
+import com.projetenchere.Manager.Handlers.InformationsRequestWithReplyHandler;
 import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Models.Identity;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;

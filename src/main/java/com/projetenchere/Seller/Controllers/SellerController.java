@@ -80,6 +80,7 @@ public class SellerController extends Controller {
 
     public void sendSellerInfosToManager() throws Exception {
         networkListeningInitialization();
+        networkController.sendMySI("Manager");
         boolean succes;
         try {
             networkController.sendMySI("Manager");

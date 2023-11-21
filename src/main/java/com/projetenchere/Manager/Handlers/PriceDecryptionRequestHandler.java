@@ -1,6 +1,7 @@
 package com.projetenchere.Manager.Handlers;
 
 import com.projetenchere.Manager.Controllers.ManagerController;
+import com.projetenchere.common.Controllers.NetworkController;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Communication.Winner;
@@ -11,28 +12,18 @@ import com.projetenchere.common.Utils.NetworkUtil;
 
 public class PriceDecryptionRequestHandler implements RequestHandler {
     private final ManagerController managerController;
-    private final NetworkContactInformation managerNCI;
+    private final NetworkController networkController;
 
-    public PriceDecryptionRequestHandler(ManagerController managerController, NetworkContactInformation managerNCI) {
+    public PriceDecryptionRequestHandler(ManagerController managerController, NetworkController networkController) {
         this.managerController = managerController;
-        this.managerNCI = managerNCI;
+        this.networkController = networkController;
     }
 
     @Override
-    public void handle(ObjectReceived objectReceived) {
-        try {
-            NetworkUtil.send(
-                    objectReceived.getObjectSended().getIP_sender(),
-                    objectReceived.getObjectSended().getPORT_sender(),
-                    new ObjectSender(
-                            managerNCI.ip(),
-                            managerNCI.port(),
-                            managerController.processPrices((EncryptedPrices) objectReceived.getObjectSended().getObject()),
-                            Winner.class
-                    )
-            );
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void handle(ObjectReceived objectReceived) throws Exception {
+        networkController.sendTo(
+                objectReceived.getAuthenticationStatus().authorOfSignature().getId(),
+                managerController.processPrices((EncryptedPrices) objectReceived.getObjectSended().getObject())
+        );
     }
 }

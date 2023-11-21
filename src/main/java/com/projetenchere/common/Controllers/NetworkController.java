@@ -174,6 +174,16 @@ public abstract class NetworkController implements Runnable {
         return null;
     }
 
+    public List<PublicSecurityInformations> getAnyInformationsOfType(String type){
+        List<PublicSecurityInformations> infos = new ArrayList<>();
+        for (PublicSecurityInformations publicSecurityInformations : this.informations){
+            if (publicSecurityInformations.getIdentity().getType().equals(type)){
+                infos.add(publicSecurityInformations);
+            }
+        }
+        return infos;
+    }
+
     public boolean informationContainsPublicKeys(String id){
         PublicSecurityInformations publicSecurityInformations = getInformationsOf(id);
         if (publicSecurityInformations != null){

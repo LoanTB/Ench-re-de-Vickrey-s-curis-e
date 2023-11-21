@@ -31,15 +31,6 @@ public class ManagerController extends Controller {
         return new Bid(id, name, description, end, networkController.getMyPublicInformations());
     }
 
-    public Bid initBid() throws IOException {
-        Bid bid = createBid();
-        System.out.println("Vous avez créé l'enchère : ");
-        System.out.println(bid._toString());
-        addBid(bid);
-        networkController.sendBidToSeller(bid);
-        return bid;
-    }
-
     public CurrentBids getCurrentBids() {
         return currentBids;
     }
@@ -57,6 +48,7 @@ public class ManagerController extends Controller {
     }
 
     public void generateManagerKeys() throws Exception {
+        ui.displayGenerateKey();
         manager.setManagerKeys(EncryptionUtil.generateKeyPair());
     }
 
@@ -66,6 +58,7 @@ public class ManagerController extends Controller {
     }
 
     public void launchBids(){
+        ui.displayBidLaunch();
         startAllBids();
     }
 
@@ -105,10 +98,6 @@ public class ManagerController extends Controller {
 
     public void displayHello(){
         ui.displayHello();
-    }
-
-    public void displayGenerateKey() {
-        ui.displayGenerateKey();
     }
 
     public void displayBidLaunch() {

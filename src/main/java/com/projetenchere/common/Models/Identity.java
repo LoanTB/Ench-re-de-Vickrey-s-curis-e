@@ -1,6 +1,8 @@
 package com.projetenchere.common.Models;
 
-public class Identity {
+import java.io.Serializable;
+
+public class Identity implements Serializable {
     private final String id;
     private final String name;
     private final String surname;

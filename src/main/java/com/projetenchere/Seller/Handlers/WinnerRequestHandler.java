@@ -4,7 +4,6 @@ import com.projetenchere.Seller.Controllers.SellerController;
 import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 import com.projetenchere.common.Handlers.RequestHandler;
-import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 
 public class WinnerRequestHandler implements RequestHandler {
     private final SellerController controller;
