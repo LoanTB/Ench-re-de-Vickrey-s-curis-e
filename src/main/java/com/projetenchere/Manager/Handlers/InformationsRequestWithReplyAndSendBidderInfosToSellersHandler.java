@@ -17,7 +17,7 @@ public class InformationsRequestWithReplyAndSendBidderInfosToSellersHandler impl
     }
 
     @Override
-    public void handle(ObjectReceived objectReceived) {
+    public void handle(ObjectReceived objectReceived) throws Exception {
         networkController.saveInformations((PublicSecurityInformations) objectReceived.getObjectSended().getObject());
         try {
             NetworkUtil.send(
@@ -32,6 +32,10 @@ public class InformationsRequestWithReplyAndSendBidderInfosToSellersHandler impl
             );
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+        for (PublicSecurityInformations publicSecurityInformations:networkController.getAnyInformationsOfType("Seller")){
+            networkController.sendTo(publicSecurityInformations.getIdentity().getId(),(PublicSecurityInformations) objectReceived.getObjectSended().getObject());
+            wait(100);
         }
     }
 }

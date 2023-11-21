@@ -33,9 +33,5 @@ public class InformationsRequestWithReplyHandler implements RequestHandler {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        for (PublicSecurityInformations publicSecurityInformations:networkController.getAnyInformationsOfType("Seller")){
-            networkController.sendTo(publicSecurityInformations.getIdentity().getId(),(PublicSecurityInformations) objectReceived.getObjectSended().getObject());
-            wait(100);
-        }
     }
 }
