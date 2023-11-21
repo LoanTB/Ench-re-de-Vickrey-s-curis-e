@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SellerCommandLineInterface implements ISellerUserInterface {
 
@@ -136,7 +134,7 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     @Override
     public void displayBidCreated(Bid bid) {
         showMessage("Vous avez créé l'enchère : ");
-        showMessage(bid._toString());
+        showMessage(bid.toString(false));
     }
 
     @Override

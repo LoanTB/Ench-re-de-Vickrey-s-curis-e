@@ -52,9 +52,14 @@ public class Bid implements Serializable {
         startDateTime = LocalDateTime.from(LocalDateTime.now());
     }
 
-    public String _toString() {
+    @Override
+    public String toString() {
+        return this.toString(true);
+    }
+
+    public String toString(boolean withStartDate) {
         return "Nom : " + name +
-                "\nDate de création : " + startDateTime.toString() +
+                (withStartDate ? "\nDate de début : " + startDateTime.toString() : "") +
                 "\nDescription : " + description + "." +
                 "\nDate de fin : " + endDateTime.toString() + ".";
     }
