@@ -149,4 +149,29 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
         System.out.println("Prix gagnant : " + winner.getPrice());
     }
 
+    @Override
+    public void tellConnectingNewSeller(String id) {
+        showMessage("Connexion avec un nouveau vendeur ("+id+")");
+    }
+
+    @Override
+    public void tellConnectingNewBidder(String id) {
+        showMessage("Connexion d'un nouvel enchérisseur ("+id+"), notification des vendeurs pour prévenir d'un nouvel enchérisseur potentiel");
+    }
+
+    @Override
+    public void tellRequestInformationAboutBiddersBySeller(String id) {
+        showMessage("Demande des informations sur les enchérisseurs actuellement connectés par le vendeur "+id);
+    }
+
+    @Override
+    public void tellRequestCurrentBidsByBidder(String id) {
+        showMessage("Demande des enchères actuelles par l'enchérisseur "+id);
+    }
+
+    @Override
+    public void tellRequestToDetermineTheWinnerOfBidBySeller(String idBid, String idSeller) {
+        showMessage("Demande de détermination du gagnant de l'enchère "+idBid+" par le vendeur "+idSeller);
+    }
+
 }
