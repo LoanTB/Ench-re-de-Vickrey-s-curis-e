@@ -121,6 +121,11 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
+    public void tellSendRequestOffers() {
+        showMessage("Envoie de la demande d'enchères actuelles au gestionnaire");
+    }
+
+    @Override
     public int readPort() {
         showMessage("Quel port voulez-vous utiliser ? (49152 à 65535)");
         String portString = readMessage();

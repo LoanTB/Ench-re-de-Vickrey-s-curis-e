@@ -52,7 +52,7 @@ public class ManagerNetworkController extends NetworkController {
                 && objectReceived.getObjectSended().getObject().equals("InitPackageRequest")
                 && isAuthenticatedByType("Bidder",objectReceived)) {
             controller.getUi().tellRequestCurrentBidsByBidder(objectReceived.getAuthenticationStatus().authorOfSignature().getId());
-            return new InitPackageRequestHandler(this,controller.getCurrentBids());
+            return new InitPackageRequestHandler(this,controller.getCurrentBids(),controller.getCurrentBidsPublicKeys());
         }
         if (objectReceived.getObjectSended().getObjectClass() == EncryptedPrices.class
                 && controller.getCurrentBids().isOver(((EncryptedPrices)objectReceived.getObjectSended().getObject()).getBidId())

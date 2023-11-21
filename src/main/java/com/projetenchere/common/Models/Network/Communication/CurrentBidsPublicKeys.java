@@ -7,18 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CurrentBidsPublicKeys {
-    HashMap<Bid,PublicKey> bidKeys;
+    HashMap<String,PublicKey> bidKeys;
 
-    public void addPublicKeyToBid(Bid bid, PublicKey key) {
-        this.bidKeys.put(bid, key);
+    public void addPublicKeyToBid(String idBid, PublicKey key) {
+        this.bidKeys.put(idBid, key);
     }
 
     public PublicKey getPublicKeyOfBid(String idBid){
-        for (Map.Entry<Bid,PublicKey> bidKey : bidKeys.entrySet()) {
-            if (bidKey.getKey().getId().equals(idBid)){
-                return bidKey.getValue();
-            }
-        }
-        return null;
+        return bidKeys.get(idBid);
     }
 }

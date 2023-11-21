@@ -8,6 +8,7 @@ public class BidderApp {
         controller.displayHello();
         controller.readInfos();
         controller.sendBidderInfosToManager();
+        controller.sendRequestOffers();
         controller.showBid();
         controller.readAndSendOffer();
         controller.waitForPrice();

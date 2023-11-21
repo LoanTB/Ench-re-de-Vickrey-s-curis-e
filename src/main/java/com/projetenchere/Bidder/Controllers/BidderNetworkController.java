@@ -24,6 +24,8 @@ public class BidderNetworkController extends NetworkController {
 
     @Override
     public RequestHandler determineSpecificsHandler(ObjectReceived objectReceived) {
+        System.out.println(objectReceived.getObjectSended().getObjectClass());
+
         if (objectReceived.getObjectSended().getObjectClass().equals(PublicSecurityInformations.class)
                 && !alreadyKnowTheInformation((PublicSecurityInformations) objectReceived.getObjectSended().getObject())) {
             controller.getUi().tellReceivingInformationOf(((PublicSecurityInformations) objectReceived.getObjectSended().getObject()).getIdentity().getId(),((PublicSecurityInformations) objectReceived.getObjectSended().getObject()).getIdentity().getType());

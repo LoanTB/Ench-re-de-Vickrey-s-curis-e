@@ -7,10 +7,13 @@ import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
+import com.projetenchere.common.Models.Network.Communication.CurrentBidsPrivateKeys;
+import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKeys;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
 
 import java.io.IOException;
+import java.security.KeyPair;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,6 +23,8 @@ public class ManagerController extends Controller {
 
     public final Manager manager = new Manager();
     private final CurrentBids currentBids = new CurrentBids();
+    private final CurrentBidsPublicKeys currentBidsPublicKeys = new CurrentBidsPublicKeys();
+    private final CurrentBidsPrivateKeys currentBidsPrivateKeys = new CurrentBidsPrivateKeys();
 
     public ManagerController() throws Exception {}
 
@@ -35,8 +40,14 @@ public class ManagerController extends Controller {
         return currentBids;
     }
 
-    public void addBid(Bid bid){
+    public void addBid(Bid bid) throws Exception {
         currentBids.addCurrentBid(bid);
+        currentBidsPrivateKeys.addPublicKeyToBid(bid.getId(),EncryptionUtil.generateKeyPair());
+        currentBidsPublicKeys.addPublicKeyToBid(bid.getId(),currentBidsPrivateKeys.getPublicKeyOfBid(bid.getId()).getPublic());
+    }
+
+    public CurrentBidsPublicKeys getCurrentBidsPublicKeys() {
+        return currentBidsPublicKeys;
     }
 
     public void startAllBids(){

@@ -56,7 +56,7 @@ public class BidderController extends Controller {
 
     public void waitToReceiveBids() {
         ui.tellWaitBidsAnnoncement();
-        while (currentBids == null) {
+        while (currentBids == null || currentBidsPublicKeys == null) {
             waitSychro(1000);
         }
     }
@@ -74,7 +74,6 @@ public class BidderController extends Controller {
     }
 
     public void readAndSendOffer() throws Exception {
-        waitManagerContactKeys(); // S'assurer que le contact est bien établie avec le manager
         Offer offer = ui.readOffer(bidder);
         waitToReceiveBidsPublicKeys();
         EncryptedOffer encryptedOffer = new EncryptedOffer(offer, currentBidsPublicKeys.getPublicKeyOfBid(offer.getIdBid()));
@@ -131,5 +130,11 @@ public class BidderController extends Controller {
 
     public IBidderUserInterface getUi() {
         return ui;
+    }
+
+    public void sendRequestOffers() throws Exception {
+        waitManagerContactKeys();
+        ui.tellSendRequestOffers();
+        networkController.sendTo("Manager","InitPackageRequest");
     }
 }

@@ -2,26 +2,30 @@ package com.projetenchere.Manager.Handlers;
 
 import com.projetenchere.common.Controllers.NetworkController;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
-import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
+import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKeys;
 import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
-import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
-import com.projetenchere.common.Utils.NetworkUtil;
-
-import java.io.IOException;
 
 public class InitPackageRequestHandler implements RequestHandler {
     private final NetworkController networkController;
-    private final CurrentBids currentCurrentBidsStarters;
+    private final CurrentBids currentBids;
+    private final CurrentBidsPublicKeys currentBidsPublicKeys;
 
-    public InitPackageRequestHandler(NetworkController networkController, CurrentBids currentCurrentBidsStarters) {
-        this.currentCurrentBidsStarters = currentCurrentBidsStarters;
+    public InitPackageRequestHandler(NetworkController networkController, CurrentBids currentBids, CurrentBidsPublicKeys currentBidsPublicKeys) {
+        this.currentBids = currentBids;
         this.networkController = networkController;
+        this.currentBidsPublicKeys = currentBidsPublicKeys;
     }
 
     @Override
     public void handle(ObjectReceived objectReceived) throws Exception {
-        networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),currentCurrentBidsStarters);
+        System.out.println("A");
+        networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),currentBidsPublicKeys); // TODO : Bloque
+        System.out.println("B");
+        wait(100);
+        System.out.println("C");
+        networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),currentBids);
+        System.out.println("D");
     }
 
 }

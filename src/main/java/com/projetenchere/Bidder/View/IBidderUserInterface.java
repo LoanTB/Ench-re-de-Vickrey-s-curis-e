@@ -24,4 +24,5 @@ public interface IBidderUserInterface {
     void tellReceiptOfCurrentBids();
     void tellReceiptOfEncryptionKeysForCurrentBids();
     void tellReceiptOfBidResult(String id);
+    void tellSendRequestOffers();
 }
