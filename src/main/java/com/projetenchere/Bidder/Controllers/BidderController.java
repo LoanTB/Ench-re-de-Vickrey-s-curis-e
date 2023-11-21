@@ -31,7 +31,6 @@ public class BidderController extends Controller {
     }
 
     public void setCurrentBidsPublicKeys(CurrentBidsPublicKeys currentBidsPublicKeys) {
-        System.out.println("OK");
         this.currentBidsPublicKeys = currentBidsPublicKeys;
     }
 
@@ -76,7 +75,7 @@ public class BidderController extends Controller {
     public void readAndSendOffer() throws Exception {
         Offer offer = ui.readOffer(bidder);
         waitToReceiveBidsPublicKeys();
-        EncryptedOffer encryptedOffer = new EncryptedOffer(offer, currentBidsPublicKeys.getPublicKeyOfBid(offer.getIdBid()));
+        EncryptedOffer encryptedOffer = new EncryptedOffer(offer, currentBidsPublicKeys.getKeyOfBid(offer.getIdBid()));
         networkController.sendTo(currentBids.getBid(offer.getIdBid()).getSeller().getIdentity().getId(),encryptedOffer);
         participatedBid.add(offer.getIdBid());
         ui.tellOfferSent();

@@ -4,11 +4,7 @@ import com.projetenchere.Manager.Controllers.ManagerController;
 import com.projetenchere.common.Controllers.NetworkController;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
-import com.projetenchere.common.Models.Network.Communication.Winner;
-import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Handlers.RequestHandler;
-import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
-import com.projetenchere.common.Utils.NetworkUtil;
 
 public class PriceDecryptionRequestHandler implements RequestHandler {
     private final ManagerController managerController;
@@ -21,9 +17,10 @@ public class PriceDecryptionRequestHandler implements RequestHandler {
 
     @Override
     public void handle(ObjectReceived objectReceived) throws Exception {
+        EncryptedPrices encryptedPrices = (EncryptedPrices) objectReceived.getObjectSended().getObject();
         networkController.sendTo(
                 objectReceived.getAuthenticationStatus().authorOfSignature().getId(),
-                managerController.processPrices((EncryptedPrices) objectReceived.getObjectSended().getObject())
+                managerController.processPrices(encryptedPrices,managerController.getCurrentBidsPrivateKeys().getKeyOfBid(encryptedPrices.getBidId()).getPrivate())
         );
     }
 }

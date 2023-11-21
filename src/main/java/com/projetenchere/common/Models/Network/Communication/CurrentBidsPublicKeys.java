@@ -12,7 +12,7 @@ public class CurrentBidsPublicKeys implements Serializable {
         this.bidKeys.put(idBid, key);
     }
 
-    public PublicKey getPublicKeyOfBid(String idBid){
+    public PublicKey getKeyOfBid(String idBid){
         return bidKeys.get(idBid);
     }
 }

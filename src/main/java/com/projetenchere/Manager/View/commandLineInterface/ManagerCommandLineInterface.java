@@ -175,6 +175,11 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
     }
 
     @Override
+    public void tellReceivingAndReplyToInformationOf(String id, String type) {
+        showMessage("Etablissement d'une connexion sécurisé avec un nouvel "+type+" ("+id+")");
+    }
+
+    @Override
     public void tellManagerReadyToProcessBids() {
         showMessage("Gestionnaire prêt à traiter des enchères");
     }

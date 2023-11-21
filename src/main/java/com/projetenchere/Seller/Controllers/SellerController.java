@@ -8,6 +8,7 @@ import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.Identity;
+import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 
 import java.time.LocalDateTime;
@@ -121,7 +122,7 @@ public class SellerController extends Controller {
 
     public void displayWinner(){
         List<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
-        List<Double> biddersWinStatus = getBiddersWinStatus();
+        List<WinStatus> biddersWinStatus = getBiddersWinStatus();
         String winnerID = getWinnerID(encryptedOffers,biddersWinStatus);
         Double price = winner.getPrice();
         ui.displayWinner(winnerID,price);
@@ -148,8 +149,8 @@ public class SellerController extends Controller {
     }
 
     public void sendResults() throws Exception {
-        List<Double> results = getBiddersWinStatus();
-        List<String> ids = seller.getBiddersIps();
+        List<WinStatus> results = getBiddersWinStatus();
+        List<String> ids = seller.getBiddersIds();
         if (ids.size() != results.size()){
             throw new IllegalArgumentException("Les liste de contacts enchérisseur et liste des gagnants ne concordent pas");
         }
@@ -159,24 +160,24 @@ public class SellerController extends Controller {
         ui.displayResultsSent();
     }
 
-    public List<Double> getBiddersWinStatus(){
+    public List<WinStatus> getBiddersWinStatus(){
         List<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
         boolean haveAWinner = false;
-        List<Double> winStatus = new ArrayList<>();
+        List<WinStatus> winStatus = new ArrayList<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {
             if (Arrays.equals(encryptedOffer.getPrice(), winner.getEncryptedId()) && !haveAWinner) {
-                winStatus.add(winner.getPrice());
+                winStatus.add(new WinStatus(winner.getBidId(),true,winner.getPrice()));
                 haveAWinner = true;
             } else {
-                winStatus.add(-1.0);
+                winStatus.add(new WinStatus(winner.getBidId(),false,-1));
             }
         }
         return winStatus;
     }
 
-    public String getWinnerID(List<EncryptedOffer> encryptedOffers, List<Double> biddersWinStatus){
+    public String getWinnerID(List<EncryptedOffer> encryptedOffers, List<WinStatus> biddersWinStatus){
         for (int i=0;i<encryptedOffers.size();i++){
-            if (biddersWinStatus.get(i) != -1.0){
+            if (biddersWinStatus.get(i).isWinner()){
                 return encryptedOffers.get(i).getIdBidder();
             }
         }

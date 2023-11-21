@@ -13,8 +13,6 @@ import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.NetworkUtil;
 
-import java.io.IOException;
-
 public class ManagerNetworkController extends NetworkController {
     private final ManagerController controller;
 

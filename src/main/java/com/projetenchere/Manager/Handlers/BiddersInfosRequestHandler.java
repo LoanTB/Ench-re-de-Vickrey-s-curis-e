@@ -14,9 +14,11 @@ public class BiddersInfosRequestHandler implements RequestHandler {
 
     @Override
     public void handle(ObjectReceived objectReceived) throws Exception {
-        for (PublicSecurityInformations publicSecurityInformations:networkController.getAnyInformationsOfType("Bidder")){
-            networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),publicSecurityInformations);
-            wait(100);
+        synchronized (this) {
+            for (PublicSecurityInformations publicSecurityInformations:networkController.getAnyInformationsOfType("Bidder")){
+                networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),publicSecurityInformations);
+                wait(100);
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ public class Offer implements Serializable {
     }
 
     public String getIdBid() {
-        return idBidder;
+        return idBid;
     }
 
     public double getPrice() {

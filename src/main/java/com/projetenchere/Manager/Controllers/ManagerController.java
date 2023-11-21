@@ -12,8 +12,7 @@ import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKe
 import com.projetenchere.common.Models.Network.Communication.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+import java.security.PrivateKey;
 
 public class ManagerController extends Controller {
     public final IManagerUserInterface ui = new ManagerCommandLineInterface();
@@ -33,11 +32,15 @@ public class ManagerController extends Controller {
     public void addBid(Bid bid) throws Exception {
         currentBids.addCurrentBid(bid);
         currentBidsPrivateKeys.addKeyToBid(bid.getId(),EncryptionUtil.generateKeyPair());
-        currentBidsPublicKeys.addKeyToBid(bid.getId(),currentBidsPrivateKeys.getPublicKeyOfBid(bid.getId()).getPublic());
+        currentBidsPublicKeys.addKeyToBid(bid.getId(),currentBidsPrivateKeys.getKeyOfBid(bid.getId()).getPublic());
     }
 
     public CurrentBidsPublicKeys getCurrentBidsPublicKeys() {
         return currentBidsPublicKeys;
+    }
+
+    public CurrentBidsPrivateKeys getCurrentBidsPrivateKeys() {
+        return currentBidsPrivateKeys;
     }
 
     public void startAllBids(){
@@ -46,11 +49,6 @@ public class ManagerController extends Controller {
 
     public void startBid(String idBid) {
         currentBids.startBids(idBid);
-    }
-
-    public void generateManagerKeys() throws Exception {
-        ui.displayGenerateKey();
-        manager.setManagerKeys(EncryptionUtil.generateKeyPair());
     }
 
     public void initConnexion() {
@@ -68,12 +66,12 @@ public class ManagerController extends Controller {
         startBid(idBid);
     }
 
-    public Winner processPrices(EncryptedPrices encryptedPrices) throws Exception {
+    public Winner processPrices(EncryptedPrices encryptedPrices, PrivateKey privateKey) throws Exception {
         double price1 = 0;
         byte[] encrypted1 = null;
         double decrypted;
         for (byte[] encrypted : encryptedPrices.getPrices()) {
-            decrypted = EncryptionUtil.decryptPrice(encrypted,manager.getManagerPrivateKey());
+            decrypted = EncryptionUtil.decryptPrice(encrypted,privateKey);
             if (decrypted > price1){
                 price1 = decrypted;
                 encrypted1 = encrypted;
@@ -81,7 +79,7 @@ public class ManagerController extends Controller {
         }
         double price2 = -1;
         for (byte[] encrypted : encryptedPrices.getPrices()) {
-            decrypted = EncryptionUtil.decryptPrice(encrypted,manager.getManagerPrivateKey());
+            decrypted = EncryptionUtil.decryptPrice(encrypted,privateKey);
             if (decrypted > price2 && decrypted != price1){
                 price2 = decrypted;
             }

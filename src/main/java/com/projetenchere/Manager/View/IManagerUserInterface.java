@@ -24,4 +24,5 @@ public interface IManagerUserInterface {
     void tellRequestToDetermineTheWinnerOfBidBySeller(String idBid,String idSeller);
     void tellManagerReadyToProcessBids();
     void tellBidReceivedby(String idSeller, String idBid);
+    void tellReceivingAndReplyToInformationOf(String id, String type);
 }

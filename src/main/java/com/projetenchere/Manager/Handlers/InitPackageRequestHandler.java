@@ -4,6 +4,7 @@ import com.projetenchere.common.Controllers.NetworkController;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKeys;
 import com.projetenchere.common.Handlers.RequestHandler;
+import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 
 public class InitPackageRequestHandler implements RequestHandler {
@@ -19,9 +20,16 @@ public class InitPackageRequestHandler implements RequestHandler {
 
     @Override
     public void handle(ObjectReceived objectReceived) throws Exception {
-        networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),currentBids);
-        wait(100);
-        networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),currentBidsPublicKeys);
+        synchronized (this) {
+            for (PublicSecurityInformations publicSecurityInformations:networkController.getAnyInformationsOfType("Seller")){
+                networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),publicSecurityInformations);
+                wait(100);
+            }
+            wait(100);
+            networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),currentBids);
+            wait(100);
+            networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),currentBidsPublicKeys);
+        }
     }
 
 }
