@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static java.lang.Thread.sleep;
+
 public class BidderController extends Controller {
     private final IBidderUserInterface ui = new BidderCommandLineInterface();
     private final BidderNetworkController networkController = new BidderNetworkController(this);
@@ -102,6 +104,24 @@ public class BidderController extends Controller {
     }
 
     public void sendBidderInfosToManager() throws Exception {
-        networkController.sendTo("Manager",networkController.getMyPublicInformations());
+        boolean succes;
+        try {
+            networkController.sendTo("Manager",networkController.getMyPublicInformations());
+            succes = true;
+        } catch (Exception ignore){
+            succes = false;
+            ui.tellWaitManager();
+        }
+        while (!succes) {
+            sleep(1000);
+            try {
+                networkController.sendTo("Manager",networkController.getMyPublicInformations());
+                succes = true;
+                ui.tellManagerFound();
+            } catch (Exception ignore){
+                succes = false;
+            }
+        }
+
     }
 }

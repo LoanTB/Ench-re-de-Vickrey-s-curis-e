@@ -69,6 +69,16 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
+    public void tellWaitManager() {
+        showMessage("Le gestionnaire des enchères semble indisponible, attente du gestionnaire...");
+    }
+
+    @Override
+    public void tellManagerFound() {
+        showMessage("Contacter le gestionnaire établie !");
+    }
+
+    @Override
     public String readName() {
         showMessage("Quel est votre prénom ?");
         return readMessage();

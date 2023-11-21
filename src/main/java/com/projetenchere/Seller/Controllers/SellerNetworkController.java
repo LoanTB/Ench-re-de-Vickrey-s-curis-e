@@ -27,6 +27,7 @@ public class SellerNetworkController extends NetworkController {
     public SellerNetworkController(SellerController controller) throws Exception {
         this.controller = controller;
         myInformations = new PrivateSecurityInformations(new Identity(UUID.randomUUID().toString(),"Seller"),new NetworkContactInformation("127.0.0.1",24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());
+        saveInformations(new PublicSecurityInformations(new Identity("Manager","Manager"),new NetworkContactInformation("127.0.0.1",24683),null,null));
     }
 
     @Override

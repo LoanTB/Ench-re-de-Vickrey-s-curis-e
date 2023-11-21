@@ -3,20 +3,24 @@ package com.projetenchere.Bidder.Controllers;
 import com.projetenchere.Bidder.Handlers.CurrentBidsHandler;
 import com.projetenchere.Bidder.Handlers.CurrentBidsPublicKeysHandler;
 import com.projetenchere.Bidder.Handlers.WinStatusRequestHandler;
+import com.projetenchere.common.Models.Identity;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKeys;
+import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Handlers.InformationsRequestWithAckHandler;
 import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Controllers.NetworkController;
+import com.projetenchere.common.Utils.NetworkUtil;
 
 public class BidderNetworkController extends NetworkController {
     private final BidderController controller;
 
     public BidderNetworkController(BidderController bidderController) {
         controller = bidderController;
+        saveInformations(new PublicSecurityInformations(new Identity("Manager","Manager"),new NetworkContactInformation("127.0.0.1",24683),null,null));
     }
 
     @Override

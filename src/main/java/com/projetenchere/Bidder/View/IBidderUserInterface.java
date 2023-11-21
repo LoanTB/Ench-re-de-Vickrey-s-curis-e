@@ -28,4 +28,8 @@ public interface IBidderUserInterface {
 
     void tellWaitBidsPublicKeysAnnoncement();
 
+    void tellWaitManager();
+
+    void tellManagerFound();
+
 }
