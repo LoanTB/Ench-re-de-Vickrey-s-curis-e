@@ -10,7 +10,6 @@ import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.Identity;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -18,7 +17,7 @@ import static java.lang.Thread.sleep;
 
 public class SellerController extends Controller {
     SellerNetworkController networkController = new SellerNetworkController(this);
-    private static final ISellerUserInterface ui = new SellerCommandLineInterface();
+    private final ISellerUserInterface ui = new SellerCommandLineInterface();
     private final Seller seller = new Seller();
     private Bid myBid;
     private Winner winner = null;
@@ -31,6 +30,10 @@ public class SellerController extends Controller {
 
     public void setWinner(Winner winner){
         this.winner = winner;
+    }
+
+    public ISellerUserInterface getUi() {
+        return ui;
     }
 
     public void networkListeningInitialization() {

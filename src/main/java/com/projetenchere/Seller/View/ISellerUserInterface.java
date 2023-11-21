@@ -24,4 +24,8 @@ public interface ISellerUserInterface {
     void tellWaitManagerSecurityInformations();
     void tellWaitWinnerDeclaration();
     void displayBidCreated(Bid bid);
+    void tellSuccessfulSecuringOfTheCommunicationChannelWithTheManager();
+    void tellReceivingInformationOf(String id, String type);
+    void tellReceiptOfferByBidder(String id);
+    void tellReceiptBidResult(String id);
 }

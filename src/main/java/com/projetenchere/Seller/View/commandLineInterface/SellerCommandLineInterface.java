@@ -135,8 +135,28 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
 
     @Override
     public void displayBidCreated(Bid bid) {
-        System.out.println("Vous avez créé l'enchère : ");
-        System.out.println(bid._toString());
+        showMessage("Vous avez créé l'enchère : ");
+        showMessage(bid._toString());
+    }
+
+    @Override
+    public void tellReceivingInformationOf(String id, String type) {
+        showMessage("Reception d'information de "+type+" "+id);
+    }
+
+    @Override
+    public void tellReceiptOfferByBidder(String id) {
+        showMessage("Reception d'une offre de l'enchérisseur "+id);
+    }
+
+    @Override
+    public void tellReceiptBidResult(String id) {
+        showMessage("Reception des résultats de l'enchère "+id);
+    }
+
+    @Override
+    public void tellSuccessfulSecuringOfTheCommunicationChannelWithTheManager() {
+        showMessage("Sécurisation du canal de communication avec le gestionnaire réussie, demande des enchérisseurs potentiels actuels");
     }
 
     @Override
