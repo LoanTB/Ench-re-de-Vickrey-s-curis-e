@@ -63,8 +63,4 @@ public class SellerNetworkController extends NetworkController {
             );
         }
     }
-
-    public void sendMySI(String id) throws Exception {
-        sendTo(id, getMyPublicInformations());
-    }
 }

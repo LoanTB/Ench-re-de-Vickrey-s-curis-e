@@ -76,35 +76,16 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     }
 
     @Override
-    public String askSellerAddress() {
-        String input = "";
-        boolean askAddress = true;
-
-        String ipAddressPattern = "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-                "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-                "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." +
-                "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
-
-        Pattern pattern = Pattern.compile(ipAddressPattern);
-
-        while (askAddress) {
-            showMessage("Veuillez saisir l'addresse IP  du vendeur au format xxx.xxx.xxx.xxx  : ");
-
-            input = readMessageWithMaxLen(15);
-            Matcher matcher = pattern.matcher(input);
-            if (!matcher.matches()) {
-                showMessage("Adresse IP invalide. Veuillez réessayer.");
-            } else {
-                askAddress = false;
-            }
+    public int readPort() {
+        showMessage("Quel port voulez-vous utiliser ? (49152 à 65535)");
+        String portString = readMessage();
+        int port = Integer.parseInt(portString);
+        while (port < 49152 || port > 65535){
+            showMessage("Port invalide, entrez un port valide (entre 49152 et 65535) :");
+            portString = readMessage();
+            port = Integer.parseInt(portString);
         }
-        return input;
-    }
-
-    @Override
-    public int askSellerPort() {
-        showMessage("Veuillez saisir le port que vous voulez utiliser : ");
-        return Integer.parseInt(scanner.nextLine()); // TODO : Verifier l'entrée utilisateur avec isValidInt
+        return port;
     }
 
     private static boolean isValidDateFormat(String value, DateTimeFormatter formatter) {
@@ -139,6 +120,33 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
             }
         }
         return dateTime;
+    }
+
+    @Override
+    public void tellWaitManagerSecurityInformations() {
+        showMessage("Attente des informations de sécurité du gestionnaire...");
+    }
+
+    @Override
+    public void tellWaitManager() {
+        showMessage("Le gestionnaire des enchères semble indisponible, attente du gestionnaire...");
+    }
+
+    @Override
+    public void tellManagerFound() {
+        showMessage("Contacter le gestionnaire établie !");
+    }
+
+    @Override
+    public String readName() {
+        showMessage("Quel est votre prénom ?");
+        return readMessage();
+    }
+
+    @Override
+    public String readSurname() {
+        showMessage("Quel est votre nom ?");
+        return readMessage();
     }
 
     @Override

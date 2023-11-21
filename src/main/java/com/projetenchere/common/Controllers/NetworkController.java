@@ -164,6 +164,10 @@ public abstract class NetworkController implements Runnable {
         return !(getInformationsOf(id) == null);
     }
 
+    public void sendMySI(String id) throws Exception {
+        sendTo(id, getMyPublicInformations());
+    }
+
     public void sendTo(String id, Object object) throws Exception {
         PublicSecurityInformations target = getInformationsOf(id);
         if (informationContainsPublicKeys(id)){

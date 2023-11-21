@@ -82,6 +82,7 @@ public class BidderController extends Controller {
     }
 
     public void readAndSendOffer() throws Exception {
+        waitManagerContactKeys(); // S'assurer que le contact est bien établie avec le manager
         Offer offer = ui.readOffer(bidder);
         waitToReceiveBidsPublicKeys();
         EncryptedOffer encryptedOffer = new EncryptedOffer(offer, currentBidsPublicKeys.getPublicKeyOfBid(offer.getIdBid()));
@@ -106,11 +107,25 @@ public class BidderController extends Controller {
         }
     }
 
+    public void waitManagerContactKeys(){
+        if (networkController.informationContainsPublicKeys("Manager")){
+            return;
+        }
+        ui.tellWaitManagerSecurityInformations();
+        while (!networkController.informationContainsPublicKeys("Manager")) {
+            try {
+                wait(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void sendBidderInfosToManager() throws Exception {
         networkListeningInitialization();
         boolean succes;
         try {
-            networkController.sendTo("Manager",networkController.getMyPublicInformations());
+            networkController.sendMySI("Manager");
             succes = true;
         } catch (Exception ignore){
             succes = false;
@@ -119,13 +134,12 @@ public class BidderController extends Controller {
         while (!succes) {
             sleep(1000);
             try {
-                networkController.sendTo("Manager",networkController.getMyPublicInformations());
+                networkController.sendMySI("Manager");
                 succes = true;
                 ui.tellManagerFound();
             } catch (Exception ignore){
                 succes = false;
             }
         }
-
     }
 }

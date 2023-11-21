@@ -91,6 +91,11 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
+    public void tellWaitManagerSecurityInformations() {
+        showMessage("Attente des informations de sécurité du gestionnaire...");
+    }
+
+    @Override
     public int readPort() {
         showMessage("Quel port voulez-vous utiliser ? (49152 à 65535)");
         String portString = readMessage();

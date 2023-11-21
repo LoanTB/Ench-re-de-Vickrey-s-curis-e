@@ -15,6 +15,10 @@ public interface ISellerUserInterface {
     String askBidName();
     String askBidDescription();
     LocalDateTime askBidEndTime();
-    String askSellerAddress();
-    int askSellerPort();
+    String readName();
+    String readSurname();
+    int readPort();
+    void tellWaitManager();
+    void tellManagerFound();
+    void tellWaitManagerSecurityInformations();
 }

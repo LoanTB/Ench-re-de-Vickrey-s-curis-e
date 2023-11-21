@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static java.lang.Thread.sleep;
+
 public class SellerController extends Controller {
     SellerNetworkController networkController = new SellerNetworkController(this);
     private static final ISellerUserInterface ui = new SellerCommandLineInterface();
@@ -68,9 +70,34 @@ public class SellerController extends Controller {
 
     public void displayHello(){ui.displayHello();}
 
-    public void initContactWithManager() throws Exception {
-        networkController.sendMySI("Manager");
-        while (networkController.informationContainsPublicKeys("Manager")) {
+    public void sendSellerInfosToManager() throws Exception {
+        networkListeningInitialization();
+        boolean succes;
+        try {
+            networkController.sendMySI("Manager");
+            succes = true;
+        } catch (Exception ignore){
+            succes = false;
+            ui.tellWaitManager();
+        }
+        while (!succes) {
+            sleep(1000);
+            try {
+                networkController.sendMySI("Manager");
+                succes = true;
+                ui.tellManagerFound();
+            } catch (Exception ignore){
+                succes = false;
+            }
+        }
+    }
+
+    public void waitManagerContactKeys(){
+        if (networkController.informationContainsPublicKeys("Manager")){
+            return;
+        }
+        ui.tellWaitManagerSecurityInformations();
+        while (!networkController.informationContainsPublicKeys("Manager")) {
             try {
                 wait(1000);
             } catch (InterruptedException e) {
