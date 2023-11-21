@@ -25,19 +25,25 @@ public class BidderNetworkController extends NetworkController {
 
     @Override
     public RequestHandler determineSpecificsHandler(ObjectReceived objectReceived) {
-        if (objectReceived.getObjectSended().getObjectClass().equals(PublicSecurityInformations.class) &&
-                !alreadyKnowTheInformation((PublicSecurityInformations) objectReceived.getObjectSended().getObject())) {
+        if (objectReceived.getObjectSended().getObjectClass().equals(PublicSecurityInformations.class)
+                && !alreadyKnowTheInformation((PublicSecurityInformations) objectReceived.getObjectSended().getObject())) {
+            // TODO : Afficher avec ui "Reception d'information du TYPE ID"
             return new InformationsRequestWithAckHandler(this);
         }
-        if (objectReceived.getObjectSended().getObjectClass().equals(CurrentBids.class) && isAuthenticatedByType("Manager",objectReceived)) {
+        if (objectReceived.getObjectSended().getObjectClass().equals(CurrentBids.class)
+                && isAuthenticatedByType("Manager",objectReceived)) {
+            // TODO : Afficher avec ui "Reception des offres actuelles"
             return new CurrentBidsHandler(controller);
         }
-        if (objectReceived.getObjectSended().getObjectClass().equals(CurrentBidsPublicKeys.class) && isAuthenticatedByType("Manager",objectReceived)) {
+        if (objectReceived.getObjectSended().getObjectClass().equals(CurrentBidsPublicKeys.class)
+                && isAuthenticatedByType("Manager",objectReceived)) {
+            // TODO : Afficher avec ui "Reception des clés de chiffrement des offres actuelles"
             return new CurrentBidsPublicKeysHandler(controller);
         }
-        if (objectReceived.getObjectSended().getObjectClass().equals(WinStatus.class) &&
-                isAuthenticatedByType("Seller",objectReceived) &&
-                controller.getParticipatedBid().contains(((WinStatus) objectReceived.getObjectSended().getObject()).getBidId())) {
+        if (objectReceived.getObjectSended().getObjectClass().equals(WinStatus.class)
+                && isAuthenticatedByType("Seller",objectReceived)
+                && controller.getParticipatedBid().contains(((WinStatus) objectReceived.getObjectSended().getObject()).getBidId())) {
+            // TODO : Afficher avec ui "Reception des résultats d'une enchère"
             return new WinStatusRequestHandler(controller);
         }
         return null;

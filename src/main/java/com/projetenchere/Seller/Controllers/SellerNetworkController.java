@@ -1,6 +1,7 @@
 package com.projetenchere.Seller.Controllers;
 
 import com.projetenchere.Seller.Handlers.EncryptedPricesRequestHandler;
+import com.projetenchere.Seller.Handlers.InformationsRequestWithRequestsInfosOfBiddersHandler;
 import com.projetenchere.Seller.Handlers.WinnerRequestHandler;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Identity;
@@ -27,17 +28,26 @@ public class SellerNetworkController extends NetworkController {
     @Override
     protected RequestHandler determineSpecificsHandler(ObjectReceived objectReceived) {
         if (objectReceived.getObjectSended().getObjectClass().equals(PublicSecurityInformations.class)
+                && !alreadyKnowTheInformation((PublicSecurityInformations) objectReceived.getObjectSended().getObject())
+                && ((PublicSecurityInformations) objectReceived.getObjectSended().getObject()).getIdentity().getId().equals("Manager")){
+            // TODO : Afficher avec ui "Sécurisation du canal de communication avec le gestionnaire réussie, demande des enchérisseurs potentiels actuels "
+            return new InformationsRequestWithRequestsInfosOfBiddersHandler(this);
+        }
+        if (objectReceived.getObjectSended().getObjectClass().equals(PublicSecurityInformations.class)
                 && !alreadyKnowTheInformation((PublicSecurityInformations) objectReceived.getObjectSended().getObject())) {
+            // TODO : Afficher avec ui "Reception d'information du TYPE ID"
             return new InformationsRequestWithAckHandler(this);
         }
         if (objectReceived.getObjectSended().getObjectClass().equals(EncryptedOffer.class)
                  && isAuthenticatedByAnyKnowledgeOfType("Bidder",objectReceived)
                  && controller.auctionInProgress()) {
+            // TODO : Afficher avec ui "Reception d'une offre de l'enchérisseur ID"
             return new EncryptedPricesRequestHandler(controller);
         }
         if (objectReceived.getObjectSended().getObjectClass().equals(Winner.class)
                 && isAuthenticatedByType("Manager",objectReceived)
                 && !controller.auctionInProgress()) {
+            // TODO : Afficher avec ui "Reception des résultats de l'enchère"
             return new WinnerRequestHandler(controller);
         }
         return null;
