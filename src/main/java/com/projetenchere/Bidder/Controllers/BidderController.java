@@ -144,4 +144,8 @@ public class BidderController extends Controller {
     }
 
     public void displayHello(){ui.displayHello();}
+
+    public IBidderUserInterface getUi() {
+        return ui;
+    }
 }

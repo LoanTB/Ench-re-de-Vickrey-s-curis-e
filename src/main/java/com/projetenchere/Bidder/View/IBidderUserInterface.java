@@ -20,4 +20,8 @@ public interface IBidderUserInterface {
     void tellManagerFound();
     void tellWaitManagerSecurityInformations();
     void displayHello();
+    void tellReceivingInformationOf(String id, String type);
+    void tellReceiptOfCurrentBids();
+    void tellReceiptOfEncryptionKeysForCurrentBids();
+    void tellReceiptOfBidResult(String id);
 }

@@ -101,6 +101,26 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
+    public void tellReceivingInformationOf(String id, String type) {
+        showMessage("Reception d'information de "+type+" "+id);
+    }
+
+    @Override
+    public void tellReceiptOfCurrentBids() {
+        showMessage("Reception des enchères actuelles");
+    }
+
+    @Override
+    public void tellReceiptOfEncryptionKeysForCurrentBids() {
+        showMessage("Reception des clés de chiffrement des enchères actuelles");
+    }
+
+    @Override
+    public void tellReceiptOfBidResult(String id) {
+        showMessage("Reception des résultats de l'enchère "+id);
+    }
+
+    @Override
     public int readPort() {
         showMessage("Quel port voulez-vous utiliser ? (49152 à 65535)");
         String portString = readMessage();
