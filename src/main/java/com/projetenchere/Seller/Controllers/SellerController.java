@@ -20,7 +20,6 @@ public class SellerController extends Controller {
     SellerNetworkController networkController = new SellerNetworkController(this);
     private static final ISellerUserInterface ui = new SellerCommandLineInterface();
     private final Seller seller = new Seller();
-
     private Bid myBid;
     private Winner winner = null;
 

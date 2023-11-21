@@ -32,14 +32,18 @@ public class SellerNetworkController extends NetworkController {
 
     @Override
     protected RequestHandler determineSpecificsHandler(ObjectReceived objectReceived) {
-        if (objectReceived.getObjectSended().getObjectClass().equals(PublicSecurityInformations.class) &&
-                !alreadyKnowTheInformation((PublicSecurityInformations) objectReceived.getObjectSended().getObject())) {
+        if (objectReceived.getObjectSended().getObjectClass().equals(PublicSecurityInformations.class)
+                && !alreadyKnowTheInformation((PublicSecurityInformations) objectReceived.getObjectSended().getObject())) {
             return new InformationsRequestWithAckHandler(this);
         }
-        if (objectReceived.getObjectSended().getObjectClass().equals(EncryptedOffer.class) && controller.auctionInProgress()) {
+        if (objectReceived.getObjectSended().getObjectClass().equals(EncryptedOffer.class)
+                 && isAuthenticatedByAnyKnowledgeOfType("Bidder",objectReceived)
+                 && controller.auctionInProgress()) {
             return new EncryptedPricesRequestHandler(controller);
         }
-        if (objectReceived.getObjectSended().getObjectClass().equals(Winner.class) && !controller.auctionInProgress()) {
+        if (objectReceived.getObjectSended().getObjectClass().equals(Winner.class)
+                && isAuthenticatedByType("Manager",objectReceived)
+                && !controller.auctionInProgress()) {
             return new WinnerRequestHandler(controller);
         }
         return null;

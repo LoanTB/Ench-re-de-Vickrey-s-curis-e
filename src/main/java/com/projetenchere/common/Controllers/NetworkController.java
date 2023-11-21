@@ -109,6 +109,38 @@ public abstract class NetworkController implements Runnable {
         return false;
     }
 
+    public boolean isAuthenticatedByAnyKnowledge(ObjectReceived objectReceived){
+        List<String> ids = new ArrayList<>();
+        for (PublicSecurityInformations info:informations){
+            ids.add(info.getIdentity().getId());
+        }
+        if (isAuthenticated(objectReceived)){
+            for (String id:ids){
+                if (objectReceived.getAuthenticationStatus().authorOfSignature().getId().equals(id)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isAuthenticatedByAnyKnowledgeOfType(String type,ObjectReceived objectReceived){
+        List<String> ids = new ArrayList<>();
+        for (PublicSecurityInformations info:informations){
+            if (info.getIdentity().getType().equals(type)){
+                ids.add(info.getIdentity().getId());
+            }
+        }
+        if (isAuthenticated(objectReceived)){
+            for (String id:ids){
+                if (objectReceived.getAuthenticationStatus().authorOfSignature().getId().equals(id)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void saveInformations(PublicSecurityInformations informations){
         if (this.informations.contains(informations)){
             this.informations.set(this.informations.indexOf(informations),informations);
