@@ -1,11 +1,8 @@
 package com.projetenchere.Bidder.View;
 
 import com.projetenchere.Bidder.Model.Bidder;
-import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Offer;
-
-import java.util.Currency;
 
 public interface IBidderUserInterface {
 
@@ -19,10 +16,16 @@ public interface IBidderUserInterface {
 
     String readName();
 
+    String readSurname();
+
     int readPort();
 
     void tellOfferSent();
 
     void tellWaitOfferResult();
+
+    void tellWaitBidsAnnoncement();
+
+    void tellWaitBidsPublicKeysAnnoncement();
 
 }

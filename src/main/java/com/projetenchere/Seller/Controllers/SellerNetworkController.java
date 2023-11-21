@@ -4,6 +4,7 @@ import com.projetenchere.Seller.Handlers.EncryptedPricesRequestHandler;
 import com.projetenchere.Seller.Handlers.WinnerRequestHandler;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
+import com.projetenchere.common.Models.Identity;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
@@ -25,13 +26,13 @@ public class SellerNetworkController extends NetworkController {
 
     public SellerNetworkController(SellerController controller) throws Exception {
         this.controller = controller;
-        myInformations = new PrivateSecurityInformations(UUID.randomUUID().toString(),new NetworkContactInformation("127.0.0.1",24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());
+        myInformations = new PrivateSecurityInformations(new Identity(UUID.randomUUID().toString(),"Seller"),new NetworkContactInformation("127.0.0.1",24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());
     }
 
     @Override
     protected RequestHandler determineSpecificsHandler(ObjectReceived objectReceived) {
         if (objectReceived.getObjectSended().getObjectClass().equals(PublicSecurityInformations.class) &&
-                !informationContainsPublicKeys(((PublicSecurityInformations) objectReceived.getObjectSended().getObject()).getId())) {
+                !alreadyKnowTheInformation((PublicSecurityInformations) objectReceived.getObjectSended().getObject())) {
             return new InformationsRequestWithAckHandler(this);
         }
         if (objectReceived.getObjectSended().getObjectClass().equals(EncryptedOffer.class) && controller.auctionInProgress()) {
@@ -53,8 +54,8 @@ public class SellerNetworkController extends NetworkController {
                     ips.get(i),
                     ports.get(i),
                     new ObjectSender(
-                            myInformations.getNetworkContactInformation().ip(),
-                            myInformations.getNetworkContactInformation().port(),
+                            myInformations.networkContactInformation().ip(),
+                            myInformations.networkContactInformation().port(),
                             results.get(i),
                             results.get(i).getClass()
                     )

@@ -7,14 +7,14 @@ import java.time.LocalDateTime;
 
 public class Bid implements Serializable {
 
-    private final int id;
+    private final String id;
     private final String name;
     private final String description;
     private LocalDateTime startDateTime = null;
     private final LocalDateTime endDateTime;
     private final PublicSecurityInformations sellerInformations;
 
-    public Bid(int id, String name, String description, LocalDateTime endDateTime, PublicSecurityInformations sellerInformations) {
+    public Bid(String id, String name, String description, LocalDateTime endDateTime, PublicSecurityInformations sellerInformations) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -22,7 +22,7 @@ public class Bid implements Serializable {
         this.sellerInformations = sellerInformations;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -41,6 +41,8 @@ public class Bid implements Serializable {
     public LocalDateTime getEndDateTime() {
         return endDateTime;
     }
+
+    public PublicSecurityInformations getSeller(){return sellerInformations;}
 
     public String getSellerIp(){return sellerInformations.getNetworkContactInformation().ip();}
 

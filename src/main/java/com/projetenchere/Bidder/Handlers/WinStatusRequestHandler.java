@@ -4,7 +4,6 @@ import com.projetenchere.Bidder.Controllers.BidderController;
 import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Handlers.RequestHandler;
-import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 
 public class WinStatusRequestHandler implements RequestHandler {
     private final BidderController controller;
@@ -15,6 +14,7 @@ public class WinStatusRequestHandler implements RequestHandler {
 
     @Override
     public void handle(ObjectReceived objectReceived) {
-        controller.addResult((WinStatus) objectReceived.getObjectSended().getObject());
+        WinStatus result = (WinStatus) objectReceived.getObjectSended().getObject();
+        controller.addResult(result);
     }
 }

@@ -4,27 +4,24 @@ import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
 import com.projetenchere.common.Controllers.Controller;
+import com.projetenchere.common.Models.Identity;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKeys;
+import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Models.Offer;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class BidderController extends Controller {
     private final IBidderUserInterface ui = new BidderCommandLineInterface();
     private final BidderNetworkController networkController = new BidderNetworkController(this);
-
-    private CurrentBidsPublicKeys currentBidsPublicKeys;
-
-    private CurrentBids currentBids;
-
-
-
-    private final List<Integer> participatedBid = new ArrayList<>();
+    private CurrentBids currentBids = null;
+    private CurrentBidsPublicKeys currentBidsPublicKeys = null;
+    private final List<String> participatedBid = new ArrayList<>();
     private final List<WinStatus> results = new ArrayList<>();
     private final Bidder bidder = new Bidder();
 
@@ -42,30 +39,49 @@ public class BidderController extends Controller {
         results.add(result);
     }
 
-    public List<Integer> getParticipatedBid(){
+    public List<String> getParticipatedBid(){
         return participatedBid;
     }
 
-    public Offer readOfferFromInterface(){
-        return ui.readOffer(bidder);
+    public void readInfos() throws Exception {
+        networkController.setMyInformationsWithPort(bidder.getIdentity(),ui.readPort());
+        bidder.setInformations(networkController.getMyPublicInformations());
+        bidder.setIdentity(new Identity(UUID.randomUUID().toString(),ui.readName(),ui.readSurname(),"Bidder"));
     }
 
-    public void readPort() {
-        this.bidder.setPort(ui.readPort());
+    public void waitToReceiveBids() {
+        ui.tellWaitBidsAnnoncement();
+        while (currentBids == null) {
+            try {
+                wait(1000); // Eviter une utilisation excessive du CPU
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void waitToReceiveBidsPublicKeys() {
+        ui.tellWaitBidsPublicKeysAnnoncement();
+        while (currentBidsPublicKeys == null) {
+            try {
+                wait(1000); // Eviter une utilisation excessive du CPU
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void showBid() {
+        waitToReceiveBids();
         ui.displayBid(this.currentBids);
     }
 
-    public void readName() {
-        this.bidder.setId(ui.readName());
-    }
-
     public void readAndSendOffer() throws Exception {
-        Offer offer = readOfferFromInterface();
-        EncryptedOffer encryptedOffer = new EncryptedOffer(offer, networkController.getManagerInformations().getSignaturePublicKey());
-        networkController.sendOffer(encryptedOffer);
+        Offer offer = ui.readOffer(bidder);
+        waitToReceiveBidsPublicKeys();
+        EncryptedOffer encryptedOffer = new EncryptedOffer(offer, currentBidsPublicKeys.getPublicKeyOfBid(offer.getIdBid()));
+        networkController.sendTo(currentBids.getBid(offer.getIdBid()).getSeller().getIdentity().getId(),encryptedOffer);
+        participatedBid.add(offer.getIdBid());
         ui.tellOfferSent();
     }
 
@@ -85,7 +101,7 @@ public class BidderController extends Controller {
         }
     }
 
-    public void sendBidderInfosToManager() throws IOException, ClassNotFoundException {
-        networkController.sendBidderInfosToManager();
+    public void sendBidderInfosToManager() throws Exception {
+        networkController.sendTo("Manager",networkController.getMyPublicInformations());
     }
 }

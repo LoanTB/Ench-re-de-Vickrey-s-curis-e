@@ -37,7 +37,7 @@ public class SellerController extends Controller {
     }
 
     public void createMyBid(){
-        int id = ui.askBidId();
+        String id = UUID.randomUUID().toString();
         String name = ui.askBidName();
         String description = ui.askBidDescription();
         LocalDateTime end = ui.askBidEndTime();

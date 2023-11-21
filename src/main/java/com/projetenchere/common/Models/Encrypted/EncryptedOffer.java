@@ -8,20 +8,21 @@ import java.security.PublicKey;
 
 public class EncryptedOffer implements Serializable {
     private final String idBidder;
+    private final String idBid;
     private final byte[] price;
-
-    public EncryptedOffer(String idBidder, double price, PublicKey publicKey) throws Exception {
-        this.idBidder = idBidder;
-        this.price = EncryptionUtil.encryptPrice(price,publicKey);
-    }
 
     public EncryptedOffer(Offer offer, PublicKey publicKey) throws Exception {
         this.idBidder = offer.getIdBidder();
+        this.idBid = offer.getIdBid();
         this.price = EncryptionUtil.encryptPrice(offer.getPrice(),publicKey);
     }
 
     public String getIdBidder() {
         return idBidder;
+    }
+
+    public String getIdBid() {
+        return idBid;
     }
 
     public byte[] getPrice() {

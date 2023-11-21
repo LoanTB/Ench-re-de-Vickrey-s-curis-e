@@ -20,8 +20,6 @@ public interface IManagerUserInterface {
 
     void displayEndOfAuction();
 
-    int askBidId();
-
     String askBidName();
 
     String askBidDescription();

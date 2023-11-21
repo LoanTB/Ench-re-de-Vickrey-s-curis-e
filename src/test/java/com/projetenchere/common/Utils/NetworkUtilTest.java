@@ -4,7 +4,7 @@ import com.projetenchere.common.Controllers.NetworkController;
 import com.projetenchere.common.Handlers.InformationsRequestWithAckHandler;
 import com.projetenchere.common.Handlers.InformationsRequestWithReplyHandler;
 import com.projetenchere.common.Handlers.RequestHandler;
-import com.projetenchere.common.Models.Network.Communication.Acknowledgment;
+import com.projetenchere.common.Models.Identity;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
@@ -27,7 +27,7 @@ public class NetworkUtilTest {
 
         serverThread = new Thread(() -> {
             try {
-                data[0] =  new ObjectSender(NetworkUtil.getMyIP(),24681,new String("Super message !"),String.class);
+                data[0] =  new ObjectSender(NetworkUtil.getMyIP(),24681, "Super message !",String.class);
                 NetworkUtil.send(NetworkUtil.getMyIP(), 24681,data[0]);
             } catch (IOException e) {
                 throw new RuntimeException("Erreur côté serveur: " + e);
@@ -86,7 +86,7 @@ public class NetworkUtilTest {
                     public APRESARequestHandler(NetworkController networkController) {this.networkController = networkController;}
                     @Override
                     public void handle(ObjectReceived objectReceived) throws Exception {
-                        networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature(),"Il y a B, et Après B il y a quoi ?");
+                        networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),"Il y a B, et Après B il y a quoi ?");
                     }
                 }
 
@@ -95,7 +95,7 @@ public class NetworkUtilTest {
                     public FinalRequestHandler(NetworkController networkController) {this.networkController = networkController;}
                     @Override
                     public void handle(ObjectReceived objectReceived) throws Exception {
-                        networkController.setMyInformations(new PrivateSecurityInformations("A",new NetworkContactInformation("127.0.0.1",24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair()));
+                        networkController.setMyInformations(new PrivateSecurityInformations(new Identity("A","TEST"),new NetworkContactInformation("127.0.0.1",24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair()));
                     }
                 }
 
@@ -107,11 +107,11 @@ public class NetworkUtilTest {
                     System.out.println("A (SECURE) : répond Il y a B, et Après B il y a quoi ?");
                     return new APRESARequestHandler(this);
                 }
-                if (objectReceived.getAuthenticationStatus() != null && objectReceived.getAuthenticationStatus().authorOfSignature().equals("B") && objectReceived.getObjectSended().getObject().equals("feur")){
+                if (objectReceived.getAuthenticationStatus() != null && objectReceived.getAuthenticationStatus().authorOfSignature().getId().equals("B") && objectReceived.getObjectSended().getObject().equals("feur")){
                     System.out.println("A <Action> : Change de clés");
                     return new FinalRequestHandler(this);
                 }
-                if (objectReceived.getAuthenticationStatus() != null && objectReceived.getAuthenticationStatus().authorOfSignature().equals("B") && objectReceived.getObjectSended().getObject().equals("Allo ?")){
+                if (objectReceived.getAuthenticationStatus() != null && objectReceived.getAuthenticationStatus().authorOfSignature().getId().equals("B") && objectReceived.getObjectSended().getObject().equals("Allo ?")){
                     System.out.println("A <Action> : Ne fait plus rien en espérant que B se taise");
                 }
                 return null;
@@ -126,7 +126,7 @@ public class NetworkUtilTest {
                     public APRESBRequestHandler(NetworkController networkController) {this.networkController = networkController;}
                     @Override
                     public void handle(ObjectReceived objectReceived) throws Exception {
-                        networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature(),"feur");
+                        networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),"feur");
                     }
                 }
 
@@ -142,8 +142,8 @@ public class NetworkUtilTest {
             }
         };
 
-        A.setMyInformations(new PrivateSecurityInformations("A",new NetworkContactInformation("127.0.0.1",24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair()));
-        B.setMyInformations(new PrivateSecurityInformations("B",new NetworkContactInformation("127.0.0.1",24684),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair()));
+        A.setMyInformations(new PrivateSecurityInformations(new Identity("A","TEST"),new NetworkContactInformation("127.0.0.1",24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair()));
+        B.setMyInformations(new PrivateSecurityInformations(new Identity("B","TEST"),new NetworkContactInformation("127.0.0.1",24684),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair()));
 
         Thread threadA = new Thread(A);
         threadA.start();
@@ -153,7 +153,7 @@ public class NetworkUtilTest {
 
         sleep(3000);
 
-        B.saveInformations(new PublicSecurityInformations("A",new NetworkContactInformation("127.0.0.1",24683),null,null));
+        B.saveInformations(new PublicSecurityInformations(new Identity("A","TEST"),new NetworkContactInformation("127.0.0.1",24683),null,null));
         System.out.println("B : Envoie ses informations à A");
         B.sendTo("A",B.getMyPublicInformations());
         sleep(3000);
@@ -168,7 +168,7 @@ public class NetworkUtilTest {
         System.out.println("B : Supprime les clés de A");
         System.out.println("B : Allo ?");
         B.sendTo("A","Allo ?");
-        B.saveInformations(new PublicSecurityInformations(B.getInformationsOf("A").getId(),B.getInformationsOf("A").getNetworkContactInformation(),null,null));
+        B.saveInformations(new PublicSecurityInformations(B.getInformationsOf("A").getIdentity(),B.getInformationsOf("A").getNetworkContactInformation(),null,null));
         System.out.println("B : Envoie ses informations à A");
         B.sendTo("A",B.getMyPublicInformations());
         sleep(3000);

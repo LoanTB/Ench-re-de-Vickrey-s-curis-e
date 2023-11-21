@@ -4,6 +4,7 @@ import com.projetenchere.Manager.Handlers.InitPackageRequestHandler;
 import com.projetenchere.Manager.Handlers.PriceDecryptionRequestHandler;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
+import com.projetenchere.common.Models.Identity;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
@@ -22,20 +23,20 @@ public class ManagerNetworkController extends NetworkController {
 
     public ManagerNetworkController(ManagerController controller) throws Exception {
         this.controller = controller;
-        myInformations = new PrivateSecurityInformations("Manager",new NetworkContactInformation(NetworkUtil.getMyIP(),24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());
+        myInformations = new PrivateSecurityInformations(new Identity("Manager","Manager"),new NetworkContactInformation(NetworkUtil.getMyIP(),24683),EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());
     }
 
     @Override
     public RequestHandler determineSpecificsHandler(ObjectReceived objectReceived) {
         if (objectReceived.getObjectSended().getObjectClass().equals(PublicSecurityInformations.class) &&
-                !informationContainsPublicKeys(((PublicSecurityInformations) objectReceived.getObjectSended().getObject()).getId())) {
+                !alreadyKnowTheInformation((PublicSecurityInformations) objectReceived.getObjectSended().getObject())) {
             return new InformationsRequestWithReplyHandler(this);
         }
         if (objectReceived.getObjectSended().getObject().equals("InitPackageRequest")) {
-            return new InitPackageRequestHandler(controller.getCurrentBids(),myInformations.getNetworkContactInformation());
+            return new InitPackageRequestHandler(controller.getCurrentBids(),myInformations.networkContactInformation());
         }
         if (objectReceived.getObjectSended().getObjectClass() == EncryptedPrices.class && controller.getCurrentBids().isOver(((EncryptedPrices)objectReceived.getObjectSended().getObject()).getBidId())) {
-            return new PriceDecryptionRequestHandler(controller,myInformations.getNetworkContactInformation());
+            return new PriceDecryptionRequestHandler(controller,myInformations.networkContactInformation());
         }
         return null;
     }
@@ -48,8 +49,8 @@ public class ManagerNetworkController extends NetworkController {
         NetworkUtil.send(bid.getSellerIp(),
                 bid.getSellerPort(),
                 new ObjectSender(
-                        myInformations.getNetworkContactInformation().ip(),
-                        myInformations.getNetworkContactInformation().port(),
+                        myInformations.networkContactInformation().ip(),
+                        myInformations.networkContactInformation().port(),
                         bid,
                         Bid.class
                 )

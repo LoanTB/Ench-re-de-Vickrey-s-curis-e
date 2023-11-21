@@ -162,10 +162,4 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
             return false;
         }
     }
-
-    @Override
-    public int askBidId() {
-        showMessage("Veuillez saisir l'id de l'enchère : ");
-        return Integer.parseInt(scanner.nextLine()); // TODO : Verifier l'entrée utilisateur avec isValidInt
-    }
 }

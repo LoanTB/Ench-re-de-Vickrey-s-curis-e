@@ -1,6 +1,8 @@
 package com.projetenchere.common.Controllers;
 
+import com.projetenchere.common.Models.Identity;
 import com.projetenchere.common.Models.Network.Communication.AuthenticationStatus;
+import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Handlers.RequestHandler;
@@ -29,7 +31,7 @@ public abstract class NetworkController implements Runnable {
 
     @Override
     public void run() {
-        try (ServerSocket serverSocket = new ServerSocket(myInformations.getNetworkContactInformation().port())) {
+        try (ServerSocket serverSocket = new ServerSocket(myInformations.networkContactInformation().port())) {
             while (!Thread.currentThread().isInterrupted()) {
                 ObjectReceived request = null;
                 try {
@@ -49,10 +51,10 @@ public abstract class NetworkController implements Runnable {
                                         (ObjectSender) SerializationUtil.deserialize(
                                                 EncryptionUtil.decrypt(
                                                         securedRequest.getEncryptedObjectSender(),
-                                                        myInformations.getEncryptionKeys().getPrivate()
+                                                        myInformations.encryptionKeys().getPrivate()
                                                 )
                                         ),
-                                        new AuthenticationStatus("OK",securityInformations.getId())
+                                        new AuthenticationStatus("OK",securityInformations.getIdentity())
                                 );
                             }
                         }
@@ -84,6 +86,29 @@ public abstract class NetworkController implements Runnable {
 
     protected abstract RequestHandler determineSpecificsHandler(ObjectReceived objectReceived);
 
+    public boolean isAuthenticated(ObjectReceived objectReceived){
+        return (objectReceived.getAuthenticationStatus() != null & objectReceived.getAuthenticationStatus().status().equals("OK"));
+    }
+
+    public boolean isAuthenticatedBy(String id,ObjectReceived objectReceived){
+        return (isAuthenticated(objectReceived) && objectReceived.getAuthenticationStatus().authorOfSignature().getId().equals(id));
+    }
+
+    public boolean isAuthenticatedByType(String type,ObjectReceived objectReceived){
+        return (isAuthenticated(objectReceived) && objectReceived.getAuthenticationStatus().authorOfSignature().getType().equals(type));
+    }
+
+    public boolean isAuthenticatedByAny(List<String> ids,ObjectReceived objectReceived){
+        if (isAuthenticated(objectReceived)){
+            for (String id:ids){
+                if (objectReceived.getAuthenticationStatus().authorOfSignature().getId().equals(id)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void saveInformations(PublicSecurityInformations informations){
         if (this.informations.contains(informations)){
             this.informations.set(this.informations.indexOf(informations),informations);
@@ -100,9 +125,17 @@ public abstract class NetworkController implements Runnable {
         myInformations = privateSecurityInformations;
     }
 
+    public void setMyInformations(Identity identity, NetworkContactInformation networkContactInformation) throws Exception {
+        myInformations = new PrivateSecurityInformations(identity, networkContactInformation, EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());;
+    }
+
+    public void setMyInformationsWithPort(Identity identity, int port) throws Exception {
+        myInformations = new PrivateSecurityInformations(identity, new NetworkContactInformation(NetworkUtil.getMyIP(),port), EncryptionUtil.generateKeyPair(),EncryptionUtil.generateKeyPair());;
+    }
+
     public PublicSecurityInformations getInformationsOf(String id){
         for (PublicSecurityInformations publicSecurityInformations : this.informations){
-            if (publicSecurityInformations.getId().equals(id)){
+            if (publicSecurityInformations.getIdentity().getId().equals(id)){
                 return publicSecurityInformations;
             }
         }
@@ -113,6 +146,15 @@ public abstract class NetworkController implements Runnable {
         PublicSecurityInformations publicSecurityInformations = getInformationsOf(id);
         if (publicSecurityInformations != null){
             return !(publicSecurityInformations.getSignaturePublicKey() == null || publicSecurityInformations.getEncryptionPublicKey() == null);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean alreadyKnowTheInformation(PublicSecurityInformations publicSecurityInformations){
+        PublicSecurityInformations savedPublicSecurityInformations = getInformationsOf(publicSecurityInformations.getIdentity().getId());
+        if (savedPublicSecurityInformations != null){
+            return !(savedPublicSecurityInformations.getSignaturePublicKey() == null || savedPublicSecurityInformations.getEncryptionPublicKey() == null);
         } else {
             return false;
         }
@@ -130,11 +172,11 @@ public abstract class NetworkController implements Runnable {
                     target.getNetworkContactInformation().port(),
                     new SecuredObjectSender(
                             new ObjectSender(
-                                    myInformations.getNetworkContactInformation().ip(),
-                                    myInformations.getNetworkContactInformation().port(),
+                                    myInformations.networkContactInformation().ip(),
+                                    myInformations.networkContactInformation().port(),
                                     object,
                                     object.getClass()),
-                            myInformations.getSignatureKeys().getPrivate(),
+                            myInformations.signatureKeys().getPrivate(),
                             target.getEncryptionPublicKey()
                     )
             );
@@ -143,8 +185,8 @@ public abstract class NetworkController implements Runnable {
                     target.getNetworkContactInformation().ip(),
                     target.getNetworkContactInformation().port(),
                     new ObjectSender(
-                            myInformations.getNetworkContactInformation().ip(),
-                            myInformations.getNetworkContactInformation().port(),
+                            myInformations.networkContactInformation().ip(),
+                            myInformations.networkContactInformation().port(),
                             object,
                             object.getClass()
                     )

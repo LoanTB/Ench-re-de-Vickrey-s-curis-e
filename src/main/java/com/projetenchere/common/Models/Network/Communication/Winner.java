@@ -3,17 +3,17 @@ package com.projetenchere.common.Models.Network.Communication;
 import java.io.Serializable;
 
 public class Winner implements Serializable{
-    private final int bidId;
+    private final String bidId;
     final byte[] encryptedId;
     final double price;
 
-    public Winner(int bidId, byte[] encryptedId, double price){
+    public Winner(String bidId, byte[] encryptedId, double price){
         this.bidId = bidId;
         this.encryptedId = encryptedId;
         this.price = price;
     }
 
-    public int getBidId() {
+    public String getBidId() {
         return bidId;
     }
 

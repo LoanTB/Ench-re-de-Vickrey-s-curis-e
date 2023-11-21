@@ -12,6 +12,7 @@ import com.projetenchere.common.Utils.EncryptionUtil;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class ManagerController extends Controller {
     public final IManagerUserInterface ui = new ManagerCommandLineInterface();
@@ -23,7 +24,7 @@ public class ManagerController extends Controller {
     public ManagerController() throws Exception {}
 
     private Bid createBid() {
-        int id = ui.askBidId();
+        String id = UUID.randomUUID().toString();
         String name = ui.askBidName();
         String description = ui.askBidDescription();
         LocalDateTime end = ui.askBidEndTime();
@@ -51,8 +52,8 @@ public class ManagerController extends Controller {
         currentBids.startAllBids();
     }
 
-    public void startBid(int id) {
-        currentBids.startBids(id);
+    public void startBid(String idBid) {
+        currentBids.startBids(idBid);
     }
 
     public void generateManagerKeys() throws Exception {
@@ -68,8 +69,8 @@ public class ManagerController extends Controller {
         startAllBids();
     }
 
-    public void launchBid(int id){
-        startBid(id);
+    public void launchBid(String idBid){
+        startBid(idBid);
     }
 
     public Winner processPrices(EncryptedPrices encryptedPrices) throws Exception {

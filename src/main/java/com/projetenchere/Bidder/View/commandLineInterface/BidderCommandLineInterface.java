@@ -2,7 +2,6 @@ package com.projetenchere.Bidder.View.commandLineInterface;
 
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
-import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Offer;
 
@@ -25,15 +24,17 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     @Override
     public void displayBid(CurrentBids currentBids) {
         showMessage("Bienvenue!");
-        showMessage("Enchère Actuelle :");
+        showMessage("Enchères Actuelle :");
         showMessage(currentBids.toString()+"\n");
     }
 
     @Override
     public Offer readOffer(Bidder bidder) {
+        showMessage("Quel est l'identifiant de l'enchère sur laquelle vous voulez enchérir ?");
+        String idBidString = readMessage();
         showMessage("Quel est votre prix ?");
         String offerString = readMessage();
-        return new Offer(bidder.getId(), offerString);
+        return new Offer(bidder.getIdentity().getId(), idBidString, offerString);
     }
 
     @Override
@@ -58,7 +59,23 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
+    public void tellWaitBidsAnnoncement() {
+        showMessage("Attente de reception des enchères en cours...");
+    }
+
+    @Override
+    public void tellWaitBidsPublicKeysAnnoncement() {
+        showMessage("Attente/Verification de reception des clés des enchères en cours...");
+    }
+
+    @Override
     public String readName() {
+        showMessage("Quel est votre prénom ?");
+        return readMessage();
+    }
+
+    @Override
+    public String readSurname() {
         showMessage("Quel est votre nom ?");
         return readMessage();
     }

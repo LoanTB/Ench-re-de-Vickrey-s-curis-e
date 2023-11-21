@@ -12,7 +12,6 @@ public interface ISellerUserInterface {
     void displayResultsSent();
     void displayBidReceived(String bid);
     void waitOffers();
-    int askBidId();
     String askBidName();
     String askBidDescription();
     LocalDateTime askBidEndTime();

@@ -17,23 +17,32 @@ public class CurrentBids implements Serializable {
         this.currentBids.add(bid);
     }
 
+    public Bid getBid(String idBid){
+        for (Bid bid:currentBids){
+            if (bid.getId().equals(idBid)){
+                return bid;
+            }
+        }
+        return null;
+    }
+
     public void startAllBids(){
         for (Bid bid:currentBids){
             bid.startBid();
         }
     }
 
-    public void startBids(int id) {
+    public void startBids(String id) {
         for (Bid bid:currentBids){
-            if (bid.getId() == id){
+            if (bid.getId().equals(id)){
                 bid.startBid();
             }
         }
     }
 
-    public boolean isOver(int id) {
+    public boolean isOver(String id) {
         for (Bid bid:currentBids){
-            if (bid.getId() == id){
+            if (bid.getId().equals(id)){
                 return bid.isOver();
             }
         }
@@ -42,11 +51,11 @@ public class CurrentBids implements Serializable {
 
     @Override
     public String toString() {
-        String s = "CurrentBids{currentBids=";
+        String s = "";
         for (Bid bid : currentBids){
             s += bid.toString();
+            s += "\n\n";
         }
-        s += "}";
         return s;
     }
 }

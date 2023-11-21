@@ -5,15 +5,15 @@ import java.util.Set;
 
 public class EncryptedPrices implements Serializable {
 
-    private final int bidId;
+    private final String bidId;
     private final Set<byte[]> prices;
 
-    public EncryptedPrices(int bidId,Set<byte[]> prices) {
+    public EncryptedPrices(String bidId, Set<byte[]> prices) {
         this.bidId = bidId;
         this.prices = prices;
     }
 
-    public int getBidId() {
+    public String getBidId() {
         return bidId;
     }
 

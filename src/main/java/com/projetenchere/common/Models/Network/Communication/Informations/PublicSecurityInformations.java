@@ -1,30 +1,32 @@
 package com.projetenchere.common.Models.Network.Communication.Informations;
 
+import com.projetenchere.common.Models.Identity;
+
 import java.io.Serializable;
 import java.security.PublicKey;
 
 public class PublicSecurityInformations implements Serializable {
-    private final String id;
+    private final Identity identity;
     private final NetworkContactInformation networkContactInformation;
     private final PublicKey signaturePublicKey;
     private final PublicKey encryptionPublicKey;
 
-    public PublicSecurityInformations(String id, NetworkContactInformation networkContactInformation, PublicKey signaturePublicKey, PublicKey encryptionPublicKey) {
-        this.id = id;
+    public PublicSecurityInformations(Identity identity, NetworkContactInformation networkContactInformation, PublicKey signaturePublicKey, PublicKey encryptionPublicKey) {
+        this.identity = identity;
         this.networkContactInformation = networkContactInformation;
         this.signaturePublicKey = signaturePublicKey;
         this.encryptionPublicKey = encryptionPublicKey;
     }
 
     public PublicSecurityInformations(PrivateSecurityInformations privateSecurityInformations) {
-        this.id = privateSecurityInformations.getId();
-        this.networkContactInformation = privateSecurityInformations.getNetworkContactInformation();
-        this.signaturePublicKey = privateSecurityInformations.getSignatureKeys().getPublic();
-        this.encryptionPublicKey = privateSecurityInformations.getEncryptionKeys().getPublic();
+        this.identity = privateSecurityInformations.identity();
+        this.networkContactInformation = privateSecurityInformations.networkContactInformation();
+        this.signaturePublicKey = privateSecurityInformations.signatureKeys().getPublic();
+        this.encryptionPublicKey = privateSecurityInformations.encryptionKeys().getPublic();
     }
 
-    public String getId() {
-        return id;
+    public Identity getIdentity() {
+        return identity;
     }
 
     public NetworkContactInformation getNetworkContactInformation() {
@@ -42,11 +44,11 @@ public class PublicSecurityInformations implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PublicSecurityInformations that = (PublicSecurityInformations) o;
-        return id.equals(that.id);
+        return identity.getId().equals(that.identity.getId());
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return identity.getId().hashCode();
     }
 }
