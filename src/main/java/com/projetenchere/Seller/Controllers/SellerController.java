@@ -7,6 +7,7 @@ import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
+import com.projetenchere.common.Models.Identity;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class SellerController extends Controller {
         return (!this.myBid.isOver());
     }
 
-    public void receiveOffersUntilBidEnd() throws IOException {
+    public void receiveOffersUntilBidEnd(){
         ui.waitOffers();
         while (auctionInProgress()) {
             try {
@@ -69,6 +70,12 @@ public class SellerController extends Controller {
     }
 
     public void displayHello(){ui.displayHello();}
+
+    public void readInfos() throws Exception {
+        seller.setIdentity(new Identity(UUID.randomUUID().toString(),ui.readName(),ui.readSurname(),"Seller"));
+        networkController.setMyInformationsWithPort(seller.getIdentity(),ui.readPort());
+        seller.setInformations(networkController.getMyPublicInformations());
+    }
 
     public void sendSellerInfosToManager() throws Exception {
         networkListeningInitialization();
@@ -118,14 +125,6 @@ public class SellerController extends Controller {
         ui.displayWinner(winnerID,price);
     }
 
-    public void displayEncryptedPriceSended(){
-        ui.displayEncryptedPriceSended();
-    }
-
-    public void displayResultsSent(){
-        ui.displayResultsSent();
-    }
-
     public EncryptedPrices getEncryptedPrices(List<EncryptedOffer> encryptedOffers){
         Set<byte[]> encryptedPrices = new HashSet<>();
         for (EncryptedOffer encryptedOffer: encryptedOffers){
@@ -136,9 +135,11 @@ public class SellerController extends Controller {
 
     public void sendEncryptedPrices() throws Exception {
         networkController.sendEncryptedPrices(getEncryptedPrices(seller.getEncryptedOffers()));
+        ui.displayEncryptedPriceSended();
     }
 
     public void waitFetchWinner() {
+        ui.tellWaitWinnerDeclaration();
         while (winner == null) {
             try {
                 wait(1000); // Eviter une utilisation excessive du CPU
@@ -154,6 +155,7 @@ public class SellerController extends Controller {
         } else {
             throw new IllegalArgumentException("Les liste de contacts enchérisseur et liste des gagnants ne concordent pas");
         }
+        ui.displayResultsSent();
     }
 
     public List<Double> getBiddersWinStatus(){

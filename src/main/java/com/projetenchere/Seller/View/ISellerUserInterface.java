@@ -21,4 +21,5 @@ public interface ISellerUserInterface {
     void tellWaitManager();
     void tellManagerFound();
     void tellWaitManagerSecurityInformations();
+    void tellWaitWinnerDeclaration();
 }

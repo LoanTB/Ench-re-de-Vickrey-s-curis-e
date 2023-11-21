@@ -49,9 +49,9 @@ public class BidderController extends Controller {
     }
 
     public void readInfos() throws Exception {
+        bidder.setIdentity(new Identity(UUID.randomUUID().toString(),ui.readName(),ui.readSurname(),"Bidder"));
         networkController.setMyInformationsWithPort(bidder.getIdentity(),ui.readPort());
         bidder.setInformations(networkController.getMyPublicInformations());
-        bidder.setIdentity(new Identity(UUID.randomUUID().toString(),ui.readName(),ui.readSurname(),"Bidder"));
     }
 
     public void waitToReceiveBids() {
@@ -142,4 +142,6 @@ public class BidderController extends Controller {
             }
         }
     }
+
+    public void displayHello(){ui.displayHello();}
 }

@@ -96,6 +96,11 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
+    public void displayHello() {
+        showMessage("Bienvenue enchérisseur !");
+    }
+
+    @Override
     public int readPort() {
         showMessage("Quel port voulez-vous utiliser ? (49152 à 65535)");
         String portString = readMessage();

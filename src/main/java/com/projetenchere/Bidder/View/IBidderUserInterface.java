@@ -19,4 +19,5 @@ public interface IBidderUserInterface {
     void tellWaitManager();
     void tellManagerFound();
     void tellWaitManagerSecurityInformations();
+    void displayHello();
 }

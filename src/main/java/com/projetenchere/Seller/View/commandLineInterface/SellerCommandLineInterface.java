@@ -128,6 +128,11 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     }
 
     @Override
+    public void tellWaitWinnerDeclaration() {
+        showMessage("Attente des resultats de l'enchère...");
+    }
+
+    @Override
     public void tellWaitManager() {
         showMessage("Le gestionnaire des enchères semble indisponible, attente du gestionnaire...");
     }
