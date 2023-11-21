@@ -6,7 +6,7 @@ public class SellerApp {
     public static void main(String[] args) throws Exception {
         SellerController controller = new SellerController();
         controller.networkListeningInitialization();
-        controller.initContactWithManager();
+        controller.sendSellerInfosToManager();
         controller.displayHello();
         controller.createMyBid();
         controller.receiveOffersUntilBidEnd();
