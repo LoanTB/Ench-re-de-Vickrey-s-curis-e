@@ -19,13 +19,9 @@ public class InitPackageRequestHandler implements RequestHandler {
 
     @Override
     public void handle(ObjectReceived objectReceived) throws Exception {
-        System.out.println("A");
-        networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),currentBidsPublicKeys); // TODO : Bloque
-        System.out.println("B");
-        wait(100);
-        System.out.println("C");
         networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),currentBids);
-        System.out.println("D");
+        wait(100);
+        networkController.sendTo(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),currentBidsPublicKeys);
     }
 
 }

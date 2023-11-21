@@ -1,6 +1,8 @@
 package com.projetenchere.common.Models.Network.Communication;
 
-public class WinStatus {
+import java.io.Serializable;
+
+public class WinStatus implements Serializable {
 
     private final String bidId;
     private final boolean winner;
