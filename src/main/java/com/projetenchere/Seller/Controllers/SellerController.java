@@ -31,7 +31,7 @@ public class SellerController extends Controller {
         this.winner = winner;
     }
 
-    public void initConnexion() {
+    public void networkListeningInitialization() {
         Thread thread = new Thread(networkController);
         thread.start();
     }
