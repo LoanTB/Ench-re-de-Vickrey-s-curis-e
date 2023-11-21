@@ -43,7 +43,8 @@ public class SellerController extends Controller {
         String name = ui.askBidName();
         String description = ui.askBidDescription();
         LocalDateTime end = ui.askBidEndTime();
-        this.myBid = new Bid(id, name, description, end, networkController.getMyPublicInformations());
+        myBid = new Bid(id, name, description, end, networkController.getMyPublicInformations());
+        ui.displayBidCreated(myBid);
     }
 
     public boolean auctionInProgress(){

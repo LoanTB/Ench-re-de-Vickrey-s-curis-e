@@ -1,6 +1,7 @@
 package com.projetenchere.Seller.View.commandLineInterface;
 
 import com.projetenchere.Seller.View.ISellerUserInterface;
+import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 
 import java.time.LocalDateTime;
@@ -130,6 +131,12 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     @Override
     public void tellWaitWinnerDeclaration() {
         showMessage("Attente des resultats de l'enchère...");
+    }
+
+    @Override
+    public void displayBidCreated(Bid bid) {
+        System.out.println("Vous avez créé l'enchère : ");
+        System.out.println(bid._toString());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.projetenchere.Seller.View;
 
+import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 
 import java.time.LocalDateTime;
@@ -22,4 +23,5 @@ public interface ISellerUserInterface {
     void tellManagerFound();
     void tellWaitManagerSecurityInformations();
     void tellWaitWinnerDeclaration();
+    void displayBidCreated(Bid bid);
 }
