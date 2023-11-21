@@ -54,16 +54,13 @@ public class SellerController extends Controller {
         return (!this.myBid.isOver());
     }
 
-    public void receiveOffersUntilBidEnd(){
+    public void receiveOffersUntilBidEnd() {
         ui.waitOffers();
         while (auctionInProgress()) {
-            try {
-                wait(1000); // Eviter une utilisation excessive du CPU
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            waitSychro(1000);
         }
     }
+
 
     public void saveEncryptedOffer(EncryptedOffer encryptedOffer, String bidderId, String bidderIp, int bidderPort){
         seller.addBidderId(bidderId);
@@ -83,7 +80,6 @@ public class SellerController extends Controller {
 
     public void sendSellerInfosToManager() throws Exception {
         networkListeningInitialization();
-        networkController.sendMySI("Manager");
         boolean succes;
         try {
             networkController.sendMySI("Manager");
@@ -110,11 +106,7 @@ public class SellerController extends Controller {
         }
         ui.tellWaitManagerSecurityInformations();
         while (!networkController.informationContainsPublicKeys("Manager")) {
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            waitSychro(1000);
         }
     }
 
@@ -146,11 +138,7 @@ public class SellerController extends Controller {
     public void waitFetchWinner() {
         ui.tellWaitWinnerDeclaration();
         while (winner == null) {
-            try {
-                wait(1000); // Eviter une utilisation excessive du CPU
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            waitSychro(1000);
         }
     }
 

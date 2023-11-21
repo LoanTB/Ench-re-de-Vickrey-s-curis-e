@@ -57,22 +57,14 @@ public class BidderController extends Controller {
     public void waitToReceiveBids() {
         ui.tellWaitBidsAnnoncement();
         while (currentBids == null) {
-            try {
-                wait(1000); // Eviter une utilisation excessive du CPU
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            waitSychro(1000);
         }
     }
 
     public void waitToReceiveBidsPublicKeys() {
         ui.tellWaitBidsPublicKeysAnnoncement();
         while (currentBidsPublicKeys == null) {
-            try {
-                wait(1000); // Eviter une utilisation excessive du CPU
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            waitSychro(1000);
         }
     }
 
@@ -94,11 +86,7 @@ public class BidderController extends Controller {
     public void waitForPrice() {
         ui.tellWaitOfferResult();
         while (results.isEmpty()) {
-            try {
-                wait(1000); // Eviter une utilisation excessive du CPU
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            waitSychro(1000);
         }
         if (results.get(0).isWinner()){
             ui.tellOfferWon(results.get(0).getPrice());
@@ -113,11 +101,7 @@ public class BidderController extends Controller {
         }
         ui.tellWaitManagerSecurityInformations();
         while (!networkController.informationContainsPublicKeys("Manager")) {
-            try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            waitSychro(1000);
         }
     }
 
