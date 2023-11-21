@@ -1,12 +1,10 @@
 package com.projetenchere.common.Models.Network.Communication;
 
-import com.projetenchere.common.Models.Bid;
-
+import java.io.Serializable;
 import java.security.PublicKey;
 import java.util.HashMap;
-import java.util.Map;
 
-public class CurrentBidsPublicKeys {
+public class CurrentBidsPublicKeys implements Serializable {
     HashMap<String,PublicKey> bidKeys;
 
     public void addPublicKeyToBid(String idBid, PublicKey key) {
