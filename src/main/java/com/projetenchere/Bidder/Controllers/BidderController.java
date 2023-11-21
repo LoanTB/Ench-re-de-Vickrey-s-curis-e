@@ -27,14 +27,17 @@ public class BidderController extends Controller {
     private final List<WinStatus> results = new ArrayList<>();
     private final Bidder bidder = new Bidder();
 
-    public BidderController() throws Exception {}
-
     public void setCurrentBids(CurrentBids currentBids) {
         this.currentBids = currentBids;
     }
 
     public void setCurrentBidsPublicKeys(CurrentBidsPublicKeys currentBidsPublicKeys) {
         this.currentBidsPublicKeys = currentBidsPublicKeys;
+    }
+
+    public void networkListeningInitialization() {
+        Thread thread = new Thread(networkController);
+        thread.start();
     }
 
     public void addResult(WinStatus result){
@@ -104,6 +107,7 @@ public class BidderController extends Controller {
     }
 
     public void sendBidderInfosToManager() throws Exception {
+        networkListeningInitialization();
         boolean succes;
         try {
             networkController.sendTo("Manager",networkController.getMyPublicInformations());
