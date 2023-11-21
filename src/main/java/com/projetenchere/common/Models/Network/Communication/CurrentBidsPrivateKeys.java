@@ -3,11 +3,12 @@ package com.projetenchere.common.Models.Network.Communication;
 import java.io.Serializable;
 import java.security.KeyPair;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CurrentBidsPrivateKeys implements Serializable {
-    HashMap<String, KeyPair> bidKeys;
+    Map<String, KeyPair> bidKeys = new HashMap<>();
 
-    public void addPublicKeyToBid(String idBid, KeyPair key) {
+    public void addKeyToBid(String idBid, KeyPair key) {
         this.bidKeys.put(idBid, key);
     }
 

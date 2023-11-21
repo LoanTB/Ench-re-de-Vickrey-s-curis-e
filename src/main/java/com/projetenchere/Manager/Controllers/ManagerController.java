@@ -12,8 +12,6 @@ import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKe
 import com.projetenchere.common.Models.Network.Communication.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
 
-import java.io.IOException;
-import java.security.KeyPair;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -28,22 +26,14 @@ public class ManagerController extends Controller {
 
     public ManagerController() throws Exception {}
 
-    private Bid createBid() {
-        String id = UUID.randomUUID().toString();
-        String name = ui.askBidName();
-        String description = ui.askBidDescription();
-        LocalDateTime end = ui.askBidEndTime();
-        return new Bid(id, name, description, end, networkController.getMyPublicInformations());
-    }
-
     public CurrentBids getCurrentBids() {
         return currentBids;
     }
 
     public void addBid(Bid bid) throws Exception {
         currentBids.addCurrentBid(bid);
-        currentBidsPrivateKeys.addPublicKeyToBid(bid.getId(),EncryptionUtil.generateKeyPair());
-        currentBidsPublicKeys.addPublicKeyToBid(bid.getId(),currentBidsPrivateKeys.getPublicKeyOfBid(bid.getId()).getPublic());
+        currentBidsPrivateKeys.addKeyToBid(bid.getId(),EncryptionUtil.generateKeyPair());
+        currentBidsPublicKeys.addKeyToBid(bid.getId(),currentBidsPrivateKeys.getPublicKeyOfBid(bid.getId()).getPublic());
     }
 
     public CurrentBidsPublicKeys getCurrentBidsPublicKeys() {

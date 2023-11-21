@@ -23,7 +23,6 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     @Override
     public void displayBid(CurrentBids currentBids) {
-        showMessage("Bienvenue!");
         showMessage("Enchères Actuelle :");
         showMessage(currentBids.toString()+"\n");
     }
@@ -31,7 +30,7 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     @Override
     public Offer readOffer(Bidder bidder) {
         showMessage("Quel est l'identifiant de l'enchère sur laquelle vous voulez enchérir ?");
-        String idBidString = readMessage();
+        String idBidString = readMessage(); // TODO : Verrifier si l'utilisateur rentre une ID correcte
         showMessage("Quel est votre prix ?");
         String offerString = readMessage();
         return new Offer(bidder.getIdentity().getId(), idBidString, offerString);

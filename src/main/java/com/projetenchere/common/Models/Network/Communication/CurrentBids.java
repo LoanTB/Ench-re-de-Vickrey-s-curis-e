@@ -54,7 +54,7 @@ public class CurrentBids implements Serializable {
         String s = "";
         for (Bid bid : currentBids){
             s += bid.toString();
-            s += "\n\n";
+            s += "\n";
         }
         return s;
     }

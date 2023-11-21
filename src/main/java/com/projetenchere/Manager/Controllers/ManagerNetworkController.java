@@ -46,7 +46,7 @@ public class ManagerNetworkController extends NetworkController {
         if (objectReceived.getObjectSended().getObjectClass().equals(Bid.class)
                 && isAuthenticatedByType("Seller",objectReceived)){
             controller.getUi().tellBidReceivedby(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),((Bid) objectReceived.getObjectSended().getObject()).getId());
-            return new BiddersInfosRequestHandler(this);
+            return new NewBidRequestWithAckHandler(this,controller);
         }
         if (objectReceived.getObjectSended().getObjectClass().equals(String.class)
                 && objectReceived.getObjectSended().getObject().equals("InitPackageRequest")

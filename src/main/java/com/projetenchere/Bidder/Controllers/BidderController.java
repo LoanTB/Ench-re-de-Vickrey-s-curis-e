@@ -31,6 +31,7 @@ public class BidderController extends Controller {
     }
 
     public void setCurrentBidsPublicKeys(CurrentBidsPublicKeys currentBidsPublicKeys) {
+        System.out.println("OK");
         this.currentBidsPublicKeys = currentBidsPublicKeys;
     }
 
@@ -55,7 +56,7 @@ public class BidderController extends Controller {
 
     public void waitToReceiveBids() {
         ui.tellWaitBidsAnnoncement();
-        while (currentBids == null || currentBidsPublicKeys == null) {
+        while (currentBids == null) {
             waitSychro(1000);
         }
     }
