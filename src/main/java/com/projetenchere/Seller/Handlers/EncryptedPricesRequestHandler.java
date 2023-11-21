@@ -15,6 +15,10 @@ public class EncryptedPricesRequestHandler implements RequestHandler {
 
     @Override
     public void handle(ObjectReceived objectReceived) {
-        sellerController.saveEncryptedOffer((EncryptedOffer) objectReceived.getObjectSended().getObject(),objectReceived.getObjectSended().getIP_sender(),objectReceived.getObjectSended().getPORT_sender());
+        sellerController.saveEncryptedOffer(
+                (EncryptedOffer) objectReceived.getObjectSended().getObject(),
+                objectReceived.getAuthenticationStatus().authorOfSignature().getId(),
+                objectReceived.getObjectSended().getIP_sender(),
+                objectReceived.getObjectSended().getPORT_sender());
     }
 }

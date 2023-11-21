@@ -61,7 +61,8 @@ public class SellerController extends Controller {
         }
     }
 
-    public void saveEncryptedOffer(EncryptedOffer encryptedOffer, String bidderIp, int bidderPort){
+    public void saveEncryptedOffer(EncryptedOffer encryptedOffer, String bidderId, String bidderIp, int bidderPort){
+        seller.addBidderId(bidderId);
         seller.addEncryptedOffer(encryptedOffer);
         seller.addBidderIp(bidderIp);
         seller.addBidderPort(bidderPort);
@@ -133,7 +134,7 @@ public class SellerController extends Controller {
     }
 
     public void sendEncryptedPrices() throws Exception {
-        networkController.sendEncryptedPrices(getEncryptedPrices(seller.getEncryptedOffers()));
+        networkController.sendTo("Manager",getEncryptedPrices(seller.getEncryptedOffers()));
         ui.displayEncryptedPriceSended();
     }
 
@@ -148,11 +149,14 @@ public class SellerController extends Controller {
         }
     }
 
-    public void sendResults() throws IOException {
-        if (seller.getBiddersIps().size() == seller.getBiddersPorts().size() && seller.getBiddersIps().size() == getBiddersWinStatus().size()){
-            networkController.sendResults(seller.getBiddersIps(),seller.getBiddersPorts(),getBiddersWinStatus());
-        } else {
+    public void sendResults() throws Exception {
+        List<Double> results = getBiddersWinStatus();
+        List<String> ids = seller.getBiddersIps();
+        if (ids.size() != results.size()){
             throw new IllegalArgumentException("Les liste de contacts enchérisseur et liste des gagnants ne concordent pas");
+        }
+        for (int i=0;i<ids.size();i++){
+            networkController.sendTo(ids.get(i),results.get(i));
         }
         ui.displayResultsSent();
     }

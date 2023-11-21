@@ -8,12 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Seller {
+    private final List<String> biddersIds = new ArrayList<>();
     private final List<String> biddersIps = new ArrayList<>();
     private final List<Integer> biddersPorts = new ArrayList<>();
     private final List<EncryptedOffer> encryptedOffers = new ArrayList<>();
     private Identity identity;
     private PublicSecurityInformations informations;
 
+    public void addBidderId(String id){
+        biddersIds.add(id);
+    }
     public void addBidderIp(String ip){
         biddersIps.add(ip);
     }
@@ -26,6 +30,9 @@ public class Seller {
 
     public List<EncryptedOffer> getEncryptedOffers() {
         return encryptedOffers;
+    }
+    public List<String> getBiddersIds() {
+        return biddersIds;
     }
     public List<String> getBiddersIps() {
         return biddersIps;
