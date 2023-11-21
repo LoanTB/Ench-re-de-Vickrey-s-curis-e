@@ -174,4 +174,9 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
         showMessage("Demande de détermination du gagnant de l'enchère "+idBid+" par le vendeur "+idSeller);
     }
 
+    @Override
+    public void tellManagerReadyToProcessBids() {
+        showMessage("Gestionnaire prêt à traiter des enchères");
+    }
+
 }

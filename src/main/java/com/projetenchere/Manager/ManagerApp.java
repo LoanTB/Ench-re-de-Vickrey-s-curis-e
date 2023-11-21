@@ -8,6 +8,5 @@ public class ManagerApp {
         controller.displayHello();
         controller.generateManagerKeys();
         controller.initConnexion();
-        // TODO : Afficher avec ui "Gestionnaire prêt à traiter des enchères"
     }
 }

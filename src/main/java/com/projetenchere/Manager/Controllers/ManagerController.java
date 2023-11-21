@@ -55,6 +55,7 @@ public class ManagerController extends Controller {
     public void initConnexion() {
         Thread thread = new Thread(networkController);
         thread.start();
+        ui.tellManagerReadyToProcessBids();
     }
 
     public void launchBids(){
