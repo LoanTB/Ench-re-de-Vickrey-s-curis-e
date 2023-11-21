@@ -9,6 +9,7 @@ public class SellerApp {
         controller.readInfos();
         controller.sendSellerInfosToManager();
         controller.createMyBid();
+        controller.sendMyBid();
         controller.receiveOffersUntilBidEnd();
         controller.sendEncryptedPrices();
         controller.waitFetchWinner();

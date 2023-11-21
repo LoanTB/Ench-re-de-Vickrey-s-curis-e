@@ -5,6 +5,7 @@ import com.projetenchere.Seller.Handlers.InformationsRequestWithRequestsInfosOfB
 import com.projetenchere.Seller.Handlers.WinnerRequestHandler;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Identity;
+import com.projetenchere.common.Models.Network.Communication.Acknowledgment;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
 import com.projetenchere.common.Models.Network.Communication.Informations.PrivateSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
@@ -37,6 +38,12 @@ public class SellerNetworkController extends NetworkController {
                 && !alreadyKnowTheInformation((PublicSecurityInformations) objectReceived.getObjectSended().getObject())) {
             controller.getUi().tellReceivingInformationOf(((PublicSecurityInformations) objectReceived.getObjectSended().getObject()).getIdentity().getId(),((PublicSecurityInformations) objectReceived.getObjectSended().getObject()).getIdentity().getType());
             return new InformationsRequestWithAckHandler(this);
+        }
+        if (objectReceived.getObjectSended().getObjectClass().equals(Acknowledgment.class)
+                && ((Acknowledgment) objectReceived.getObjectSended().getObject()).getStatus().equals("OK")
+                && isAuthenticatedByAnyKnowledgeOfType("Manager",objectReceived)){
+            controller.getUi().tellManagerConfirmsReceipt();
+            return null;
         }
         if (objectReceived.getObjectSended().getObjectClass().equals(EncryptedOffer.class)
                  && isAuthenticatedByAnyKnowledgeOfType("Bidder",objectReceived)

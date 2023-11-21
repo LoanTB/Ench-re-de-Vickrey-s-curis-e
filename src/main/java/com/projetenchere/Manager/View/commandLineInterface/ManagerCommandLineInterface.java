@@ -179,4 +179,9 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
         showMessage("Gestionnaire prêt à traiter des enchères");
     }
 
+    @Override
+    public void tellBidReceivedby(String idSeller, String idBid) {
+        showMessage("Enchère reçu ("+idBid+") créé par le vendeur "+idSeller);
+    }
+
 }

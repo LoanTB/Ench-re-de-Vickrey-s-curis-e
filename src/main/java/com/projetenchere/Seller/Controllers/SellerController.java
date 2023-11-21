@@ -50,6 +50,11 @@ public class SellerController extends Controller {
         ui.displayBidCreated(myBid);
     }
 
+    public void sendMyBid() throws Exception {
+        ui.tellSendBidToManager();
+        networkController.sendTo("Manager",myBid);
+    }
+
     public boolean auctionInProgress(){
         return (!this.myBid.isOver());
     }

@@ -153,6 +153,16 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     }
 
     @Override
+    public void tellSendBidToManager() {
+        showMessage("Envoie de l'enchère au manager...");
+    }
+
+    @Override
+    public void tellManagerConfirmsReceipt() {
+        showMessage("Le gestionnaire confirme la reception");
+    }
+
+    @Override
     public void tellSuccessfulSecuringOfTheCommunicationChannelWithTheManager() {
         showMessage("Sécurisation du canal de communication avec le gestionnaire réussie, demande des enchérisseurs potentiels actuels");
     }

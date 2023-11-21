@@ -1,6 +1,7 @@
 package com.projetenchere.Manager.Controllers;
 
 import com.projetenchere.Manager.Handlers.*;
+import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.Identity;
 import com.projetenchere.common.Models.Network.Communication.Informations.NetworkContactInformation;
@@ -40,6 +41,11 @@ public class ManagerNetworkController extends NetworkController {
                 && objectReceived.getObjectSended().getObject().equals("RequestsInfosOfBidders")
                 && isAuthenticatedByType("Seller",objectReceived)){
             controller.getUi().tellRequestInformationAboutBiddersBySeller(objectReceived.getAuthenticationStatus().authorOfSignature().getId());
+            return new BiddersInfosRequestHandler(this);
+        }
+        if (objectReceived.getObjectSended().getObjectClass().equals(Bid.class)
+                && isAuthenticatedByType("Seller",objectReceived)){
+            controller.getUi().tellBidReceivedby(objectReceived.getAuthenticationStatus().authorOfSignature().getId(),((Bid) objectReceived.getObjectSended().getObject()).getId());
             return new BiddersInfosRequestHandler(this);
         }
         if (objectReceived.getObjectSended().getObjectClass().equals(String.class)

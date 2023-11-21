@@ -28,4 +28,6 @@ public interface ISellerUserInterface {
     void tellReceivingInformationOf(String id, String type);
     void tellReceiptOfferByBidder(String id);
     void tellReceiptBidResult(String id);
+    void tellSendBidToManager();
+    void tellManagerConfirmsReceipt();
 }
