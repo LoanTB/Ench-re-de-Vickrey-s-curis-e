@@ -88,12 +88,8 @@ public class ManagerController extends Controller {
             price2 = price1;
         }
         Winner winner = new Winner(encryptedPrices.getBidId(), encrypted1,price2);
-        showWinnerPrice(winner);
-        return winner;
-    }
-
-    public void showWinnerPrice(Winner winner) {
         ui.displayWinnerPrice(winner);
+        return winner;
     }
 
     public void displayHello(){

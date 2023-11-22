@@ -146,7 +146,7 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
 
     @Override
     public void displayWinnerPrice(Winner winner) {
-        System.out.println("Prix gagnant : " + winner.getPrice());
+        System.out.println("Le prix gagnant de l'enchère "+winner.getBidId() + " à été déterminé et répondu (" + winner.getPrice()+"€)");
     }
 
     @Override
