@@ -127,15 +127,20 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     @Override
     public int readPort() {
         showMessage("Quel port voulez-vous utiliser ? (49152 à 65535)");
-        String portString = readMessage();
-        int port = Integer.parseInt(portString);
-        while (port < 49152 || port > 65535){
-            showMessage("Port invalide, entrez un port valide (entre 49152 et 65535) :");
+        String portString = "";
+        int port = 0;
+        while (port < 49152 || port > 65535 || !portString.matches("\\d+") ){
             portString = readMessage();
-            port = Integer.parseInt(portString);
+            if(portString.matches("\\d+")){
+                port = Integer.parseInt(portString);
+                if(port < 49152 || port > 65535){
+                    showMessage("Port invalide, entrez un port valide (entre 49152 et 65535) :");
+                }
+            }else {
+                showMessage("Port invalide, entrez un port sans lettres :");
+            }
         }
         return port;
     }
-
 
 }
