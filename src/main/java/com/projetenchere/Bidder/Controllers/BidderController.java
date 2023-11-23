@@ -73,7 +73,7 @@ public class BidderController extends Controller {
     }
 
     public void readAndSendOffer() throws Exception {
-        Offer offer = ui.readOffer(bidder);
+        Offer offer = ui.readOffer(bidder, currentBids);
         waitToReceiveBidsPublicKeys();
         EncryptedOffer encryptedOffer = new EncryptedOffer(offer, currentBidsPublicKeys.getKeyOfBid(offer.getIdBid()));
         networkController.sendTo(currentBids.getBid(offer.getIdBid()).getSeller().getIdentity().getId(),encryptedOffer);

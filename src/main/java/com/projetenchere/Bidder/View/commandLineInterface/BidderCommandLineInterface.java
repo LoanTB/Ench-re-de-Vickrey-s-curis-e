@@ -28,11 +28,32 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
-    public Offer readOffer(Bidder bidder) {
+    public Offer readOffer(Bidder bidder, CurrentBids currentBids) {
         showMessage("Quel est l'identifiant de l'enchère sur laquelle vous voulez enchérir ?");
-        String idBidString = readMessage(); // TODO : Verrifier si l'utilisateur rentre une ID correcte
+        String idBidString = "";
+        while(currentBids.getBid(idBidString) == null)
+        {
+            idBidString = readMessage();
+            if(currentBids.getBid(idBidString) == null)
+            {
+                showMessage("Id invalide, entrez un id d'enchère valide :");
+            }
+        }
         showMessage("Quel est votre prix ?");
-        String offerString = readMessage();
+        String offerString = "";
+        int offer = 0;
+        while (offer < 0 || !offerString.matches("\\d+"))
+        {
+            offerString = readMessage();
+            if(!offerString.matches("\\d+"))
+            {
+                showMessage("Prix invalide, entrez un prix sans caractère spéciaux :");
+            }
+            if(offer < 0 )
+            {
+                showMessage("Prix invalide, entrez un prix positif :");
+            }
+        }
         return new Offer(bidder.getIdentity().getId(), idBidString, offerString);
     }
 
