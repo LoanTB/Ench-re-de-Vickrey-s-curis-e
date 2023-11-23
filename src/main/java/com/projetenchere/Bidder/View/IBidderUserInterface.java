@@ -6,7 +6,7 @@ import com.projetenchere.common.Models.Offer;
 
 public interface IBidderUserInterface {
     void displayBid(CurrentBids currentBids);
-    Offer readOffer(Bidder bidder);
+    Offer readOffer(Bidder bidder, CurrentBids currentBids);
     void tellOfferWon(double priceToPay);
     void tellOfferLost();
     void tellOfferSent();
