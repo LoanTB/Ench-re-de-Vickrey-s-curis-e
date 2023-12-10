@@ -2,10 +2,9 @@ package com.projetenchere.Seller.Handlers;
 
 import com.projetenchere.common.Controllers.NetworkController;
 import com.projetenchere.common.Handlers.RequestHandler;
-import com.projetenchere.common.Models.Network.Communication.Acknowledgment;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
-import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
+import com.projetenchere.common.Models.Network.Sendable.DataWrapper;
 import com.projetenchere.common.Utils.NetworkUtil;
 
 import java.io.IOException;
@@ -24,7 +23,7 @@ public class InformationsRequestWithRequestsInfosOfBiddersHandler implements Req
             NetworkUtil.send(
                     objectReceived.getObjectSended().getIP_sender(),
                     objectReceived.getObjectSended().getPORT_sender(),
-                    new ObjectSender(
+                    new DataWrapper(
                             networkController.getMyPublicInformations().getNetworkContactInformation().ip(),
                             networkController.getMyPublicInformations().getNetworkContactInformation().port(),
                             "RequestsInfosOfBidders",

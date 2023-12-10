@@ -1,6 +1,6 @@
 package com.projetenchere.common.Utils;
 
-import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
+import com.projetenchere.common.Models.Network.Sendable.DataWrapper;
 import com.projetenchere.common.Models.Network.Sendable.SecuredObjectSender;
 
 import java.io.IOException;
@@ -12,20 +12,18 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 
 public class NetworkUtil {
 
-    public static ObjectSender receive(int port, int timout) throws IOException, ClassNotFoundException, InvalidClassException {
+    public static DataWrapper receive(int port, int timout) throws IOException, ClassNotFoundException, InvalidClassException {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             serverSocket.setSoTimeout(timout);
             try (Socket clientSocket = serverSocket.accept();
                  ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream())) {
 
                 Object data = objectInput.readObject();
-                if (data instanceof ObjectSender) {
-                    return (ObjectSender) data;
+                if (data instanceof DataWrapper) {
+                    return (DataWrapper) data;
                 } else {
                     throw new InvalidClassException("Received object is not an instance of ObjectSender");
                 }
@@ -36,7 +34,7 @@ public class NetworkUtil {
     }
 
 
-    public static void send(String serverAddress, int serverPort, ObjectSender data) throws IOException {
+    public static void send(String serverAddress, int serverPort, DataWrapper data) throws IOException {
         try (Socket clientSocket = new Socket(serverAddress, serverPort);
              ObjectOutputStream objectOutput = new ObjectOutputStream(clientSocket.getOutputStream())) {
             objectOutput.writeObject(data);

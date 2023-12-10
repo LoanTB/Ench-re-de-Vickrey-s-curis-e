@@ -7,7 +7,7 @@ import com.projetenchere.common.Models.Network.Communication.Informations.Privat
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
-import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
+import com.projetenchere.common.Models.Network.Sendable.DataWrapper;
 import com.projetenchere.common.Models.Network.Sendable.SecuredObjectSender;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.NetworkUtil;
@@ -38,8 +38,8 @@ public abstract class NetworkController implements Runnable {
                     Socket clientSocket = serverSocket.accept();
                     ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
                     Object object = objectInput.readObject();
-                    if (object instanceof ObjectSender) {
-                        request = new ObjectReceived((ObjectSender) object);
+                    if (object instanceof DataWrapper) {
+                        request = new ObjectReceived((DataWrapper) object);
                     } else if (object instanceof SecuredObjectSender securedRequest){
                         for (PublicSecurityInformations securityInformations : informations){
                             if (SignatureUtil.verifyDataSignature(
@@ -48,7 +48,7 @@ public abstract class NetworkController implements Runnable {
                                     securityInformations.getSignaturePublicKey()))
                             {
                                 request = new ObjectReceived(
-                                        (ObjectSender) SerializationUtil.deserialize(
+                                        (DataWrapper) SerializationUtil.deserialize(
                                                 EncryptionUtil.decrypt(
                                                         securedRequest.getEncryptedObjectSender(),
                                                         myInformations.encryptionKeys().getPrivate()
@@ -217,7 +217,7 @@ public abstract class NetworkController implements Runnable {
                     target.getNetworkContactInformation().ip(),
                     target.getNetworkContactInformation().port(),
                     new SecuredObjectSender(
-                            new ObjectSender(
+                            new DataWrapper(
                                     myInformations.networkContactInformation().ip(),
                                     myInformations.networkContactInformation().port(),
                                     object,
@@ -230,7 +230,7 @@ public abstract class NetworkController implements Runnable {
             NetworkUtil.send(
                     target.getNetworkContactInformation().ip(),
                     target.getNetworkContactInformation().port(),
-                    new ObjectSender(
+                    new DataWrapper(
                             myInformations.networkContactInformation().ip(),
                             myInformations.networkContactInformation().port(),
                             object,

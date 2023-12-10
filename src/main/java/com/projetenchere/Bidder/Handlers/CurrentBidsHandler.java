@@ -4,7 +4,6 @@ import com.projetenchere.Bidder.Controllers.BidderController;
 import com.projetenchere.common.Handlers.RequestHandler;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
-import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
 
 public class CurrentBidsHandler implements RequestHandler {
     private final BidderController controller;

@@ -3,7 +3,7 @@ package com.projetenchere.common.Handlers;
 import com.projetenchere.common.Models.Network.Communication.Acknowledgment;
 import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 import com.projetenchere.common.Models.Network.Communication.ObjectReceived;
-import com.projetenchere.common.Models.Network.Sendable.ObjectSender;
+import com.projetenchere.common.Models.Network.Sendable.DataWrapper;
 import com.projetenchere.common.Controllers.NetworkController;
 import com.projetenchere.common.Utils.NetworkUtil;
 
@@ -23,7 +23,7 @@ public class InformationsRequestWithAckHandler implements RequestHandler {
             NetworkUtil.send(
                     objectReceived.getObjectSended().getIP_sender(),
                     objectReceived.getObjectSended().getPORT_sender(),
-                    new ObjectSender(
+                    new DataWrapper(
                             networkController.getMyPublicInformations().getNetworkContactInformation().ip(),
                             networkController.getMyPublicInformations().getNetworkContactInformation().port(),
                             new Acknowledgment("OK"),
