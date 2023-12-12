@@ -14,7 +14,7 @@ public abstract class SocketCommunicator implements ICommunicator{
     protected SSLSocket socket;
 
 
-    protected SocketCommunicator(Party party) throws SocketException {
+    protected SocketCommunicator(Party party) {
         try {
             char[] password = "\";oW+~E8T65DKiZny{hAD?~kH-e;:{E)*n?U:lUv6MOPnEc/l[k5tQ')8O48YGsJI\"".toCharArray(); // Keystore password
             KeyStore keyStore = KeyStore.getInstance("JKS");
