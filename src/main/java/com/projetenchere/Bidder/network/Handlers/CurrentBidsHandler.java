@@ -1,4 +1,4 @@
-package com.projetenchere.Bidder.Handlers;
+package com.projetenchere.Bidder.network.Handlers;
 
 import com.projetenchere.Bidder.Controllers.BidderController;
 import com.projetenchere.common.Handlers.RequestHandler;
