@@ -16,7 +16,7 @@ public class ServerSocketCommunicator extends SocketCommunicator{
         super(party);
         try {
             SSLServerSocketFactory sslServerSocketFactory = sslContext.getServerSocketFactory();
-            this.mySocket = (SSLServerSocket) sslServerSocketFactory.createServerSocket(party.getPort());
+            this.mySocket = (SSLServerSocket) sslServerSocketFactory.createServerSocket(party.getIpAddress().getPort());
             socket = (SSLSocket) mySocket.accept();
         } catch (Exception e) {
             e.printStackTrace();

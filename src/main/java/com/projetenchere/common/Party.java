@@ -1,24 +1,18 @@
 package com.projetenchere.common;
 
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 
 public class Party {
-    private final InetAddress ipAddress;
-    private final Integer port;
+    private final InetSocketAddress ipAddress;
 
 
-    public Party(InetAddress ipAddress, Integer port) {
+    public Party(InetSocketAddress ipAddress) {
         this.ipAddress = ipAddress;
-        this.port = port;
     }
 
-
-    public InetAddress getIpAddress() {
+    public InetSocketAddress getIpAddress() {
         return ipAddress;
-    }
-
-    public Integer getPort() {
-        return port;
     }
 
 }
