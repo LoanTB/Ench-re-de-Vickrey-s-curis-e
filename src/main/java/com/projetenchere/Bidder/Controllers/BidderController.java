@@ -10,6 +10,7 @@ import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKeys;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Models.Offer;
+import com.projetenchere.common.Party;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,6 @@ import static java.lang.Thread.sleep;
 
 public class BidderController extends Controller {
     private final IBidderUserInterface ui = new BidderCommandLineInterface();
-    private final BidderNetworkController networkController = new BidderNetworkController(this);
     private CurrentBids currentBids = null;
     private CurrentBidsPublicKeys currentBidsPublicKeys = null;
     private final List<String> participatedBid = new ArrayList<>();
@@ -34,10 +34,6 @@ public class BidderController extends Controller {
         this.currentBidsPublicKeys = currentBidsPublicKeys;
     }
 
-    public void networkListeningInitialization() {
-        Thread thread = new Thread(networkController);
-        thread.start();
-    }
 
     public void addResult(WinStatus result){
         results.add(result);
@@ -49,8 +45,6 @@ public class BidderController extends Controller {
 
     public void readInfos() throws Exception {
         bidder.setIdentity(new Identity(UUID.randomUUID().toString(),ui.readName(),ui.readSurname(),"Bidder"));
-        networkController.setMyInformationsWithPort(bidder.getIdentity(),ui.readPort());
-        bidder.setInformations(networkController.getMyPublicInformations());
     }
 
     public void waitToReceiveBids() {
@@ -104,25 +98,7 @@ public class BidderController extends Controller {
     }
 
     public void sendBidderInfosToManager() throws Exception {
-        networkListeningInitialization();
-        boolean succes;
-        try {
-            networkController.sendMySI("Manager");
-            succes = true;
-        } catch (Exception ignore){
-            succes = false;
-            ui.tellWaitManager();
-        }
-        while (!succes) {
-            sleep(1000);
-            try {
-                networkController.sendMySI("Manager");
-                succes = true;
-                ui.tellManagerFound();
-            } catch (Exception ignore){
-                succes = false;
-            }
-        }
+        Party manager =
     }
 
     public void displayHello(){ui.displayHello();}
