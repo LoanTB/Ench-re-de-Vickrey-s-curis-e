@@ -6,9 +6,6 @@ import javax.net.ssl.*;
 import java.io.*;
 import java.net.SocketException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 
 public abstract class SocketCommunicator implements ICommunicator{
     //TODO: gérer les exceptions correctement
@@ -34,7 +31,7 @@ public abstract class SocketCommunicator implements ICommunicator{
         }
     }
     @Override
-    public void sendDataToParty(Party party, DataWrapper<? extends Serializable> data) {
+    public void sendDataToParty(DataWrapper<? extends Serializable> data) {
         try {
             OutputStream outputStream = socket.getOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
@@ -44,18 +41,16 @@ public abstract class SocketCommunicator implements ICommunicator{
         }
     }
 
-    @Override
-    public  DataWrapper<? extends Serializable> waitForDataFromParty(Party party, IDataHandler handler) {
+    public void handleDataFromParty(IDataHandler handler) {
         DataWrapper<? extends Serializable> data;
         try {
             InputStream inputStream  = socket.getInputStream();
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             data = (DataWrapper<? extends Serializable>) objectInputStream.readObject();
+            handler.handle(data);
         } catch (Exception e) {
             e.printStackTrace();
-            data = null;
         }
-        return data;
     }
 
 
