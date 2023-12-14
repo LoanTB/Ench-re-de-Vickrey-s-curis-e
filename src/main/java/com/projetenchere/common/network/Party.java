@@ -1,4 +1,4 @@
-package com.projetenchere.common;
+package com.projetenchere.common.network;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;

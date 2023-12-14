@@ -1,6 +1,4 @@
-package com.projetenchere.common;
-
-import com.projetenchere.common.Models.Network.Sendable.DataWrapper;
+package com.projetenchere.common.network;
 
 import java.io.Serializable;
 
