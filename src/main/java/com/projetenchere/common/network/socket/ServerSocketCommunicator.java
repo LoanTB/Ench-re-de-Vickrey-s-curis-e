@@ -1,14 +1,13 @@
-package com.projetenchere.common;
+package com.projetenchere.common.network.socket;
 
-import com.projetenchere.common.Models.Network.Sendable.DataWrapper;
+import com.projetenchere.common.network.*;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
-import java.io.*;
 import java.net.SocketException;
 
-public class ServerSocketCommunicator extends SocketCommunicator{
+public class ServerSocketCommunicator extends SocketCommunicator implements IServerCommunicator {
 
     private SSLServerSocket mySocket;
 
@@ -20,6 +19,14 @@ public class ServerSocketCommunicator extends SocketCommunicator{
             socket = (SSLSocket) mySocket.accept();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void reply(NetworkDataHeaders incoming, DataWrapper<?> dataOut) {
+        NetworkData request = receiveFromParty();
+        if (request.checkHeader(incoming)) {
+            sendDataToParty(dataOut);
         }
     }
 }
