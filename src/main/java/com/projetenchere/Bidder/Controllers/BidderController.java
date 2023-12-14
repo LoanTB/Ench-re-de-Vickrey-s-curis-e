@@ -3,6 +3,8 @@ package com.projetenchere.Bidder.Controllers;
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
+import com.projetenchere.Bidder.network.BidderCommunications;
+import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Identity;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
@@ -10,7 +12,8 @@ import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKeys;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Models.Offer;
-import com.projetenchere.common.Party;
+import com.projetenchere.common.network.Party;
+import com.projetenchere.common.Utils.NetworkUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,8 @@ public class BidderController extends Controller {
     private final List<String> participatedBid = new ArrayList<>();
     private final List<WinStatus> results = new ArrayList<>();
     private final Bidder bidder = new Bidder();
+    private final Manager manager = new Manager(NetworkUtil.getManagerSocketAddress());
+    BidderCommunications communications = new BidderCommunications();
 
     public void setCurrentBids(CurrentBids currentBids) {
         this.currentBids = currentBids;
@@ -87,10 +92,7 @@ public class BidderController extends Controller {
         }
     }
 
-    public void waitManagerContactKeys(){
-        if (networkController.informationContainsPublicKeys("Manager")){
-            return;
-        }
+    public void askForManagerPubKey(){
         ui.tellWaitManagerSecurityInformations();
         while (!networkController.informationContainsPublicKeys("Manager")) {
             waitSychro(1000);
@@ -108,7 +110,7 @@ public class BidderController extends Controller {
     }
 
     public void sendRequestOffers() throws Exception {
-        waitManagerContactKeys();
+        askForManagerPubKey();
         ui.tellSendRequestOffers();
         networkController.sendTo("Manager","InitPackageRequest");
     }
