@@ -1,6 +1,5 @@
 package com.projetenchere.common.Utils;
 
-import com.projetenchere.common.Utils.KeyFileUtil;
 import org.junit.jupiter.api.Test;
 
 import java.security.*;
@@ -10,24 +9,25 @@ import static org.junit.jupiter.api.Assertions.*;
 public class KeyFileUtilTest {
 
     @Test
-    public void testSaveAndGetKeyPair() {
+    public void testSaveAndGetKeyPairWithJKS() {
         try {
             // Générer une nouvelle paire de clés
+            I_KeyFileUtil keyFile = new KeyFileUtilWithJKS();
 
             KeyPair a = EncryptionUtil .generateKeyPair();
 
             // Enregistrer la paire de clés dans un fichier .jks
-            KeyFileUtil.saveKeyPair(a);
+            keyFile.saveKeyPair(a);
 
             // Vérifier si la paire de clés a été enregistrée dans le fichier .jks
-            assertTrue(KeyFileUtil.isKeyPairSaved());
+            assertTrue(keyFile.isKeyPairSaved());
 
             // Récupérer la clé privée du fichier .jks et vérifier si elle correspond à celle générée
-            PrivateKey privateKeyFromKeyStore = KeyFileUtil.getPrivateKeyFromFile();
+            PrivateKey privateKeyFromKeyStore = keyFile.getPrivateKeyFromFile();
             assertEquals(a.getPrivate(), privateKeyFromKeyStore);
 
             // Récupérer la clé publique du fichier .jks et vérifier si elle correspond à celle générée
-            PublicKey publicKeyFromKeyStore = KeyFileUtil.getPublicKeyFromFile();
+            PublicKey publicKeyFromKeyStore = keyFile.getPublicKeyFromFile();
             assertEquals(a.getPublic(), publicKeyFromKeyStore);
 
         } catch (Exception e) {
