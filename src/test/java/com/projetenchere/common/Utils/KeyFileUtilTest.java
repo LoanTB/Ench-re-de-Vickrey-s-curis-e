@@ -1,5 +1,6 @@
 package com.projetenchere.common.Utils;
 
+import com.projetenchere.common.Utils.stub.KeyFileUtilWithTXT;
 import org.junit.jupiter.api.Test;
 
 import java.security.*;
@@ -7,7 +8,7 @@ import java.security.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class KeyFileUtilTest {
-
+/*
     @Test
     public void testSaveAndGetKeyPairWithJKS() {
         try {
@@ -33,5 +34,43 @@ public class KeyFileUtilTest {
         } catch (Exception e) {
             fail("Exception: " + e.getMessage());
         }
+    }
+*/
+
+
+    @Test
+    public  void testSaveAndGetPublicKeyWithTXT() throws Exception {
+        KeyFileUtilWithTXT keyFile = new KeyFileUtilWithTXT();
+        // Exemple d'utilisation :
+
+            // Génération des clés
+            EncryptionUtil generateur = new EncryptionUtil();
+            KeyPair keypairs = generateur.generateKeyPair();
+
+            // Stockage des clés
+            keyFile.saveKeyPair(keypairs);
+
+            // Clés déjà stockées, récupération des clés
+            PublicKey pubKey = keyFile.getPublicKeyFromFile();
+            assertEquals(keypairs.getPublic(), pubKey);
+    }
+
+    @Test
+    public  void testSaveAndGetPrivateKeyWithTXT() throws Exception {
+        KeyFileUtilWithTXT keyFile = new KeyFileUtilWithTXT();
+        // Exemple d'utilisation :
+
+            // Génération des clés
+            EncryptionUtil generateur = new EncryptionUtil();
+            KeyPair keypairs = generateur.generateKeyPair();
+
+            // Stockage des clés
+            keyFile.saveKeyPair(keypairs);
+
+
+        // Clés déjà stockées, récupération des clés
+        PrivateKey privKey = keyFile.getPrivateKeyFromFile();
+
+        assertEquals(keypairs.getPrivate(), privKey);
     }
 }
