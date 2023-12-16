@@ -1,20 +1,15 @@
-package com.projetenchere.common;
-
-import com.projetenchere.common.Models.Network.Sendable.DataWrapper;
+package com.projetenchere.common.network;
 
 import javax.net.ssl.*;
 import java.io.*;
-import java.net.SocketException;
+import java.net.InetSocketAddress;
 import java.security.KeyStore;
 
-public abstract class SocketCommunicator implements ICommunicator{
+public class SocketFactory {
     //TODO: gérer les exceptions correctement
-    protected Party party;
     protected SSLContext sslContext;
-    protected SSLSocket socket;
 
-
-    protected SocketCommunicator(Party party) {
+    public SocketFactory() {
         try {
             char[] password = "\";oW+~E8T65DKiZny{hAD?~kH-e;:{E)*n?U:lUv6MOPnEc/l[k5tQ')8O48YGsJI\"".toCharArray(); // Keystore password
             KeyStore keyStore = KeyStore.getInstance("JKS");
@@ -30,26 +25,22 @@ public abstract class SocketCommunicator implements ICommunicator{
             e.printStackTrace();
         }
     }
-    @Override
-    public void sendDataToParty(DataWrapper<? extends Serializable> data) {
+
+    public SSLServerSocket createServerSocket(int port) {
         try {
-            OutputStream outputStream = socket.getOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-            objectOutputStream.writeObject(data);
+            SSLServerSocketFactory sslServerSocketFactory = sslContext.getServerSocketFactory();
+            return (SSLServerSocket) sslServerSocketFactory.createServerSocket(port);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
     }
 
-    public void handleDataFromParty(IDataHandler handler) {
-        DataWrapper<? extends Serializable> data;
+    public SSLSocket createSocket(InetSocketAddress address) {
         try {
-            InputStream inputStream  = socket.getInputStream();
-            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-            data = (DataWrapper<? extends Serializable>) objectInputStream.readObject();
-            handler.handle(data);
-        } catch (Exception e) {
-            e.printStackTrace();
+            SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+            return (SSLSocket) sslSocketFactory.createSocket(address.getAddress(), address.getPort());
+        } catch (IOException e) {
+            throw new RuntimeException("Could not create socket");
         }
     }
 
