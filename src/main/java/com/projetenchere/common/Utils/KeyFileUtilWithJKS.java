@@ -5,15 +5,19 @@ import java.io.IOException;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 
-public class KeyFileUtil {
+public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     private static final String KEYSTORE_FILE = "projet-enchere/src/main/resources/config/config_signature_keypair.jks";
     private static final String KEYSTORE_PASSWORD = "SecureWinPaulLoanYukiRemiKatia";
     private static final String KEY_ALIAS = "certificateSecureWin"; //Une sorte d'identifiant du certificat.
-    private static final String KEY_PASSWORD = "key_password";
+    private static final String KEY_PASSWORD = "SecureWinkey_password";
 
-    public static void saveKeyPair(KeyPair keyPair) {
+    public KeyFileUtilWithJKS(){
+
+    }
+
+    @Override
+    public void saveKeyPair(KeyPair keyPair) {
         try {
             KeyStore keyStore = KeyStore.getInstance("JKS");
             keyStore.load(null, null);
@@ -24,7 +28,6 @@ public class KeyFileUtil {
 */
             //keyStore.setKeyEntry(KEY_ALIAS, keyPair.getPrivate(), KEY_PASSWORD.toCharArray(), ); Il faut générer un certificat à partir de la clé publique ! Hors c'est galère
             FileOutputStream fos = new FileOutputStream(KEYSTORE_FILE);
-
 
             keyStore.store(fos, KEYSTORE_PASSWORD.toCharArray());
             fos.close();
@@ -47,7 +50,8 @@ public class KeyFileUtil {
         }
     }
 
-    public static boolean isKeyPairSaved(){
+    @Override
+    public boolean isKeyPairSaved(){
         try {
             KeyStore keyStore = KeyStore.getInstance("JKS");
             keyStore.load(new FileInputStream(KEYSTORE_FILE), KEYSTORE_PASSWORD.toCharArray());
@@ -58,14 +62,16 @@ public class KeyFileUtil {
         }
     }
 
-    public static PrivateKey getPrivateKeyFromFile() throws Exception {
+    @Override
+    public PrivateKey getPrivateKeyFromFile() throws Exception {
         KeyStore keyStore = KeyStore.getInstance("JKS");
         keyStore.load(new FileInputStream(KEYSTORE_FILE), KEYSTORE_PASSWORD.toCharArray());
 
         return (PrivateKey) keyStore.getKey(KEY_ALIAS, KEY_PASSWORD.toCharArray());
     }
 
-    public static PublicKey getPublicKeyFromFile() throws Exception {
+    @Override
+    public PublicKey getPublicKeyFromFile() throws Exception {
         KeyStore keyStore = KeyStore.getInstance("JKS");
         keyStore.load(new FileInputStream(KEYSTORE_FILE), KEYSTORE_PASSWORD.toCharArray());
 
