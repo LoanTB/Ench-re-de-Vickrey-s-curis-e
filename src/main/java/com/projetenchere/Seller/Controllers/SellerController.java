@@ -11,17 +11,11 @@ import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Winner;
-import com.projetenchere.common.Utils.I_KeyFileUtil;
-import com.projetenchere.common.Utils.KeyFileUtilWithJKS;
 import com.projetenchere.common.Utils.NetworkUtil;
-import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
 
 import java.net.InetSocketAddress;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Signature;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -48,7 +42,7 @@ public class SellerController extends Controller {
     }
 
     public void setSignatureConfig() throws Exception {
-        setSignatureConfig(ui,seller);
+        setSignatureConfig(ui, seller);
     }
 
     public void createMyBid(){
@@ -114,7 +108,7 @@ public class SellerController extends Controller {
         boolean haveAWinner = false;
         Set<WinStatus> winStatus = new HashSet<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {
-            if (Arrays.equals(encryptedOffer.getPrice(), winner.getEncryptedId()) && !haveAWinner) {
+            if (Arrays.equals(encryptedOffer.getPrice(), winner.getEncryptedPrice()) && !haveAWinner) {
                 winStatus.add(new WinStatus(winner.getBidId(),true,winner.getPrice()));
                 haveAWinner = true;
             } else {
