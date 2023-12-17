@@ -32,7 +32,7 @@ public class SSLSocketFactory implements ISocketFactory{
             SSLServerSocketFactory sslServerSocketFactory = sslContext.getServerSocketFactory();
             return (SSLServerSocket) sslServerSocketFactory.createServerSocket(port);
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
