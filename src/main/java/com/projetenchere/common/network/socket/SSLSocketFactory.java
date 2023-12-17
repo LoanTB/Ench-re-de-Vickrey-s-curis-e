@@ -1,15 +1,15 @@
-package com.projetenchere.common.network;
+package com.projetenchere.common.network.socket;
 
 import javax.net.ssl.*;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.security.KeyStore;
 
-public class SocketFactory {
+public class SSLSocketFactory implements ISocketFactory{
     //TODO: gérer les exceptions correctement
     protected SSLContext sslContext;
 
-    public SocketFactory() {
+    public SSLSocketFactory() {
         try {
             char[] password = "\";oW+~E8T65DKiZny{hAD?~kH-e;:{E)*n?U:lUv6MOPnEc/l[k5tQ')8O48YGsJI\"".toCharArray(); // Keystore password
             KeyStore keyStore = KeyStore.getInstance("JKS");
@@ -26,6 +26,7 @@ public class SocketFactory {
         }
     }
 
+    @Override
     public SSLServerSocket createServerSocket(int port) {
         try {
             SSLServerSocketFactory sslServerSocketFactory = sslContext.getServerSocketFactory();
@@ -35,9 +36,10 @@ public class SocketFactory {
         }
     }
 
+    @Override
     public SSLSocket createSocket(InetSocketAddress address) {
         try {
-            SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+            javax.net.ssl.SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
             return (SSLSocket) sslSocketFactory.createSocket(address.getAddress(), address.getPort());
         } catch (IOException e) {
             throw new RuntimeException("Could not create socket");
