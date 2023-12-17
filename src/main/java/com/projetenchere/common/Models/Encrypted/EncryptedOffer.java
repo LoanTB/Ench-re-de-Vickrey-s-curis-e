@@ -5,24 +5,26 @@ import com.projetenchere.common.Utils.EncryptionUtil;
 
 import java.io.Serializable;
 import java.security.PublicKey;
+import java.security.Signature;
 
 public class EncryptedOffer implements Serializable {
-    private final String idBidder;
-    private final String idBid;
+    private Signature signature;
+    private PublicKey bidderPubKey;
     private final byte[] price;
 
-    public EncryptedOffer(Offer offer, PublicKey publicKey) throws Exception {
-        this.idBidder = offer.getIdBidder();
-        this.idBid = offer.getIdBid();
-        this.price = EncryptionUtil.encryptPrice(offer.getPrice(),publicKey);
+    public EncryptedOffer(Signature signature, Offer offer, PublicKey myPubKey, PublicKey managerPubKey) throws Exception {
+        this.signature = signature;
+        this.price = EncryptionUtil.encryptPrice(offer.getPrice(), managerPubKey);
+        this.bidderPubKey = myPubKey;
     }
 
-    public String getIdBidder() {
-        return idBidder;
+    public Signature getSignature() {
+        return this.signature;
     }
 
-    public String getIdBid() {
-        return idBid;
+    public void hideSignature() {
+        this.signature = null;
+        this.bidderPubKey = null;
     }
 
     public byte[] getPrice() {

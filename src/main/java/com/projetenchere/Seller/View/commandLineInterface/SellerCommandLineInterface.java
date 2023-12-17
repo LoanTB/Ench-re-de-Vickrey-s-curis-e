@@ -45,11 +45,11 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
 
     @Override
     public void displayOfferReceived(EncryptedOffer encryptedOffer) {
-        showMessage("Nouvelle offre reçue de "+encryptedOffer.getIdBidder()+".");
+        showMessage("Nouvelle offre reçue de "+encryptedOffer.getSignature()+".");
     }
 
     @Override
-    public void displayEncryptedPriceSended() {
+    public void displayEncryptedPriceSent() {
         showMessage("Prix chiffrés envoyés à l'autorité de gestion pour traitement...");
     }
 
