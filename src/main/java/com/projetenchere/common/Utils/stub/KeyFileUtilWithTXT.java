@@ -2,6 +2,7 @@ package com.projetenchere.common.Utils.stub;
 
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.I_KeyFileUtil;
+import com.projetenchere.common.Utils.KeyFileUtilWithJKS;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -13,9 +14,44 @@ import java.security.PublicKey;
 
 public class KeyFileUtilWithTXT implements I_KeyFileUtil {
 
-    private static final String FILE_PUBLIC_KEY = "cle_publique.txt";
-    private static final String FILE_PRIVATE_KEY = "cle_privee.txt";
+    private static String FILE_PUBLIC_KEY;
+    private static String FILE_PRIVATE_KEY;
 
+    public KeyFileUtilWithTXT(){
+        String OS = System.getProperty("os.name").toLowerCase();
+        String configPath = "";
+        String userHome = System.getProperty("user.home");
+
+        if(OS.contains("win")){
+            configPath = "C:\\Users\\Utilisateur\\AppData\\Local\\securewin";
+            FILE_PUBLIC_KEY = configPath+"\\cle_publique.txt";
+            FILE_PRIVATE_KEY = configPath+"\\cle_privee.txt";
+        } else if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) {
+            configPath = userHome+"/.config/securewin";
+            FILE_PUBLIC_KEY = configPath+"/cle_publique.txt\"";
+            FILE_PRIVATE_KEY = configPath+"/cle_privee.txt";
+        } else if (OS.contains("mac")){
+            configPath = userHome + "/Library/Application Support/securewin";
+            FILE_PUBLIC_KEY = configPath+"/cle_publique.txt";
+            FILE_PRIVATE_KEY = configPath+"/cle_privee.txt";
+
+        }else {
+            System.err.println("Système non prix en charge !");
+        }
+
+        File directoryConfig = new File(configPath);
+        if(!directoryConfig.exists()){
+            if(directoryConfig.mkdirs()){
+                System.out.println("Dossier de configuration créé avec succès : " + configPath);
+            }else{
+                System.err.println("Echec de la creation du dossier de config : " +  configPath);
+            }
+        }else{
+            System.out.println("Dossier de configuration déjà existant : " +  configPath);
+        }
+    }
+
+    //TODO : SI ON VEUT UTILISER LE STUB SUR UN AUTRE OS CHANGER LES CHEMINS !!!!
     public void generateAndSaveKeyPair() {
         try {
             KeyPair keyPair = EncryptionUtil.generateKeyPair();
