@@ -58,6 +58,7 @@ public class BidderController extends Controller {
         client.connectToManager();
         askForCurrentBids();
         askForManagerPubKey();
+        client.stopManager();
     }
 
     public void showBids() {

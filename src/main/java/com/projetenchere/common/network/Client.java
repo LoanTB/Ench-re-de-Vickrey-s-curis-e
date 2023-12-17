@@ -53,4 +53,15 @@ public class Client {
         return wrappedToReceive.unwrap();
     }
 
+    protected void stop(ClientSocketWrapper clientSocketWrapper) {
+        checkConnection(clientSocketWrapper);
+        DataWrapper<?> dataWrapper = new DataWrapper<>(Headers.GOODBYE_HAVE_A_NICE_DAY);
+        try {
+            clientSocketWrapper.getObjectOutputStream().writeObject(dataWrapper);
+            clientSocketWrapper.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

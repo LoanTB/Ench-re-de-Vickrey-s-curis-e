@@ -26,6 +26,14 @@ public class BidderClient extends Client{
         toSeller = new ClientSocketWrapper((factory.createSocket(sellerSocketAddress)));
     }
 
+    public void stopManager() {
+        stop(toManager);
+    }
+
+    public void stopSeller() {
+        stop(toSeller);
+    }
+
     public PublicKey getManagerPubKey() {
         return fetch(
                 toManager,

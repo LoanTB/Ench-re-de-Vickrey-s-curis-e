@@ -36,4 +36,12 @@ public class ClientSocketWrapper {
         }
         return objectInputStream;
     }
+
+    public void close() {
+        try {
+            this.s.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
