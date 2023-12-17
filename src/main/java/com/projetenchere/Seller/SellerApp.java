@@ -10,7 +10,7 @@ public class SellerApp {
         controller.createMyBid();
         controller.sendMyBid();
         controller.receiveOffersUntilBidEndAndSendResults();
-        controller.sendEncryptedPrices();
+        controller.sendEncryptedOffersSet();
         controller.displayWinner();
     }
 }

@@ -58,7 +58,7 @@ public class BidderController extends Controller {
         Bid bid = currentBids.getBid(offer.getIdBid());
         if (bid == null) throw new RuntimeException("");
 
-        EncryptedOffer encryptedOffer = new EncryptedOffer(bidder.getSignature(), offer, managerPubKey, bidder.getKey());
+        EncryptedOffer encryptedOffer = new EncryptedOffer(bidder.getSignature(), offer, managerPubKey, bidder.getKey(),bid.getId());
 
         participatedBid.add(offer.getIdBid());
         client.connectToSeller(bid.getSellerSocketAddress());

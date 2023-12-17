@@ -14,7 +14,7 @@ public interface ISellerUserInterface extends I_UserInterface {
 
     void displayWinner(String winnerID, Double price);
     void displayOfferReceived();
-    void displayEncryptedPriceSent();
+    void displayEncryptedOffersSetent();
     void displayResultsSent();
     void displayBidReceived(String bid);
     void waitOffers();

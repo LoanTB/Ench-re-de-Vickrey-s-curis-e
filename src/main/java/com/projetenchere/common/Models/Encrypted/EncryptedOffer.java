@@ -9,30 +9,32 @@ import java.security.PublicKey;
 import java.security.Signature;
 
 public class EncryptedOffer implements Serializable {
+    private final String bidId;
     private byte[] priceSigned;
-    private PublicKey bidderPubKey;
+    private PublicKey SignaturePubKey;
     private final byte[] price;
 
-    public EncryptedOffer(Signature signature, Offer offer, PublicKey myPubKey, PublicKey managerPubKey) throws Exception {
+    public EncryptedOffer(Signature signature, Offer offer, PublicKey SignaturePubKey, PublicKey managerPubKey, String bidId) throws Exception {
         this.price = EncryptionUtil.encryptPrice(offer.getPrice(), managerPubKey);
         this.priceSigned = SignatureUtil.signData(price,signature);
-        this.bidderPubKey = myPubKey;
+        this.SignaturePubKey = SignaturePubKey;
+        this.bidId = bidId;
     }
-//TODO : Choisir entre encryptedPrice et encryptedOffer.
+
     public byte[] getPriceSigned() {
         return this.priceSigned;
     }
-
     public void hidePriceSigned() {
         this.priceSigned = null;
-        this.bidderPubKey = null;
+        this.SignaturePubKey = null;
     }
-
+    public String getBidId() {
+        return bidId;
+    }
     public byte[] getPrice() {
         return price;
     }
-
-    public PublicKey getPublicKey(){
-        return bidderPubKey;
+    public PublicKey getSignaturePublicKey(){
+        return SignaturePubKey;
     }
 }

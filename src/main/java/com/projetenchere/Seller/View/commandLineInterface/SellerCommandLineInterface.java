@@ -48,7 +48,7 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     }
 
     @Override
-    public void displayEncryptedPriceSent() {
+    public void displayEncryptedOffersSetent() {
         showMessage("Prix chiffrés envoyés à l'autorité de gestion pour traitement...");
     }
 

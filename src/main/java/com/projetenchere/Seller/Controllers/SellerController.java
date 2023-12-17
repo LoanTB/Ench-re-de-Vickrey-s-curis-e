@@ -8,7 +8,7 @@ import com.projetenchere.Seller.network.SellerClient;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.NetworkUtil;
@@ -91,13 +91,13 @@ public class SellerController extends Controller {
         Set<WinStatus> biddersWinStatus = getBiddersWinStatus();
     }
 
-    public EncryptedPrices getEncryptedPrices(Collection<byte[]> prices){
-        return new EncryptedPrices(myBid.getId(),new HashSet<>(prices));
+    public EncryptedOffersSet getEncryptedOffersSet(){
+        return new EncryptedOffersSet(myBid.getId(), seller.getEncryptedOffers());
     }
 
-    public void sendEncryptedPrices() {
-        client.sendEncryptedPrices(getEncryptedPrices(Seller.getInstance().getBidders().values()));
-        ui.displayEncryptedPriceSent();
+    public void sendEncryptedOffersSet() {
+        client.sendEncryptedOffersSet(getEncryptedOffersSet());
+        ui.displayEncryptedOffersSetent();
     }
 
     public Set<WinStatus> getBiddersWinStatus(){
