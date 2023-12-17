@@ -9,6 +9,8 @@ import com.projetenchere.common.network.IDataHandler;
 
 import java.io.Serializable;
 
+//Manager reçoit les prix de chiffrés du vendeur.
+
 public class EncryptedPricesReplyer implements IDataHandler {
     @Override
     public DataWrapper<Winner> handle(Serializable data) {

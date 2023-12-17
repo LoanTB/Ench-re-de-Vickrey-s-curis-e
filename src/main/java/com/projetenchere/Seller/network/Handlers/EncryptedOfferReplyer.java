@@ -11,8 +11,9 @@ import com.projetenchere.common.network.Headers;
 import java.io.Serializable;
 import java.security.SignatureException;
 
-public class EncryptedOfferReplyer implements IDataHandler {
+//Bidder envoient au seller leurs offres
 
+public class EncryptedOfferReplyer implements IDataHandler {
     @Override
     public DataWrapper<WinStatus> handle(Serializable data) {
         Seller seller = Seller.getInstance();

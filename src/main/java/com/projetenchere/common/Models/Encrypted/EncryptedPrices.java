@@ -12,6 +12,7 @@ public class EncryptedPrices implements Serializable {
         this.bidId = bidId;
         this.prices = prices;
     }
+//TODO : Choisir entre encryptedPrice et encryptedOffer.
 
     public String getBidId() {
         return bidId;

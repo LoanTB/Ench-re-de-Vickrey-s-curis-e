@@ -18,6 +18,8 @@ public class SellerClient extends Client {
         SSLSocketFactory factory = new SSLSocketFactory();
         toManager = factory.createSocket(NetworkUtil.MANAGER_SOCKET_ADDRESS);
     }
+
+    //Envoi de l'enchère aux enchérisseurs ?
     public void sendBid(Bid bid) {
         fetchWithData(
                 toManager,

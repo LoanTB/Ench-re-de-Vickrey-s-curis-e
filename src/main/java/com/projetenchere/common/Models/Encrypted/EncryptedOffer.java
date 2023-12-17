@@ -18,7 +18,7 @@ public class EncryptedOffer implements Serializable {
         this.priceSigned = SignatureUtil.signData(price,signature);
         this.bidderPubKey = myPubKey;
     }
-
+//TODO : Choisir entre encryptedPrice et encryptedOffer.
     public byte[] getPriceSigned() {
         return this.priceSigned;
     }
