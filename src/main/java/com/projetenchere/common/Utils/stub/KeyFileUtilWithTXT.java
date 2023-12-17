@@ -1,5 +1,6 @@
 package com.projetenchere.common.Utils.stub;
 
+import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.I_KeyFileUtil;
 
 import java.io.*;
@@ -15,11 +16,11 @@ public class KeyFileUtilWithTXT implements I_KeyFileUtil {
     private static final String FILE_PUBLIC_KEY = "cle_publique.txt";
     private static final String FILE_PRIVATE_KEY = "cle_privee.txt";
 
-    public void saveKeyPair(KeyPair keyPair) {
-        PublicKey publicKey = keyPair.getPublic();
-        PrivateKey privateKey = keyPair.getPrivate();
-
+    public void generateAndSaveKeyPair() {
         try {
+            KeyPair keyPair = EncryptionUtil.generateKeyPair();
+            PublicKey publicKey = keyPair.getPublic();
+            PrivateKey privateKey = keyPair.getPrivate();
 
             File ressources = new File("");
             System.out.println(ressources.getAbsolutePath());
@@ -44,6 +45,8 @@ public class KeyFileUtilWithTXT implements I_KeyFileUtil {
             System.out.println("Clés stockées avec succès dans le répertoire config !");
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -71,17 +74,5 @@ public class KeyFileUtilWithTXT implements I_KeyFileUtil {
         publicKeyIn.close();
 
         return publicKey;
-    }
-
-    public KeyPair getKeyPairFromFile(){
-        try {
-            PrivateKey privateKey = getPrivateKeyFromFile();
-            PublicKey publicKey = getPublicKeyFromFile();
-
-            return new KeyPair(publicKey, privateKey);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
