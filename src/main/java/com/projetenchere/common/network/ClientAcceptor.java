@@ -32,14 +32,17 @@ public class ClientAcceptor<T extends Serializable> extends Thread {
     @Override
     public void run() {
         try {
-            checkStreams();
-            Object rawRequest = this.getObjectInput().readObject();
-            DataWrapper<T> dataInput = (DataWrapper<T>) rawRequest;
-            T object = dataInput.unwrap();
-            DataWrapper<? extends Serializable> dataOutput;
-            if (handlers.containsKey(dataInput.getHeader())) {
-                dataOutput = handlers.get(dataInput.getHeader()).handle(object);
-                this.getObjectOutput().writeObject(dataOutput);
+            while (true) {
+                checkStreams();
+                Object rawRequest = this.getObjectInput().readObject();
+                DataWrapper<T> dataInput = (DataWrapper<T>) rawRequest;
+                System.out.println("Received " + dataInput.getHeader());
+                T object = dataInput.unwrap();
+                DataWrapper<? extends Serializable> dataOutput;
+                if (handlers.containsKey(dataInput.getHeader())) {
+                    dataOutput = handlers.get(dataInput.getHeader()).handle(object);
+                    this.getObjectOutput().writeObject(dataOutput);
+                }
             }
         } catch (IOException | ClassNotFoundException | ClassCastException e) {
             throw new RuntimeException(e);
@@ -62,7 +65,4 @@ public class ClientAcceptor<T extends Serializable> extends Thread {
         this.objectInput = inputStream;
     }
 
-    public void setOuputStream(ObjectOutputStream ouputStream) {
-        this.objectOutput = ouputStream;
-    }
 }

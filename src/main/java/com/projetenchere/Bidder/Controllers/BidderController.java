@@ -46,19 +46,22 @@ public class BidderController extends Controller {
     public void askForManagerPubKey(){
         ui.tellWaitManagerSecurityInformations();
         managerPubKey = client.getManagerPubKey();
+        System.out.println("Public key received");
     }
 
     public void askForCurrentBids() {
         currentBids = client.getCurrentBids();
+        System.out.println("Received bids");
     }
 
     public void initWithManager() {
         client.connectToManager();
-        askForManagerPubKey();
         askForCurrentBids();
+        askForManagerPubKey();
     }
 
     public void showBids() {
+        System.out.println(this.currentBids.getCurrentBids().size());
         ui.displayBid(this.currentBids);
     }
 
