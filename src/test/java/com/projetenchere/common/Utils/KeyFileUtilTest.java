@@ -17,21 +17,20 @@ public class KeyFileUtilTest {
     @Test
     public void testSaveAndGetKeyPairWithJKS() {
         try {
-            // Générer une nouvelle paire de clés
             KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS();
 
-            // Enregistrer la paire de clés dans un fichier .jks
             if(!keyFile.isKeyPairSaved()){
                 assertFalse(keyFile.isKeyPairSaved());
                 keyFile.generateAndSaveKeyPair();
             }
-            // Vérifier si la paire de clés a été enregistrée dans le fichier .jks
+
             assertTrue(keyFile.isKeyPairSaved());
 
+            PublicKey publicKeyFromKeyStore = keyFile.getPublicKeyFromFile();
+            assertNotNull(publicKeyFromKeyStore);
 
-            // Récupérer la clé publique du fichier .jks et vérifier si elle correspond à celle générée
-            //PublicKey publicKeyFromKeyStore = keyFile.getPublicKeyFromFile();
-            //assertEquals(, publicKeyFromKeyStore);
+            PrivateKey privateKeyFromKeyStore = keyFile.getPrivateKeyFromFile();
+            assertNotNull(privateKeyFromKeyStore);
 
         } catch (Exception e) {
             fail("Exception: " + e.getMessage());
@@ -48,27 +47,33 @@ public class KeyFileUtilTest {
         }
 
         PrivateKey privateKeyFromKeyStore = keyFile.getPrivateKeyFromFile();
+        assertNotNull(privateKeyFromKeyStore);
+
         PrivateKey privateKeyFromKeyStore2 = keyFile.getPrivateKeyFromFile();
+        assertNotNull(privateKeyFromKeyStore2);
 
         assertEquals(privateKeyFromKeyStore2, privateKeyFromKeyStore);
 
         PublicKey publicKeyFromStore = keyFile.getPublicKeyFromFile();
         PublicKey publicKeyFromStore2 = keyFile.getPublicKeyFromFile();
 
+        assertNotNull(publicKeyFromStore);
+        assertNotNull(publicKeyFromStore2);
+
         assertEquals(publicKeyFromStore2, publicKeyFromStore);
-    /*
-            String genKeyCommand = "keytool -genkeypair -alias SecureWin2 -keyalg RSA -keysize 2048 -keystore src/main/resources/config/config_signature_keypair2.jks -validity 365 -dname \"CN=Secure, OU=Win, O=SecureWin, L=Montpellier, ST=Occitanie, C=FR\" -storepass SecureWinPaulLoanYukiRemiKatia -keypass SecureWinPaulLoanYukiRemiKatia";
-            String exportCertCommand = "keytool -export -alias SecureWin2 -file src/main/resources/config/config_signature_certificat2.cer -keystore src/main/resources/config/config_signature_keypair2.jks -storepass SecureWinPaulLoanYukiRemiKatia -keypass SecureWinPaulLoanYukiRemiKatia";
+
+            String genKeyCommand = "keytool -genkeypair -alias SecureWin2 -keyalg RSA -keysize 2048 -keystore src/test/config/config_signature_keypair2.jks -validity 365 -dname \"CN=Secure, OU=Win, O=SecureWin, L=Montpellier, ST=Occitanie, C=FR\" -storepass SecureWinPaulLoanYukiRemiKatia -keypass SecureWinPaulLoanYukiRemiKatia";
+            String exportCertCommand = "keytool -export -alias SecureWin2 -file src/test/config/config_signature_certificat2.cer -keystore src/test/config/config_signature_keypair2.jks -storepass SecureWinPaulLoanYukiRemiKatia -keypass SecureWinPaulLoanYukiRemiKatia";
 
             KeyFileUtilWithJKS.executeCommand(genKeyCommand);
             KeyFileUtilWithJKS.executeCommand(exportCertCommand);
 
             KeyStore keyStore = KeyStore.getInstance("JKS");
-            FileInputStream fis = new FileInputStream("src/main/resources/config/config_signature_keypair2.jks");
+            FileInputStream fis = new FileInputStream("src/test/config/config_signature_keypair2.jks");
             keyStore.load(fis, "SecureWinPaulLoanYukiRemiKatia".toCharArray());
             PrivateKey privateKey2 = (PrivateKey) keyStore.getKey("SecureWin2", "SecureWinPaulLoanYukiRemiKatia".toCharArray());
 
-            FileInputStream fis2 = new FileInputStream("src/main/resources/config/config_signature_certificat2.cer");
+            FileInputStream fis2 = new FileInputStream("src/test/config/config_signature_certificat2.cer");
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             X509Certificate certificate = (X509Certificate) cf.generateCertificate(fis);
             PublicKey pubKey2 = certificate.getPublicKey();
@@ -77,7 +82,7 @@ public class KeyFileUtilTest {
         assertNotEquals(pubKey2,publicKeyFromStore);
         fis2.close();
         fis.close();
-    */
+
     }
 
     @Test
@@ -113,7 +118,8 @@ public class KeyFileUtilTest {
     }
 
 
-    //TXT
+    //TXT STUB
+    /*
     @Test
     public  void testGenerateAndSaveKeyWithTXT() throws Exception {
         KeyFileUtilWithTXT keyFile = new KeyFileUtilWithTXT();
@@ -125,5 +131,5 @@ public class KeyFileUtilTest {
     @Test
     public  void testGetPublicKeyWithTXT() throws Exception {
     }
-
+    */
 }
