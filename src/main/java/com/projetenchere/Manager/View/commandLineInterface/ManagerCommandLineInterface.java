@@ -1,7 +1,7 @@
 package com.projetenchere.Manager.View.commandLineInterface;
 
 import com.projetenchere.Manager.View.IManagerUserInterface;
-import com.projetenchere.common.Models.Network.Communication.Winner;
+import com.projetenchere.common.Models.Winner;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

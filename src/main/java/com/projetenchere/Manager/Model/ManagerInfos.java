@@ -1,8 +1,7 @@
 package com.projetenchere.Manager.Model;
 
-import com.projetenchere.Manager.Handlers.PubKeyReplyer;
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.Network.Communication.CurrentBids;
+import com.projetenchere.common.Models.CurrentBids;
 
 import java.security.PublicKey;
 

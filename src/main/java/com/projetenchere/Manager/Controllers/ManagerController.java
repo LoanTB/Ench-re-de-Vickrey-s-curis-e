@@ -7,10 +7,8 @@ import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInt
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
-import com.projetenchere.common.Models.Network.Communication.CurrentBids;
-import com.projetenchere.common.Models.Network.Communication.CurrentBidsPrivateKeys;
-import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKeys;
-import com.projetenchere.common.Models.Network.Communication.Winner;
+import com.projetenchere.common.Models.CurrentBids;
+import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
@@ -21,8 +19,6 @@ public class ManagerController extends Controller {
     public final IManagerUserInterface ui = new ManagerCommandLineInterface();
 
     private final CurrentBids currentBids = new CurrentBids();
-    private final CurrentBidsPublicKeys currentBidsPublicKeys = new CurrentBidsPublicKeys();
-    private final CurrentBidsPrivateKeys currentBidsPrivateKeys = new CurrentBidsPrivateKeys();
 
     public ManagerController() throws Exception {}
 
@@ -32,16 +28,6 @@ public class ManagerController extends Controller {
 
     public void addBid(Bid bid) throws Exception {
         currentBids.addCurrentBid(bid);
-        currentBidsPrivateKeys.addKeyToBid(bid.getId(),EncryptionUtil.generateKeyPair());
-        currentBidsPublicKeys.addKeyToBid(bid.getId(),currentBidsPrivateKeys.getKeyOfBid(bid.getId()).getPublic());
-    }
-
-    public CurrentBidsPublicKeys getCurrentBidsPublicKeys() {
-        return currentBidsPublicKeys;
-    }
-
-    public CurrentBidsPrivateKeys getCurrentBidsPrivateKeys() {
-        return currentBidsPrivateKeys;
     }
 
     public void startAllBids(){

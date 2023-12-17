@@ -1,8 +1,8 @@
 package com.projetenchere.Bidder.network;
 
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Network.Communication.CurrentBids;
-import com.projetenchere.common.Models.Network.Communication.WinStatus;
+import com.projetenchere.common.Models.CurrentBids;
+import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.network.*;
 import com.projetenchere.common.Utils.NetworkUtil;
 import com.projetenchere.common.network.socket.SSLSocketFactory;

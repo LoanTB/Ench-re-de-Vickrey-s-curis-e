@@ -2,7 +2,7 @@ package com.projetenchere.Bidder.View.commandLineInterface;
 
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
-import com.projetenchere.common.Models.Network.Communication.CurrentBids;
+import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
 
 import java.util.Scanner;
@@ -54,7 +54,7 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
                 showMessage("Prix invalide, entrez un prix positif :");
             }
         }
-        return new Offer(bidder.getIdentity().getId(), idBidString, offerString);
+        return new Offer(bidder.getSignature(), idBidString, offerString);
     }
 
     @Override

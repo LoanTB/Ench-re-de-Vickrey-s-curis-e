@@ -1,7 +1,7 @@
 package com.projetenchere.Bidder.View;
 
 import com.projetenchere.Bidder.Model.Bidder;
-import com.projetenchere.common.Models.Network.Communication.CurrentBids;
+import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
 
 public interface IBidderUserInterface {

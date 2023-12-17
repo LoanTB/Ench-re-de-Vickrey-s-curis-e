@@ -1,6 +1,6 @@
 package com.projetenchere.Manager.View;
 
-import com.projetenchere.common.Models.Network.Communication.Winner;
+import com.projetenchere.common.Models.Winner;
 
 import java.time.LocalDateTime;
 

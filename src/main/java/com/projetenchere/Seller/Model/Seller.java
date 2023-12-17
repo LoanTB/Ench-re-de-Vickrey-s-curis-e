@@ -2,7 +2,6 @@ package com.projetenchere.Seller.Model;
 
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Identity;
-import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,6 @@ public class Seller {
     private final List<Integer> biddersPorts = new ArrayList<>();
     private final List<EncryptedOffer> encryptedOffers = new ArrayList<>();
     private Identity identity;
-    private PublicSecurityInformations informations;
 
     public void addBidderId(String id){
         biddersIds.add(id);
@@ -45,11 +43,5 @@ public class Seller {
     }
     public void setIdentity(Identity identity) {
         this.identity = identity;
-    }
-    public PublicSecurityInformations getInformations() {
-        return informations;
-    }
-    public void setInformations(PublicSecurityInformations informations) {
-        this.informations = informations;
     }
 }

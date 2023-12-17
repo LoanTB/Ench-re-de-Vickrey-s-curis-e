@@ -6,13 +6,12 @@ import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInter
 import com.projetenchere.Bidder.network.BidderClient;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.Network.Communication.CurrentBids;
+import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Network.Communication.WinStatus;
+import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Offer;
 
 import java.security.PublicKey;
-import java.security.Signature;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.projetenchere.common.Models.Network.Communication;
+package com.projetenchere.common.Models;
 
 import com.projetenchere.common.Models.Bid;
 

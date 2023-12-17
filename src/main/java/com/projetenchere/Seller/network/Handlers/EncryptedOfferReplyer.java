@@ -2,7 +2,7 @@ package com.projetenchere.Seller.network.Handlers;
 
 import com.projetenchere.Seller.Model.SellerInfos;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Network.Communication.WinStatus;
+import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.IDataHandler;
 import com.projetenchere.common.network.Headers;

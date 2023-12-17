@@ -1,7 +1,5 @@
 package com.projetenchere.common.Models;
 
-import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
-
 import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.time.LocalDateTime;

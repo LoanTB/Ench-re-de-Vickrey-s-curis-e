@@ -1,7 +1,6 @@
 package com.projetenchere.Seller.Model;
 
-import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Network.Communication.WinStatus;
+import com.projetenchere.common.Models.WinStatus;
 
 import java.security.Signature;
 import java.util.HashMap;

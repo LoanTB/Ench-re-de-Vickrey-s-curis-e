@@ -1,7 +1,7 @@
 package com.projetenchere.Manager.Handlers;
 
 import com.projetenchere.Manager.Model.ManagerInfos;
-import com.projetenchere.common.Models.Network.Communication.CurrentBids;
+import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.IDataHandler;
 import com.projetenchere.common.network.Headers;
