@@ -1,6 +1,7 @@
 package com.projetenchere.Manager.Controllers;
 
-import com.projetenchere.Manager.Model.Manager;
+import com.projetenchere.Manager.Handlers.BidSetReplyer;
+import com.projetenchere.Manager.Handlers.PubKeyReplyer;
 import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
 import com.projetenchere.common.Models.Bid;
@@ -11,14 +12,14 @@ import com.projetenchere.common.Models.Network.Communication.CurrentBidsPrivateK
 import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKeys;
 import com.projetenchere.common.Models.Network.Communication.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
+import com.projetenchere.common.network.Headers;
+import com.projetenchere.common.network.Server;
 
 import java.security.PrivateKey;
 
 public class ManagerController extends Controller {
     public final IManagerUserInterface ui = new ManagerCommandLineInterface();
-    public final ManagerNetworkController networkController = new ManagerNetworkController(this);
 
-    public final Manager manager = new Manager();
     private final CurrentBids currentBids = new CurrentBids();
     private final CurrentBidsPublicKeys currentBidsPublicKeys = new CurrentBidsPublicKeys();
     private final CurrentBidsPrivateKeys currentBidsPrivateKeys = new CurrentBidsPrivateKeys();
@@ -51,9 +52,11 @@ public class ManagerController extends Controller {
         currentBids.startBids(idBid);
     }
 
-    public void initConnexion() {
-        Thread thread = new Thread(networkController);
-        thread.start();
+    public void init() {
+        Server managerServer = new Server();
+        managerServer.addHandler(Headers.GET_PUB_KEY, new PubKeyReplyer());
+        managerServer.addHandler(Headers.GET_CURRENT_BIDS, new BidSetReplyer());
+        managerServer.start();
         ui.tellManagerReadyToProcessBids();
     }
 
@@ -94,9 +97,5 @@ public class ManagerController extends Controller {
 
     public void displayHello(){
         ui.displayHello();
-    }
-
-    public IManagerUserInterface getUi() {
-        return ui;
     }
 }

@@ -11,6 +11,7 @@ import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.Models.Offer;
 
 import java.security.PublicKey;
+import java.security.Signature;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +19,11 @@ import static java.lang.Thread.sleep;
 
 public class BidderController extends Controller {
     private final IBidderUserInterface ui = new BidderCommandLineInterface();
+    BidderClient client = new BidderClient();
     private CurrentBids currentBids;
     private final List<String> participatedBid = new ArrayList<>();
     private final List<WinStatus> results = new ArrayList<>();
     private final Bidder bidder = new Bidder();
-    BidderClient client = new BidderClient();
     private PublicKey managerPubKey;
 
     public void setCurrentBids(CurrentBids currentBids) {
@@ -50,9 +51,10 @@ public class BidderController extends Controller {
 
     public void readAndSendOffer() throws Exception {
         Offer offer = ui.readOffer(bidder, currentBids);
-        EncryptedOffer encryptedOffer = new EncryptedOffer(offer, managerPubKey);
+        EncryptedOffer encryptedOffer = new EncryptedOffer(bidder.getSignature(), offer, managerPubKey, bidder.getKey());
         participatedBid.add(offer.getIdBid());
-        //client.connectToSeller();
+        // TODO: connect to seller
+        // client.connectToSeller();
         ui.tellOfferSent();
 
     }

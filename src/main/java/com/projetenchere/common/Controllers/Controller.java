@@ -1,7 +1,7 @@
 package com.projetenchere.common.Controllers;
 
 public abstract class Controller {
-    public void waitSychro(int ms){
+    public void waitSynchro(int ms){
         synchronized (this) {
             try {
                 wait(ms);
