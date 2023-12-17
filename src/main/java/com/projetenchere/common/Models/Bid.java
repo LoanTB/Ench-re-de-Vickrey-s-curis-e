@@ -48,6 +48,10 @@ public class Bid implements Serializable {
         return this.sellerInformations;
     }
 
+    public PublicKey getSellerSignaturePublicKey(){
+        return pubKeySignatureSeller;
+    }
+
     public void startBid(){
         startDateTime = LocalDateTime.from(LocalDateTime.now());
     }
