@@ -27,21 +27,9 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     private static String CERT_FILEPATH;
     private static final String KEYSTORE_PASSWORD = "SecureWinPaulLoanYukiRemiKatia";
 
-    public static boolean executeCommand(String command) throws IOException, InterruptedException {
+    //TODO : Penser à changer les Sysout et SysErr.
 
-        ProcessBuilder processBuilder = new ProcessBuilder("bash","-c",command);
-        Process process = processBuilder.start();
-        int exitCode = process.waitFor();
-        if(exitCode==0){
-            System.out.println("Le processus a réussie !");
-            return true;
-        }else{
-            System.out.println("Le processus a échoué");
-            return false;
-        }
-    }
-
-    public KeyFileUtilWithJKS(){
+    public KeyFileUtilWithJKS() {
         String OS = System.getProperty("os.name").toLowerCase();
         String configPath = "";
         String userHome = System.getProperty("user.home");
@@ -61,7 +49,7 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
             CERT_FILEPATH = configPath+"/config_signature_certificat.cer";
 
         }else {
-            System.out.println("Système non prix en charge !");
+            System.err.println("Système non prix en charge !");
         }
 
         File directoryConfig = new File(configPath);
@@ -75,6 +63,21 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
             System.out.println("Dossier de configuration déjà existant : " +  configPath);
         }
 
+    }
+
+
+    public static boolean executeCommand(String command) throws IOException, InterruptedException {
+
+        ProcessBuilder processBuilder = new ProcessBuilder("bash","-c",command);
+        Process process = processBuilder.start();
+        int exitCode = process.waitFor();
+        if(exitCode==0){
+            System.out.println("Le processus a réussie !");
+            return true;
+        }else{
+            System.err.println("Le processus a échoué");
+            return false;
+        }
     }
 
     @Override
