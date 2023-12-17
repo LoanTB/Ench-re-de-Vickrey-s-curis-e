@@ -17,11 +17,11 @@ public class EncryptedOfferReplyer implements IDataHandler {
         if (!seller.resultsAreIn()) {
             try {
                 EncryptedOffer offer = (EncryptedOffer) data;
-                seller.addBidder(offer.getSignature(), offer.getPrice());
+                seller.addBidder(offer.getPublicKey(), offer.getPrice());
                 while (!seller.resultsAreIn()) {
                     wait(1000);
                 }
-                WinStatus status = seller.getSignatureWinStatus(offer.getSignature());
+                WinStatus status = seller.getSignatureWinStatus(offer.getPublicKey());
                 return new DataWrapper<>(status, Headers.OK_WIN_STATUS);
             } catch (ClassCastException e) {
                 throw new RuntimeException("Received unreadable data");

@@ -22,7 +22,7 @@ public class ManagerController extends Controller {
 
     private final CurrentBids currentBids = new CurrentBids();
 
-    private final Manager manager = new Manager();
+    private final Manager manager = Manager.getInstance();
 
     public ManagerController() throws Exception {}
 

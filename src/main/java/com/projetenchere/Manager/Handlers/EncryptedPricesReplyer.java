@@ -14,7 +14,7 @@ public class EncryptedPricesReplyer implements IDataHandler {
     public DataWrapper<Winner> handle(Serializable data) {
         Manager manager = Manager.getInstance();
         try {
-            return new DataWrapper<>(manager.processPrices((EncryptedPrices) data, manager.getPrivateKey()), Headers.OK_WIN_STATUS);
+            return new DataWrapper<>(manager.processPrices((EncryptedPrices) data, manager.getPrivateKey()), Headers.RESOLVE_BID_OK);
         } catch (Exception e) {
             return new DataWrapper<>(null, Headers.ERROR);
         }

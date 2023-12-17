@@ -5,13 +5,14 @@ import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Identity;
 import com.projetenchere.common.Models.User;
 
+import java.security.PublicKey;
 import java.security.Signature;
 import java.util.*;
 
-public class Seller {
+public class Seller extends User{
     private static Seller INSTANCE;
-    private final Map<Signature, byte[]> bidders = new HashMap<>();
-    private final Map<Signature, WinStatus> winStatusMap = new HashMap<>();
+    private final Map<PublicKey, byte[]> bidders = new HashMap<>();
+    private final Map<PublicKey, WinStatus> winStatusMap = new HashMap<>();
     private final Set<EncryptedOffer> encryptedOffers = new HashSet<>();
     private boolean resultsAreIn = false;
 
@@ -28,19 +29,19 @@ public class Seller {
         return INSTANCE;
     }
 
-    public synchronized void addBidder(Signature signature, byte[] price) {
-        this.bidders.put(signature, price);
+    public synchronized void addBidder(PublicKey key, byte[] price) {
+        this.bidders.put(key, price);
     }
 
-    public synchronized WinStatus getSignatureWinStatus(Signature signature) {
-        return winStatusMap.get(signature);
+    public synchronized WinStatus getSignatureWinStatus(PublicKey key) {
+        return winStatusMap.get(key);
     }
 
-    public synchronized Map<Signature, byte[]> getBidders() {
+    public synchronized Map<PublicKey, byte[]> getBidders() {
         return this.bidders;
     }
 
-    public Map<Signature, WinStatus> getWinStatusMap() {
+    public Map<PublicKey, WinStatus> getWinStatusMap() {
         return winStatusMap;
     }
 

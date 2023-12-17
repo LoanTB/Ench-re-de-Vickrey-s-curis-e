@@ -48,8 +48,7 @@ public class BidderClient extends Client{
                 toSeller,
                 Headers.GET_WIN_STATUS,
                 Headers.OK_WIN_STATUS,
-                offer,
-                null
+                offer
         );
     }
 
