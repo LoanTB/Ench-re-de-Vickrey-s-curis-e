@@ -2,6 +2,8 @@ package com.projetenchere.Seller.Model;
 
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.WinStatus;
+import com.projetenchere.common.Models.Identity;
+import com.projetenchere.common.Models.User;
 
 import java.security.Signature;
 import java.util.*;
@@ -51,4 +53,6 @@ public class Seller {
     public Set<EncryptedOffer> getEncryptedOffers() {
         return this.encryptedOffers;
     }
+
+
 }

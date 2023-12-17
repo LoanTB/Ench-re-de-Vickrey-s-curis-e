@@ -45,7 +45,8 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
 
     @Override
     public void displayOfferReceived(EncryptedOffer encryptedOffer) {
-        showMessage("Nouvelle offre reçue de "+encryptedOffer.getSignature()+".");
+        //showMessage("Nouvelle offre reçue de "+encryptedOffer.getSignature()+".");
+        //TODO
     }
 
     @Override
@@ -61,6 +62,19 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     @Override
     public void displayHello() {
         showMessage("Bienvenue vendeur !");
+    }
+
+    @Override
+    public void tellSignatureConfigSetup(){
+        showMessage("Mise en place de la configuration de la signature...");
+    }
+    @Override
+    public void tellSignatureConfigGeneration(){
+        showMessage("Génération de la configuration de la signature ...");
+    }
+    @Override
+    public void tellSignatureConfigReady(){
+        showMessage("Configuration de la signature terminée.");
     }
 
     @Override

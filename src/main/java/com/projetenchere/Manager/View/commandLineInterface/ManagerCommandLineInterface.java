@@ -46,6 +46,19 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
     }
 
     @Override
+    public void tellSignatureConfigSetup(){
+        showMessage("Mise en place de la configuration de la signature...");
+    }
+    @Override
+    public void tellSignatureConfigGeneration(){
+        showMessage("Génération de la configuration de la signature ...");
+    }
+    @Override
+    public void tellSignatureConfigReady(){
+        showMessage("Configuration de la signature terminée.");
+    }
+
+    @Override
     public LocalDateTime askBidEndTime() {
         boolean checkType = true;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");

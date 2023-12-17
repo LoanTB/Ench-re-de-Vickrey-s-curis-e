@@ -1,11 +1,15 @@
 package com.projetenchere.Manager.View;
 
 import com.projetenchere.common.Models.Winner;
+import com.projetenchere.common.View.I_UserInterface;
 
 import java.time.LocalDateTime;
 
-public interface IManagerUserInterface {
+public interface IManagerUserInterface extends I_UserInterface {
     void displayHello();
+    void tellSignatureConfigSetup(); //TODO : Prochain sprint : Voir pour la dupp de code pour les tellSignatureConfig et autres de chaques utilisateurs
+    void tellSignatureConfigGeneration();
+    void tellSignatureConfigReady();
     void displayGenerateKey();
     void displayBidLaunch();
     void displayReceivedPrices();

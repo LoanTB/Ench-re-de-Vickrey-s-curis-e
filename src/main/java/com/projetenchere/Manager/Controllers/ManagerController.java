@@ -22,7 +22,13 @@ public class ManagerController extends Controller {
 
     private final CurrentBids currentBids = new CurrentBids();
 
+    private final Manager manager = new Manager();
+
     public ManagerController() throws Exception {}
+
+    public void setSignatureConfig() throws Exception {
+        setSignatureConfig(ui,manager);
+    }
 
     public CurrentBids getCurrentBids() {
         return currentBids;

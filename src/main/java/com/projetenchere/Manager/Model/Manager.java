@@ -1,5 +1,9 @@
 package com.projetenchere.Manager.Model;
 
+import com.projetenchere.common.Models.User;
+
+import java.net.InetSocketAddress;
+import java.security.KeyPair;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
@@ -9,7 +13,7 @@ import com.projetenchere.common.Utils.EncryptionUtil;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-public class Manager {
+public class Manager extends User{
 
     private PrivateKey privateKey;
     private PublicKey publicKey;
