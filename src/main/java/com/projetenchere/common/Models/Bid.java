@@ -19,6 +19,7 @@ public class Bid implements Serializable {
         this.description = description;
         this.endDateTime = endDateTime;
         this.sellerInformations = sellerInformations;
+        this.startDateTime = LocalDateTime.now();
     }
 
     public String getId() {
