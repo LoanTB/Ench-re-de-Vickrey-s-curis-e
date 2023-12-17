@@ -54,6 +54,7 @@ public class SellerController extends Controller {
     }
 
     public void sendMyBid() {
+        client.connectToManager();
         if (myBid == null) throw new RuntimeException("No bid was registered");
         ui.tellSendBidToManager();
         client.sendBid(myBid);
