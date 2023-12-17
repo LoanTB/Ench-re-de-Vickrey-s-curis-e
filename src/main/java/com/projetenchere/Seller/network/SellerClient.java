@@ -2,6 +2,7 @@ package com.projetenchere.Seller.network;
 
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
+import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.NetworkUtil;
 import com.projetenchere.common.network.Client;
 import com.projetenchere.common.network.Headers;
@@ -22,12 +23,16 @@ public class SellerClient extends Client {
                 toManager,
                 Headers.NEW_BID,
                 Headers.OK_NEW_BID,
-                bid,
-                sellerSignature
+                bid
         );
     }
 
-    public void sendEncryptedPrices(EncryptedPrices prices) {
-        //TODO: À implémenter
+    public Winner sendEncryptedPrices(EncryptedPrices prices) {
+        return fetchWithData(
+                toManager,
+                Headers.RESOLVE_BID,
+                Headers.RESOLVE_BID_OK,
+                prices
+        );
     }
 }
