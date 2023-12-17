@@ -16,8 +16,7 @@ public class EncryptedOfferReplyer implements IDataHandler {
         SellerInfos sellerInfos = SellerInfos.getInstance();
         if (!sellerInfos.resultsAreIn()) {
             try {
-                DataWrapper<EncryptedOffer> wrapper = (DataWrapper<EncryptedOffer>) data;
-                EncryptedOffer offer = wrapper.unwrap();
+                EncryptedOffer offer = (EncryptedOffer) data;
                 sellerInfos.addBidder(offer.getSignature(), offer.getPrice());
                 while (!sellerInfos.resultsAreIn()) {
                     wait(1000);
