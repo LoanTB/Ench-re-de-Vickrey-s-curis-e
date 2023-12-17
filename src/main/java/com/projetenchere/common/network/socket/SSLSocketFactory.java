@@ -11,9 +11,9 @@ public class SSLSocketFactory implements ISocketFactory{
 
     public SSLSocketFactory() {
         try {
-            char[] password = "\";oW+~E8T65DKiZny{hAD?~kH-e;:{E)*n?U:lUv6MOPnEc/l[k5tQ')8O48YGsJI\"".toCharArray(); // Keystore password
+            char[] password = ";oW+~E8T65DKiZny{hAD?~kH-e;:{E)*n?U:lUv6MOPnEc/l[k5tQ')8O48YGsJI".toCharArray(); // Keystore password
             KeyStore keyStore = KeyStore.getInstance("JKS");
-            FileInputStream keyStoreFile = new FileInputStream("keystore.jks");
+            FileInputStream keyStoreFile = new FileInputStream(System.getProperty("user.home") + "/.config/securewin/ssl/keystore.jks");
             keyStore.load(keyStoreFile, password);
             KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
             keyManagerFactory.init(keyStore, password);
@@ -42,7 +42,7 @@ public class SSLSocketFactory implements ISocketFactory{
             javax.net.ssl.SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
             return (SSLSocket) sslSocketFactory.createSocket(address.getAddress(), address.getPort());
         } catch (IOException e) {
-            throw new RuntimeException("Could not create socket");
+            throw new RuntimeException(e);
         }
     }
 
