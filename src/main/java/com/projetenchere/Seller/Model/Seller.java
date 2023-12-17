@@ -2,11 +2,12 @@ package com.projetenchere.Seller.Model;
 
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Identity;
+import com.projetenchere.common.Models.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Seller {
+public class Seller extends User {
     private final List<String> biddersIds = new ArrayList<>();
     private final List<String> biddersIps = new ArrayList<>();
     private final List<Integer> biddersPorts = new ArrayList<>();
@@ -44,4 +45,6 @@ public class Seller {
     public void setIdentity(Identity identity) {
         this.identity = identity;
     }
+
+
 }
