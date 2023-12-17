@@ -1,17 +1,11 @@
 package com.projetenchere.common.Utils;
 import java.io.*;
 import java.security.*;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.security.KeyStore;
 import java.io.FileInputStream;
-import java.util.Objects;
 
 public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     private static final String KEYSTORE_ALIAS = "SecureWin";
@@ -20,12 +14,10 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     private static final String KEY_ALGORITHM = "RSA";
     private static final int KEY_SIZE = 2048;
     private static final int VALIDITY_DAYS = 365;
-//    private static String KEYSTORE_FILEPATH = "src/main/resources/config/config_signature_keypair.jks"; //Debug
-//    private static String CERT_FILEPATH = "src/main/resources/config/config_signature_certificat.cer"; //Debug
-
+    private static final String KEYSTORE_PASSWORD = "SecureWinPaulLoanYukiRemiKatia";
     private static String KEYSTORE_FILEPATH;
     private static String CERT_FILEPATH;
-    private static final String KEYSTORE_PASSWORD = "SecureWinPaulLoanYukiRemiKatia";
+
 
     //TODO : Penser à changer les Sysout et SysErr.
 
@@ -62,7 +54,6 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
         }else{
             System.out.println("Dossier de configuration déjà existant : " +  configPath);
         }
-
     }
 
 
