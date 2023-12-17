@@ -39,6 +39,8 @@ public class ClientSocketWrapper {
 
     public void close() {
         try {
+            if (this.objectOutputStream != null) objectOutputStream.close();
+            if (this.objectInputStream != null) objectInputStream.close();
             this.s.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
