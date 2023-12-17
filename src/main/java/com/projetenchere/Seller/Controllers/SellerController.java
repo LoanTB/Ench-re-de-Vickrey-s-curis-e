@@ -69,7 +69,7 @@ public class SellerController extends Controller {
 
     }
 
-    public void receiveOffersUntilBidEnd() {
+    public void receiveOffersUntilBidEndAndSendResults() {
         ui.waitOffers();
         server.addHandler(Headers.GET_WIN_STATUS, new EncryptedOfferReplyer());
         server.start();
