@@ -1,25 +1,10 @@
 package com.projetenchere.Bidder.Model;
 
+import com.projetenchere.common.Models.User;
+
 import java.security.PublicKey;
 import java.security.Signature;
 
-public class Bidder {
-    public Signature signature;
-    public PublicKey key;
+public class Bidder extends User {
 
-    public Signature getSignature() {
-        return signature;
-    }
-
-    public void setSignature(Signature signature) {
-        this.signature = signature;
-    }
-
-    public PublicKey getKey() {
-        return key;
-    }
-
-    public void setKey(PublicKey key) {
-        this.key = key;
-    }
 }

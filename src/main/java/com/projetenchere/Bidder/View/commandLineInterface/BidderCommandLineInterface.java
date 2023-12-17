@@ -58,10 +58,22 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
+    public void tellSignatureConfigSetup(){
+        showMessage("Mise en place de la configuration de la signature...");
+    }
+    @Override
+    public void tellSignatureConfigGeneration(){
+        showMessage("Génération de la configuration de la signature ...");
+    }
+    @Override
+    public void tellSignatureConfigReady(){
+        showMessage("Configuration de la signature terminée.");
+    }
+
+    @Override
     public void tellOfferWon(double priceToPay) {
         showMessage("Votre offre a gagné, vous devez payer " + priceToPay + "€");
     }
-
 
     @Override
     public void tellOfferLost() {
