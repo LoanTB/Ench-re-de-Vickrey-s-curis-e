@@ -3,13 +3,15 @@ package com.projetenchere.common.Utils;
 import com.projetenchere.common.Utils.stub.KeyFileUtilWithTXT;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileInputStream;
 import java.security.*;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class KeyFileUtilTest {
-
 
     //JKS
     @Test
@@ -19,17 +21,16 @@ public class KeyFileUtilTest {
             KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS();
 
             // Enregistrer la paire de clés dans un fichier .jks
-            keyFile.generateAndSaveKeyPair();
-
+            if(!keyFile.isKeyPairSaved()){
+                assertFalse(keyFile.isKeyPairSaved());
+                keyFile.generateAndSaveKeyPair();
+            }
             // Vérifier si la paire de clés a été enregistrée dans le fichier .jks
             assertTrue(keyFile.isKeyPairSaved());
 
-            // Récupérer la clé privée du fichier .jks et vérifier si elle correspond à celle générée
-            PrivateKey privateKeyFromKeyStore = keyFile.getPrivateKeyFromFile();
-            //assertEquals(, privateKeyFromKeyStore);
 
             // Récupérer la clé publique du fichier .jks et vérifier si elle correspond à celle générée
-            PublicKey publicKeyFromKeyStore = keyFile.getPublicKeyFromFile();
+            //PublicKey publicKeyFromKeyStore = keyFile.getPublicKeyFromFile();
             //assertEquals(, publicKeyFromKeyStore);
 
         } catch (Exception e) {
@@ -38,9 +39,53 @@ public class KeyFileUtilTest {
     }
 
     @Test
+    public void testGetPrivateKeyWithJKSIsAlwaysTheSame() throws Exception {
+        KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS();
+
+        if(!keyFile.isKeyPairSaved()){
+            assertFalse(keyFile.isKeyPairSaved());
+            keyFile.generateAndSaveKeyPair();
+        }
+
+        PrivateKey privateKeyFromKeyStore = keyFile.getPrivateKeyFromFile();
+        PrivateKey privateKeyFromKeyStore2 = keyFile.getPrivateKeyFromFile();
+
+        assertEquals(privateKeyFromKeyStore2, privateKeyFromKeyStore);
+
+        PublicKey publicKeyFromStore = keyFile.getPublicKeyFromFile();
+        PublicKey publicKeyFromStore2 = keyFile.getPublicKeyFromFile();
+
+        assertEquals(publicKeyFromStore2, publicKeyFromStore);
+    /*
+            String genKeyCommand = "keytool -genkeypair -alias SecureWin2 -keyalg RSA -keysize 2048 -keystore src/main/resources/config/config_signature_keypair2.jks -validity 365 -dname \"CN=Secure, OU=Win, O=SecureWin, L=Montpellier, ST=Occitanie, C=FR\" -storepass SecureWinPaulLoanYukiRemiKatia -keypass SecureWinPaulLoanYukiRemiKatia";
+            String exportCertCommand = "keytool -export -alias SecureWin2 -file src/main/resources/config/config_signature_certificat2.cer -keystore src/main/resources/config/config_signature_keypair2.jks -storepass SecureWinPaulLoanYukiRemiKatia -keypass SecureWinPaulLoanYukiRemiKatia";
+
+            KeyFileUtilWithJKS.executeCommand(genKeyCommand);
+            KeyFileUtilWithJKS.executeCommand(exportCertCommand);
+
+            KeyStore keyStore = KeyStore.getInstance("JKS");
+            FileInputStream fis = new FileInputStream("src/main/resources/config/config_signature_keypair2.jks");
+            keyStore.load(fis, "SecureWinPaulLoanYukiRemiKatia".toCharArray());
+            PrivateKey privateKey2 = (PrivateKey) keyStore.getKey("SecureWin2", "SecureWinPaulLoanYukiRemiKatia".toCharArray());
+
+            FileInputStream fis2 = new FileInputStream("src/main/resources/config/config_signature_certificat2.cer");
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+            X509Certificate certificate = (X509Certificate) cf.generateCertificate(fis);
+            PublicKey pubKey2 = certificate.getPublicKey();
+
+        assertNotEquals(privateKey2,privateKeyFromKeyStore);
+        assertNotEquals(pubKey2,publicKeyFromStore);
+        fis2.close();
+        fis.close();
+    */
+    }
+
+    @Test
     public void testSignWithKeyPairGetWithJKS() throws Exception {
         KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS();
-        keyFile.generateAndSaveKeyPair();
+        if(!keyFile.isKeyPairSaved()) {
+            keyFile.generateAndSaveKeyPair();
+        }
         PrivateKey privKey = keyFile.getPrivateKeyFromFile();
         PublicKey pubKey = keyFile.getPublicKeyFromFile();
 
@@ -72,20 +117,13 @@ public class KeyFileUtilTest {
     @Test
     public  void testGenerateAndSaveKeyWithTXT() throws Exception {
         KeyFileUtilWithTXT keyFile = new KeyFileUtilWithTXT();
-
-
     }
 
     @Test
     public  void testGetPrivateKeyWithTXT() throws Exception {
-
     }
     @Test
     public  void testGetPublicKeyWithTXT() throws Exception {
-
     }
-
-
-
 
 }
