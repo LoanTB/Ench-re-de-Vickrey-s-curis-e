@@ -9,7 +9,7 @@ public interface ISellerUserInterface {
     void displayHello();
     void displayWinner(String winnerID, Double price);
     void displayOfferReceived(EncryptedOffer encryptedOffer);
-    void displayEncryptedPriceSended();
+    void displayEncryptedPriceSent();
     void displayResultsSent();
     void displayBidReceived(String bid);
     void waitOffers();
