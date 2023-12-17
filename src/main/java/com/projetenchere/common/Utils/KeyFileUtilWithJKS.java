@@ -20,54 +20,83 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     private static final String KEY_ALGORITHM = "RSA";
     private static final int KEY_SIZE = 2048;
     private static final int VALIDITY_DAYS = 365;
-    private static final String KEYSTORE_FILENAME = "config_signature_keypair.jks";
-    private static final  String CERT_FILENAME = "config_signature_certificat.cer";
+//    private static String KEYSTORE_FILEPATH = "src/main/resources/config/config_signature_keypair.jks"; //Debug
+//    private static String CERT_FILEPATH = "src/main/resources/config/config_signature_certificat.cer"; //Debug
+
+    private static String KEYSTORE_FILEPATH;
+    private static String CERT_FILEPATH;
     private static final String KEYSTORE_PASSWORD = "SecureWinPaulLoanYukiRemiKatia";
 
-    private static void executeCommand(String command) throws IOException {
-        Process process = Runtime.getRuntime().exec(command);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+    public static boolean executeCommand(String command) throws IOException, InterruptedException {
 
-        String line;
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+        ProcessBuilder processBuilder = new ProcessBuilder("bash","-c",command);
+        Process process = processBuilder.start();
+        int exitCode = process.waitFor();
+        if(exitCode==0){
+            System.out.println("Le processus a réussie !");
+            return true;
+        }else{
+            System.out.println("Le processus a échoué");
+            return false;
         }
-        reader.close();
     }
 
-    private String getFilePath(String fileName){
-        File ressources = new File("");
+    public KeyFileUtilWithJKS(){
+        String OS = System.getProperty("os.name").toLowerCase();
+        String configPath = "";
+        String userHome = System.getProperty("user.home");
 
-        File configFile = new File(ressources.getAbsolutePath()+"/src/main/resources/config/"+fileName);
 
-        String filepath = configFile.getAbsolutePath();
-        System.out.println(filepath);
-        return filepath;
+        if(OS.contains("win")){
+            configPath = "C:\\Users\\Utilisateur\\AppData\\Local\\securewin";
+            KEYSTORE_FILEPATH = configPath+"\\config_signature_keypair.jks";
+            CERT_FILEPATH = configPath+"\\config_signature_certificat.cer";
+        } else if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) {
+            configPath = userHome+"/.config/securewin";
+            KEYSTORE_FILEPATH = configPath+"/config_signature_keypair.jks";
+            CERT_FILEPATH = configPath+"/config_signature_certificat.cer";
+        } else if (OS.contains("mac")){
+            configPath = userHome + "/Library/Application Support/securewin";
+            KEYSTORE_FILEPATH = configPath+"/config_signature_keypair.jks";
+            CERT_FILEPATH = configPath+"/config_signature_certificat.cer";
+
+        }else {
+            System.out.println("Système non prix en charge !");
+        }
+
+        File directoryConfig = new File(configPath);
+        if(!directoryConfig.exists()){
+            if(directoryConfig.mkdirs()){
+                System.out.println("Dossier de configuration créé avec succès : " + configPath);
+            }else{
+                System.err.println("Echec de la creation du dossier de config : " +  configPath);
+            }
+        }else{
+            System.out.println("Dossier de configuration déjà existant : " +  configPath);
+        }
+
     }
 
     @Override
     public void generateAndSaveKeyPair(){
         try {
             try {
-
-                String KEYSTORE_FILEPATH = getFilePath(KEYSTORE_FILENAME);
-
-                String CERT_FILEPATH =  getFilePath(CERT_FILENAME);
-
                 // Commande pour générer une paire de clés dans .jks
-                String genKeyCommand = "keytool -genkeypair -alias "+ KEYSTORE_ALIAS +" -keyalg "+KEY_ALGORITHM+" -keysize "+KEY_SIZE+" -keystore "+KEYSTORE_FILEPATH+" -validity "+VALIDITY_DAYS+" -dname \"CN=Secure, OU=Win, O=SecureWin, L=Montpellier, ST=Occitanie, C=FR\" -storepass "+KEYSTORE_PASSWORD+" -keypass "+KEYSTORE_PASSWORD;
+                String genKeyCommand = "keytool -genkeypair -alias "+ KEYSTORE_ALIAS +" -keyalg "+KEY_ALGORITHM+" -keysize "+KEY_SIZE+" -keystore "+ KEYSTORE_FILEPATH +" -validity "+VALIDITY_DAYS+" -dname \"CN=Secure, OU=Win, O=SecureWin, L=Montpellier, ST=Occitanie, C=FR\" -storepass "+KEYSTORE_PASSWORD+" -keypass "+KEYSTORE_PASSWORD;
+                System.out.println("Generation du keystore en cours ...");
                 System.out.println(genKeyCommand);
-                executeCommand(genKeyCommand);
-                System.out.println("Commande de generation de keystore reussie !");
+                boolean result = executeCommand(genKeyCommand);
+                if(result){
+                    // Commande pour exporter le certificat associé au .jks
+                    String exportCertCommand = "keytool -export -alias "+ KEYSTORE_ALIAS +" -file "+CERT_FILEPATH+" -keystore "+KEYSTORE_FILEPATH+" -storepass "+KEYSTORE_PASSWORD+" -keypass "+KEYSTORE_PASSWORD;
+                    System.out.println("Exportation du certificat en cours ...");
+                    System.out.println(exportCertCommand);
 
-                // Commande pour exporter le certificat associé au .jks
-                String exportCertCommand = "keytool -export -alias "+ KEYSTORE_ALIAS +" -file "+CERT_FILEPATH+" -keystore "+KEYSTORE_FILEPATH+" -storepass "+KEYSTORE_PASSWORD+" -keypass "+KEYSTORE_PASSWORD;
-                System.out.println(exportCertCommand);
-
-                executeCommand(exportCertCommand);
-                System.out.println("Commande de generation de certificat reussie !");
-
-
+                    result= executeCommand(exportCertCommand);
+                    if(result){
+                        System.out.println("Commande de generation de certificat reussie !");
+                    }
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -79,9 +108,14 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     @Override
     public boolean isKeyPairSaved(){
         try {
-
-            String KEYSTORE_FILEPATH = getFilePath(KEYSTORE_FILENAME);
-            String CERT_FILEPATH =  getFilePath(CERT_FILENAME);
+            File keyStoreFile = new File(KEYSTORE_FILEPATH);
+            if(!keyStoreFile.exists()){
+                return false;
+            }
+            File certificateFIle = new File(CERT_FILEPATH);
+            if(!certificateFIle.exists()){
+                return false;
+            }
 
             KeyStore keyStore = KeyStore.getInstance(KEYSTORE_TYPE);
             keyStore.load(new FileInputStream(KEYSTORE_FILEPATH), KEYSTORE_PASSWORD.toCharArray());
@@ -94,9 +128,6 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
 
     @Override
     public PrivateKey getPrivateKeyFromFile() throws Exception {
-
-        String KEYSTORE_FILEPATH = getFilePath(KEYSTORE_FILENAME);
-
         KeyStore keyStore = KeyStore.getInstance(KEYSTORE_TYPE);
         FileInputStream fis = new FileInputStream(KEYSTORE_FILEPATH);
         keyStore.load(fis, KEYSTORE_PASSWORD.toCharArray());
@@ -107,9 +138,6 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
 
     @Override
     public PublicKey getPublicKeyFromFile() throws Exception {
-
-        String CERT_FILEPATH =  getFilePath(CERT_FILENAME);
-
         FileInputStream fis = new FileInputStream(CERT_FILEPATH);
         CertificateFactory cf = CertificateFactory.getInstance(CERTIFICATE_TYPE);
         X509Certificate certificate = (X509Certificate) cf.generateCertificate(fis);
