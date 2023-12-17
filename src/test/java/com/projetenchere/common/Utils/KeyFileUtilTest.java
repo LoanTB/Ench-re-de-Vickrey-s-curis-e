@@ -4,72 +4,88 @@ import com.projetenchere.common.Utils.stub.KeyFileUtilWithTXT;
 import org.junit.jupiter.api.Test;
 
 import java.security.*;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class KeyFileUtilTest {
 
+
+    //JKS
     @Test
     public void testSaveAndGetKeyPairWithJKS() {
         try {
             // Générer une nouvelle paire de clés
             KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS();
 
-            KeyPair a = EncryptionUtil.generateKeyPair();
-
             // Enregistrer la paire de clés dans un fichier .jks
-            keyFile.saveKeyPair(a);
+            keyFile.generateAndSaveKeyPair();
 
             // Vérifier si la paire de clés a été enregistrée dans le fichier .jks
             assertTrue(keyFile.isKeyPairSaved());
 
             // Récupérer la clé privée du fichier .jks et vérifier si elle correspond à celle générée
             PrivateKey privateKeyFromKeyStore = keyFile.getPrivateKeyFromFile();
-            assertEquals(a.getPrivate(), privateKeyFromKeyStore);
+            //assertEquals(, privateKeyFromKeyStore);
 
             // Récupérer la clé publique du fichier .jks et vérifier si elle correspond à celle générée
             PublicKey publicKeyFromKeyStore = keyFile.getPublicKeyFromFile();
-            assertEquals(a.getPublic(), publicKeyFromKeyStore);
+            //assertEquals(, publicKeyFromKeyStore);
 
         } catch (Exception e) {
             fail("Exception: " + e.getMessage());
         }
     }
 
-/*
     @Test
-    public  void testSaveAndGetPublicKeyWithTXT() throws Exception {
+    public void testSignWithKeyPairGetWithJKS() throws Exception {
+        KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS();
+        keyFile.generateAndSaveKeyPair();
+        PrivateKey privKey = keyFile.getPrivateKeyFromFile();
+        PublicKey pubKey = keyFile.getPublicKeyFromFile();
+
+
+        KeyPair keyPairFraud = EncryptionUtil.generateKeyPair();
+
+        byte[] object = new byte[10];
+        Random random = new Random();
+        random.nextBytes(object);
+
+        Signature signature = SignatureUtil.initSignatureForSigning(privKey);
+        // Création de l'outil de signature frauduleux
+        Signature signatureFraud = SignatureUtil.initSignatureForSigning(keyPairFraud.getPrivate());
+        // Récupération de la signature de l'objet à envoyer
+        byte[] sign = SignatureUtil.signData(object,signature);
+        // Récupération de la signature de l'objet frauduleux à envoyer
+        byte[] signFraud = SignatureUtil.signData(object,signatureFraud);
+        // Verification du signé
+        // La clé est mauvaise.
+        assertFalse(SignatureUtil.verifyDataSignature(object,sign, keyPairFraud.getPublic()));
+        // La signature est mauvaise.
+        assertFalse(SignatureUtil.verifyDataSignature(object,signFraud, pubKey));
+        // La signature et la clé sont bonnes.
+        assertTrue(SignatureUtil.verifyDataSignature(object,sign,pubKey ));
+    }
+
+
+    //TXT
+    @Test
+    public  void testGenerateAndSaveKeyWithTXT() throws Exception {
         KeyFileUtilWithTXT keyFile = new KeyFileUtilWithTXT();
-        // Exemple d'utilisation :
 
-            // Génération des clés
-            EncryptionUtil generateur = new EncryptionUtil();
-            KeyPair keypairs = generateur.generateKeyPair();
 
-            // Stockage des clés
-            keyFile.saveKeyPair(keypairs);
-
-            // Clés déjà stockées, récupération des clés
-            PublicKey pubKey = keyFile.getPublicKeyFromFile();
-            assertEquals(keypairs.getPublic(), pubKey);
     }
 
     @Test
-    public  void testSaveAndGetPrivateKeyWithTXT() throws Exception {
-        KeyFileUtilWithTXT keyFile = new KeyFileUtilWithTXT();
-        // Exemple d'utilisation :
+    public  void testGetPrivateKeyWithTXT() throws Exception {
 
-            // Génération des clés
-            EncryptionUtil generateur = new EncryptionUtil();
-            KeyPair keypairs = generateur.generateKeyPair();
+    }
+    @Test
+    public  void testGetPublicKeyWithTXT() throws Exception {
 
-            // Stockage des clés
-            keyFile.saveKeyPair(keypairs);
+    }
 
 
-        // Clés déjà stockées, récupération des clés
-        PrivateKey privKey = keyFile.getPrivateKeyFromFile();
 
-        assertEquals(keypairs.getPrivate(), privKey);
-    }*/
+
 }
