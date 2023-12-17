@@ -2,6 +2,7 @@ package com.projetenchere.Manager.Controllers;
 
 import com.projetenchere.Manager.Handlers.BidSetReplyer;
 import com.projetenchere.Manager.Handlers.PubKeyReplyer;
+import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
 import com.projetenchere.common.Models.Bid;
@@ -20,7 +21,13 @@ public class ManagerController extends Controller {
 
     private final CurrentBids currentBids = new CurrentBids();
 
+    private final Manager manager = new Manager();
+
     public ManagerController() throws Exception {}
+
+    public void setSignatureConfig() throws Exception {
+        setSignatureConfig(ui,manager);
+    }
 
     public CurrentBids getCurrentBids() {
         return currentBids;

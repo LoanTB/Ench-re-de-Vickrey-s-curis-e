@@ -1,11 +1,13 @@
 package com.projetenchere.Manager.Model;
 
+import com.projetenchere.common.Models.User;
+
 import java.net.InetSocketAddress;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-public class Manager {
+public class Manager extends User {
     private PrivateKey managerPrivateKey;
     private PublicKey managerPublicKey;
 
@@ -21,6 +23,5 @@ public class Manager {
     public PublicKey getManagerPublicKey() {
         return managerPublicKey;
     }
-
 
 }
