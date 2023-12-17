@@ -12,7 +12,4 @@ public class BidderApp {
         controller.readAndSendOffer();
         //controller.waitForPrice();
     }
-
-
 }
-
