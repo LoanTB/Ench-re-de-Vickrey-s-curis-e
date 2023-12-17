@@ -9,9 +9,9 @@ public class DataWrapper<T extends Serializable> {
     @Nullable
     private final T object;
 
-    private Headers header;
+    private final Headers header;
 
-    public DataWrapper(T object, Headers header) {
+    public DataWrapper(@Nullable T object, Headers header) {
         this.object = object;
         this.header = header;
     }
