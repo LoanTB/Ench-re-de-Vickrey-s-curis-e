@@ -12,7 +12,6 @@ import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.NetworkUtil;
-import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
 
@@ -109,7 +108,8 @@ public class SellerController extends Controller {
 
     public void sendEncryptedOffersSet() throws Exception {
         signEncryptedOffers();
-        client.sendEncryptedOffersSet(seller.getEncryptedOffersSignedBySeller());
+        this.setWinner(client.sendEncryptedOffersSet(seller.getEncryptedOffersSignedBySeller()));
+        Seller.getInstance().setResultsAreIn(true);
         ui.displayEncryptedOffersSetent();
     }
 
