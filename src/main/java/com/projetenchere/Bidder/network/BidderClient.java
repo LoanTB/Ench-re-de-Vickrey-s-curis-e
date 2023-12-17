@@ -5,22 +5,23 @@ import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
 import com.projetenchere.common.network.*;
 import com.projetenchere.common.Utils.NetworkUtil;
+import com.projetenchere.common.network.socket.SSLSocketFactory;
 
-import javax.net.ssl.SSLSocket;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.security.PublicKey;
 
 public class BidderClient extends Client{
 
-    private SSLSocket toManager;
-    private SSLSocket toSeller;
+    private Socket toManager;
+    private Socket toSeller;
     public void connectToManager() {
-        SocketFactory factory = new SocketFactory();
+        SSLSocketFactory factory = new SSLSocketFactory();
         toManager = factory.createSocket(NetworkUtil.MANAGER_SOCKET_ADDRESS);
     }
 
     public void connectToSeller(InetSocketAddress sellerSocketAddress) {
-        SocketFactory factory = new SocketFactory();
+        SSLSocketFactory factory = new SSLSocketFactory();
         toSeller = factory.createSocket(sellerSocketAddress);
     }
 
