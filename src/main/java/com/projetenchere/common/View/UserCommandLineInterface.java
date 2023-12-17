@@ -2,5 +2,5 @@ package com.projetenchere.common.View;
 
 public class UserCommandLineInterface {
 
-    //TODO :
+    //TODO : Prochaine sprint : réunir ce qui est commun aux trois app
 }
