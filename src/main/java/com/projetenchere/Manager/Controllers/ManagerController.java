@@ -55,32 +55,6 @@ public class ManagerController extends Controller {
         startBid(idBid);
     }
 
-    public Winner processPrices(EncryptedPrices encryptedPrices, PrivateKey privateKey) throws Exception {
-        double price1 = 0;
-        byte[] encrypted1 = null;
-        double decrypted;
-        for (byte[] encrypted : encryptedPrices.getPrices()) {
-            decrypted = EncryptionUtil.decryptPrice(encrypted,privateKey);
-            if (decrypted > price1){
-                price1 = decrypted;
-                encrypted1 = encrypted;
-            }
-        }
-        double price2 = -1;
-        for (byte[] encrypted : encryptedPrices.getPrices()) {
-            decrypted = EncryptionUtil.decryptPrice(encrypted,privateKey);
-            if (decrypted > price2 && decrypted != price1){
-                price2 = decrypted;
-            }
-        }
-        if (price2 == -1){
-            price2 = price1;
-        }
-        Winner winner = new Winner(encryptedPrices.getBidId(), encrypted1,price2);
-        ui.displayWinnerPrice(winner);
-        return winner;
-    }
-
     public void displayHello(){
         ui.displayHello();
     }
