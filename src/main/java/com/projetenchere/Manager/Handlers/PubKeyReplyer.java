@@ -2,19 +2,20 @@ package com.projetenchere.Manager.Handlers;
 
 import com.projetenchere.Manager.Model.ManagerInfos;
 import com.projetenchere.common.network.DataWrapper;
-import com.projetenchere.common.network.Handlers.data.DataHandlerWithReply;
-import com.projetenchere.common.network.Handlers.data.IDataHandler;
+import com.projetenchere.common.network.IDataHandler;
 import com.projetenchere.common.network.Headers;
 
+import java.io.Serializable;
 import java.security.PublicKey;
 
-public class PubKeyReplyer extends DataHandlerWithReply {
+public class PubKeyReplyer implements IDataHandler {
+
     @Override
-    public DataWrapper<PublicKey> handle() {
-        DataWrapper<PublicKey> data = new DataWrapper<>(
+    public  DataWrapper<PublicKey> handle(Serializable ignored) {
+        DataWrapper<PublicKey> received = new DataWrapper<>(
                 ManagerInfos.getInstance().getPublicKey(),
-                Headers.OK_PUB_KEY,
-                null);
-        return data;
+                Headers.OK_PUB_KEY
+        );
+        return received;
     }
 }

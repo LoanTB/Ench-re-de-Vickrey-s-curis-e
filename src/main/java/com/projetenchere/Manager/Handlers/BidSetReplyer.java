@@ -3,20 +3,18 @@ package com.projetenchere.Manager.Handlers;
 import com.projetenchere.Manager.Model.ManagerInfos;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.network.DataWrapper;
-import com.projetenchere.common.network.Handlers.data.DataHandlerWithReply;
-import com.projetenchere.common.network.Handlers.data.IDataHandler;
+import com.projetenchere.common.network.IDataHandler;
 import com.projetenchere.common.network.Headers;
 
-import java.security.PublicKey;
+import java.io.Serializable;
 
-public class BidSetReplyer extends DataHandlerWithReply {
+public class BidSetReplyer implements IDataHandler {
     @Override
-    public DataWrapper<CurrentBids> handle() {
-        DataWrapper<CurrentBids> data = new DataWrapper<>(
+    public DataWrapper<CurrentBids> handle(Serializable ignored) {
+        return new DataWrapper<>(
                 ManagerInfos.getInstance().getBids(),
-                Headers.OK_PUB_KEY,
-                null);
-        return data;
+                Headers.OK_PUB_KEY
+        );
     }
 }
 
