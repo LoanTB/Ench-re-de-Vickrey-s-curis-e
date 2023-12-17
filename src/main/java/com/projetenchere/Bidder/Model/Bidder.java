@@ -1,36 +1,25 @@
 package com.projetenchere.Bidder.Model;
 
-import com.projetenchere.common.Models.Identity;
-import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
-import com.projetenchere.common.network.Party;
-import com.projetenchere.common.Utils.NetworkUtil;
+import java.security.PublicKey;
+import java.security.Signature;
 
-import java.net.InetSocketAddress;
+public class Bidder {
+    public Signature signature;
+    public PublicKey key;
 
-public class Bidder extends Party {
-    private Identity identity;
-    private PublicSecurityInformations informations;
-
-    public Bidder() {
-        super(NetworkUtil.getMyIP());
+    public Signature getSignature() {
+        return signature;
     }
 
-    public Bidder(InetSocketAddress address) {
-        super(address);
+    public void setSignature(Signature signature) {
+        this.signature = signature;
     }
 
-    public Identity getIdentity() {
-        return identity;
+    public PublicKey getKey() {
+        return key;
     }
 
-    public void setIdentity(Identity identity) {
-        this.identity = identity;
-    }
-    public PublicSecurityInformations getInformations() {
-        return informations;
-    }
-
-    public void setInformations(PublicSecurityInformations informations) {
-        this.informations = informations;
+    public void setKey(PublicKey key) {
+        this.key = key;
     }
 }
