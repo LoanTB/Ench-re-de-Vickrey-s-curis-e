@@ -2,11 +2,17 @@ package com.projetenchere.Seller.View;
 
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.View.I_UserInterface;
 
 import java.time.LocalDateTime;
 
-public interface ISellerUserInterface {
+public interface ISellerUserInterface extends I_UserInterface {
     void displayHello();
+
+    void tellSignatureConfigSetup(); //TODO : Prochain sprint : Voir pour la dupp de code pour les tellSignatureConfig et autres de chaques utilisateurs
+    void tellSignatureConfigGeneration();
+    void tellSignatureConfigReady();
+
     void displayWinner(String winnerID, Double price);
     void displayOfferReceived(EncryptedOffer encryptedOffer);
     void displayEncryptedPriceSent();
