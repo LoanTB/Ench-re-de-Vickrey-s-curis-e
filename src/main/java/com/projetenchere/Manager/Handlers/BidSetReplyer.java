@@ -1,6 +1,6 @@
 package com.projetenchere.Manager.Handlers;
 
-import com.projetenchere.Manager.Model.ManagerInfos;
+import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.IDataHandler;
@@ -12,7 +12,7 @@ public class BidSetReplyer implements IDataHandler {
     @Override
     public DataWrapper<CurrentBids> handle(Serializable ignored) {
         return new DataWrapper<>(
-                ManagerInfos.getInstance().getBids(),
+                Manager.getInstance().getBids(),
                 Headers.OK_PUB_KEY
         );
     }
