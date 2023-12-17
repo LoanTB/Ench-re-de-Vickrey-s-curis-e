@@ -3,7 +3,6 @@ package com.projetenchere.common.network;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
-import java.security.Signature;
 
 public class DataWrapper<T extends Serializable> implements Serializable {
     @Nullable

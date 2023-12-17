@@ -3,9 +3,6 @@ import java.io.*;
 import java.security.*;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.io.IOException;
-import java.security.KeyStore;
-import java.io.FileInputStream;
 
 public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     private static final String KEYSTORE_ALIAS = "SecureWin";

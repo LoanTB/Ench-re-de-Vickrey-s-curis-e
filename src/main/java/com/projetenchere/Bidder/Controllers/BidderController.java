@@ -10,21 +10,12 @@ import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Offer;
-import com.projetenchere.common.Utils.I_KeyFileUtil;
-import com.projetenchere.common.Utils.KeyFileUtilWithJKS;
-import com.projetenchere.common.Utils.SignatureUtil;
-import com.projetenchere.common.Utils.stub.KeyFileUtilWithTXT;
 
-import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.Signature;
-import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static java.lang.Thread.sleep;
 
 public class BidderController extends Controller {
     private final IBidderUserInterface ui = new BidderCommandLineInterface();

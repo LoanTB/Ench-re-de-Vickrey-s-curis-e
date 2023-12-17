@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.Socket;
 import java.security.PublicKey;
-import java.security.Signature;
 
 public class Client {
 

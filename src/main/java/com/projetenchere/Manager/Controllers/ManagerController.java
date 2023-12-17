@@ -9,15 +9,12 @@ import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
-import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.CurrentBids;
-import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
 
 import java.security.KeyPair;
-import java.security.PrivateKey;
 
 public class ManagerController extends Controller {
     public final IManagerUserInterface ui = new ManagerCommandLineInterface();
