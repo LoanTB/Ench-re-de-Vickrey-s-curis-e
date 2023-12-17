@@ -2,6 +2,7 @@ package com.projetenchere.Manager.Controllers;
 
 import com.projetenchere.Manager.Handlers.BidSetReplyer;
 import com.projetenchere.Manager.Handlers.PubKeyReplyer;
+import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
 import com.projetenchere.common.Models.Bid;
@@ -13,6 +14,7 @@ import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
 
+import java.security.KeyPair;
 import java.security.PrivateKey;
 
 public class ManagerController extends Controller {
@@ -40,6 +42,10 @@ public class ManagerController extends Controller {
 
     public void init() {
         Server managerServer = new Server();
+        Manager manager = Manager.getInstance();
+        KeyPair keys = EncryptionUtil.generateKeyPair();
+        manager.setPrivateKey(keys.getPrivate());
+        manager.setPublicKey(keys.getPublic());
         managerServer.addHandler(Headers.GET_PUB_KEY, new PubKeyReplyer());
         managerServer.addHandler(Headers.GET_CURRENT_BIDS, new BidSetReplyer());
         managerServer.start();
