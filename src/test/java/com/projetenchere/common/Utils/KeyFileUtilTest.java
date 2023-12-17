@@ -8,14 +8,14 @@ import java.security.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class KeyFileUtilTest {
-/*
+
     @Test
     public void testSaveAndGetKeyPairWithJKS() {
         try {
             // Générer une nouvelle paire de clés
-            I_KeyFileUtil keyFile = new KeyFileUtilWithJKS();
+            KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS();
 
-            KeyPair a = EncryptionUtil .generateKeyPair();
+            KeyPair a = EncryptionUtil.generateKeyPair();
 
             // Enregistrer la paire de clés dans un fichier .jks
             keyFile.saveKeyPair(a);
@@ -35,9 +35,8 @@ public class KeyFileUtilTest {
             fail("Exception: " + e.getMessage());
         }
     }
-*/
 
-
+/*
     @Test
     public  void testSaveAndGetPublicKeyWithTXT() throws Exception {
         KeyFileUtilWithTXT keyFile = new KeyFileUtilWithTXT();
@@ -72,5 +71,5 @@ public class KeyFileUtilTest {
         PrivateKey privKey = keyFile.getPrivateKeyFromFile();
 
         assertEquals(keypairs.getPrivate(), privKey);
-    }
+    }*/
 }
