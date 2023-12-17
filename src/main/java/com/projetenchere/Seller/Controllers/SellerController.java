@@ -12,10 +12,12 @@ import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.NetworkUtil;
+import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
 
 import java.net.InetSocketAddress;
+import java.security.SignatureException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -95,8 +97,19 @@ public class SellerController extends Controller {
         return new EncryptedOffersSet(myBid.getId(), seller.getEncryptedOffers());
     }
 
-    public void sendEncryptedOffersSet() {
-        client.sendEncryptedOffersSet(getEncryptedOffersSet());
+    public void signEncryptedOffers() throws Exception {
+        EncryptedOffersSet set = getEncryptedOffersSet();
+        Set<EncryptedOffer> offers = set.getOffers();
+        Set<EncryptedOffer> offersSigned = new HashSet<>();
+        for (EncryptedOffer o : offers){
+            offersSigned.add(new EncryptedOffer(seller.getSignature(),o.getPrice(),seller.getKey(),o.getBidId()));
+        }
+        seller.setEncryptedOffersSignedBySeller(new EncryptedOffersSet(set.getBidId() ,offersSigned));
+    }
+
+    public void sendEncryptedOffersSet() throws Exception {
+        signEncryptedOffers();
+        client.sendEncryptedOffersSet(seller.getEncryptedOffersSignedBySeller());
         ui.displayEncryptedOffersSetent();
     }
 

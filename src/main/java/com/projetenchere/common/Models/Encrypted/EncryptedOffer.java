@@ -21,6 +21,13 @@ public class EncryptedOffer implements Serializable {
         this.bidId = bidId;
     }
 
+    public EncryptedOffer(Signature signature, byte[] price,PublicKey SignaturePubKey, String bidId) throws Exception {
+        this.price = price;
+        this.priceSigned = SignatureUtil.signData(price,signature);
+        this.SignaturePubKey = SignaturePubKey;
+        this.bidId = bidId;
+    }
+
     public byte[] getPriceSigned() {
         return this.priceSigned;
     }
