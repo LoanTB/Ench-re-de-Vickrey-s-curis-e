@@ -1,6 +1,6 @@
 package com.projetenchere.Seller.network.Handlers;
 
-import com.projetenchere.Seller.Model.SellerInfos;
+import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.network.DataWrapper;
@@ -13,15 +13,15 @@ public class EncryptedOfferReplyer implements IDataHandler {
 
     @Override
     public DataWrapper<WinStatus> handle(Serializable data) {
-        SellerInfos sellerInfos = SellerInfos.getInstance();
-        if (!sellerInfos.resultsAreIn()) {
+        Seller seller = Seller.getInstance();
+        if (!seller.resultsAreIn()) {
             try {
                 EncryptedOffer offer = (EncryptedOffer) data;
-                sellerInfos.addBidder(offer.getSignature(), offer.getPrice());
-                while (!sellerInfos.resultsAreIn()) {
+                seller.addBidder(offer.getSignature(), offer.getPrice());
+                while (!seller.resultsAreIn()) {
                     wait(1000);
                 }
-                WinStatus status = sellerInfos.getSignatureWinStatus(offer.getSignature());
+                WinStatus status = seller.getSignatureWinStatus(offer.getSignature());
                 return new DataWrapper<>(status, Headers.OK_WIN_STATUS);
             } catch (ClassCastException e) {
                 throw new RuntimeException("Received unreadable data");

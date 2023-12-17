@@ -1,47 +1,54 @@
 package com.projetenchere.Seller.Model;
 
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Identity;
+import com.projetenchere.common.Models.WinStatus;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.security.Signature;
+import java.util.*;
 
 public class Seller {
-    private final List<String> biddersIds = new ArrayList<>();
-    private final List<String> biddersIps = new ArrayList<>();
-    private final List<Integer> biddersPorts = new ArrayList<>();
-    private final List<EncryptedOffer> encryptedOffers = new ArrayList<>();
-    private Identity identity;
+    private static Seller INSTANCE;
+    private final Map<Signature, byte[]> bidders = new HashMap<>();
+    private final Map<Signature, WinStatus> winStatusMap = new HashMap<>();
+    private final Set<EncryptedOffer> encryptedOffers = new HashSet<>();
+    private boolean resultsAreIn = false;
 
-    public void addBidderId(String id){
-        biddersIds.add(id);
-    }
-    public void addBidderIp(String ip){
-        biddersIps.add(ip);
-    }
-    public void addBidderPort(int port){
-        biddersPorts.add(port);
-    }
-    public void addEncryptedOffer(EncryptedOffer encryptedOffer){
-        encryptedOffers.add(encryptedOffer);
+    public synchronized boolean resultsAreIn() {
+        return resultsAreIn;
     }
 
-    public List<EncryptedOffer> getEncryptedOffers() {
-        return encryptedOffers;
+    public synchronized void setResultsAreIn(boolean resultsAreIn) {
+        this.resultsAreIn = resultsAreIn;
     }
-    public List<String> getBiddersIds() {
-        return biddersIds;
+
+    public synchronized static Seller getInstance() {
+        if (INSTANCE == null) INSTANCE = new Seller();
+        return INSTANCE;
     }
-    public List<String> getBiddersIps() {
-        return biddersIps;
+
+    public synchronized void addBidder(Signature signature, byte[] price) {
+        this.bidders.put(signature, price);
     }
-    public List<Integer> getBiddersPorts() {
-        return biddersPorts;
+
+    public synchronized WinStatus getSignatureWinStatus(Signature signature) {
+        return winStatusMap.get(signature);
     }
-    public Identity getIdentity() {
-        return identity;
+
+    public synchronized Map<Signature, byte[]> getBidders() {
+        return this.bidders;
     }
-    public void setIdentity(Identity identity) {
-        this.identity = identity;
+
+    public Map<Signature, WinStatus> getWinStatusMap() {
+        return winStatusMap;
+    }
+
+    public synchronized void finish() {
+        this.resultsAreIn = true;
+    }
+
+    private Seller(){}
+
+    public Set<EncryptedOffer> getEncryptedOffers() {
+        return this.encryptedOffers;
     }
 }

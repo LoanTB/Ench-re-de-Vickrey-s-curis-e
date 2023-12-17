@@ -19,13 +19,11 @@ import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static java.lang.Thread.sleep;
-
 public class SellerController extends Controller {
     private final ISellerUserInterface ui = new SellerCommandLineInterface();
     private final SellerClient client = new SellerClient();
     private final Server server = new Server();
-    private final Seller seller = new Seller();
+    private final Seller seller = Seller.getInstance();
     private Bid myBid;
     private Winner winner = null;
 
@@ -77,7 +75,6 @@ public class SellerController extends Controller {
         }
     }
 
-
     public void displayHello(){ui.displayHello();}
 
 
@@ -86,8 +83,8 @@ public class SellerController extends Controller {
     }
 
     public void displayWinner(){
-        List<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
-        List<WinStatus> biddersWinStatus = getBiddersWinStatus();
+        Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
+        Set<WinStatus> biddersWinStatus = getBiddersWinStatus();
     }
 
     public EncryptedPrices getEncryptedPrices(List<EncryptedOffer> encryptedOffers){
@@ -103,11 +100,10 @@ public class SellerController extends Controller {
 
     }
 
-
-    public List<WinStatus> getBiddersWinStatus(){
-        List<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
+    public Set<WinStatus> getBiddersWinStatus(){
+        Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
         boolean haveAWinner = false;
-        List<WinStatus> winStatus = new ArrayList<>();
+        Set<WinStatus> winStatus = new HashSet<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {
             if (Arrays.equals(encryptedOffer.getPrice(), winner.getEncryptedId()) && !haveAWinner) {
                 winStatus.add(new WinStatus(winner.getBidId(),true,winner.getPrice()));
@@ -118,7 +114,4 @@ public class SellerController extends Controller {
         }
         return winStatus;
     }
-
-
-
 }
