@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.Socket;
+import java.security.PublicKey;
 import java.security.Signature;
 
 public class Client {
@@ -19,7 +20,7 @@ public class Client {
             Headers headerToSend,
             Headers headerToReceive,
             @Nullable
-            Signature signature) {
+            PublicKey signature) {
         checkConnection(socket);
         DataWrapper<?> request = new DataWrapper<>(headerToSend);
         DataWrapper<T> wrapped;
