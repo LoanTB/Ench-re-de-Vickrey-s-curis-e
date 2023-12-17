@@ -29,12 +29,12 @@ public class Seller extends User{
         return INSTANCE;
     }
 
-    public synchronized void addBidder(PublicKey signature, byte[] price) {
-        this.bidders.put(signature, price);
+    public synchronized void addBidder(PublicKey key, byte[] price) {
+        this.bidders.put(key, price);
     }
 
-    public synchronized WinStatus getSignatureWinStatus(PublicKey signature) {
-        return winStatusMap.get(signature);
+    public synchronized WinStatus getSignatureWinStatus(PublicKey key) {
+        return winStatusMap.get(key);
     }
 
     public synchronized Map<PublicKey, byte[]> getBidders() {

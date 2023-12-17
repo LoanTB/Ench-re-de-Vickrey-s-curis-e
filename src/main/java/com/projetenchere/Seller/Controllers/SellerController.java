@@ -11,17 +11,11 @@ import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Winner;
-import com.projetenchere.common.Utils.I_KeyFileUtil;
-import com.projetenchere.common.Utils.KeyFileUtilWithJKS;
 import com.projetenchere.common.Utils.NetworkUtil;
-import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
 
 import java.net.InetSocketAddress;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Signature;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -48,7 +42,7 @@ public class SellerController extends Controller {
     }
 
     public void setSignatureConfig() throws Exception {
-        setSignatureConfig(ui,seller);
+        setSignatureConfig(ui, seller);
     }
 
     public void createMyBid(){
@@ -75,13 +69,14 @@ public class SellerController extends Controller {
 
     }
 
-    public void receiveOffersUntilBidEnd() {
+    public void receiveOffersUntilBidEndAndSendResults() {
         ui.waitOffers();
         server.addHandler(Headers.GET_WIN_STATUS, new EncryptedOfferReplyer());
         server.start();
         while (auctionInProgress()) {
             waitSynchro(1000);
         }
+        server.removeHandler(Headers.GET_WIN_STATUS);
     }
 
     public void displayHello(){ui.displayHello();}
@@ -96,17 +91,13 @@ public class SellerController extends Controller {
         Set<WinStatus> biddersWinStatus = getBiddersWinStatus();
     }
 
-    public EncryptedPrices getEncryptedPrices(List<EncryptedOffer> encryptedOffers){
-        Set<byte[]> encryptedPrices = new HashSet<>();
-        for (EncryptedOffer encryptedOffer: encryptedOffers){
-            encryptedPrices.add(encryptedOffer.getPrice());
-        }
-        return new EncryptedPrices(myBid.getId(),encryptedPrices);
+    public EncryptedPrices getEncryptedPrices(Collection<byte[]> prices){
+        return new EncryptedPrices(myBid.getId(),new HashSet<>(prices));
     }
 
     public void sendEncryptedPrices() {
+        client.sendEncryptedPrices(getEncryptedPrices(Seller.getInstance().getBidders().values()));
         ui.displayEncryptedPriceSent();
-
     }
 
     public Set<WinStatus> getBiddersWinStatus(){
@@ -114,11 +105,11 @@ public class SellerController extends Controller {
         boolean haveAWinner = false;
         Set<WinStatus> winStatus = new HashSet<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {
-            if (Arrays.equals(encryptedOffer.getPrice(), winner.getEncryptedId()) && !haveAWinner) {
-                winStatus.add(new WinStatus(winner.getBidId(),true,winner.getPrice()));
+            if (Arrays.equals(encryptedOffer.getPrice(), winner.encryptedPrice()) && !haveAWinner) {
+                winStatus.add(new WinStatus(winner.bidId(),true,winner.price()));
                 haveAWinner = true;
             } else {
-                winStatus.add(new WinStatus(winner.getBidId(),false,-1));
+                winStatus.add(new WinStatus(winner.bidId(),false,-1));
             }
         }
         return winStatus;

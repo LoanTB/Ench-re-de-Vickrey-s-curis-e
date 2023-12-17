@@ -13,7 +13,7 @@ public class BidSetReplyer implements IDataHandler {
     public DataWrapper<CurrentBids> handle(Serializable ignored) {
         return new DataWrapper<>(
                 Manager.getInstance().getBids(),
-                Headers.OK_PUB_KEY
+                Headers.OK_CURRENT_BIDS
         );
     }
 }

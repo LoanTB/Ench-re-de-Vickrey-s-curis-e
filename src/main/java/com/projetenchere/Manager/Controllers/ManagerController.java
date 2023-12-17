@@ -1,6 +1,8 @@
 package com.projetenchere.Manager.Controllers;
 
 import com.projetenchere.Manager.Handlers.BidSetReplyer;
+import com.projetenchere.Manager.Handlers.EncryptedPricesReplyer;
+import com.projetenchere.Manager.Handlers.NewBidReplyer;
 import com.projetenchere.Manager.Handlers.PubKeyReplyer;
 import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.IManagerUserInterface;
@@ -54,6 +56,8 @@ public class ManagerController extends Controller {
         manager.setPublicKey(keys.getPublic());
         managerServer.addHandler(Headers.GET_PUB_KEY, new PubKeyReplyer());
         managerServer.addHandler(Headers.GET_CURRENT_BIDS, new BidSetReplyer());
+        managerServer.addHandler(Headers.NEW_BID, new NewBidReplyer());
+        managerServer.addHandler(Headers.RESOLVE_BID, new EncryptedPricesReplyer());
         managerServer.start();
         ui.tellManagerReadyToProcessBids();
     }

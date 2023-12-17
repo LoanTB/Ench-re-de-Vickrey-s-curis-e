@@ -37,9 +37,7 @@ public class Client {
             Socket socket,
             Headers headerToSend,
             Headers headerToReceive,
-            T2 data,
-            @Nullable
-            Signature signature
+            T2 data
     ) {
         checkConnection(socket);
         DataWrapper<T1> wrappedToReceive;

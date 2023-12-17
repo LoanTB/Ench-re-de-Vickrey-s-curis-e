@@ -9,7 +9,7 @@ public class SellerApp {
         controller.setSignatureConfig();
         controller.createMyBid();
         controller.sendMyBid();
-        controller.receiveOffersUntilBidEnd();
+        controller.receiveOffersUntilBidEndAndSendResults();
         controller.sendEncryptedPrices();
         controller.displayWinner();
     }
