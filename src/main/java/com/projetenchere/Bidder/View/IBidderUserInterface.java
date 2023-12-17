@@ -4,7 +4,6 @@ import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
 import com.projetenchere.common.View.I_UserInterface;
-import com.projetenchere.common.View.UserCommandLineInterface;
 
 public interface IBidderUserInterface extends I_UserInterface {
     void displayBid(CurrentBids currentBids);

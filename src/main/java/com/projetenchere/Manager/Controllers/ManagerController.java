@@ -1,7 +1,7 @@
 package com.projetenchere.Manager.Controllers;
 
 import com.projetenchere.Manager.Handlers.BidSetReplyer;
-import com.projetenchere.Manager.Handlers.EncryptedPricesReplyer;
+import com.projetenchere.Manager.Handlers.EncryptedOffersSetReplyer;
 import com.projetenchere.Manager.Handlers.NewBidReplyer;
 import com.projetenchere.Manager.Handlers.PubKeyReplyer;
 import com.projetenchere.Manager.Model.Manager;
@@ -9,15 +9,12 @@ import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
-import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
 import com.projetenchere.common.Models.CurrentBids;
-import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
 
 import java.security.KeyPair;
-import java.security.PrivateKey;
 
 public class ManagerController extends Controller {
     public final IManagerUserInterface ui = new ManagerCommandLineInterface();
@@ -57,7 +54,7 @@ public class ManagerController extends Controller {
         managerServer.addHandler(Headers.GET_PUB_KEY, new PubKeyReplyer());
         managerServer.addHandler(Headers.GET_CURRENT_BIDS, new BidSetReplyer());
         managerServer.addHandler(Headers.NEW_BID, new NewBidReplyer());
-        managerServer.addHandler(Headers.RESOLVE_BID, new EncryptedPricesReplyer());
+        managerServer.addHandler(Headers.RESOLVE_BID, new EncryptedOffersSetReplyer());
         managerServer.start();
         ui.tellManagerReadyToProcessBids();
     }
@@ -74,4 +71,6 @@ public class ManagerController extends Controller {
     public void displayHello(){
         ui.displayHello();
     }
+
+
 }

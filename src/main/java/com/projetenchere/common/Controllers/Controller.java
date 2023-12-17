@@ -5,7 +5,6 @@ import com.projetenchere.common.Utils.I_KeyFileUtil;
 import com.projetenchere.common.Utils.KeyFileUtilWithJKS;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.View.I_UserInterface;
-import com.projetenchere.common.View.UserCommandLineInterface;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;

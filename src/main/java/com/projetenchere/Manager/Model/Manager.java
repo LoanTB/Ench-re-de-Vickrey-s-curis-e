@@ -2,11 +2,9 @@ package com.projetenchere.Manager.Model;
 
 import com.projetenchere.common.Models.User;
 
-import java.net.InetSocketAddress;
-import java.security.KeyPair;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
-import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
 
@@ -49,11 +47,11 @@ public class Manager extends User{
         return bids;
     }
 
-    public Winner processPrices(EncryptedPrices encryptedPrices, PrivateKey privateKey) throws Exception {
+    public Winner processPrices(EncryptedOffersSet encryptedOffersSet, PrivateKey privateKey) throws Exception {
         double price1 = 0;
         byte[] encrypted1 = null;
         double decrypted;
-        for (byte[] encrypted : encryptedPrices.getPrices()) {
+        for (byte[] encrypted : encryptedOffersSet.getPrices()) {
             decrypted = EncryptionUtil.decryptPrice(encrypted,privateKey);
             if (decrypted > price1){
                 price1 = decrypted;
@@ -61,7 +59,7 @@ public class Manager extends User{
             }
         }
         double price2 = -1;
-        for (byte[] encrypted : encryptedPrices.getPrices()) {
+        for (byte[] encrypted : encryptedOffersSet.getPrices()) {
             decrypted = EncryptionUtil.decryptPrice(encrypted,privateKey);
             if (decrypted > price2 && decrypted != price1){
                 price2 = decrypted;
@@ -70,7 +68,7 @@ public class Manager extends User{
         if (price2 == -1){
             price2 = price1;
         }
-        Winner winner = new Winner(encryptedPrices.getBidId(), encrypted1,price2);
+        Winner winner = new Winner(encryptedOffersSet.getBidId(), encrypted1,price2);
         return winner;
     }
 

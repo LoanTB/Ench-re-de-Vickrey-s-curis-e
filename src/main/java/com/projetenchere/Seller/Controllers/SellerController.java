@@ -8,14 +8,16 @@ import com.projetenchere.Seller.network.SellerClient;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.NetworkUtil;
+import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
 
 import java.net.InetSocketAddress;
+import java.security.SignatureException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -50,7 +52,7 @@ public class SellerController extends Controller {
         String name = ui.askBidName();
         String description = ui.askBidDescription();
         LocalDateTime end = ui.askBidEndTime();
-        myBid = new Bid(id, name, description, end, new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT));
+        myBid = new Bid(id, name, description, end, new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT), seller.getKey());
         ui.displayBidCreated(myBid);
     }
 
@@ -82,8 +84,8 @@ public class SellerController extends Controller {
     public void displayHello(){ui.displayHello();}
 
 
-    public void displayOfferReceived(EncryptedOffer encryptedOffer){
-        ui.displayOfferReceived(encryptedOffer);
+    public void displayOfferReceived(){
+        ui.displayOfferReceived();
     }
 
     public void displayWinner(){
@@ -91,13 +93,24 @@ public class SellerController extends Controller {
         Set<WinStatus> biddersWinStatus = getBiddersWinStatus();
     }
 
-    public EncryptedPrices getEncryptedPrices(Collection<byte[]> prices){
-        return new EncryptedPrices(myBid.getId(),new HashSet<>(prices));
+    public EncryptedOffersSet getEncryptedOffersSet(){
+        return new EncryptedOffersSet(myBid.getId(), seller.getEncryptedOffers());
     }
 
-    public void sendEncryptedPrices() {
-        client.sendEncryptedPrices(getEncryptedPrices(Seller.getInstance().getBidders().values()));
-        ui.displayEncryptedPriceSent();
+    public void signEncryptedOffers() throws Exception {
+        EncryptedOffersSet set = getEncryptedOffersSet();
+        Set<EncryptedOffer> offers = set.getOffers();
+        Set<EncryptedOffer> offersSigned = new HashSet<>();
+        for (EncryptedOffer o : offers){
+            offersSigned.add(new EncryptedOffer(seller.getSignature(),o.getPrice(),seller.getKey(),o.getBidId()));
+        }
+        seller.setEncryptedOffersSignedBySeller(new EncryptedOffersSet(set.getBidId() ,offersSigned));
+    }
+
+    public void sendEncryptedOffersSet() throws Exception {
+        signEncryptedOffers();
+        client.sendEncryptedOffersSet(seller.getEncryptedOffersSignedBySeller());
+        ui.displayEncryptedOffersSetent();
     }
 
     public Set<WinStatus> getBiddersWinStatus(){

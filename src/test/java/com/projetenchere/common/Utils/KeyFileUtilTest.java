@@ -1,6 +1,5 @@
 package com.projetenchere.common.Utils;
 
-import com.projetenchere.common.Utils.stub.KeyFileUtilWithTXT;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileInputStream;

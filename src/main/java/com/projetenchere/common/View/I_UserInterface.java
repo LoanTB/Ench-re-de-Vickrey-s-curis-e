@@ -6,5 +6,5 @@ public interface I_UserInterface {
     void tellSignatureConfigGeneration();
 
     void tellSignatureConfigReady();
-    //TODO :
+    //TODO : Prochain sprint : Réunir ce qui est commun aux 3 app
 }

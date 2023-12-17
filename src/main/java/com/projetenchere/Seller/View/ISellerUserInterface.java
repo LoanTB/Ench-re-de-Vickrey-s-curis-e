@@ -1,7 +1,6 @@
 package com.projetenchere.Seller.View;
 
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.View.I_UserInterface;
 
 import java.time.LocalDateTime;
@@ -14,8 +13,8 @@ public interface ISellerUserInterface extends I_UserInterface {
     void tellSignatureConfigReady();
 
     void displayWinner(String winnerID, Double price);
-    void displayOfferReceived(EncryptedOffer encryptedOffer);
-    void displayEncryptedPriceSent();
+    void displayOfferReceived();
+    void displayEncryptedOffersSetent();
     void displayResultsSent();
     void displayBidReceived(String bid);
     void waitOffers();

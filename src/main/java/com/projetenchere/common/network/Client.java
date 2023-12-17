@@ -8,7 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
-import java.security.Signature;
+import java.security.PublicKey;
 
 public class Client {
 
@@ -19,8 +19,9 @@ public class Client {
     protected <T extends Serializable> T fetch(
             ClientSocketWrapper socket,
             Headers headerToSend,
-            Headers headerToReceive
-            ) {
+            Headers headerToReceive,
+            @Nullable
+            PublicKey signature) {
         checkConnection(socket);
         DataWrapper<?> request = new DataWrapper<>(headerToSend);
         DataWrapper<T> wrapped;

@@ -8,6 +8,8 @@ import com.projetenchere.common.network.Headers;
 import java.io.Serializable;
 import java.security.PublicKey;
 
+//Enchérisseurs obtiennent la clé publique du Manager
+
 public class PubKeyReplyer implements IDataHandler {
 
     @Override

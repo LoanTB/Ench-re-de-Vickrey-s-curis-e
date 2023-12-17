@@ -1,8 +1,5 @@
 package com.projetenchere.Manager;
 
-import com.projetenchere.Manager.Controllers.ManagerController;
-import com.projetenchere.common.Utils.EncryptionUtil;
-
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
