@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.Serializable;
 import java.security.Signature;
 
-public class DataWrapper<T extends Serializable> {
+public class DataWrapper<T extends Serializable> implements Serializable {
     @Nullable
     private final T object;
 
