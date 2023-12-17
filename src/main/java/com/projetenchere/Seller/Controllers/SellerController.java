@@ -96,6 +96,7 @@ public class SellerController extends Controller {
     }
 
     public void sendEncryptedPrices() {
+        client.sendEncryptedPrices(getEncryptedPrices(Seller.getInstance().getBidders().values()));
         ui.displayEncryptedPriceSent();
     }
 
