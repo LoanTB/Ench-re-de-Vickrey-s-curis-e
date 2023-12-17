@@ -82,8 +82,8 @@ public class SellerController extends Controller {
     public void displayHello(){ui.displayHello();}
 
 
-    public void displayOfferReceived(EncryptedOffer encryptedOffer){
-        ui.displayOfferReceived(encryptedOffer);
+    public void displayOfferReceived(){
+        ui.displayOfferReceived();
     }
 
     public void displayWinner(){
