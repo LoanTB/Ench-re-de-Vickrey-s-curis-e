@@ -5,6 +5,7 @@ import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
 import com.projetenchere.Bidder.network.BidderClient;
 import com.projetenchere.common.Controllers.Controller;
+import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Network.Communication.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Network.Communication.WinStatus;
@@ -13,7 +14,9 @@ import com.projetenchere.common.Models.Offer;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.Thread.sleep;
 
@@ -22,7 +25,7 @@ public class BidderController extends Controller {
     BidderClient client = new BidderClient();
     private CurrentBids currentBids;
     private final List<String> participatedBid = new ArrayList<>();
-    private final List<WinStatus> results = new ArrayList<>();
+    private final Map<String, WinStatus> results = new HashMap<>();
     private final Bidder bidder = new Bidder();
     private PublicKey managerPubKey;
 
@@ -51,16 +54,13 @@ public class BidderController extends Controller {
 
     public void readAndSendOffer() throws Exception {
         Offer offer = ui.readOffer(bidder, currentBids);
+        Bid bid = currentBids.getBid(offer.getIdBid());
+        if (bid == null) throw new RuntimeException("");
         EncryptedOffer encryptedOffer = new EncryptedOffer(bidder.getSignature(), offer, managerPubKey, bidder.getKey());
         participatedBid.add(offer.getIdBid());
-        // TODO: connect to seller
-        // client.connectToSeller();
+        client.connectToSeller(bid.getSellerSocketAddress());
         ui.tellOfferSent();
-
-    }
-
-    public void addResult(WinStatus result){
-        results.add(result);
+        this.results.put(bid.getId(), client.sendOfferAndWaitForResult(encryptedOffer));
     }
 
     public List<String> getParticipatedBid(){
