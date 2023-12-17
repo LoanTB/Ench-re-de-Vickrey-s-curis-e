@@ -8,7 +8,7 @@ public class SellerApp {
         controller.displayHello();
         controller.createMyBid();
         controller.sendMyBid();
-        controller.receiveOffersUntilBidEnd();
+        controller.receiveOffersUntilBidEndAndSendResults();
         controller.sendEncryptedPrices();
         controller.displayWinner();
     }
