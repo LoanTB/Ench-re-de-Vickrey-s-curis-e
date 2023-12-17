@@ -22,7 +22,7 @@ import java.util.*;
 public class SellerController extends Controller {
     private final ISellerUserInterface ui = new SellerCommandLineInterface();
     private final SellerClient client = new SellerClient();
-    private final Server server = new Server();
+    private final Server server = new Server(24682);
     private final Seller seller = Seller.getInstance();
     private Bid myBid;
     private Winner winner = null;

@@ -49,7 +49,7 @@ public class ManagerController extends Controller {
     }
 
     public void init() {
-        Server managerServer = new Server();
+        Server managerServer = new Server(24683);
         Manager manager = Manager.getInstance();
         KeyPair keys = EncryptionUtil.generateKeyPair();
         manager.setPrivateKey(keys.getPrivate());
