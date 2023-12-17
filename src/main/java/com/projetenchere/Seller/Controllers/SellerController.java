@@ -108,11 +108,11 @@ public class SellerController extends Controller {
         boolean haveAWinner = false;
         Set<WinStatus> winStatus = new HashSet<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {
-            if (Arrays.equals(encryptedOffer.getPrice(), winner.getEncryptedPrice()) && !haveAWinner) {
-                winStatus.add(new WinStatus(winner.getBidId(),true,winner.getPrice()));
+            if (Arrays.equals(encryptedOffer.getPrice(), winner.encryptedPrice()) && !haveAWinner) {
+                winStatus.add(new WinStatus(winner.bidId(),true,winner.price()));
                 haveAWinner = true;
             } else {
-                winStatus.add(new WinStatus(winner.getBidId(),false,-1));
+                winStatus.add(new WinStatus(winner.bidId(),false,-1));
             }
         }
         return winStatus;
