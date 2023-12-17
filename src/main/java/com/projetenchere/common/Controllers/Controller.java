@@ -10,6 +10,7 @@ import com.projetenchere.common.View.UserCommandLineInterface;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
+import java.security.SignatureException;
 
 public abstract class Controller {
 
