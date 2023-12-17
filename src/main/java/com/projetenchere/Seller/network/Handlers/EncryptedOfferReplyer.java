@@ -9,25 +9,30 @@ import com.projetenchere.common.network.Headers;
 
 import java.io.Serializable;
 
+import static java.lang.Thread.sleep;
+
 public class EncryptedOfferReplyer implements IDataHandler {
 
     @Override
     public DataWrapper<WinStatus> handle(Serializable data) {
         Seller seller = Seller.getInstance();
-        if (!seller.resultsAreIn()) {
-            try {
-                EncryptedOffer offer = (EncryptedOffer) data;
-                seller.addBidder(offer.getPublicKey(), offer.getPrice());
-                while (!seller.resultsAreIn()) {
-                    wait(1000);
+        synchronized (this) {
+            if (!seller.resultsAreIn()) {
+                try {
+                    EncryptedOffer offer = (EncryptedOffer) data;
+                    seller.addBidder(offer.getPublicKey(), offer.getPrice());
+
+                    while (!seller.resultsAreIn()) {
+                        wait(1000);
+                    }
+                    WinStatus status = seller.getSignatureWinStatus(offer.getPublicKey());
+                    return new DataWrapper<>(status, Headers.OK_WIN_STATUS);
+                } catch (ClassCastException e) {
+                    throw new RuntimeException("Received unreadable data");
+                } catch (InterruptedException e) {
+                    throw new RuntimeException("Timeout");
                 }
-                WinStatus status = seller.getSignatureWinStatus(offer.getPublicKey());
-                return new DataWrapper<>(status, Headers.OK_WIN_STATUS);
-            } catch (ClassCastException e) {
-                throw new RuntimeException("Received unreadable data");
-            } catch (InterruptedException e) {
-                throw new RuntimeException("Timeout");
-            }
-        } else return new DataWrapper<>(null, Headers.ERROR);
+            } else return new DataWrapper<>(null, Headers.ERROR);
+        }
     }
 }
