@@ -19,9 +19,8 @@ public class Client {
     protected <T extends Serializable> T fetch(
             ClientSocketWrapper socket,
             Headers headerToSend,
-            Headers headerToReceive,
-            @Nullable
-            PublicKey signature) {
+            Headers headerToReceive
+            ) {
         checkConnection(socket);
         DataWrapper<?> request = new DataWrapper<>(headerToSend);
         DataWrapper<T> wrapped;
