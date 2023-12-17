@@ -1,6 +1,6 @@
 package com.projetenchere.Manager.Handlers;
 
-import com.projetenchere.Manager.Model.ManagerInfos;
+import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.IDataHandler;
 import com.projetenchere.common.network.Headers;
@@ -13,7 +13,7 @@ public class PubKeyReplyer implements IDataHandler {
     @Override
     public  DataWrapper<PublicKey> handle(Serializable ignored) {
         DataWrapper<PublicKey> received = new DataWrapper<>(
-                ManagerInfos.getInstance().getPublicKey(),
+                Manager.getInstance().getPublicKey(),
                 Headers.OK_PUB_KEY
         );
         return received;
