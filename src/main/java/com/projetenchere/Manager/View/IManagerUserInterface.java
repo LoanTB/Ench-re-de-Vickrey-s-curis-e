@@ -1,23 +1,28 @@
 package com.projetenchere.Manager.View;
 
-import com.projetenchere.common.Model.Bid;
-import com.projetenchere.common.Model.Winner;
+import com.projetenchere.common.Models.Network.Communication.Winner;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public interface IManagerUserInterface {
-
-    Bid askBidInformations();
-
+    void displayHello();
+    void displayGenerateKey();
+    void displayBidLaunch();
+    void displayReceivedPrices();
+    void displayPriceProcessing();
+    void displaySentWinnerPrice();
+    void displayEndOfAuction();
     String askBidName();
-
     String askBidDescription();
-
     LocalDateTime askBidEndTime();
-
     String askSellerAddress();
-
     void displayWinnerPrice(Winner winner);
-
+    void tellConnectingNewSeller(String id);
+    void tellConnectingNewBidder(String id);
+    void tellRequestInformationAboutBiddersBySeller(String id);
+    void tellRequestCurrentBidsByBidder(String id);
+    void tellRequestToDetermineTheWinnerOfBidBySeller(String idBid,String idSeller);
+    void tellManagerReadyToProcessBids();
+    void tellBidReceivedby(String idSeller, String idBid);
+    void tellReceivingAndReplyToInformationOf(String id, String type);
 }

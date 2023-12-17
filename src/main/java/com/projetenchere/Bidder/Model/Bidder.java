@@ -1,25 +1,24 @@
 package com.projetenchere.Bidder.Model;
 
+import com.projetenchere.common.Models.Identity;
+import com.projetenchere.common.Models.Network.Communication.Informations.PublicSecurityInformations;
+
 public class Bidder {
-    private String idBidder;
-    private int port;
+    private Identity identity;
+    private PublicSecurityInformations informations;
 
-
-    public void setId(String id) {
-        this.idBidder = id;
+    public Identity getIdentity() {
+        return identity;
     }
 
-    public void setPort(int port) {
-        this.port = port;
+    public void setIdentity(Identity identity) {
+        this.identity = identity;
+    }
+    public PublicSecurityInformations getInformations() {
+        return informations;
     }
 
-    public String getId() {
-        return this.idBidder;
+    public void setInformations(PublicSecurityInformations informations) {
+        this.informations = informations;
     }
-
-    public int getPort() {
-        return this.port;
-    }
-
-
 }

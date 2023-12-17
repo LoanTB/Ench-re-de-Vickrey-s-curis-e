@@ -1,25 +1,28 @@
 package com.projetenchere.Bidder.View;
 
 import com.projetenchere.Bidder.Model.Bidder;
-import com.projetenchere.common.Model.Bid;
-import com.projetenchere.common.Model.Offer;
+import com.projetenchere.common.Models.Network.Communication.CurrentBids;
+import com.projetenchere.common.Models.Offer;
 
 public interface IBidderUserInterface {
-
-    void displayBid(Bid bid);
-
-    Offer readOffer(Bidder bidder);
-
+    void displayBid(CurrentBids currentBids);
+    Offer readOffer(Bidder bidder, CurrentBids currentBids);
     void tellOfferWon(double priceToPay);
-
     void tellOfferLost();
-
-    String readName();
-
-    int readPort();
-
     void tellOfferSent();
-
     void tellWaitOfferResult();
-
+    void tellWaitBidsAnnoncement();
+    void tellWaitBidsPublicKeysAnnoncement();
+    String readName();
+    String readSurname();
+    int readPort();
+    void tellWaitManager();
+    void tellManagerFound();
+    void tellWaitManagerSecurityInformations();
+    void displayHello();
+    void tellReceivingInformationOf(String id, String type);
+    void tellReceiptOfCurrentBids();
+    void tellReceiptOfEncryptionKeysForCurrentBids();
+    void tellReceiptOfBidResult(String id);
+    void tellSendRequestOffers();
 }

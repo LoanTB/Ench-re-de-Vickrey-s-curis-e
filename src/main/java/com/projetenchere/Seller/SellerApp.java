@@ -1,21 +1,20 @@
 package com.projetenchere.Seller;
 
-import com.projetenchere.Seller.Controller.SellerController;
-
-import java.io.IOException;
+import com.projetenchere.Seller.Controllers.SellerController;
 
 public class SellerApp {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws Exception {
         SellerController controller = new SellerController();
-        controller.diplayHello();
-        controller.fetchCurrentBid();
+        controller.displayHello();
+        controller.readInfos();
+        controller.sendSellerInfosToManager();
+        controller.createMyBid();
+        controller.sendMyBid();
         controller.receiveOffersUntilBidEnd();
         controller.sendEncryptedPrices();
-        controller.displayEncryptedPriceSended();
-        controller.fetchWinner();
+        controller.waitFetchWinner();
         controller.displayWinner();
         controller.sendResults();
-        controller.displayResultsSent();
     }
 }
 
