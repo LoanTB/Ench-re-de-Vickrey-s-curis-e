@@ -69,13 +69,14 @@ public class SellerController extends Controller {
 
     }
 
-    public void receiveOffersUntilBidEnd() {
+    public void receiveOffersUntilBidEndAndSendResults() {
         ui.waitOffers();
         server.addHandler(Headers.GET_WIN_STATUS, new EncryptedOfferReplyer());
         server.start();
         while (auctionInProgress()) {
             waitSynchro(1000);
         }
+        server.removeHandler(Headers.GET_WIN_STATUS);
     }
 
     public void displayHello(){ui.displayHello();}
@@ -90,17 +91,13 @@ public class SellerController extends Controller {
         Set<WinStatus> biddersWinStatus = getBiddersWinStatus();
     }
 
-    public EncryptedPrices getEncryptedPrices(List<EncryptedOffer> encryptedOffers){
-        Set<byte[]> encryptedPrices = new HashSet<>();
-        for (EncryptedOffer encryptedOffer: encryptedOffers){
-            encryptedPrices.add(encryptedOffer.getPrice());
-        }
-        return new EncryptedPrices(myBid.getId(),encryptedPrices);
+    public EncryptedPrices getEncryptedPrices(Collection<byte[]> prices){
+        return new EncryptedPrices(myBid.getId(),new HashSet<>(prices));
     }
 
     public void sendEncryptedPrices() {
+        client.sendEncryptedPrices(getEncryptedPrices(Seller.getInstance().getBidders().values()));
         ui.displayEncryptedPriceSent();
-
     }
 
     public Set<WinStatus> getBiddersWinStatus(){
