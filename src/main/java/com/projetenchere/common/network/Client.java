@@ -27,7 +27,7 @@ public class Client {
         try {
             SerializationUtil.serializeTo(request, socket);
             wrapped = SerializationUtil.deserialize(socket);
-            if (!wrapped.checkHeader(headerToReceive)) throw new RuntimeException("Wrong header received");
+            if (!wrapped.checkHeader(headerToReceive)) throw new RuntimeException("Wrong header received: " + headerToReceive);
         } catch (IOException | ClassCastException | ClassNotFoundException e) {
             throw new RuntimeException("Socket error");
         }
@@ -46,7 +46,7 @@ public class Client {
         try {
             SerializationUtil.serializeTo(wrappedToSend, socket);
             wrappedToReceive = SerializationUtil.deserialize(socket);
-            if (!wrappedToSend.checkHeader(headerToReceive)) throw new RuntimeException("Wrong header received");
+            if (!wrappedToReceive.checkHeader(headerToReceive)) throw new RuntimeException("Wrong header wanted received "  + headerToReceive);
         } catch (IOException | ClassCastException | ClassNotFoundException e) {
             throw new RuntimeException("Socket error");
         }

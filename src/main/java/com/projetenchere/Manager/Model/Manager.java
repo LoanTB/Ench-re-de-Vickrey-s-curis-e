@@ -17,7 +17,7 @@ public class Manager extends User{
 
     private PrivateKey privateKey;
     private PublicKey publicKey;
-    private CurrentBids bids;
+    private final CurrentBids bids = new CurrentBids();
     public static Manager INSTANCE;
 
     public static Manager getInstance() {

@@ -11,8 +11,13 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Server extends Thread{
+    private int port;
     Map<Headers, IDataHandler> handlers = new HashMap<>();
     private Set<ClientAcceptor> connectedClients = new HashSet<>();
+
+    public Server(int port) {
+        this.port = port;
+    }
 
     public synchronized void addHandler(Headers header, IDataHandler replyer) {
         for (ClientAcceptor client : connectedClients) {
@@ -31,7 +36,7 @@ public class Server extends Thread{
     public void run() {
         while (true) {
             SSLSocketFactory context = new SSLSocketFactory();
-            try (SSLServerSocket ss = context.createServerSocket(24683)) {
+            try (SSLServerSocket ss = context.createServerSocket(port)) {
                 SSLSocket s = (SSLSocket) ss.accept();
                 ClientAcceptor<? extends Serializable> t = new ClientAcceptor<>(
                         handlers,
