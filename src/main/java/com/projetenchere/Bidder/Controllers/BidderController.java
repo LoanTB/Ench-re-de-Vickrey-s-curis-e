@@ -67,7 +67,13 @@ public class BidderController extends Controller {
         participatedBid.add(offer.getIdBid());
         client.connectToSeller(bid.getSellerSocketAddress());
         ui.tellOfferSent();
-        this.results.put(bid.getId(), client.sendOfferAndWaitForResult(encryptedOffer));
+        WinStatus status = client.sendOfferAndWaitForResult(encryptedOffer);
+        this.results.put(bid.getId(), status);
+        if (status.isWinner()) {
+            System.out.println("Prix à payer : " + status.getPrice());
+        } else {
+            System.out.println("Vous avez perdu");
+        }
     }
 
     public List<String> getParticipatedBid(){
