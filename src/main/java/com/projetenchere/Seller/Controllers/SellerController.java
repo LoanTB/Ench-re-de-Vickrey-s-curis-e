@@ -100,19 +100,18 @@ public class SellerController extends Controller {
         return new EncryptedOffersSet(myBid.getId(), seller.getEncryptedOffers());
     }
 
-    public void signEncryptedOffers() throws Exception {
+    public EncryptedOffersSet reSignedEncryptedOffers() throws Exception {
         EncryptedOffersSet set = getEncryptedOffersSet();
         Set<EncryptedOffer> offers = set.getOffers();
         Set<EncryptedOffer> offersSigned = new HashSet<>();
         for (EncryptedOffer o : offers){
             offersSigned.add(new EncryptedOffer(seller.getSignature(),o.getPrice(),seller.getKey(),o.getBidId()));
         }
-        seller.setEncryptedOffersSignedBySeller(new EncryptedOffersSet(set.getBidId() ,offersSigned));
+        return new EncryptedOffersSet(set.getBidId() ,offersSigned);
     }
 
     public void sendEncryptedOffersSet() throws Exception {
-        signEncryptedOffers();
-        this.setWinner(client.sendEncryptedOffersSet(seller.getEncryptedOffersSignedBySeller()));
+        this.setWinner(client.sendEncryptedOffersSet(reSignedEncryptedOffers()));
         ui.displayEncryptedOffersSetent();
     }
 
@@ -129,6 +128,7 @@ public class SellerController extends Controller {
                 winStatusMap.put(encryptedOffer.getSignaturePublicKey(),new WinStatus(winner.bidId(),false,-1));
             }
         }
+        System.out.println(haveAWinner);
         return winStatusMap;
     }
 }
