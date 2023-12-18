@@ -12,7 +12,6 @@ public class Seller extends User{
     private static Seller INSTANCE;
     private final Map<PublicKey, byte[]> bidders = new HashMap<>();
     private Map<PublicKey, WinStatus> winStatusMap;
-    private final Set<EncryptedOffer> encryptedOffers = new HashSet<>();
     private EncryptedOffersSet encryptedOffersSignedBySeller;
 
     private boolean resultsAreIn = false;
@@ -39,6 +38,7 @@ public class Seller extends User{
     }
 
     public synchronized WinStatus getSignatureWinStatus(PublicKey key) {
+        System.out.println(winStatusMap.toString());
         return winStatusMap.get(key);
     }
 
@@ -57,7 +57,7 @@ public class Seller extends User{
     private Seller(){}
 
     public Set<EncryptedOffer> getEncryptedOffers() {
-        return this.encryptedOffers;
+        return this.encryptedOffersSignedBySeller.getOffers();
     }
 
     public void setEncryptedOffersSignedBySeller(EncryptedOffersSet offers){

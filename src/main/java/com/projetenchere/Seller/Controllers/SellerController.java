@@ -37,6 +37,7 @@ public class SellerController extends Controller {
 
     public void setWinner(Winner winner){
         this.winner = winner;
+        System.out.println(winner.price());
         seller.setWinStatusMap(getBiddersWinStatus());
         seller.setResultsAreIn(true);
     }
@@ -55,6 +56,7 @@ public class SellerController extends Controller {
         String description = ui.askBidDescription();
         LocalDateTime end = ui.askBidEndTime();
         myBid = new Bid(id, name, description, end, new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT), seller.getKey());
+        seller.setEncryptedOffersSignedBySeller(new EncryptedOffersSet(myBid.getId(),new HashSet<>()));
         ui.displayBidCreated(myBid);
     }
 
@@ -119,6 +121,7 @@ public class SellerController extends Controller {
         boolean haveAWinner = false;
         Map<PublicKey, WinStatus> winStatusMap = new HashMap<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {
+            System.out.println(encryptedOffer.getBidId());
             if (Arrays.equals(encryptedOffer.getPrice(), winner.encryptedPrice()) && !haveAWinner) {
                 winStatusMap.put(encryptedOffer.getSignaturePublicKey(),new WinStatus(winner.bidId(),true,winner.price()));
                 haveAWinner = true;

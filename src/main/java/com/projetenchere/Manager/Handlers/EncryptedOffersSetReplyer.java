@@ -40,7 +40,8 @@ public class EncryptedOffersSetReplyer implements IDataHandler {
 
             return new DataWrapper<>(manager.processPrices(new EncryptedOffersSet(enc.getBidId(),offers), manager.getPrivateKey()), Headers.RESOLVE_BID_OK);
         } catch (Exception e) {
-            return new DataWrapper<>(null, Headers.ERROR);
+            throw new RuntimeException(e);
+            //return new DataWrapper<>(null, Headers.ERROR);
         }
     }
 }
