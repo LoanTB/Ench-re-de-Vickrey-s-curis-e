@@ -74,6 +74,7 @@ public class BidderController extends Controller {
         } else {
             System.out.println("Vous avez perdu");
         }
+        client.stopSeller();
     }
 
     public List<String> getParticipatedBid(){

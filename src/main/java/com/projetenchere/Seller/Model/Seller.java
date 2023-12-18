@@ -38,7 +38,6 @@ public class Seller extends User{
     }
 
     public synchronized WinStatus getSignatureWinStatus(PublicKey key) {
-        System.out.println(winStatusMap.toString());
         return winStatusMap.get(key);
     }
 

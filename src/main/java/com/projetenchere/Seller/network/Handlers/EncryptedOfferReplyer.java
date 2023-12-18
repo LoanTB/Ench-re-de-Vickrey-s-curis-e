@@ -30,7 +30,6 @@ public class EncryptedOfferReplyer implements IDataHandler {
                         wait(1000);
                     }
                     WinStatus status = seller.getSignatureWinStatus(offer.getSignaturePublicKey());
-                    System.out.println(status);
                     return new DataWrapper<>(status, Headers.OK_WIN_STATUS);
                 } catch (ClassCastException e) {
                     throw new RuntimeException("Received unreadable data");
