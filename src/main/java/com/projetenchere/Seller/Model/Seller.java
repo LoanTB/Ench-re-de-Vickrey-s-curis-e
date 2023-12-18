@@ -11,7 +11,7 @@ import java.util.*;
 public class Seller extends User{
     private static Seller INSTANCE;
     private final Map<PublicKey, byte[]> bidders = new HashMap<>();
-    private final Map<PublicKey, WinStatus> winStatusMap = new HashMap<>();
+    private Map<PublicKey, WinStatus> winStatusMap;
     private final Set<EncryptedOffer> encryptedOffers = new HashSet<>();
     private EncryptedOffersSet encryptedOffersSignedBySeller;
 
@@ -28,6 +28,10 @@ public class Seller extends User{
     public synchronized static Seller getInstance() {
         if (INSTANCE == null) INSTANCE = new Seller();
         return INSTANCE;
+    }
+
+    public void setWinStatusMap(Map<PublicKey, WinStatus> winStatusMap) {
+        this.winStatusMap = winStatusMap;
     }
 
     public synchronized void addBidder(PublicKey key, byte[] price) {

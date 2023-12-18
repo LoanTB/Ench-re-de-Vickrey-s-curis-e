@@ -16,6 +16,7 @@ import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
 
 import java.net.InetSocketAddress;
+import java.security.PublicKey;
 import java.security.SignatureException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -36,6 +37,8 @@ public class SellerController extends Controller {
 
     public void setWinner(Winner winner){
         this.winner = winner;
+        seller.setWinStatusMap(getBiddersWinStatus());
+        seller.setResultsAreIn(true);
     }
 
     public ISellerUserInterface getUi() {
@@ -89,7 +92,6 @@ public class SellerController extends Controller {
 
     public void displayWinner(){
         Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
-        Set<WinStatus> biddersWinStatus = getBiddersWinStatus();
     }
 
     public EncryptedOffersSet getEncryptedOffersSet(){
@@ -109,22 +111,21 @@ public class SellerController extends Controller {
     public void sendEncryptedOffersSet() throws Exception {
         signEncryptedOffers();
         this.setWinner(client.sendEncryptedOffersSet(seller.getEncryptedOffersSignedBySeller()));
-        Seller.getInstance().setResultsAreIn(true);
         ui.displayEncryptedOffersSetent();
     }
 
-    public Set<WinStatus> getBiddersWinStatus(){
+    public Map<PublicKey, WinStatus> getBiddersWinStatus(){
         Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
         boolean haveAWinner = false;
-        Set<WinStatus> winStatus = new HashSet<>();
+        Map<PublicKey, WinStatus> winStatusMap = new HashMap<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {
             if (Arrays.equals(encryptedOffer.getPrice(), winner.encryptedPrice()) && !haveAWinner) {
-                winStatus.add(new WinStatus(winner.bidId(),true,winner.price()));
+                winStatusMap.put(encryptedOffer.getSignaturePublicKey(),new WinStatus(winner.bidId(),true,winner.price()));
                 haveAWinner = true;
             } else {
-                winStatus.add(new WinStatus(winner.bidId(),false,-1));
+                winStatusMap.put(encryptedOffer.getSignaturePublicKey(),new WinStatus(winner.bidId(),false,-1));
             }
         }
-        return winStatus;
+        return winStatusMap;
     }
 }
