@@ -2,6 +2,7 @@ package com.projetenchere.common.Models;
 
 import java.io.Serializable;
 import java.net.InetSocketAddress;
+import java.security.PublicKey;
 import java.time.LocalDateTime;
 
 public class Bid implements Serializable {
@@ -12,13 +13,16 @@ public class Bid implements Serializable {
     private LocalDateTime startDateTime = null;
     private final LocalDateTime endDateTime;
     private final InetSocketAddress sellerInformations;
+    private final PublicKey pubKeySignatureSeller;
 
-    public Bid(String id, String name, String description, LocalDateTime endDateTime, InetSocketAddress sellerInformations) {
+    public Bid(String id, String name, String description, LocalDateTime endDateTime, InetSocketAddress sellerInformations, PublicKey pubKeySignatureSeller) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.endDateTime = endDateTime;
         this.sellerInformations = sellerInformations;
+        this.startDateTime = LocalDateTime.now();
+        this.pubKeySignatureSeller = pubKeySignatureSeller;
     }
 
     public String getId() {
@@ -43,6 +47,10 @@ public class Bid implements Serializable {
 
     public InetSocketAddress getSellerSocketAddress() {
         return this.sellerInformations;
+    }
+
+    public PublicKey getSellerSignaturePublicKey(){
+        return pubKeySignatureSeller;
     }
 
     public void startBid(){

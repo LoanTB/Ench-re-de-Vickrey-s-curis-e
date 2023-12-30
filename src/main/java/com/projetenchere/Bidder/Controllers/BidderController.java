@@ -10,21 +10,12 @@ import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Offer;
-import com.projetenchere.common.Utils.I_KeyFileUtil;
-import com.projetenchere.common.Utils.KeyFileUtilWithJKS;
-import com.projetenchere.common.Utils.SignatureUtil;
-import com.projetenchere.common.Utils.stub.KeyFileUtilWithTXT;
 
-import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.Signature;
-import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static java.lang.Thread.sleep;
 
 public class BidderController extends Controller {
     private final IBidderUserInterface ui = new BidderCommandLineInterface();
@@ -46,19 +37,23 @@ public class BidderController extends Controller {
     public void askForManagerPubKey(){
         ui.tellWaitManagerSecurityInformations();
         managerPubKey = client.getManagerPubKey();
+        System.out.println("Public key received");
     }
 
     public void askForCurrentBids() {
         currentBids = client.getCurrentBids();
+        System.out.println("Received bids");
     }
 
     public void initWithManager() {
         client.connectToManager();
-        askForManagerPubKey();
         askForCurrentBids();
+        askForManagerPubKey();
+        client.stopManager();
     }
 
     public void showBids() {
+        System.out.println(this.currentBids.getCurrentBids().size());
         ui.displayBid(this.currentBids);
     }
 
@@ -67,12 +62,19 @@ public class BidderController extends Controller {
         Bid bid = currentBids.getBid(offer.getIdBid());
         if (bid == null) throw new RuntimeException("");
 
-        EncryptedOffer encryptedOffer = new EncryptedOffer(bidder.getSignature(), offer, managerPubKey, bidder.getKey());
+        EncryptedOffer encryptedOffer = new EncryptedOffer(bidder.getSignature(), offer, bidder.getKey(), managerPubKey, bid.getId());
 
         participatedBid.add(offer.getIdBid());
         client.connectToSeller(bid.getSellerSocketAddress());
         ui.tellOfferSent();
-        this.results.put(bid.getId(), client.sendOfferAndWaitForResult(encryptedOffer));
+        WinStatus status = client.sendOfferAndWaitForResult(encryptedOffer);
+        this.results.put(bid.getId(), status);
+        if (status.isWinner()) {
+            System.out.println("Prix à payer : " + status.getPrice());
+        } else {
+            System.out.println("Vous avez perdu");
+        }
+        client.stopSeller();
     }
 
     public List<String> getParticipatedBid(){

@@ -8,7 +8,7 @@ import com.projetenchere.Seller.network.SellerClient;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.NetworkUtil;
@@ -16,13 +16,15 @@ import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
 
 import java.net.InetSocketAddress;
+import java.security.PublicKey;
+import java.security.SignatureException;
 import java.time.LocalDateTime;
 import java.util.*;
 
 public class SellerController extends Controller {
     private final ISellerUserInterface ui = new SellerCommandLineInterface();
     private final SellerClient client = new SellerClient();
-    private final Server server = new Server();
+    private final Server server = new Server(24682);
     private final Seller seller = Seller.getInstance();
     private Bid myBid;
     private Winner winner = null;
@@ -35,6 +37,8 @@ public class SellerController extends Controller {
 
     public void setWinner(Winner winner){
         this.winner = winner;
+        seller.setWinStatusMap(getBiddersWinStatus());
+        seller.setResultsAreIn(true);
     }
 
     public ISellerUserInterface getUi() {
@@ -50,7 +54,8 @@ public class SellerController extends Controller {
         String name = ui.askBidName();
         String description = ui.askBidDescription();
         LocalDateTime end = ui.askBidEndTime();
-        myBid = new Bid(id, name, description, end, new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT));
+        myBid = new Bid(id, name, description, end, new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT), seller.getKey());
+        seller.setEncryptedOffersSignedBySeller(new EncryptedOffersSet(myBid.getId(),new HashSet<>()));
         ui.displayBidCreated(myBid);
     }
 
@@ -82,36 +87,45 @@ public class SellerController extends Controller {
     public void displayHello(){ui.displayHello();}
 
 
-    public void displayOfferReceived(EncryptedOffer encryptedOffer){
-        ui.displayOfferReceived(encryptedOffer);
+    public void displayOfferReceived(){
+        ui.displayOfferReceived();
     }
 
     public void displayWinner(){
         Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
-        Set<WinStatus> biddersWinStatus = getBiddersWinStatus();
     }
 
-    public EncryptedPrices getEncryptedPrices(Collection<byte[]> prices){
-        return new EncryptedPrices(myBid.getId(),new HashSet<>(prices));
+    public EncryptedOffersSet getEncryptedOffersSet(){
+        return new EncryptedOffersSet(myBid.getId(), seller.getEncryptedOffers());
     }
 
-    public void sendEncryptedPrices() {
-        client.sendEncryptedPrices(getEncryptedPrices(Seller.getInstance().getBidders().values()));
-        ui.displayEncryptedPriceSent();
+    public EncryptedOffersSet reSignedEncryptedOffers() throws Exception {
+        EncryptedOffersSet set = getEncryptedOffersSet();
+        Set<EncryptedOffer> offers = set.getOffers();
+        Set<EncryptedOffer> offersSigned = new HashSet<>();
+        for (EncryptedOffer o : offers){
+            offersSigned.add(new EncryptedOffer(seller.getSignature(),o.getPrice(),seller.getKey(),o.getBidId()));
+        }
+        return new EncryptedOffersSet(set.getBidId() ,offersSigned);
     }
 
-    public Set<WinStatus> getBiddersWinStatus(){
+    public void sendEncryptedOffersSet() throws Exception {
+        this.setWinner(client.sendEncryptedOffersSet(reSignedEncryptedOffers()));
+        ui.displayEncryptedOffersSetent();
+    }
+
+    public Map<PublicKey, WinStatus> getBiddersWinStatus(){
         Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
         boolean haveAWinner = false;
-        Set<WinStatus> winStatus = new HashSet<>();
+        Map<PublicKey, WinStatus> winStatusMap = new HashMap<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {
             if (Arrays.equals(encryptedOffer.getPrice(), winner.encryptedPrice()) && !haveAWinner) {
-                winStatus.add(new WinStatus(winner.bidId(),true,winner.price()));
+                winStatusMap.put(encryptedOffer.getSignaturePublicKey(),new WinStatus(winner.bidId(),true,winner.price()));
                 haveAWinner = true;
             } else {
-                winStatus.add(new WinStatus(winner.bidId(),false,-1));
+                winStatusMap.put(encryptedOffer.getSignaturePublicKey(),new WinStatus(winner.bidId(),false,-1));
             }
         }
-        return winStatus;
+        return winStatusMap;
     }
 }

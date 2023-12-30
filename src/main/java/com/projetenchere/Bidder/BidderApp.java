@@ -10,7 +10,5 @@ public class BidderApp {
         controller.initWithManager();
         controller.showBids();
         controller.readAndSendOffer();
-        //controller.waitForPrice();
     }
 }
-

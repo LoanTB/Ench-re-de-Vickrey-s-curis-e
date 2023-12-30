@@ -4,29 +4,30 @@ import com.projetenchere.common.Utils.SerializationUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
-import java.security.Signature;
+import java.security.PublicKey;
 
 public class Client {
 
-    private void checkConnection(Socket socket) {
+    private void checkConnection(ClientSocketWrapper socket) {
         if (socket == null) throw new RuntimeException("Trying to send data to closed socket");
     }
 
     protected <T extends Serializable> T fetch(
-            Socket socket,
+            ClientSocketWrapper socket,
             Headers headerToSend,
-            Headers headerToReceive,
-            @Nullable
-            Signature signature) {
+            Headers headerToReceive
+            ) {
         checkConnection(socket);
         DataWrapper<?> request = new DataWrapper<>(headerToSend);
         DataWrapper<T> wrapped;
         try {
-            SerializationUtil.serializeTo(request, socket);
-            wrapped = SerializationUtil.deserialize(socket);
-            if (!wrapped.checkHeader(headerToReceive)) throw new RuntimeException("Wrong header received");
+            socket.getObjectOutputStream().writeObject(request);
+            wrapped = (DataWrapper<T>) socket.getObjectInputStream().readObject();
+            if (!wrapped.checkHeader(headerToReceive)) throw new RuntimeException("Wrong header received: " + headerToReceive);
         } catch (IOException | ClassCastException | ClassNotFoundException e) {
             throw new RuntimeException("Socket error");
         }
@@ -34,7 +35,7 @@ public class Client {
     }
 
     protected <T1 extends Serializable, T2 extends Serializable> T1 fetchWithData(
-            Socket socket,
+            ClientSocketWrapper socket,
             Headers headerToSend,
             Headers headerToReceive,
             T2 data
@@ -43,12 +44,24 @@ public class Client {
         DataWrapper<T1> wrappedToReceive;
         DataWrapper<T2> wrappedToSend = new DataWrapper<>(data, headerToSend);
         try {
-            SerializationUtil.serializeTo(wrappedToSend, socket);
-            wrappedToReceive = SerializationUtil.deserialize(socket);
-            if (!wrappedToSend.checkHeader(headerToReceive)) throw new RuntimeException("Wrong header received");
+            socket.getObjectOutputStream().writeObject(wrappedToSend);
+            wrappedToReceive = (DataWrapper<T1>) socket.getObjectInputStream().readObject();
+            if (!wrappedToReceive.checkHeader(headerToReceive)) throw new RuntimeException("Wrong header | wanted " + headerToReceive + " received " + wrappedToReceive.getHeader());
         } catch (IOException | ClassCastException | ClassNotFoundException e) {
             throw new RuntimeException("Socket error");
         }
         return wrappedToReceive.unwrap();
     }
+
+    protected void stop(ClientSocketWrapper clientSocketWrapper) {
+        checkConnection(clientSocketWrapper);
+        DataWrapper<?> dataWrapper = new DataWrapper<>(Headers.GOODBYE_HAVE_A_NICE_DAY);
+        try {
+            clientSocketWrapper.getObjectOutputStream().writeObject(dataWrapper);
+            clientSocketWrapper.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

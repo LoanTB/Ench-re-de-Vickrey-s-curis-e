@@ -13,24 +13,32 @@ import java.security.PublicKey;
 
 public class BidderClient extends Client{
 
-    private Socket toManager;
-    private Socket toSeller;
+    private ClientSocketWrapper toManager;
+    private ClientSocketWrapper toSeller;
     public void connectToManager() {
         SSLSocketFactory factory = new SSLSocketFactory();
-        toManager = factory.createSocket(NetworkUtil.MANAGER_SOCKET_ADDRESS);
+        toManager = new ClientSocketWrapper(factory.createSocket(NetworkUtil.MANAGER_SOCKET_ADDRESS));
+        System.out.println("iudvecu");
     }
 
     public void connectToSeller(InetSocketAddress sellerSocketAddress) {
         SSLSocketFactory factory = new SSLSocketFactory();
-        toSeller = factory.createSocket(sellerSocketAddress);
+        toSeller = new ClientSocketWrapper((factory.createSocket(sellerSocketAddress)));
+    }
+
+    public void stopManager() {
+        stop(toManager);
+    }
+
+    public void stopSeller() {
+        stop(toSeller);
     }
 
     public PublicKey getManagerPubKey() {
         return fetch(
                 toManager,
                 Headers.GET_PUB_KEY,
-                Headers.OK_PUB_KEY,
-                null
+                Headers.OK_PUB_KEY
         );
     }
 
@@ -38,8 +46,7 @@ public class BidderClient extends Client{
         return fetch(
                 toManager,
                 Headers.GET_CURRENT_BIDS,
-                Headers.OK_CURRENT_BIDS,
-                null
+                Headers.OK_CURRENT_BIDS
         );
     }
 
