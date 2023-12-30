@@ -1,25 +1,10 @@
 package com.projetenchere.Bidder.Model;
 
-public class Bidder {
-    private String idBidder;
-    private int port;
+import com.projetenchere.common.Models.User;
 
+import java.security.PublicKey;
+import java.security.Signature;
 
-    public void setId(String id) {
-        this.idBidder = id;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public String getId() {
-        return this.idBidder;
-    }
-
-    public int getPort() {
-        return this.port;
-    }
-
+public class Bidder extends User {
 
 }

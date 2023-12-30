@@ -1,8 +1,7 @@
 package com.projetenchere.Manager.View.commandLineInterface;
 
 import com.projetenchere.Manager.View.IManagerUserInterface;
-import com.projetenchere.common.Model.Bid;
-import com.projetenchere.common.Model.Winner;
+import com.projetenchere.common.Models.Winner;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -47,11 +46,16 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
     }
 
     @Override
-    public Bid askBidInformations() {
-        String name = askBidName();
-        String description = askBidDescription();
-        LocalDateTime end = askBidEndTime();
-        return new Bid(name, description, end);
+    public void tellSignatureConfigSetup(){
+        showMessage("Mise en place de la configuration de la signature...");
+    }
+    @Override
+    public void tellSignatureConfigGeneration(){
+        showMessage("Génération de la configuration de la signature ...");
+    }
+    @Override
+    public void tellSignatureConfigReady(){
+        showMessage("Configuration de la signature terminée.");
     }
 
     @Override
@@ -59,7 +63,7 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
         boolean checkType = true;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.now();
-        String dateStr = "";
+        String dateStr;
         while (checkType) {
             showMessage("Veuillez saisir la date de fin de l'enchère au format dd-MM-yyyy HH:mm:ss");
             dateStr = readMessage(19);
@@ -93,6 +97,41 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
     }
 
     @Override
+    public void displayHello() {
+        showMessage("Bienvenue Manager !");
+    }
+
+    @Override
+    public void displayGenerateKey() {
+        showMessage("Génération de clé...");
+    }
+
+    @Override
+    public void displayBidLaunch() {
+        showMessage("Lancement de l'enchère...");
+    }
+
+    @Override
+    public void displayReceivedPrices() {
+        showMessage("Réception des prix...");
+    }
+
+    @Override
+    public void displayPriceProcessing() {
+        showMessage("Traitement des prix...");
+    }
+
+    @Override
+    public void displaySentWinnerPrice() {
+        showMessage("Envoie du prix gagnant...");
+    }
+
+    @Override
+    public void displayEndOfAuction() {
+        showMessage("Fin des echères !");
+    }
+
+    @Override
     public String askSellerAddress() {
         String input = "";
         boolean askAddress = true;
@@ -120,7 +159,47 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
 
     @Override
     public void displayWinnerPrice(Winner winner) {
-        System.out.println("Prix gagnant : " + winner.getPriceToPay());
+        System.out.println("Le prix gagnant de l'enchère "+winner.bidId() + " à été déterminé et répondu (" + winner.price()+"€)");
+    }
+
+    @Override
+    public void tellConnectingNewSeller(String id) {
+        showMessage("Connexion avec un nouveau vendeur ("+id+")");
+    }
+
+    @Override
+    public void tellConnectingNewBidder(String id) {
+        showMessage("Connexion d'un nouvel enchérisseur ("+id+"), notification des vendeurs pour prévenir d'un nouvel enchérisseur potentiel");
+    }
+
+    @Override
+    public void tellRequestInformationAboutBiddersBySeller(String id) {
+        showMessage("Demande des informations sur les enchérisseurs actuellement connectés par le vendeur "+id);
+    }
+
+    @Override
+    public void tellRequestCurrentBidsByBidder(String id) {
+        showMessage("Demande des enchères actuelles par l'enchérisseur "+id);
+    }
+
+    @Override
+    public void tellRequestToDetermineTheWinnerOfBidBySeller(String idBid, String idSeller) {
+        showMessage("Demande de détermination du gagnant de l'enchère "+idBid+" par le vendeur "+idSeller);
+    }
+
+    @Override
+    public void tellReceivingAndReplyToInformationOf(String id, String type) {
+        showMessage("Etablissement d'une connexion sécurisé avec un nouvel "+type+" ("+id+")");
+    }
+
+    @Override
+    public void tellManagerReadyToProcessBids() {
+        showMessage("Gestionnaire prêt à traiter des enchères");
+    }
+
+    @Override
+    public void tellBidReceivedby(String idSeller, String idBid) {
+        showMessage("Enchère reçu ("+idBid+") créé par le vendeur "+idSeller);
     }
 
 }

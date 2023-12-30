@@ -1,32 +1,59 @@
 package com.projetenchere.Seller.Model;
 
-import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.WinStatus;
+import com.projetenchere.common.Models.Identity;
+import com.projetenchere.common.Models.User;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.util.*;
 
-public class Seller {
-    private final List<String> biddersIps = new ArrayList<>();
-    private final List<Integer> biddersPorts = new ArrayList<>();
-    private final List<EncryptedOffer> encryptedOffers = new ArrayList<>();
+public class Seller extends User{
+    private static Seller INSTANCE;
+    private final Map<PublicKey, byte[]> bidders = new HashMap<>();
+    private final Map<PublicKey, WinStatus> winStatusMap = new HashMap<>();
+    private final Set<EncryptedOffer> encryptedOffers = new HashSet<>();
+    private boolean resultsAreIn = false;
 
-    public void addBidderIp(String ip){
-        biddersIps.add(ip);
-    }
-    public void addBidderPort(int port){
-        biddersPorts.add(port);
-    }
-    public void addEncryptedOffer(EncryptedOffer encryptedOffer){
-        encryptedOffers.add(encryptedOffer);
+    public synchronized boolean resultsAreIn() {
+        return resultsAreIn;
     }
 
-    public List<EncryptedOffer> getEncryptedOffers() {
-        return encryptedOffers;
+    public synchronized void setResultsAreIn(boolean resultsAreIn) {
+        this.resultsAreIn = resultsAreIn;
     }
-    public List<String> getBiddersIps() {
-        return biddersIps;
+
+    public synchronized static Seller getInstance() {
+        if (INSTANCE == null) INSTANCE = new Seller();
+        return INSTANCE;
     }
-    public List<Integer> getBiddersPorts() {
-        return biddersPorts;
+
+    public synchronized void addBidder(PublicKey key, byte[] price) {
+        this.bidders.put(key, price);
     }
+
+    public synchronized WinStatus getSignatureWinStatus(PublicKey key) {
+        return winStatusMap.get(key);
+    }
+
+    public synchronized Map<PublicKey, byte[]> getBidders() {
+        return this.bidders;
+    }
+
+    public Map<PublicKey, WinStatus> getWinStatusMap() {
+        return winStatusMap;
+    }
+
+    public synchronized void finish() {
+        this.resultsAreIn = true;
+    }
+
+    private Seller(){}
+
+    public Set<EncryptedOffer> getEncryptedOffers() {
+        return this.encryptedOffers;
+    }
+
+
 }
