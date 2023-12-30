@@ -3,6 +3,7 @@ package com.projetenchere.Seller.Controller;
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.ISellerUserInterface;
 import com.projetenchere.Seller.View.commandLineInterface.SellerCommandLineInterface;
+import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import com.projetenchere.common.Model.Bid;
 import com.projetenchere.common.Model.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
@@ -17,7 +18,7 @@ import static java.lang.Thread.sleep;
 
 public class SellerController {
 
-    private static final ISellerUserInterface ui = new SellerCommandLineInterface();
+    private static final ISellerUserInterface ui = new SellerGraphicalUserInterface();
     private Bid currentBid;
     private final Seller seller = new Seller();
 

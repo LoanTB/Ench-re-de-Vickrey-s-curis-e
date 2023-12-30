@@ -1,26 +1,26 @@
 package com.projetenchere.Manager;
 
-import com.projetenchere.Manager.Controller.ManagerController;
-import com.projetenchere.common.Model.Bid;
-import com.projetenchere.common.Model.Encrypted.EncryptedPrices;
-import com.projetenchere.common.Model.Winner;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class ManagerApp {
-    public static void main(String[] args) throws Exception {
-        System.out.println("Bienvenue Manager !");
-        ManagerController controller = new ManagerController();
-        Bid currentBid = controller.initBid();
-        System.out.println("Génération de clé...");
-        controller.generateManagerKeys();
-        System.out.println("Lancement de l'enchère ...");
-        controller.launchBid(currentBid);
-        System.out.println("Reception des prix ...");
-        EncryptedPrices pricesReceived = controller.waitEncryptedPrices();
-        System.out.println("Traitement des prix...");
-        Winner winnerForCurrentBid = controller.processPrices(pricesReceived);
-        controller.showWinnerPrice(winnerForCurrentBid);
-        System.out.println("Envoie du prix gagnant...");
-        controller.endBid(winnerForCurrentBid);
-        System.out.println("Fin des enchères !");
+public class ManagerApp extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/com/projetenchere/Manager/View/graphicalUserInterface/ManagerGraphicalUserInterface.fxml"));
+            primaryStage.setTitle("Manager Application");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

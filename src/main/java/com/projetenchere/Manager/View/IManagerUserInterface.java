@@ -19,5 +19,4 @@ public interface IManagerUserInterface {
     String askSellerAddress();
 
     void displayWinnerPrice(Winner winner);
-
 }
