@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 
 public class ManagerGraphicalUserInterface implements IManagerUserInterface {
 
-
     @Override
     public void displayHello() {
 

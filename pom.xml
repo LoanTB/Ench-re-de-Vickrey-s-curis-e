@@ -37,6 +37,11 @@
             <artifactId>javafx-fxml</artifactId>
             <version>18.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -50,7 +55,7 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
-
 </project>
