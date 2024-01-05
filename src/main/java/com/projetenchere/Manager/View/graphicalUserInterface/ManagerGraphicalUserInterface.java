@@ -7,9 +7,6 @@ import com.projetenchere.common.Models.Winner;
 import java.time.LocalDateTime;
 
 public class ManagerGraphicalUserInterface implements IManagerUserInterface {
-
-    // constructeur
-
     @Override
     public void displayHello() {
     }
