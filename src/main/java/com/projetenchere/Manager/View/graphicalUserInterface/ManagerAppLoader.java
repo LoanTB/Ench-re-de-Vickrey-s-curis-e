@@ -8,21 +8,22 @@ import javafx.stage.Stage;
 
 public class ManagerAppLoader extends Application {
 
-    private static ManagerGraphicalUserInterface guiInterface;
-
     @Override
     public void start(Stage primaryStage) throws Exception {
+        IManagerUserInterfaceFactory uiFactory = new ManagerUserInterfaceFactory();
+        ManagerGraphicalUserInterface guiInterface = (ManagerGraphicalUserInterface) uiFactory.createManagerUserInterface();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ManagerGraphicalUserInterface.fxml"));
+
+        loader.setController(guiInterface);
 
         Parent root = loader.load();
 
-        primaryStage.setTitle("Manager Application");
+        primaryStage.setTitle("Manager");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
-    public static void launchApp(ManagerGraphicalUserInterface gui) {
-        guiInterface = gui;
-        launch();
+    public static void main(String[] args) {
+        launch(args);
     }
 }

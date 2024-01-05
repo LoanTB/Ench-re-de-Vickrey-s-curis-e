@@ -7,6 +7,7 @@ import com.projetenchere.Manager.Handlers.PubKeyReplyer;
 import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
+import com.projetenchere.Manager.View.graphicalUserInterface.IManagerUserInterfaceFactory;
 import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
@@ -18,7 +19,11 @@ import com.projetenchere.common.network.Server;
 import java.security.KeyPair;
 
 public class ManagerController extends Controller {
-    public final IManagerUserInterface ui = new ManagerGraphicalUserInterface();
+    private IManagerUserInterface ui;
+
+    public ManagerController(IManagerUserInterfaceFactory uiFactory) throws Exception {
+        this.ui = uiFactory.createManagerUserInterface();
+    }
 
     private final CurrentBids currentBids = new CurrentBids();
 
