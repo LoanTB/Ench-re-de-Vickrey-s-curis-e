@@ -26,7 +26,6 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
 
     @Override
     public void tellSignatureConfigReady() {
-
     }
 
     @Override
