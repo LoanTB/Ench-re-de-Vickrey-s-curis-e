@@ -3,7 +3,9 @@ package com.projetenchere.Bidder.Controllers;
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
+import com.projetenchere.Bidder.View.graphicalUserInterface.IBidderUserInterfaceFactory;
 import com.projetenchere.Bidder.network.BidderClient;
+import com.projetenchere.Manager.View.graphicalUserInterface.IManagerUserInterfaceFactory;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
@@ -18,13 +20,18 @@ import java.util.List;
 import java.util.Map;
 
 public class BidderController extends Controller {
-    private final IBidderUserInterface ui = new BidderCommandLineInterface();
+    private IBidderUserInterface ui;
+
+    public BidderController(IBidderUserInterfaceFactory uiFactory) throws Exception {
+        this.ui = uiFactory.createBidderUserInterface();
+    }
     BidderClient client = new BidderClient();
     private CurrentBids currentBids;
     private final List<String> participatedBid = new ArrayList<>();
     private final Map<String, WinStatus> results = new HashMap<>();
     private final Bidder bidder = new Bidder();
     private PublicKey managerPubKey;
+
 
     public void setSignatureConfig() throws Exception {
         setSignatureConfig(ui,bidder);

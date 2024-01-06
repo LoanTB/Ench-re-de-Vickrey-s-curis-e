@@ -1,4 +1,12 @@
 package com.projetenchere.Bidder.View.graphicalUserInterface;
 
-public class BidderUserInterfaceFactory {
+import com.projetenchere.Bidder.View.IBidderUserInterface;
+
+public class BidderUserInterfaceFactory implements IBidderUserInterfaceFactory {
+
+    @Override
+    public IBidderUserInterface createBidderUserInterface() {
+        return new BidderGraphicalUserInterface();
+    }
 }
+
