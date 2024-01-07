@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.geometry.Insets?>
+<VBox prefWidth="750" prefHeight="500">
+    <TextArea editable="false" prefHeight="200"/>
+    <VBox spacing="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        <TextField promptText="Nom de l'enchère"/>
+        <TextField promptText="Description de l'enchère"/>
+        <HBox spacing="5">
+            <DatePicker promptText="Date de fin"/>
+            <ComboBox promptText="Heure"/>
+            <ComboBox promptText="Minute"/>
+            <ComboBox promptText="Seconde"/>
+        </HBox>
+        <Button text="Créer l'Enchère"/>
+    </VBox>
+</VBox>
 
-</AnchorPane>
+

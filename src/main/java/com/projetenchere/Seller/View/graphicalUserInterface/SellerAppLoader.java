@@ -10,12 +10,7 @@ public class SellerAppLoader extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        ISellerUserInterfaceFactory uiFactory = new SellerUserInterfaceFactory();
-        SellerGraphicalUserInterface guiInterface = (SellerGraphicalUserInterface) uiFactory.createSellerUserInterface();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SellerGraphicalUserInterface.fxml"));
-
-        loader.setController(guiInterface);
-
         Parent root = loader.load();
 
         primaryStage.setTitle("Seller");

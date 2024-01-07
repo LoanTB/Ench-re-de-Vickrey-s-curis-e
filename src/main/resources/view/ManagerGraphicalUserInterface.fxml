@@ -1,30 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.Insets?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml">
-    <top>
-        <Label fx:id="titleLabel" text="Manager Enchère" style="-fx-font-size: 24; -fx-text-fill: #2c3e50;" BorderPane.alignment="CENTER">
-            <padding>
-                <Insets top="20" right="0" bottom="20" left="0" />
-            </padding>
-        </Label>
-    </top>
-    <center>
-        <VBox spacing="10" alignment="CENTER">
-            <TextArea fx:id="outputArea" editable="false" prefHeight="400" prefWidth="800" wrapText="true"/>
-            <HBox spacing="10">
-            </HBox>
-        </VBox>
-    </center>
-    <bottom>
-        <HBox spacing="10" alignment="CENTER">
-            <padding>
-                <Insets top="20" right="0" bottom="20" left="0" />
-            </padding>
-            <!-- Autres champs d'entrée et boutons -->
-        </HBox>
-    </bottom>
-</BorderPane>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="500.0" prefWidth="750.0">
+
+</AnchorPane>
