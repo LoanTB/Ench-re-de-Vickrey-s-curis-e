@@ -19,9 +19,9 @@ public class ManagerGraphicalUserInterface implements IManagerUserInterface {
 
 
     @FXML
-    private VBox messagesVBox;
+    private VBox messagesVBox = new VBox();
     @FXML
-    private ScrollPane scrollPane;
+    private ScrollPane scrollPane = new ScrollPane();
 
         public void addLogMessage(String message) {
             Platform.runLater(() -> {
@@ -37,7 +37,7 @@ public class ManagerGraphicalUserInterface implements IManagerUserInterface {
     }
 
     @FXML
-    private void handleTestLogButton() {
+    public void handleTestLogButton() {
         addLogMessage("Message de test");
     }
 
