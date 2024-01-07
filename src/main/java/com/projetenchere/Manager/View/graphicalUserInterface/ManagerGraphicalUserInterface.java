@@ -31,9 +31,14 @@ public class ManagerGraphicalUserInterface implements IManagerUserInterface {
             });
         }
 
-    @Override
+    @FXML
     public void displayHello() {
         addLogMessage("Bienvenue Manager !");
+    }
+
+    @FXML
+    private void handleTestLogButton() {
+        addLogMessage("Message de test");
     }
 
 

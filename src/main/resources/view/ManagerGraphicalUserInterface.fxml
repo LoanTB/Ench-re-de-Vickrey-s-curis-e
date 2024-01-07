@@ -11,6 +11,7 @@
             </padding>
         </VBox>
     </ScrollPane>
+    <Button text="Test Log" onAction="#handleTestLogButton"/>
 </VBox>
 
 
