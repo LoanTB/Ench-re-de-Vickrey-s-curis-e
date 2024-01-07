@@ -17,7 +17,7 @@ public class ManagerAppLoader extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ManagerGraphicalUserInterface.fxml"));
 
         IManagerUserInterfaceFactory uiFactory = new ManagerUserInterfaceFactory();
-        // This line creates an instance of the UI interface
+
         IManagerUserInterface guiInterface = uiFactory.createManagerUserInterface();
 
         loader.setController((ManagerGraphicalUserInterface) guiInterface);
@@ -28,10 +28,8 @@ public class ManagerAppLoader extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
 
-        // Here you should pass the factory, not the interface
         this.controller = new ManagerController(uiFactory);
 
-        // Assuming displayHello is now handled by the controller
         this.controller.displayHello();
         this.controller.setSignatureConfig();
         this.controller.init();
