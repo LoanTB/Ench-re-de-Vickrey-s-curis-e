@@ -5,9 +5,30 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="500.0" prefWidth="750.0">
-
-</AnchorPane>
+<VBox prefWidth="750" prefHeight="500">
+    <TextArea editable="false" prefHeight="200"/>
+    <VBox spacing="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        <TableView prefHeight="300">
+            <columns>
+                <TableColumn text="ID"/>
+                <TableColumn text="Nom"/>
+                <TableColumn text="Date de Début"/>
+                <TableColumn text="Description"/>
+                <TableColumn text="Date de Fin"/>
+            </columns>
+        </TableView>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Quel est votre prix ?"/>
+            <TextField/>
+            <Button text="Soumettre Offre"/>
+        </HBox>
+    </VBox>
+</VBox>

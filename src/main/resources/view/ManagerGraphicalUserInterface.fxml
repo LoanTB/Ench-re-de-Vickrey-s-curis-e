@@ -8,6 +8,6 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            prefHeight="500.0" prefWidth="750.0">
+            prefHeight="750.0" prefWidth="500.0">
 
 </AnchorPane>
