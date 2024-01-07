@@ -4,12 +4,15 @@
 <?import javafx.geometry.Insets?>
 
 <VBox prefWidth="750" prefHeight="500" xmlns:fx="http://javafx.com/fxml/1">
-    <TextArea fx:id="logTextArea" editable="false" prefHeight="200"/>
-    <VBox spacing="10">
-        <padding>
-            <Insets top="10" right="10" bottom="10" left="10"/>
-        </padding>
-    </VBox>
+    <ScrollPane fx:id="scrollPane" prefHeight="200" fitToWidth="true">
+        <VBox fx:id="messagesVBox" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+        </VBox>
+    </ScrollPane>
 </VBox>
+
+
 
 

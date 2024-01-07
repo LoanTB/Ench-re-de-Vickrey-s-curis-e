@@ -5,8 +5,12 @@ import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Winner;
 
 import javafx.application.Platform;
-import javafx.scene.control.TextArea;
 import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+
+
 
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -15,15 +19,18 @@ public class ManagerGraphicalUserInterface implements IManagerUserInterface {
 
 
     @FXML
-    private TextArea logTextArea;
-
-    public void addLogMessage(String message) {
-        Platform.runLater(() -> {
-            logTextArea.appendText(message + "\n");
-        });
-    }
-
+    private VBox messagesVBox;
     @FXML
+    private ScrollPane scrollPane;
+
+        public void addLogMessage(String message) {
+            Platform.runLater(() -> {
+                Label messageLabel = new Label(message);
+                messagesVBox.getChildren().add(messageLabel);
+                scrollPane.setVvalue(1.0);
+            });
+        }
+
     @Override
     public void displayHello() {
         addLogMessage("Bienvenue Manager !");
