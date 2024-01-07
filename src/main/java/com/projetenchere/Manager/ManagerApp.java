@@ -1,15 +1,10 @@
 package com.projetenchere.Manager;
 
-import com.projetenchere.Manager.Controllers.ManagerController;
-import com.projetenchere.Manager.View.graphicalUserInterface.IManagerUserInterfaceFactory;
-import com.projetenchere.Manager.View.graphicalUserInterface.ManagerUserInterfaceFactory;
+import javafx.application.Application;
+import com.projetenchere.Manager.View.graphicalUserInterface.ManagerAppLoader;
 
 public class ManagerApp {
-    public static void main(String[] args) throws Exception {
-        IManagerUserInterfaceFactory uiFactory = new ManagerUserInterfaceFactory();
-        ManagerController controller = new ManagerController(uiFactory);
-        controller.displayHello();
-        controller.setSignatureConfig();
-        controller.init();
+    public static void main(String[] args) {
+        Application.launch(ManagerAppLoader.class, args);
     }
 }
