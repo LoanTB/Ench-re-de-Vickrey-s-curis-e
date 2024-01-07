@@ -1,34 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
-<VBox prefWidth="750" prefHeight="500">
-    <TextArea editable="false" prefHeight="200"/>
+<VBox prefHeight="500" prefWidth="750" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <TextArea editable="false" prefHeight="200" />
     <VBox spacing="10">
         <padding>
-            <Insets top="10" right="10" bottom="10" left="10"/>
+            <Insets bottom="10" left="10" right="10" top="10" />
         </padding>
-        <TableView prefHeight="300">
-            <columns>
-                <TableColumn text="ID"/>
-                <TableColumn text="Nom"/>
-                <TableColumn text="Date de Début"/>
-                <TableColumn text="Description"/>
-                <TableColumn text="Date de Fin"/>
-            </columns>
-        </TableView>
+        <TilePane prefColumns="3" prefHeight="218.0" prefWidth="730.0">
+            <VBox styleClass="auctionItem" style="-fx-border-color: black; -fx-padding: 10;">
+                <Label text="Enchère 1" styleClass="auctionTitle"/>
+                <Label text="Nom: Produit X" />
+                <Label text="Fin: 20-04-2024 18:00" />
+            </VBox>
+        </TilePane>
         <HBox spacing="10">
             <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
+                <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
-            <Label text="Quel est votre prix ?"/>
-            <TextField/>
-            <Button text="Soumettre Offre"/>
+            <Label text="Quel est votre prix ?" textAlignment="CENTER" />
+            <TextField prefWidth="200" />
+            <Button text="Soumettre Offre" textAlignment="CENTER" />
         </HBox>
     </VBox>
 </VBox>
