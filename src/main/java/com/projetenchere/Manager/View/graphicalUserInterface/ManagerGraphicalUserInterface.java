@@ -16,12 +16,19 @@ public class ManagerGraphicalUserInterface implements IManagerUserInterface {
 
     @FXML
     private TextArea logTextArea;
-    @Override
-    public void displayHello() {
+
+    public void addLogMessage(String message) {
         Platform.runLater(() -> {
-            logTextArea.appendText("Bienvenue Manager !\n");
+            logTextArea.appendText(message + "\n");
         });
     }
+
+    @FXML
+    @Override
+    public void displayHello() {
+        addLogMessage("Bienvenue Manager !");
+    }
+
 
     @Override
     public void tellSignatureConfigSetup() {
