@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="750.0" prefWidth="500.0">
+<VBox prefWidth="750" prefHeight="500" xmlns:fx="http://javafx.com/fxml/1">
+    <TextArea fx:id="logTextArea" editable="false" prefHeight="200"/>
+    <VBox spacing="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+    </VBox>
+</VBox>
 
-</AnchorPane>
+

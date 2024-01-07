@@ -144,7 +144,7 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
         Pattern pattern = Pattern.compile(ipAddressPattern);
 
         while (askAddress) {
-            showMessage("Veuillez saisir l'addresse IP  du vendeur au format xxx.xxx.xxx.xxx  : ");
+            showMessage("Veuillez saisir l'addresse IP du vendeur au format xxx.xxx.xxx.xxx  : ");
 
             input = readMessage(15);
             Matcher matcher = pattern.matcher(input);

@@ -4,11 +4,23 @@ import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Winner;
 
+import javafx.application.Platform;
+import javafx.scene.control.TextArea;
+import javafx.fxml.FXML;
+
+import java.awt.*;
 import java.time.LocalDateTime;
 
 public class ManagerGraphicalUserInterface implements IManagerUserInterface {
+
+
+    @FXML
+    private TextArea logTextArea;
     @Override
     public void displayHello() {
+        Platform.runLater(() -> {
+            logTextArea.appendText("Bienvenue Manager !\n");
+        });
     }
 
     @Override
