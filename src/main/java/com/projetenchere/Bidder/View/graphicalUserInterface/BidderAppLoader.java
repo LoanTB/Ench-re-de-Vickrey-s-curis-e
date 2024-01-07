@@ -10,16 +10,22 @@ public class BidderAppLoader extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         IBidderUserInterfaceFactory uiFactory = new BidderUserInterfaceFactory();
         BidderGraphicalUserInterface guiInterface = (BidderGraphicalUserInterface) uiFactory.createBidderUserInterface();
+
+        // Load FXML and apply controler
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BidderGraphicalUserInterface.fxml"));
-
         loader.setController(guiInterface);
-
         Parent root = loader.load();
 
+        // Create scene and add CSS
+        Scene scene = new Scene(root);
+        String css = this.getClass().getResource("/css/style.css").toExternalForm();
+        scene.getStylesheets().add(css);
+
         primaryStage.setTitle("Bidder");
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
