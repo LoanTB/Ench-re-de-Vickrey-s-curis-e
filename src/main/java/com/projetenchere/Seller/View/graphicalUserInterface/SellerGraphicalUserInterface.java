@@ -45,12 +45,12 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
         addLogMessage("Message de test");
     }
 
-    //@FXML
-    //private void handleCreateBidButton() {
-        //String bidName = bidNameTextField.getText();
-        //String bidDescription = bidDescriptionTextField.getText();
-        //LocalDateTime bidEndDateTime = getBidEndDateTime();
-    //}
+    @FXML
+    private void handleCreateBidButton() {
+        String bidName = bidNameTextField.getText();
+        String bidDescription = bidDescriptionTextField.getText();
+        LocalDateTime bidEndDateTime = askBidEndTime();
+    }
 
     @Override
     public void displayHello() {
