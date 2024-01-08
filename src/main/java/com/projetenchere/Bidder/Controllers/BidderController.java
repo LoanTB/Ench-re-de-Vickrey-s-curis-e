@@ -8,9 +8,11 @@ import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Offer;
 
+import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,17 +59,27 @@ public class BidderController extends Controller {
         ui.displayBid(this.currentBids);
     }
 
-    public void readAndSendOffer() throws Exception {
+
+    public void readAndSendOffer() {
         Offer offer = ui.readOffer(bidder, currentBids);
         Bid bid = currentBids.getBid(offer.getIdBid());
         if (bid == null) throw new RuntimeException("");
-
-        EncryptedOffer encryptedOffer = new EncryptedOffer(bidder.getSignature(), offer, bidder.getKey(), managerPubKey, bid.getId());
-
+        EncryptedOffer encryptedOffer;
+        try {
+            encryptedOffer = new EncryptedOffer(bidder.getSignature(), offer, bidder.getKey(), managerPubKey, bid.getId());
+        } catch (GeneralSecurityException e) {
+            throw new RuntimeException("Could not encrypt offer");
+        }
         participatedBid.add(offer.getIdBid());
         client.connectToSeller(bid.getSellerSocketAddress());
         ui.tellOfferSent();
-        WinStatus status = client.sendOfferAndWaitForResult(encryptedOffer);
+        SignedEncryptedOfferSet set = client.sendOfferReceiveList(encryptedOffer);
+        //TODO: check set
+        if(/*list does not contain set*/ false) {
+            //TODO: do something
+            ;
+        }
+        WinStatus status = client.validateAndGetWinStatus();
         this.results.put(bid.getId(), status);
         if (status.isWinner()) {
             System.out.println("Prix à payer : " + status.getPrice());
@@ -77,13 +89,7 @@ public class BidderController extends Controller {
         client.stopSeller();
     }
 
-    public List<String> getParticipatedBid(){
-        return participatedBid;
-    }
-
-    public void displayHello(){ui.displayHello();}
-
-    public IBidderUserInterface getUi() {
-        return ui;
+    public void displayHello(){
+        ui.displayHello();
     }
 }
