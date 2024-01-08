@@ -18,7 +18,6 @@ import com.projetenchere.common.network.Server;
 
 import java.net.InetSocketAddress;
 import java.security.PublicKey;
-import java.security.SignatureException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -56,7 +55,7 @@ public class SellerController extends Controller {
         String description = ui.askBidDescription();
         LocalDateTime end = ui.askBidEndTime();
         myBid = new Bid(id, name, description, end, new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT), seller.getKey());
-        seller.setEncryptedOffersSignedBySeller(new EncryptedOffersSet(myBid.getId(),new HashSet<>()));
+        seller.setEncryptedOffers(new EncryptedOffersSet(myBid.getId(),new HashSet<>()));
         ui.displayBidCreated(myBid);
     }
 
@@ -96,12 +95,9 @@ public class SellerController extends Controller {
         Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
     }
 
-    public EncryptedOffersSet getEncryptedOffersSet(){
-        return new EncryptedOffersSet(myBid.getId(), seller.getEncryptedOffers());
-    }
 
     public SignedEncryptedOfferSet reSignedEncryptedOffers() throws Exception {
-        EncryptedOffersSet set = getEncryptedOffersSet();
+        EncryptedOffersSet set = seller.getEncryptedOffersSet();
         Set<EncryptedOffer> offers = set.getOffers();
         Set<EncryptedOffer> offersSigned = new HashSet<>();
         for (EncryptedOffer o : offers){
@@ -113,9 +109,6 @@ public class SellerController extends Controller {
         return new SignedEncryptedOfferSet(seller.getSignature(),seller.getKey(),list);
     }
 
-    /*public void sendEncryptedOffersSetToBidders(){
-
-    }*/
 
     public void sendEncryptedOffersSet() throws Exception {
         this.setWinner(client.sendEncryptedOffersSet(reSignedEncryptedOffers()));
