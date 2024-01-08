@@ -9,6 +9,7 @@ import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
+import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.NetworkUtil;
@@ -99,15 +100,22 @@ public class SellerController extends Controller {
         return new EncryptedOffersSet(myBid.getId(), seller.getEncryptedOffers());
     }
 
-    public EncryptedOffersSet reSignedEncryptedOffers() throws Exception {
+    public SignedEncryptedOfferSet reSignedEncryptedOffers() throws Exception {
         EncryptedOffersSet set = getEncryptedOffersSet();
         Set<EncryptedOffer> offers = set.getOffers();
         Set<EncryptedOffer> offersSigned = new HashSet<>();
         for (EncryptedOffer o : offers){
             offersSigned.add(new EncryptedOffer(seller.getSignature(),o.getPrice(),seller.getKey(),o.getBidId()));
         }
-        return new EncryptedOffersSet(set.getBidId() ,offersSigned);
+
+        EncryptedOffersSet list =  new EncryptedOffersSet(set.getBidId() ,offersSigned);
+
+        return new SignedEncryptedOfferSet(seller.getSignature(),seller.getKey(),list);
     }
+
+    /*public void sendEncryptedOffersSetToBidders(){
+
+    }*/
 
     public void sendEncryptedOffersSet() throws Exception {
         this.setWinner(client.sendEncryptedOffersSet(reSignedEncryptedOffers()));
