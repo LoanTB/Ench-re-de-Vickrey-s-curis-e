@@ -1,0 +1,93 @@
+package com.projetenchere.common.network;
+
+import java.io.*;
+import java.util.Map;
+
+public class ClientAcceptor<T extends Serializable> extends Thread {
+    private final Map<Headers, IDataHandler> handlers;
+    private ObjectInputStream objectInput;
+    private ObjectOutputStream objectOutput;
+    private Server owner;
+    boolean stop = false;
+
+    public synchronized void addHandler(Headers header, IDataHandler replyer) {
+        this.handlers.put(header, replyer);
+    }
+
+    public synchronized void removeHandler(Headers header) {
+        this.handlers.remove(header);
+    }
+
+    private void cleanup(){
+        if (this.objectOutput != null) {
+            try {
+                this.objectOutput.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (this.objectInput != null) {
+            try {
+                this.objectInput.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        this.owner.stopConnection(this);
+    }
+
+    public ClientAcceptor(
+            Map<Headers, IDataHandler> handlers,
+            ObjectInputStream objectInputStream,
+            ObjectOutputStream objectOutputStream,
+            Server owner) {
+        this.handlers = handlers;
+        this.objectInput = objectInputStream;
+        this.objectOutput = objectOutputStream;
+        this.owner = owner;
+    }
+
+
+    @Override
+    public void run() {
+        try {
+            while (!stop) {
+                checkStreams();
+                Object rawRequest = this.getObjectInput().readObject();
+                DataWrapper<T> dataInput = (DataWrapper<T>) rawRequest;
+                System.out.println("Received " + dataInput.getHeader());
+                T object = dataInput.unwrap();
+                DataWrapper<? extends Serializable> dataOutput;
+                if (dataInput.checkHeader(Headers.GOODBYE_HAVE_A_NICE_DAY)) {
+                    this.stop = true;
+                }
+                else if (handlers.containsKey(dataInput.getHeader())) {
+                    dataOutput = handlers.get(dataInput.getHeader()).handle(object);
+                    this.getObjectOutput().writeObject(dataOutput);
+                }
+            }
+        } catch (ClassNotFoundException | ClassCastException e) {
+            throw new RuntimeException(e);
+        } catch (IOException i) {
+            System.out.println("Unexpected closure");
+        }
+        this.cleanup();
+    }
+
+    public ObjectInputStream getObjectInput() {
+        return objectInput;
+    }
+
+    public ObjectOutputStream getObjectOutput() {
+        return objectOutput;
+    }
+
+    public void checkStreams() {
+        if (objectOutput == null || objectInput == null) throw new RuntimeException("No streams for IO");
+    }
+
+    public void setInputStream(ObjectInputStream inputStream) {
+        this.objectInput = inputStream;
+    }
+
+}

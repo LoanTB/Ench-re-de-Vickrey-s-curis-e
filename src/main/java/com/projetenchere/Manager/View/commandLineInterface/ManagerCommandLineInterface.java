@@ -1,7 +1,7 @@
 package com.projetenchere.Manager.View.commandLineInterface;
 
 import com.projetenchere.Manager.View.IManagerUserInterface;
-import com.projetenchere.common.Models.Network.Communication.Winner;
+import com.projetenchere.common.Models.Winner;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,6 +43,19 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
             }
         }
         return input;
+    }
+
+    @Override
+    public void tellSignatureConfigSetup(){
+        showMessage("Mise en place de la configuration de la signature...");
+    }
+    @Override
+    public void tellSignatureConfigGeneration(){
+        showMessage("Génération de la configuration de la signature ...");
+    }
+    @Override
+    public void tellSignatureConfigReady(){
+        showMessage("Configuration de la signature terminée.");
     }
 
     @Override
@@ -146,7 +159,7 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
 
     @Override
     public void displayWinnerPrice(Winner winner) {
-        System.out.println("Le prix gagnant de l'enchère "+winner.getBidId() + " à été déterminé et répondu (" + winner.getPrice()+"€)");
+        System.out.println("Le prix gagnant de l'enchère "+winner.bidId() + " à été déterminé et répondu (" + winner.price()+"€)");
     }
 
     @Override

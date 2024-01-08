@@ -3,137 +3,87 @@ package com.projetenchere.Bidder.Controllers;
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
+import com.projetenchere.Bidder.network.BidderClient;
 import com.projetenchere.common.Controllers.Controller;
-import com.projetenchere.common.Models.Identity;
-import com.projetenchere.common.Models.Network.Communication.CurrentBids;
+import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKeys;
-import com.projetenchere.common.Models.Network.Communication.WinStatus;
+import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Offer;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
-
-import static java.lang.Thread.sleep;
+import java.util.Map;
 
 public class BidderController extends Controller {
     private final IBidderUserInterface ui = new BidderCommandLineInterface();
-    private final BidderNetworkController networkController = new BidderNetworkController(this);
-    private CurrentBids currentBids = null;
-    private CurrentBidsPublicKeys currentBidsPublicKeys = null;
+    BidderClient client = new BidderClient();
+    private CurrentBids currentBids;
     private final List<String> participatedBid = new ArrayList<>();
-    private final List<WinStatus> results = new ArrayList<>();
+    private final Map<String, WinStatus> results = new HashMap<>();
     private final Bidder bidder = new Bidder();
+    private PublicKey managerPubKey;
+
+    public void setSignatureConfig() throws Exception {
+        setSignatureConfig(ui,bidder);
+    }
 
     public void setCurrentBids(CurrentBids currentBids) {
         this.currentBids = currentBids;
     }
 
-    public void setCurrentBidsPublicKeys(CurrentBidsPublicKeys currentBidsPublicKeys) {
-        this.currentBidsPublicKeys = currentBidsPublicKeys;
+    public void askForManagerPubKey(){
+        ui.tellWaitManagerSecurityInformations();
+        managerPubKey = client.getManagerPubKey();
+        System.out.println("Public key received");
     }
 
-    public void networkListeningInitialization() {
-        Thread thread = new Thread(networkController);
-        thread.start();
+    public void askForCurrentBids() {
+        currentBids = client.getCurrentBids();
+        System.out.println("Received bids");
     }
 
-    public void addResult(WinStatus result){
-        results.add(result);
+    public void initWithManager() {
+        client.connectToManager();
+        askForCurrentBids();
+        askForManagerPubKey();
+        client.stopManager();
+    }
+
+    public void showBids() {
+        System.out.println(this.currentBids.getCurrentBids().size());
+        ui.displayBid(this.currentBids);
+    }
+
+    public void readAndSendOffer() throws Exception {
+        Offer offer = ui.readOffer(bidder, currentBids);
+        Bid bid = currentBids.getBid(offer.getIdBid());
+        if (bid == null) throw new RuntimeException("");
+
+        EncryptedOffer encryptedOffer = new EncryptedOffer(bidder.getSignature(), offer, bidder.getKey(), managerPubKey, bid.getId());
+
+        participatedBid.add(offer.getIdBid());
+        client.connectToSeller(bid.getSellerSocketAddress());
+        ui.tellOfferSent();
+        WinStatus status = client.sendOfferAndWaitForResult(encryptedOffer);
+        this.results.put(bid.getId(), status);
+        if (status.isWinner()) {
+            System.out.println("Prix à payer : " + status.getPrice());
+        } else {
+            System.out.println("Vous avez perdu");
+        }
+        client.stopSeller();
     }
 
     public List<String> getParticipatedBid(){
         return participatedBid;
     }
 
-    public void readInfos() throws Exception {
-        bidder.setIdentity(new Identity(UUID.randomUUID().toString(),ui.readName(),ui.readSurname(),"Bidder"));
-        networkController.setMyInformationsWithPort(bidder.getIdentity(),ui.readPort());
-        bidder.setInformations(networkController.getMyPublicInformations());
-    }
-
-    public void waitToReceiveBids() {
-        ui.tellWaitBidsAnnoncement();
-        while (currentBids == null) {
-            waitSychro(1000);
-        }
-    }
-
-    public void waitToReceiveBidsPublicKeys() {
-        ui.tellWaitBidsPublicKeysAnnoncement();
-        while (currentBidsPublicKeys == null) {
-            waitSychro(1000);
-        }
-    }
-
-    public void showBid() {
-        waitToReceiveBids();
-        ui.displayBid(this.currentBids);
-    }
-
-    public void readAndSendOffer() throws Exception {
-        Offer offer = ui.readOffer(bidder, currentBids);
-        waitToReceiveBidsPublicKeys();
-        EncryptedOffer encryptedOffer = new EncryptedOffer(offer, currentBidsPublicKeys.getKeyOfBid(offer.getIdBid()));
-        networkController.sendTo(currentBids.getBid(offer.getIdBid()).getSeller().getIdentity().getId(),encryptedOffer);
-        participatedBid.add(offer.getIdBid());
-        ui.tellOfferSent();
-    }
-
-    public void waitForPrice() {
-        ui.tellWaitOfferResult();
-        while (results.isEmpty()) {
-            waitSychro(1000);
-        }
-        if (results.get(0).isWinner()){
-            ui.tellOfferWon(results.get(0).getPrice());
-        } else {
-            ui.tellOfferLost();
-        }
-    }
-
-    public void waitManagerContactKeys(){
-        if (networkController.informationContainsPublicKeys("Manager")){
-            return;
-        }
-        ui.tellWaitManagerSecurityInformations();
-        while (!networkController.informationContainsPublicKeys("Manager")) {
-            waitSychro(1000);
-        }
-    }
-
-    public void sendBidderInfosToManager() throws Exception {
-        networkListeningInitialization();
-        boolean succes;
-        try {
-            networkController.sendMySI("Manager");
-            succes = true;
-        } catch (Exception ignore){
-            succes = false;
-            ui.tellWaitManager();
-        }
-        while (!succes) {
-            sleep(1000);
-            try {
-                networkController.sendMySI("Manager");
-                succes = true;
-                ui.tellManagerFound();
-            } catch (Exception ignore){
-                succes = false;
-            }
-        }
-    }
-
     public void displayHello(){ui.displayHello();}
 
     public IBidderUserInterface getUi() {
         return ui;
-    }
-
-    public void sendRequestOffers() throws Exception {
-        waitManagerContactKeys();
-        ui.tellSendRequestOffers();
-        networkController.sendTo("Manager","InitPackageRequest");
     }
 }

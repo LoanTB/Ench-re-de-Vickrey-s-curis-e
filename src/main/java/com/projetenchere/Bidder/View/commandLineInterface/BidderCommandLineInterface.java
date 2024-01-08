@@ -2,7 +2,7 @@ package com.projetenchere.Bidder.View.commandLineInterface;
 
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
-import com.projetenchere.common.Models.Network.Communication.CurrentBids;
+import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
 
 import java.util.Scanner;
@@ -54,14 +54,26 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
                 showMessage("Prix invalide, entrez un prix positif :");
             }
         }
-        return new Offer(bidder.getIdentity().getId(), idBidString, offerString);
+        return new Offer(bidder.getSignature(), idBidString, offerString);
+    }
+
+    @Override
+    public void tellSignatureConfigSetup(){
+        showMessage("Mise en place de la configuration de la signature...");
+    }
+    @Override
+    public void tellSignatureConfigGeneration(){
+        showMessage("Génération de la configuration de la signature ...");
+    }
+    @Override
+    public void tellSignatureConfigReady(){
+        showMessage("Configuration de la signature terminée.");
     }
 
     @Override
     public void tellOfferWon(double priceToPay) {
         showMessage("Votre offre a gagné, vous devez payer " + priceToPay + "€");
     }
-
 
     @Override
     public void tellOfferLost() {

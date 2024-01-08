@@ -3,23 +3,29 @@ package com.projetenchere.Seller.Controllers;
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.ISellerUserInterface;
 import com.projetenchere.Seller.View.commandLineInterface.SellerCommandLineInterface;
+import com.projetenchere.Seller.network.Handlers.EncryptedOfferReplyer;
+import com.projetenchere.Seller.network.SellerClient;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
-import com.projetenchere.common.Models.Identity;
-import com.projetenchere.common.Models.Network.Communication.WinStatus;
-import com.projetenchere.common.Models.Network.Communication.Winner;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
+import com.projetenchere.common.Models.WinStatus;
+import com.projetenchere.common.Models.Winner;
+import com.projetenchere.common.Utils.NetworkUtil;
+import com.projetenchere.common.network.Headers;
+import com.projetenchere.common.network.Server;
 
+import java.net.InetSocketAddress;
+import java.security.PublicKey;
+import java.security.SignatureException;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static java.lang.Thread.sleep;
-
 public class SellerController extends Controller {
-    SellerNetworkController networkController = new SellerNetworkController(this);
     private final ISellerUserInterface ui = new SellerCommandLineInterface();
-    private final Seller seller = new Seller();
+    private final SellerClient client = new SellerClient();
+    private final Server server = new Server(24682);
+    private final Seller seller = Seller.getInstance();
     private Bid myBid;
     private Winner winner = null;
 
@@ -31,15 +37,16 @@ public class SellerController extends Controller {
 
     public void setWinner(Winner winner){
         this.winner = winner;
+        seller.setWinStatusMap(getBiddersWinStatus());
+        seller.setResultsAreIn(true);
     }
 
     public ISellerUserInterface getUi() {
         return ui;
     }
 
-    public void networkListeningInitialization() {
-        Thread thread = new Thread(networkController);
-        thread.start();
+    public void setSignatureConfig() throws Exception {
+        setSignatureConfig(ui, seller);
     }
 
     public void createMyBid(){
@@ -47,141 +54,78 @@ public class SellerController extends Controller {
         String name = ui.askBidName();
         String description = ui.askBidDescription();
         LocalDateTime end = ui.askBidEndTime();
-        myBid = new Bid(id, name, description, end, networkController.getMyPublicInformations());
+        myBid = new Bid(id, name, description, end, new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT), seller.getKey());
+        seller.setEncryptedOffersSignedBySeller(new EncryptedOffersSet(myBid.getId(),new HashSet<>()));
         ui.displayBidCreated(myBid);
     }
 
-    public void sendMyBid() throws Exception {
+    public void sendMyBid() {
+        client.connectToManager();
+        if (myBid == null) throw new RuntimeException("No bid was registered");
         ui.tellSendBidToManager();
-        networkController.sendTo("Manager",myBid);
+        client.sendBid(myBid);
     }
 
     public boolean auctionInProgress(){
         return (!this.myBid.isOver());
     }
 
-    public void receiveOffersUntilBidEnd() {
-        ui.waitOffers();
-        while (auctionInProgress()) {
-            waitSychro(1000);
-        }
+    public void initServer() {
+
     }
 
-
-    public void saveEncryptedOffer(EncryptedOffer encryptedOffer, String bidderId, String bidderIp, int bidderPort){
-        seller.addBidderId(bidderId);
-        seller.addEncryptedOffer(encryptedOffer);
-        seller.addBidderIp(bidderIp);
-        seller.addBidderPort(bidderPort);
-        displayOfferReceived(encryptedOffer);
+    public void receiveOffersUntilBidEndAndSendResults() {
+        ui.waitOffers();
+        server.addHandler(Headers.GET_WIN_STATUS, new EncryptedOfferReplyer());
+        server.start();
+        while (auctionInProgress()) {
+            waitSynchro(1000);
+        }
+        server.removeHandler(Headers.GET_WIN_STATUS);
     }
 
     public void displayHello(){ui.displayHello();}
 
-    public void readInfos() throws Exception {
-        seller.setIdentity(new Identity(UUID.randomUUID().toString(),ui.readName(),ui.readSurname(),"Seller"));
-        networkController.setMyInformationsWithPort(seller.getIdentity(),ui.readPort());
-        seller.setInformations(networkController.getMyPublicInformations());
-    }
 
-    public void sendSellerInfosToManager() throws Exception {
-        networkListeningInitialization();
-        boolean succes;
-        try {
-            networkController.sendMySI("Manager");
-            succes = true;
-        } catch (Exception ignore){
-            succes = false;
-            ui.tellWaitManager();
-        }
-        while (!succes) {
-            sleep(1000);
-            try {
-                networkController.sendMySI("Manager");
-                succes = true;
-                ui.tellManagerFound();
-            } catch (Exception ignore){
-                succes = false;
-            }
-        }
-    }
-
-    public void waitManagerContactKeys(){
-        if (networkController.informationContainsPublicKeys("Manager")){
-            return;
-        }
-        ui.tellWaitManagerSecurityInformations();
-        while (!networkController.informationContainsPublicKeys("Manager")) {
-            waitSychro(1000);
-        }
-    }
-
-    public void displayOfferReceived(EncryptedOffer encryptedOffer){
-        ui.displayOfferReceived(encryptedOffer);
+    public void displayOfferReceived(){
+        ui.displayOfferReceived();
     }
 
     public void displayWinner(){
-        List<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
-        List<WinStatus> biddersWinStatus = getBiddersWinStatus();
-        String winnerID = getWinnerID(encryptedOffers,biddersWinStatus);
-        Double price = winner.getPrice();
-        ui.displayWinner(winnerID,price);
+        Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
     }
 
-    public EncryptedPrices getEncryptedPrices(List<EncryptedOffer> encryptedOffers){
-        Set<byte[]> encryptedPrices = new HashSet<>();
-        for (EncryptedOffer encryptedOffer: encryptedOffers){
-            encryptedPrices.add(encryptedOffer.getPrice());
+    public EncryptedOffersSet getEncryptedOffersSet(){
+        return new EncryptedOffersSet(myBid.getId(), seller.getEncryptedOffers());
+    }
+
+    public EncryptedOffersSet reSignedEncryptedOffers() throws Exception {
+        EncryptedOffersSet set = getEncryptedOffersSet();
+        Set<EncryptedOffer> offers = set.getOffers();
+        Set<EncryptedOffer> offersSigned = new HashSet<>();
+        for (EncryptedOffer o : offers){
+            offersSigned.add(new EncryptedOffer(seller.getSignature(),o.getPrice(),seller.getKey(),o.getBidId()));
         }
-        return new EncryptedPrices(myBid.getId(),encryptedPrices);
+        return new EncryptedOffersSet(set.getBidId() ,offersSigned);
     }
 
-    public void sendEncryptedPrices() throws Exception {
-        networkController.sendTo("Manager",getEncryptedPrices(seller.getEncryptedOffers()));
-        ui.displayEncryptedPriceSended();
+    public void sendEncryptedOffersSet() throws Exception {
+        this.setWinner(client.sendEncryptedOffersSet(reSignedEncryptedOffers()));
+        ui.displayEncryptedOffersSetent();
     }
 
-    public void waitFetchWinner() {
-        ui.tellWaitWinnerDeclaration();
-        while (winner == null) {
-            waitSychro(1000);
-        }
-    }
-
-    public void sendResults() throws Exception {
-        List<WinStatus> results = getBiddersWinStatus();
-        List<String> ids = seller.getBiddersIds();
-        if (ids.size() != results.size()){
-            throw new IllegalArgumentException("Les liste de contacts enchérisseur et liste des gagnants ne concordent pas");
-        }
-        for (int i=0;i<ids.size();i++){
-            networkController.sendTo(ids.get(i),results.get(i));
-        }
-        ui.displayResultsSent();
-    }
-
-    public List<WinStatus> getBiddersWinStatus(){
-        List<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
+    public Map<PublicKey, WinStatus> getBiddersWinStatus(){
+        Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
         boolean haveAWinner = false;
-        List<WinStatus> winStatus = new ArrayList<>();
+        Map<PublicKey, WinStatus> winStatusMap = new HashMap<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {
-            if (Arrays.equals(encryptedOffer.getPrice(), winner.getEncryptedId()) && !haveAWinner) {
-                winStatus.add(new WinStatus(winner.getBidId(),true,winner.getPrice()));
+            if (Arrays.equals(encryptedOffer.getPrice(), winner.encryptedPrice()) && !haveAWinner) {
+                winStatusMap.put(encryptedOffer.getSignaturePublicKey(),new WinStatus(winner.bidId(),true,winner.price()));
                 haveAWinner = true;
             } else {
-                winStatus.add(new WinStatus(winner.getBidId(),false,-1));
+                winStatusMap.put(encryptedOffer.getSignaturePublicKey(),new WinStatus(winner.bidId(),false,-1));
             }
         }
-        return winStatus;
+        return winStatusMap;
     }
-
-    public String getWinnerID(List<EncryptedOffer> encryptedOffers, List<WinStatus> biddersWinStatus){
-        for (int i=0;i<encryptedOffers.size();i++){
-            if (biddersWinStatus.get(i).isWinner()){
-                return encryptedOffers.get(i).getIdBidder();
-            }
-        }
-        return null;
-    }
-
 }

@@ -1,29 +1,33 @@
 package com.projetenchere.Manager.Controllers;
 
+import com.projetenchere.Manager.Handlers.BidSetReplyer;
+import com.projetenchere.Manager.Handlers.EncryptedOffersSetReplyer;
+import com.projetenchere.Manager.Handlers.NewBidReplyer;
+import com.projetenchere.Manager.Handlers.PubKeyReplyer;
 import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
-import com.projetenchere.common.Models.Encrypted.EncryptedPrices;
-import com.projetenchere.common.Models.Network.Communication.CurrentBids;
-import com.projetenchere.common.Models.Network.Communication.CurrentBidsPrivateKeys;
-import com.projetenchere.common.Models.Network.Communication.CurrentBidsPublicKeys;
-import com.projetenchere.common.Models.Network.Communication.Winner;
+import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Utils.EncryptionUtil;
+import com.projetenchere.common.network.Headers;
+import com.projetenchere.common.network.Server;
 
-import java.security.PrivateKey;
+import java.security.KeyPair;
 
 public class ManagerController extends Controller {
     public final IManagerUserInterface ui = new ManagerCommandLineInterface();
-    public final ManagerNetworkController networkController = new ManagerNetworkController(this);
 
-    public final Manager manager = new Manager();
     private final CurrentBids currentBids = new CurrentBids();
-    private final CurrentBidsPublicKeys currentBidsPublicKeys = new CurrentBidsPublicKeys();
-    private final CurrentBidsPrivateKeys currentBidsPrivateKeys = new CurrentBidsPrivateKeys();
+
+    private final Manager manager = Manager.getInstance();
 
     public ManagerController() throws Exception {}
+
+    public void setSignatureConfig() throws Exception {
+        setSignatureConfig(ui,manager);
+    }
 
     public CurrentBids getCurrentBids() {
         return currentBids;
@@ -31,16 +35,6 @@ public class ManagerController extends Controller {
 
     public void addBid(Bid bid) throws Exception {
         currentBids.addCurrentBid(bid);
-        currentBidsPrivateKeys.addKeyToBid(bid.getId(),EncryptionUtil.generateKeyPair());
-        currentBidsPublicKeys.addKeyToBid(bid.getId(),currentBidsPrivateKeys.getKeyOfBid(bid.getId()).getPublic());
-    }
-
-    public CurrentBidsPublicKeys getCurrentBidsPublicKeys() {
-        return currentBidsPublicKeys;
-    }
-
-    public CurrentBidsPrivateKeys getCurrentBidsPrivateKeys() {
-        return currentBidsPrivateKeys;
     }
 
     public void startAllBids(){
@@ -51,9 +45,17 @@ public class ManagerController extends Controller {
         currentBids.startBids(idBid);
     }
 
-    public void initConnexion() {
-        Thread thread = new Thread(networkController);
-        thread.start();
+    public void init() {
+        Server managerServer = new Server(24683);
+        Manager manager = Manager.getInstance();
+        KeyPair keys = EncryptionUtil.generateKeyPair();
+        manager.setPrivateKey(keys.getPrivate());
+        manager.setPublicKey(keys.getPublic());
+        managerServer.addHandler(Headers.GET_PUB_KEY, new PubKeyReplyer());
+        managerServer.addHandler(Headers.GET_CURRENT_BIDS, new BidSetReplyer());
+        managerServer.addHandler(Headers.NEW_BID, new NewBidReplyer());
+        managerServer.addHandler(Headers.RESOLVE_BID, new EncryptedOffersSetReplyer());
+        managerServer.start();
         ui.tellManagerReadyToProcessBids();
     }
 
@@ -66,37 +68,9 @@ public class ManagerController extends Controller {
         startBid(idBid);
     }
 
-    public Winner processPrices(EncryptedPrices encryptedPrices, PrivateKey privateKey) throws Exception {
-        double price1 = 0;
-        byte[] encrypted1 = null;
-        double decrypted;
-        for (byte[] encrypted : encryptedPrices.getPrices()) {
-            decrypted = EncryptionUtil.decryptPrice(encrypted,privateKey);
-            if (decrypted > price1){
-                price1 = decrypted;
-                encrypted1 = encrypted;
-            }
-        }
-        double price2 = -1;
-        for (byte[] encrypted : encryptedPrices.getPrices()) {
-            decrypted = EncryptionUtil.decryptPrice(encrypted,privateKey);
-            if (decrypted > price2 && decrypted != price1){
-                price2 = decrypted;
-            }
-        }
-        if (price2 == -1){
-            price2 = price1;
-        }
-        Winner winner = new Winner(encryptedPrices.getBidId(), encrypted1,price2);
-        ui.displayWinnerPrice(winner);
-        return winner;
-    }
-
     public void displayHello(){
         ui.displayHello();
     }
 
-    public IManagerUserInterface getUi() {
-        return ui;
-    }
+
 }

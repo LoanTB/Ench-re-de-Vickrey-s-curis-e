@@ -6,6 +6,7 @@ public class ManagerApp {
     public static void main(String[] args) throws Exception {
         ManagerController controller = new ManagerController();
         controller.displayHello();
-        controller.initConnexion();
+        controller.setSignatureConfig();
+        controller.init();
     }
 }
