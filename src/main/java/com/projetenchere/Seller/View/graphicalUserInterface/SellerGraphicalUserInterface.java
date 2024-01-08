@@ -5,11 +5,12 @@ import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Bid;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class SellerGraphicalUserInterface implements ISellerUserInterface {
 
@@ -18,6 +19,12 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
     private VBox messagesVBox = new VBox();
     @FXML
     private ScrollPane scrollPane = new ScrollPane();
+    @FXML
+    private TextField bidNameTextField, bidDescriptionTextField;
+    @FXML
+    private DatePicker endDatePicker;
+    @FXML
+    private ComboBox<Integer> hourComboBox, minuteComboBox, secondComboBox;
 
     public void addLogMessage(String message) {
         Platform.runLater(() -> {
@@ -31,6 +38,25 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
     public void handleTestLogButton() {
         addLogMessage("Message de test");
     }
+
+    private LocalDateTime getBidEndDateTime() {
+        LocalDate endDate = endDatePicker.getValue();
+        Integer hour = hourComboBox.getValue();
+        Integer minute = minuteComboBox.getValue();
+        Integer second = secondComboBox.getValue();
+
+        if (endDate != null && hour != null && minute != null && second != null) {
+            return LocalDateTime.of(endDate, LocalTime.of(hour, minute, second));
+        }
+        return null;
+    }
+
+    //@FXML
+    //private void handleCreateBidButton() {
+        //String bidName = bidNameTextField.getText();
+        //String bidDescription = bidDescriptionTextField.getText();
+        //LocalDateTime bidEndDateTime = getBidEndDateTime();
+    //}
 
     @Override
     public void displayHello() {
