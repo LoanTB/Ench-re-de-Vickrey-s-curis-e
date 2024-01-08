@@ -10,7 +10,7 @@ public enum Headers implements Serializable {
     OK_CURRENT_BIDS,
     SEND_OFFER,
     CHECK_LIST,
-    STOP,
+    ABORT,
     GET_WIN_STATUS,
     OK_WIN_STATUS,
     NEW_BID,
