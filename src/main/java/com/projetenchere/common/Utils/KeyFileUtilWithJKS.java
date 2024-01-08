@@ -23,33 +23,24 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
         String configPath = "";
         String userHome = System.getProperty("user.home");
 
-
-        if(OS.contains("win")){
-            configPath = "C:\\Users\\Utilisateur\\AppData\\Local\\securewin";
-            KEYSTORE_FILEPATH = configPath+"\\config_signature_keypair.jks";
-            CERT_FILEPATH = configPath+"\\config_signature_certificat.cer";
-        } else if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) {
+        if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) {
             configPath = userHome+"/.config/securewin";
             KEYSTORE_FILEPATH = configPath+"/config_signature_keypair.jks";
             CERT_FILEPATH = configPath+"/config_signature_certificat.cer";
-        } else if (OS.contains("mac")){
-            configPath = userHome + "/Library/Application Support/securewin";
-            KEYSTORE_FILEPATH = configPath+"/config_signature_keypair.jks";
-            CERT_FILEPATH = configPath+"/config_signature_certificat.cer";
-
-        }else {
+        }
+        else {
             System.err.println("Système non prix en charge !");
         }
 
         File directoryConfig = new File(configPath);
         if(!directoryConfig.exists()){
             if(directoryConfig.mkdirs()){
-                System.out.println("Dossier de configuration créé avec succès : " + configPath);
+                //System.out.println("Dossier de configuration créé avec succès : " + configPath);
             }else{
-                System.err.println("Echec de la creation du dossier de config : " +  configPath);
+                //System.err.println("Echec de la creation du dossier de config : " +  configPath);
             }
         }else{
-            System.out.println("Dossier de configuration déjà existant : " +  configPath);
+            //System.out.println("Dossier de configuration déjà existant : " +  configPath);
         }
     }
 
@@ -60,10 +51,8 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
         Process process = processBuilder.start();
         int exitCode = process.waitFor();
         if(exitCode==0){
-            System.out.println("Le processus a réussie !");
             return true;
         }else{
-            System.err.println("Le processus a échoué");
             return false;
         }
     }
@@ -74,18 +63,18 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
             try {
                 // Commande pour générer une paire de clés dans .jks
                 String genKeyCommand = "keytool -genkeypair -alias "+ KEYSTORE_ALIAS +" -keyalg "+KEY_ALGORITHM+" -keysize "+KEY_SIZE+" -keystore "+ KEYSTORE_FILEPATH +" -validity "+VALIDITY_DAYS+" -dname \"CN=Secure, OU=Win, O=SecureWin, L=Montpellier, ST=Occitanie, C=FR\" -storepass "+KEYSTORE_PASSWORD+" -keypass "+KEYSTORE_PASSWORD;
-                System.out.println("Generation du keystore en cours ...");
-                System.out.println(genKeyCommand);
+                //System.out.println("Generation du keystore en cours ...");
+                //System.out.println(genKeyCommand);
                 boolean result = executeCommand(genKeyCommand);
                 if(result){
                     // Commande pour exporter le certificat associé au .jks
                     String exportCertCommand = "keytool -export -alias "+ KEYSTORE_ALIAS +" -file "+CERT_FILEPATH+" -keystore "+KEYSTORE_FILEPATH+" -storepass "+KEYSTORE_PASSWORD+" -keypass "+KEYSTORE_PASSWORD;
-                    System.out.println("Exportation du certificat en cours ...");
-                    System.out.println(exportCertCommand);
+                    //System.out.println("Exportation du certificat en cours ...");
+                    //System.out.println(exportCertCommand);
 
                     result= executeCommand(exportCertCommand);
                     if(result){
-                        System.out.println("Commande de generation de certificat reussie !");
+                        System.out.println("Commande de generation de certificat reussie !"); //TODO : retourner true pour que l'UI affiche le message.
                     }
                 }
             } catch (IOException e) {
