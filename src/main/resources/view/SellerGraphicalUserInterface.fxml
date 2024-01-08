@@ -16,15 +16,15 @@
         <padding>
             <Insets top="10" right="10" bottom="10" left="10"/>
         </padding>
-        <TextField promptText="Nom de l'enchère"/>
-        <TextField promptText="Description de l'enchère"/>
+        <TextField fx:id="bidNameTextField" promptText="Nom de l'enchère"/>
+        <TextField fx:id="bidDescriptionTextField" promptText="Description de l'enchère"/>
         <HBox spacing="5">
-            <DatePicker promptText="Date de fin"/>
-            <ComboBox promptText="Heure"/>
-            <ComboBox promptText="Minute"/>
-            <ComboBox promptText="Seconde"/>
+            <DatePicker fx:id="endDatePicker" promptText="Date de fin"/>
+            <ComboBox fx:id="hourComboBox" promptText="Heure"/>
+            <ComboBox fx:id="minuteComboBox" promptText="Minute"/>
+            <ComboBox fx:id="secondComboBox" promptText="Seconde"/>
         </HBox>
-        <Button text="Créer l'Enchère"/>
+        <Button text="Créer l'Enchère" onAction="#handleCreateBidButton"/>
     </VBox>
 </VBox>
 
