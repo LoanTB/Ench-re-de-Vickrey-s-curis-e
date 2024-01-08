@@ -29,13 +29,14 @@ public class SellerController extends Controller {
     private Bid myBid;
     private Winner winner = null;
 
-    public SellerController() throws Exception {}
+    public SellerController() throws Exception {
+    }
 
     public Bid getMyBid() {
         return myBid;
     }
 
-    public void setWinner(Winner winner){
+    public void setWinner(Winner winner) {
         this.winner = winner;
         seller.setWinStatusMap(getBiddersWinStatus());
         seller.setResultsAreIn(true);
@@ -49,13 +50,13 @@ public class SellerController extends Controller {
         setSignatureConfig(ui, seller);
     }
 
-    public void createMyBid(){
+    public void createMyBid() {
         String id = UUID.randomUUID().toString();
         String name = ui.askBidName();
         String description = ui.askBidDescription();
         LocalDateTime end = ui.askBidEndTime();
         myBid = new Bid(id, name, description, end, new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT), seller.getKey());
-        seller.setEncryptedOffers(new EncryptedOffersSet(myBid.getId(),new HashSet<>()));
+        seller.setEncryptedOffers(new EncryptedOffersSet(myBid.getId(), new HashSet<>()));
         ui.displayBidCreated(myBid);
     }
 
@@ -66,7 +67,7 @@ public class SellerController extends Controller {
         client.sendBid(myBid);
     }
 
-    public boolean auctionInProgress(){
+    public boolean auctionInProgress() {
         return (!this.myBid.isOver());
     }
 
@@ -84,14 +85,16 @@ public class SellerController extends Controller {
         server.removeHandler(Headers.GET_WIN_STATUS);
     }
 
-    public void displayHello(){ui.displayHello();}
+    public void displayHello() {
+        ui.displayHello();
+    }
 
 
-    public void displayOfferReceived(){
+    public void displayOfferReceived() {
         ui.displayOfferReceived();
     }
 
-    public void displayWinner(){
+    public void displayWinner() {
         Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
     }
 
@@ -100,31 +103,37 @@ public class SellerController extends Controller {
         EncryptedOffersSet set = seller.getEncryptedOffersSet();
         Set<EncryptedOffer> offers = set.getOffers();
         Set<EncryptedOffer> offersSigned = new HashSet<>();
-        for (EncryptedOffer o : offers){
-            offersSigned.add(new EncryptedOffer(seller.getSignature(),o.getPrice(),seller.getKey(),o.getBidId()));
+        for (EncryptedOffer o : offers) {
+            offersSigned.add(new EncryptedOffer(seller.getSignature(), o.getPrice(), seller.getKey(), o.getBidId()));
         }
 
-        EncryptedOffersSet list =  new EncryptedOffersSet(set.getBidId() ,offersSigned);
+        EncryptedOffersSet list = new EncryptedOffersSet(set.getBidId(), offersSigned);
 
-        return new SignedEncryptedOfferSet(seller.getSignature(),seller.getKey(),list);
+        return new SignedEncryptedOfferSet(seller.getSignature(), seller.getKey(), list);
     }
 
-
+    /*
+        public void sendAskingConfirmationRequest(){
+            if(client.sendAskingConfirmationRequest()){
+                myBid.setCanceled();
+            }
+        }
+    */
     public void sendEncryptedOffersSet() throws Exception {
         this.setWinner(client.sendEncryptedOffersSet(reSignedEncryptedOffers()));
         ui.displayEncryptedOffersSetent();
     }
 
-    public Map<PublicKey, WinStatus> getBiddersWinStatus(){
+    public Map<PublicKey, WinStatus> getBiddersWinStatus() {
         Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
         boolean haveAWinner = false;
         Map<PublicKey, WinStatus> winStatusMap = new HashMap<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {
             if (Arrays.equals(encryptedOffer.getPrice(), winner.encryptedPrice()) && !haveAWinner) {
-                winStatusMap.put(encryptedOffer.getSignaturePublicKey(),new WinStatus(winner.bidId(),true,winner.price()));
+                winStatusMap.put(encryptedOffer.getSignaturePublicKey(), new WinStatus(winner.bidId(), true, winner.price()));
                 haveAWinner = true;
             } else {
-                winStatusMap.put(encryptedOffer.getSignaturePublicKey(),new WinStatus(winner.bidId(),false,-1));
+                winStatusMap.put(encryptedOffer.getSignaturePublicKey(), new WinStatus(winner.bidId(), false, -1));
             }
         }
         return winStatusMap;
