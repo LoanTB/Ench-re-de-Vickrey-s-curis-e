@@ -20,11 +20,17 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
     @FXML
     private ScrollPane scrollPane = new ScrollPane();
     @FXML
-    private TextField bidNameTextField, bidDescriptionTextField;
+    private TextField bidNameTextField = new TextField();
     @FXML
-    private DatePicker endDatePicker;
+    private TextField bidDescriptionTextField = new TextField();
     @FXML
-    private ComboBox<Integer> hourComboBox, minuteComboBox, secondComboBox;
+    private DatePicker endDatePicker = new DatePicker();
+    @FXML
+    private ComboBox<Integer> hourComboBox = new ComboBox<>();
+    @FXML
+    private ComboBox<Integer> minuteComboBox = new ComboBox<>();
+    @FXML
+    private ComboBox<Integer> secondComboBox = new ComboBox<>();
 
     public void addLogMessage(String message) {
         Platform.runLater(() -> {
@@ -37,18 +43,6 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
     @FXML
     public void handleTestLogButton() {
         addLogMessage("Message de test");
-    }
-
-    private LocalDateTime getBidEndDateTime() {
-        LocalDate endDate = endDatePicker.getValue();
-        Integer hour = hourComboBox.getValue();
-        Integer minute = minuteComboBox.getValue();
-        Integer second = secondComboBox.getValue();
-
-        if (endDate != null && hour != null && minute != null && second != null) {
-            return LocalDateTime.of(endDate, LocalTime.of(hour, minute, second));
-        }
-        return null;
     }
 
     //@FXML
@@ -121,6 +115,14 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
 
     @Override
     public LocalDateTime askBidEndTime() {
+        LocalDate endDate = endDatePicker.getValue();
+        Integer hour = hourComboBox.getValue();
+        Integer minute = minuteComboBox.getValue();
+        Integer second = secondComboBox.getValue();
+
+        if (endDate != null && hour != null && minute != null && second != null) {
+            return LocalDateTime.of(endDate, LocalTime.of(hour, minute, second));
+        }
         return null;
     }
 
