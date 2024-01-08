@@ -22,9 +22,10 @@ public class EncryptedOfferReplyer implements IDataHandler {
                 try {
                     EncryptedOffer offer = (EncryptedOffer) data;
 
-                    SignatureUtil.verifyDataSignature(offer.getPrice(), offer.getPriceSigned(), offer.getSignaturePublicKey());
-                    seller.addBidder(offer.getSignaturePublicKey(), offer.getPrice());
-                    seller.getEncryptedOffers().add(offer);
+                    if(SignatureUtil.verifyDataSignature(offer.getPrice(), offer.getPriceSigned(), offer.getSignaturePublicKey())) { //TODO : Renvoie false dans le vide ?
+                        seller.addBidder(offer.getSignaturePublicKey(), offer.getPrice());
+                        seller.getEncryptedOffers().add(offer);
+                    }
 
                     while (!seller.resultsAreIn()) {
                         wait(1000);

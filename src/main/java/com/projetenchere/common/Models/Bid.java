@@ -15,6 +15,8 @@ public class Bid implements Serializable {
     private final InetSocketAddress sellerInformations;
     private final PublicKey pubKeySignatureSeller;
 
+    private boolean canceled;
+
     public Bid(String id, String name, String description, LocalDateTime endDateTime, InetSocketAddress sellerInformations, PublicKey pubKeySignatureSeller) {
         this.id = id;
         this.name = name;
@@ -23,6 +25,7 @@ public class Bid implements Serializable {
         this.sellerInformations = sellerInformations;
         this.startDateTime = LocalDateTime.now();
         this.pubKeySignatureSeller = pubKeySignatureSeller;
+        this.canceled = false;
     }
 
     public String getId() {
@@ -49,11 +52,11 @@ public class Bid implements Serializable {
         return this.sellerInformations;
     }
 
-    public PublicKey getSellerSignaturePublicKey(){
+    public PublicKey getSellerSignaturePublicKey() {
         return pubKeySignatureSeller;
     }
 
-    public void startBid(){
+    public void startBid() {
         startDateTime = LocalDateTime.from(LocalDateTime.now());
     }
 
@@ -74,4 +77,13 @@ public class Bid implements Serializable {
         LocalDateTime now = LocalDateTime.now();
         return now.isAfter(endDateTime);
     }
+
+    public void setCanceled() {
+        this.canceled = true;
+    }
+
+    public boolean isCanceled() {
+        return this.canceled;
+    }
+
 }

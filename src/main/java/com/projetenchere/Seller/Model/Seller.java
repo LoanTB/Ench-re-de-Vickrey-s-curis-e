@@ -2,6 +2,7 @@ package com.projetenchere.Seller.Model;
 
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
+import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.User;
 
@@ -12,7 +13,8 @@ public class Seller extends User{
     private static Seller INSTANCE;
     private final Map<PublicKey, byte[]> bidders = new HashMap<>();
     private Map<PublicKey, WinStatus> winStatusMap;
-    private EncryptedOffersSet encryptedOffersSignedBySeller;
+    private EncryptedOffersSet encryptedOffersReceived;
+    private SignedEncryptedOfferSet encryptedOffersSignedBySeller;
 
     private boolean resultsAreIn = false;
 
@@ -55,15 +57,24 @@ public class Seller extends User{
 
     private Seller(){}
 
+
     public Set<EncryptedOffer> getEncryptedOffers() {
-        return this.encryptedOffersSignedBySeller.getOffers();
+        return this.encryptedOffersReceived.getOffers();
     }
 
-    public void setEncryptedOffersSignedBySeller(EncryptedOffersSet offers){
-        this.encryptedOffersSignedBySeller = offers;
+    public EncryptedOffersSet getEncryptedOffersSet() {
+        return this.encryptedOffersReceived;
     }
 
-    public EncryptedOffersSet getEncryptedOffersSignedBySeller(){
+    public void setEncryptedOffers(EncryptedOffersSet offers){
+        this.encryptedOffersReceived = offers;
+    }
+
+    public void setEncryptedOffersSignedBySeller(SignedEncryptedOfferSet encryptedOffersSignedBySeller){
+        this.encryptedOffersSignedBySeller = encryptedOffersSignedBySeller;
+    }
+
+    public SignedEncryptedOfferSet getEncryptedOffersSignedBySeller(){
         return this.encryptedOffersSignedBySeller;
     }
 

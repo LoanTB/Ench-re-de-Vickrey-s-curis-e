@@ -19,7 +19,7 @@ public class EncryptionUtil {
         }
     }
 
-    public static byte[] encryptPrice(double number, PublicKey publicKey) throws Exception {
+    public static byte[] encryptPrice(double number, PublicKey publicKey) throws GeneralSecurityException{
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
         byte[] bytes = ByteBuffer.allocate(Double.BYTES).putDouble(number).array();
