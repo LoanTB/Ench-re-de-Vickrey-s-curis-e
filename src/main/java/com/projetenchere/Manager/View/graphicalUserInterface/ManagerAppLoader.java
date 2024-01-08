@@ -30,7 +30,7 @@ public class ManagerAppLoader extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        guiInterface.displayHello();
+        // guiInterface.displayHello();
     }
 
     public static void launchApp() {

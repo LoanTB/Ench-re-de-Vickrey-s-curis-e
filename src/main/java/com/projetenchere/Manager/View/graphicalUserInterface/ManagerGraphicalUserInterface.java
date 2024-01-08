@@ -11,34 +11,46 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 
 
-
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class ManagerGraphicalUserInterface implements IManagerUserInterface {
 
+    private final String instanceId = UUID.randomUUID().toString();
 
+    public ManagerGraphicalUserInterface() {
+        System.out.println("Controller instance created: " + instanceId);
+    }
     @FXML
     private VBox messagesVBox = new VBox();
     @FXML
     private ScrollPane scrollPane = new ScrollPane();
 
-        public void addLogMessage(String message) {
-            Platform.runLater(() -> {
-                Label messageLabel = new Label(message);
-                messagesVBox.getChildren().add(messageLabel);
-                scrollPane.setVvalue(1.0);
-            });
-        }
+    public void addLogMessage(String message) {
+        Platform.runLater(() -> {
+            Label messageLabel = new Label(message);
+            messagesVBox.getChildren().add(messageLabel);
+            scrollPane.setVvalue(1.0);
+        });
+    }
+
 
     @FXML
-    public void handleTestLogButton() {
+    public synchronized void handleTestLogButton() {
+        System.out.println("dtest called on instance: " + instanceId);
         addLogMessage("Message de test");
     }
 
-    @FXML
     public void displayHello() {
-        addLogMessage("Bienvenue Manager !");
+        Platform.runLater(() -> {
+            System.out.println("displayHello called on instance: " + instanceId);
+            if (messagesVBox != null) {
+                Label messageLabel = new Label("Bienvenue Manager !");
+                messagesVBox.getChildren().add(messageLabel);
+                scrollPane.setVvalue(1.0);
+            }
+        });
     }
 
     @Override
@@ -108,32 +120,32 @@ public class ManagerGraphicalUserInterface implements IManagerUserInterface {
 
     @Override
     public void displayWinnerPrice(Winner winner) {
-        addLogMessage("Le prix gagnant de l'enchère "+winner.bidId() + " à été déterminé et répondu (" + winner.price()+"€)");
+        addLogMessage("Le prix gagnant de l'enchère " + winner.bidId() + " à été déterminé et répondu (" + winner.price() + "€)");
     }
 
     @Override
     public void tellConnectingNewSeller(String id) {
-        addLogMessage("Connexion avec un nouveau vendeur ("+id+")");
+        addLogMessage("Connexion avec un nouveau vendeur (" + id + ")");
     }
 
     @Override
     public void tellConnectingNewBidder(String id) {
-        addLogMessage("Connexion d'un nouvel enchérisseur ("+id+"), notification des vendeurs pour prévenir d'un nouvel enchérisseur potentiel");
+        addLogMessage("Connexion d'un nouvel enchérisseur (" + id + "), notification des vendeurs pour prévenir d'un nouvel enchérisseur potentiel");
     }
 
     @Override
     public void tellRequestInformationAboutBiddersBySeller(String id) {
-        addLogMessage("Demande des informations sur les enchérisseurs actuellement connectés par le vendeur "+id);
+        addLogMessage("Demande des informations sur les enchérisseurs actuellement connectés par le vendeur " + id);
     }
 
     @Override
     public void tellRequestCurrentBidsByBidder(String id) {
-        addLogMessage("Demande des enchères actuelles par l'enchérisseur "+id);
+        addLogMessage("Demande des enchères actuelles par l'enchérisseur " + id);
     }
 
     @Override
     public void tellRequestToDetermineTheWinnerOfBidBySeller(String idBid, String idSeller) {
-        addLogMessage("Demande de détermination du gagnant de l'enchère "+idBid+" par le vendeur "+idSeller);
+        addLogMessage("Demande de détermination du gagnant de l'enchère " + idBid + " par le vendeur " + idSeller);
     }
 
     @Override
@@ -143,11 +155,11 @@ public class ManagerGraphicalUserInterface implements IManagerUserInterface {
 
     @Override
     public void tellBidReceivedby(String idSeller, String idBid) {
-        addLogMessage("Enchère reçu ("+idBid+") créé par le vendeur "+idSeller);
+        addLogMessage("Enchère reçu (" + idBid + ") créé par le vendeur " + idSeller);
     }
 
     @Override
     public void tellReceivingAndReplyToInformationOf(String id, String type) {
-        addLogMessage("Etablissement d'une connexion sécurisé avec un nouvel "+type+" ("+id+")");
+        addLogMessage("Etablissement d'une connexion sécurisé avec un nouvel " + type + " (" + id + ")");
     }
 }
