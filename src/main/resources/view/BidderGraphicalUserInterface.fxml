@@ -5,7 +5,14 @@
 <?import javafx.scene.layout.*?>
 
 <VBox prefHeight="500" prefWidth="750" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
-    <TextArea editable="false" prefHeight="200" />
+    <ScrollPane fx:id="scrollPane" prefHeight="200" fitToWidth="true">
+        <VBox fx:id="messagesVBox" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+        </VBox>
+    </ScrollPane>
+    <Button text="Test Log" onAction="#handleTestLogButton"/>
     <VBox spacing="10">
         <padding>
             <Insets bottom="10" left="10" right="10" top="10" />

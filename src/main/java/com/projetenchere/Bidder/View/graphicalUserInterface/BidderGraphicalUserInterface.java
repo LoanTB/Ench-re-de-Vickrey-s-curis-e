@@ -4,8 +4,31 @@ import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
 
 public class BidderGraphicalUserInterface implements IBidderUserInterface {
+
+    @FXML
+    private VBox messagesVBox = new VBox();
+    @FXML
+    private ScrollPane scrollPane = new ScrollPane();
+
+    public void addLogMessage(String message) {
+        Platform.runLater(() -> {
+            Label messageLabel = new Label(message);
+            messagesVBox.getChildren().add(messageLabel);
+            scrollPane.setVvalue(1.0);
+        });
+    }
+    @FXML
+    public void handleTestLogButton() {
+        addLogMessage("Message de test");
+    }
+
     @Override
     public void displayBid(CurrentBids currentBids) {
 
