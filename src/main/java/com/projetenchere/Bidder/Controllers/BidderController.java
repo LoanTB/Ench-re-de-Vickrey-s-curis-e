@@ -51,7 +51,6 @@ public class BidderController extends Controller {
         client.connectToManager();
         askForCurrentBids();
         askForManagerPubKey();
-        client.stopManager();
     }
 
     public void showBids() {
@@ -76,9 +75,10 @@ public class BidderController extends Controller {
         SignedEncryptedOfferSet set = client.sendOfferReceiveList(encryptedOffer);
         //TODO: check set
         if(/*list does not contain set*/ false) {
-            //TODO: do something
-            ;
+            client.stopEverything();
+            System.exit(1);
         }
+        client.stopManager();
         WinStatus status = client.validateAndGetWinStatus();
         this.results.put(bid.getId(), status);
         if (status.isWinner()) {
