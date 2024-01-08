@@ -6,9 +6,7 @@ import com.projetenchere.Manager.Handlers.NewBidReplyer;
 import com.projetenchere.Manager.Handlers.PubKeyReplyer;
 import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.IManagerUserInterface;
-import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
-import com.projetenchere.Manager.View.graphicalUserInterface.IManagerUserInterfaceFactory;
-import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
+import com.projetenchere.Manager.View.IManagerUserInterfaceFactory;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.CurrentBids;
@@ -21,7 +19,7 @@ import java.security.KeyPair;
 public class ManagerController extends Controller {
     private IManagerUserInterface ui;
 
-    public ManagerController(IManagerUserInterfaceFactory uiFactory) throws Exception {
+    public ManagerController(IManagerUserInterfaceFactory uiFactory) {
         this.ui = uiFactory.createManagerUserInterface();
     }
 
