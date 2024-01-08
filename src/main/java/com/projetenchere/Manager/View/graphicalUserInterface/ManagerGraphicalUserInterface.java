@@ -32,15 +32,14 @@ public class ManagerGraphicalUserInterface implements IManagerUserInterface {
         }
 
     @FXML
-    public void displayHello() {
-        addLogMessage("Bienvenue Manager !");
-    }
-
-    @FXML
     public void handleTestLogButton() {
         addLogMessage("Message de test");
     }
 
+    @FXML
+    public void displayHello() {
+        addLogMessage("Bienvenue Manager !");
+    }
 
     @Override
     public void tellSignatureConfigSetup() {

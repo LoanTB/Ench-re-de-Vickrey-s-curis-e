@@ -24,8 +24,12 @@ public class ManagerAppLoader extends Application {
 
         Parent root = loader.load();
 
+        Scene scene = new Scene(root);
+        String css = this.getClass().getResource("/css/style.css").toExternalForm();
+        scene.getStylesheets().add(css);
+
         primaryStage.setTitle("Manager");
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(scene);
         primaryStage.show();
 
         this.controller = new ManagerController(uiFactory);

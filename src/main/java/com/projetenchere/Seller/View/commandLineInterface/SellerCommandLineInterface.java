@@ -192,7 +192,7 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
 
     @Override
     public void tellManagerFound() {
-        showMessage("Contacter le gestionnaire établie !");
+        showMessage("Contact avec le gestionnaire établi !");
     }
 
     @Override
