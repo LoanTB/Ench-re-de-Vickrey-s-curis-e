@@ -1,8 +1,10 @@
 package com.projetenchere.Seller.Controllers;
 
+import com.projetenchere.Manager.View.IManagerUserInterface;
+import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.ISellerUserInterface;
-import com.projetenchere.Seller.View.graphicalUserInterface.ISellerUserInterfaceFactory;
+import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import com.projetenchere.Seller.network.Handlers.EncryptedOfferReplyer;
 import com.projetenchere.Seller.network.SellerClient;
 import com.projetenchere.common.Models.Bid;
@@ -21,17 +23,16 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class SellerController extends Controller {
-    private ISellerUserInterface ui;
-    public SellerController(ISellerUserInterfaceFactory uiFactory) throws Exception {
-        this.ui = uiFactory.createSellerUserInterface();
+    public final ISellerUserInterface ui;
+
+    public SellerController(SellerGraphicalUserInterface guiInterface) {
+        this.ui = guiInterface;
     }
     private final SellerClient client = new SellerClient();
     private final Server server = new Server(24682);
     private final Seller seller = Seller.getInstance();
     private Bid myBid;
     private Winner winner = null;
-
-    public SellerController() throws Exception {}
 
     public Bid getMyBid() {
         return myBid;

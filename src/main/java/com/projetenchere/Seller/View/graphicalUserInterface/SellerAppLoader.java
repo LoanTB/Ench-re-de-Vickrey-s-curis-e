@@ -1,47 +1,42 @@
 package com.projetenchere.Seller.View.graphicalUserInterface;
 
+import com.projetenchere.Seller.Controllers.SellerController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import com.projetenchere.Seller.Controllers.SellerController;
 
 public class SellerAppLoader extends Application {
-
-    private SellerController controller;
+    private static SellerController controllerInstance;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SellerGraphicalUserInterface.fxml"));
-
-        ISellerUserInterfaceFactory uiFactory = new SellerUserInterfaceFactory();
-
-        SellerGraphicalUserInterface guiInterface = (SellerGraphicalUserInterface) uiFactory.createSellerUserInterface();
-        loader.setController(guiInterface);
-
         Parent root = loader.load();
 
-        Scene scene = new Scene(root);
-        String css = this.getClass().getResource("/css/style.css").toExternalForm();
-        scene.getStylesheets().add(css);
-
+        primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Seller");
-        primaryStage.setScene(scene);
         primaryStage.show();
 
-        this.controller = new SellerController(uiFactory);
+        SellerGraphicalUserInterface guiInterface = loader.getController();
 
-        this.controller.displayHello();
-        this.controller.setSignatureConfig();
-        this.controller.createMyBid();
-        this.controller.sendMyBid();
-        this.controller.receiveOffersUntilBidEndAndSendResults();
-        this.controller.sendEncryptedOffersSet();
-        this.controller.displayWinner();
+        controllerInstance = new SellerController(guiInterface);
+
+        controllerInstance.displayHello();
+        controllerInstance.setSignatureConfig();
+        controllerInstance.createMyBid();
+        controllerInstance.sendMyBid();
+        controllerInstance.receiveOffersUntilBidEndAndSendResults();
+        controllerInstance.sendEncryptedOffersSet();
+        controllerInstance.displayWinner();
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public static SellerController getControllerInstance() {
+        return controllerInstance;
+    }
+
+    public static void launchApp() {
+        launch(com.projetenchere.Seller.View.graphicalUserInterface.SellerAppLoader.class);
     }
 }

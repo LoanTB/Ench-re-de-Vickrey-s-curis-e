@@ -20,9 +20,9 @@ public class ManagerAppLoader extends Application {
         primaryStage.show();
 
         ManagerGraphicalUserInterface guiInterface = loader.getController();
-        controllerInstance = new ManagerController(guiInterface); // Passez l'instance ici
 
-        // Appels de méthode sur controllerInstance
+        controllerInstance = new ManagerController(guiInterface);
+
         controllerInstance.displayHello();
         controllerInstance.setSignatureConfig();
         controllerInstance.init();
