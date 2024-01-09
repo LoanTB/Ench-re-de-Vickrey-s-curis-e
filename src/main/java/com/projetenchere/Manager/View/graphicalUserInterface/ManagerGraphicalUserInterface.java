@@ -22,35 +22,28 @@ public class ManagerGraphicalUserInterface implements IManagerUserInterface {
     public ManagerGraphicalUserInterface() {
         System.out.println("Controller instance created: " + instanceId);
     }
+
     @FXML
     private VBox messagesVBox = new VBox();
     @FXML
     private ScrollPane scrollPane = new ScrollPane();
 
     public void addLogMessage(String message) {
-        Platform.runLater(() -> {
             Label messageLabel = new Label(message);
             messagesVBox.getChildren().add(messageLabel);
             scrollPane.setVvalue(1.0);
-        });
-    }
+        };
 
 
     @FXML
     public synchronized void handleTestLogButton() {
-        System.out.println("dtest called on instance: " + instanceId);
+        System.out.println("Button test called on instance: " + instanceId);
         addLogMessage("Message de test");
     }
 
     public void displayHello() {
-        Platform.runLater(() -> {
             System.out.println("displayHello called on instance: " + instanceId);
-            if (messagesVBox != null) {
-                Label messageLabel = new Label("Bienvenue Manager !");
-                messagesVBox.getChildren().add(messageLabel);
-                scrollPane.setVvalue(1.0);
-            }
-        });
+            addLogMessage("Bienvenue Manager");
     }
 
     @Override
