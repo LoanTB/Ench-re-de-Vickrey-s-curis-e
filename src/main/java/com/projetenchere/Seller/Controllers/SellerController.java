@@ -75,7 +75,17 @@ public class SellerController extends Controller {
 
     }
 
-    public void receiveOffersUntilBidEndAndSendResults() {
+    public void receiveOffersUntilBidEndAndSendSignedEncryptedOffers() {
+        ui.waitOffers();
+        server.addHandler(Headers.CHECK_LIST, new EncryptedOfferReplyer());
+        server.start();
+        while (auctionInProgress()) {
+            waitSynchro(1000);
+        }
+        server.removeHandler(Headers.CHECK_LIST);
+    }
+
+    public void receiveOkUntilCheckEndAndSendResults() {
         ui.waitOffers();
         server.addHandler(Headers.GET_WIN_STATUS, new EncryptedOfferReplyer());
         server.start();
@@ -89,39 +99,12 @@ public class SellerController extends Controller {
         ui.displayHello();
     }
 
-
     public void displayOfferReceived() {
         ui.displayOfferReceived();
     }
 
     public void displayWinner() {
         Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
-    }
-
-
-    public SignedEncryptedOfferSet reSignedEncryptedOffers() throws Exception {
-        EncryptedOffersSet set = seller.getEncryptedOffersSet();
-        Set<EncryptedOffer> offers = set.getOffers();
-        Set<EncryptedOffer> offersSigned = new HashSet<>();
-        for (EncryptedOffer o : offers) {
-            offersSigned.add(new EncryptedOffer(seller.getSignature(), o.getPrice(), seller.getKey(), o.getBidId()));
-        }
-
-        EncryptedOffersSet list = new EncryptedOffersSet(set.getBidId(), offersSigned);
-
-        return new SignedEncryptedOfferSet(seller.getSignature(), seller.getKey(), list);
-    }
-
-    /*
-        public void sendAskingConfirmationRequest(){
-            if(client.sendAskingConfirmationRequest()){
-                myBid.setCanceled();
-            }
-        }
-    */
-    public void sendEncryptedOffersSet() throws Exception {
-        this.setWinner(client.sendEncryptedOffersSet(reSignedEncryptedOffers()));
-        ui.displayEncryptedOffersSetent();
     }
 
     public Map<PublicKey, WinStatus> getBiddersWinStatus() {
