@@ -54,7 +54,7 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
                 showMessage("Prix invalide, entrez un prix positif :");
             }
         }
-        return new Offer(bidder.getSignature(), idBidString, offerString);
+        return new Offer(idBidString, offerString);
     }
 
     @Override
