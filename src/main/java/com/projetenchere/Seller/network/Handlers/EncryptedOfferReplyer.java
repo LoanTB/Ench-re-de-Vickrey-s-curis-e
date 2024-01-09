@@ -2,6 +2,7 @@ package com.projetenchere.Seller.network.Handlers;
 
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.DataWrapper;
@@ -15,29 +16,24 @@ import java.security.SignatureException;
 
 public class EncryptedOfferReplyer implements IDataHandler {
     @Override
-    public DataWrapper<WinStatus> handle(Serializable data) {
+    public DataWrapper<SignedEncryptedOfferSet> handle(Serializable data) {
         Seller seller = Seller.getInstance();
         synchronized (this) {
             if (!seller.resultsAreIn()) {
                 try {
                     EncryptedOffer offer = (EncryptedOffer) data;
-
-                    if(SignatureUtil.verifyDataSignature(offer.getPrice(), offer.getPriceSigned(), offer.getSignaturePublicKey())) { //TODO : Renvoie false dans le vide ?
-                        seller.addBidder(offer.getSignaturePublicKey(), offer.getPrice());
-                        seller.getEncryptedOffers().add(offer);
-                    }
-
+                    seller.verifyAndAddOffer(offer);
                     while (!seller.resultsAreIn()) {
                         wait(1000);
                     }
-                    WinStatus status = seller.getSignatureWinStatus(offer.getSignaturePublicKey());
-                    return new DataWrapper<>(status, Headers.OK_WIN_STATUS);
+                    seller.reSignedEncryptedOffers();
+                    return new DataWrapper<>(seller.getEncryptedOffersSignedBySeller(), Headers.CHECK_LIST);
                 } catch (ClassCastException e) {
                     throw new RuntimeException("Received unreadable data");
                 } catch (InterruptedException e) {
                     throw new RuntimeException("Timeout");
-                } catch (SignatureException e) {
-                    throw new RuntimeException("Signature falsify");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             } else return new DataWrapper<>(null, Headers.ERROR);
         }
