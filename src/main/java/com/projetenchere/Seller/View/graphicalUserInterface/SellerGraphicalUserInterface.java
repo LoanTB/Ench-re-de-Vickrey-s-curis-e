@@ -50,6 +50,10 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
         String bidName = bidNameTextField.getText();
         String bidDescription = bidDescriptionTextField.getText();
         LocalDateTime bidEndDateTime = askBidEndTime();
+
+        if (bidName.isEmpty() || bidDescription.isEmpty() || bidEndDateTime == null) {
+            addLogMessage("Erreur : Veuillez remplir tous les champs correctement.");
+        }
     }
 
     @Override
@@ -115,6 +119,9 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
 
     @Override
     public LocalDateTime askBidEndTime() {
+
+        LocalDateTime dateTime = LocalDateTime.now();
+
         LocalDate endDate = endDatePicker.getValue();
         Integer hour = hourComboBox.getValue();
         Integer minute = minuteComboBox.getValue();
@@ -123,7 +130,7 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
         if (endDate != null && hour != null && minute != null && second != null) {
             return LocalDateTime.of(endDate, LocalTime.of(hour, minute, second));
         }
-        return null;
+        return dateTime;
     }
 
     @Override
