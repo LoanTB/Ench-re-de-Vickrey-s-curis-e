@@ -11,6 +11,7 @@ import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Offer;
+import com.projetenchere.exception.BidAbortedException;
 
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
@@ -59,7 +60,7 @@ public class BidderController extends Controller {
     }
 
 
-    public void readAndSendOffer() {
+    public void readAndSendOffer() throws BidAbortedException {
         Offer offer = ui.readOffer(bidder, currentBids);
         Bid bid = currentBids.getBid(offer.getIdBid());
         if (bid == null) throw new RuntimeException("");
@@ -74,9 +75,9 @@ public class BidderController extends Controller {
         ui.tellOfferSent();
         SignedEncryptedOfferSet set = client.sendOfferReceiveList(encryptedOffer);
         //TODO: check set
-        if(/*list does not contain set*/ false) {
+        if(/*set does not contain offer*/ false) {
             client.stopEverything();
-            System.exit(1);
+            throw new BidAbortedException("Offer was not present is set");
         }
         client.stopManager();
         WinStatus status = client.validateAndGetWinStatus();
