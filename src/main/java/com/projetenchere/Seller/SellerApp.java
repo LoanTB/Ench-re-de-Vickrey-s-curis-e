@@ -9,9 +9,9 @@ public class SellerApp {
         controller.setSignatureConfig();
         controller.createMyBid();
         controller.sendMyBid();
-        controller.receiveOffersUntilBidEndAndSendResults();
-        controller.sendEncryptedOffersSetToBidders();
-        controller.sendEncryptedOffersSet();
+        controller.receiveOffersUntilBidEndAndSendSignedEncryptedOffers();
+
+
         controller.displayWinner();
     }
 }

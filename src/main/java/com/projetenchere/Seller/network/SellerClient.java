@@ -32,17 +32,6 @@ public class SellerClient extends Client {
         );
     }
 
-    /*
-    public boolean sendAskingConfirmationRequest(){
-        return fetchWithData(
-            toManager,
-            Headers.??,
-            Headers.???,
-            ???
-        );
-    }
-    */
-
     public Winner sendEncryptedOffersSet(SignedEncryptedOfferSet prices) {
         return fetchWithData(
                 toManager,
