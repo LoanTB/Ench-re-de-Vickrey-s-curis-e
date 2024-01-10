@@ -33,11 +33,9 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
     private ComboBox<Integer> secondComboBox = new ComboBox<>();
 
     public void addLogMessage(String message) {
-        Platform.runLater(() -> {
             Label messageLabel = new Label(message);
             messagesVBox.getChildren().add(messageLabel);
             scrollPane.setVvalue(1.0);
-        });
     }
 
     @FXML
@@ -54,6 +52,21 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
         if (bidName.isEmpty() || bidDescription.isEmpty() || bidEndDateTime == null) {
             addLogMessage("Erreur : Veuillez remplir tous les champs correctement.");
         }
+    }
+
+    @FXML
+    public void initialize() {
+        for (int i = 0; i < 24; i++) {
+            hourComboBox.getItems().add(i);
+        }
+        for (int i = 0; i < 60; i++) {
+            minuteComboBox.getItems().add(i);
+            secondComboBox.getItems().add(i);
+        }
+        LocalTime now = LocalTime.now();
+        hourComboBox.getSelectionModel().select(Integer.valueOf(now.getHour()));
+        minuteComboBox.getSelectionModel().select(Integer.valueOf(now.getMinute() + 2));
+        secondComboBox.getSelectionModel().select(Integer.valueOf(now.getSecond()));
     }
 
     @Override
@@ -109,12 +122,12 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
 
     @Override
     public String askBidName() {
-        return null;
+        return bidNameTextField.getText();
     }
 
     @Override
     public String askBidDescription() {
-        return null;
+        return bidDescriptionTextField.getText();
     }
 
     @Override
@@ -181,26 +194,26 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
 
     @Override
     public void tellReceivingInformationOf(String id, String type) {
-        addLogMessage("Reception d'information de "+type+" "+id);
+        addLogMessage("Réception d'information de "+type+" "+id);
     }
 
     @Override
     public void tellReceiptOfferByBidder(String id) {
-        addLogMessage("Reception d'une offre de l'enchérisseur "+id);
+        addLogMessage("Réception d'une offre de l'enchérisseur "+id);
     }
 
     @Override
     public void tellReceiptBidResult(String id) {
-        addLogMessage("Reception des résultats de l'enchère "+id);
+        addLogMessage("Réception des résultats de l'enchère "+id);
     }
 
     @Override
     public void tellSendBidToManager() {
-        addLogMessage("Envoie de l'enchère au manager...");
+        addLogMessage("Envoie de l'enchère au gestionnaire...");
     }
 
     @Override
     public void tellManagerConfirmsReceipt() {
-        addLogMessage("Le gestionnaire confirme la reception");
+        addLogMessage("Le gestionnaire confirme la recéption");
     }
 }
