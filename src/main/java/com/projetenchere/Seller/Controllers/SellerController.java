@@ -53,11 +53,9 @@ public class SellerController extends Controller {
     }
 
     public void createMyBid(){
-        String id = UUID.randomUUID().toString();
-        String name = ui.askBidName();
-        String description = ui.askBidDescription();
-        LocalDateTime end = ui.askBidEndTime();
-        myBid = new Bid(id, name, description, end, new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT), seller.getKey());
+        myBid = ui.askBid();
+        myBid.setSellerInformations(new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT));
+        myBid.setPubKeySignatureSeller(seller.getKey());
         seller.setEncryptedOffersSignedBySeller(new EncryptedOffersSet(myBid.getId(),new HashSet<>()));
         ui.displayBidCreated(myBid);
     }

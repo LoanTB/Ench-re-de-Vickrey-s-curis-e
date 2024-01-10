@@ -11,6 +11,10 @@ import javafx.scene.layout.VBox;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
+import java.util.UUID;
+
+import static java.lang.Thread.sleep;
 
 public class SellerGraphicalUserInterface implements ISellerUserInterface {
 
@@ -32,27 +36,7 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
     @FXML
     private ComboBox<Integer> secondComboBox = new ComboBox<>();
 
-    public void addLogMessage(String message) {
-            Label messageLabel = new Label(message);
-            messagesVBox.getChildren().add(messageLabel);
-            scrollPane.setVvalue(1.0);
-    }
-
-    @FXML
-    public void handleTestLogButton() {
-        addLogMessage("Message de test");
-    }
-
-    @FXML
-    private void handleCreateBidButton() {
-        String bidName = bidNameTextField.getText();
-        String bidDescription = bidDescriptionTextField.getText();
-        LocalDateTime bidEndDateTime = askBidEndTime();
-
-        if (bidName.isEmpty() || bidDescription.isEmpty() || bidEndDateTime == null) {
-            addLogMessage("Erreur : Veuillez remplir tous les champs correctement.");
-        }
-    }
+    private Bid bid = null;
 
     @FXML
     public void initialize() {
@@ -68,6 +52,51 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
         minuteComboBox.getSelectionModel().select(Integer.valueOf(now.getMinute() + 2));
         secondComboBox.getSelectionModel().select(Integer.valueOf(now.getSecond()));
     }
+
+    public void addLogMessage(String message) {
+        // Utiliser Platform.runLater pour s'assurer que la modification de l'interface utilisateur se fait sur le thread de l'application JavaFX
+        Platform.runLater(() -> {
+            Label messageLabel = new Label(message);
+            messagesVBox.getChildren().add(messageLabel);
+            scrollPane.setVvalue(1.0); // Fait défiler automatiquement vers le bas
+        });
+    }
+
+    @FXML
+    public void handleTestLogButton() {
+        addLogMessage("Message de test");
+    }
+
+    @FXML
+    private void handleCreateBidButton() {
+        String bidName = bidNameTextField.getText();
+        String bidDescription = bidDescriptionTextField.getText();
+
+        LocalDate endDate = endDatePicker.getValue();
+        Integer hour = hourComboBox.getValue();
+        Integer minute = minuteComboBox.getValue();
+        Integer second = secondComboBox.getValue();
+        LocalDateTime bidEndDateTime = null;
+
+        try {
+            if (endDate != null && hour != null && minute != null && second != null) {
+                bidEndDateTime = LocalDateTime.of(endDate, LocalTime.of(hour, minute, second));
+                if (LocalDateTime.now().isAfter(bidEndDateTime)) {
+                    bidEndDateTime = null;
+                    addLogMessage("Erreur : La date de fin ne peut pas être dans le passé.");
+                }
+            }
+        } catch (DateTimeParseException e) {
+            addLogMessage("Erreur : La date n'est pas valide.");
+        }
+
+        if (bidName.isEmpty() || bidDescription.isEmpty() || bidEndDateTime == null) {
+            addLogMessage("Erreur : Veuillez remplir tous les champs correctement.");
+        } else {
+            bid = new Bid(UUID.randomUUID().toString(), bidName, bidDescription, bidEndDateTime);
+        }
+    }
+
 
     @Override
     public void displayHello() {
@@ -131,19 +160,15 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
     }
 
     @Override
-    public LocalDateTime askBidEndTime() {
-
-        LocalDateTime dateTime = LocalDateTime.now();
-
-        LocalDate endDate = endDatePicker.getValue();
-        Integer hour = hourComboBox.getValue();
-        Integer minute = minuteComboBox.getValue();
-        Integer second = secondComboBox.getValue();
-
-        if (endDate != null && hour != null && minute != null && second != null) {
-            return LocalDateTime.of(endDate, LocalTime.of(hour, minute, second));
+    public Bid askBid() {
+        while (bid==null){
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
-        return dateTime;
+        return bid;
     }
 
     @Override

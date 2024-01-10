@@ -20,7 +20,8 @@ public interface ISellerUserInterface extends I_UserInterface {
     void waitOffers();
     String askBidName();
     String askBidDescription();
-    LocalDateTime askBidEndTime();
+
+    Bid askBid();
     String readName();
     String readSurname();
     int readPort();

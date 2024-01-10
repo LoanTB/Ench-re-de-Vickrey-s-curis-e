@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class SellerCommandLineInterface implements ISellerUserInterface {
 
@@ -114,7 +115,6 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
         }
     }
 
-    @Override
     public LocalDateTime askBidEndTime() {
         boolean checkType = true;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -137,6 +137,15 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
             }
         }
         return dateTime;
+    }
+
+    @Override
+    public Bid askBid() {
+        String id = UUID.randomUUID().toString();
+        String name = askBidName();
+        String description = askBidDescription();
+        LocalDateTime end = askBidEndTime();
+        return new Bid(id, name, description, end);
     }
 
     @Override

@@ -19,7 +19,7 @@
         <TextField fx:id="bidNameTextField" promptText="Nom de l'enchère"/>
         <TextField fx:id="bidDescriptionTextField" promptText="Description de l'enchère"/>
         <HBox spacing="5">
-            <DatePicker fx:id="endDatePicker" promptText="Date de fin"/>
+            <DatePicker fx:id="endDatePicker" editable="false" promptText="Date de fin"/>
             <ComboBox fx:id="hourComboBox" promptText="Heure"/>
             <ComboBox fx:id="minuteComboBox" promptText="Minute"/>
             <ComboBox fx:id="secondComboBox" promptText="Seconde"/>
