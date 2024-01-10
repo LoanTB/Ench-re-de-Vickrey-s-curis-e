@@ -1,5 +1,6 @@
 package com.projetenchere.Seller.Model;
 
+import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
@@ -17,6 +18,7 @@ public class Seller extends User{
     private Map<PublicKey, WinStatus> winStatusMap;
     private EncryptedOffersSet encryptedOffersReceived;
     private SignedEncryptedOfferSet encryptedOffersSignedBySeller;
+    private Bid myBid;
     private boolean resultsAreIn = false;
 
     private Seller(){}
@@ -56,6 +58,14 @@ public class Seller extends User{
 
     public synchronized void finish() {
         this.resultsAreIn = true;
+    }
+
+
+    public Bid getMyBid() {
+        return myBid;
+    }
+    public void setMyBid(Bid bid){
+        this.myBid = bid;
     }
 
     public Set<EncryptedOffer> getEncryptedOffers() {

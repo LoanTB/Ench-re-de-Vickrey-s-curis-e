@@ -29,11 +29,11 @@ public class SignatureUtil {
         return signature.sign();
     }
 
-    public static byte[] signData(EncryptedOffersSet data, Signature signature) throws SignatureException {
+    public static byte[] signData(Object data, Signature signature) throws SignatureException {
         return signData(objectToArrayByte(data),signature);
     }
 
-    public static byte[] objectToArrayByte(EncryptedOffersSet objetSerializable){
+    public static byte[] objectToArrayByte(Object objetSerializable){
         byte[] tab = new byte[0];
         try{
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
