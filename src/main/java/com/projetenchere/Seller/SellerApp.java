@@ -11,7 +11,7 @@ public class SellerApp {
         controller.sendMyBid();
         controller.receiveOffersUntilBidEndAndSendSignedEncryptedOffers();
         controller.receiveOkUntilCheckEndAndSendResults();
-
+        controller.sendEncryptedOffersSet();
         controller.displayWinner();
     }
 }

@@ -88,6 +88,11 @@ public class SellerController extends Controller {
         server.removeHandler(Headers.GET_WIN_STATUS);
     }
 
+    public void sendEncryptedOffersSet() throws Exception {
+        this.setWinner(client.sendEncryptedOffersSet(seller.getEncryptedOffersSignedBySeller()));
+        ui.displayEncryptedOffersSetent();
+    }
+
     public void displayHello() {
         ui.displayHello();
     }
