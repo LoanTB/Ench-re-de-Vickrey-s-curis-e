@@ -3,6 +3,7 @@ package com.projetenchere.Seller.Controllers;
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.ISellerUserInterface;
 import com.projetenchere.Seller.View.commandLineInterface.SellerCommandLineInterface;
+import com.projetenchere.Seller.network.Handlers.ChecklistOkReplyer;
 import com.projetenchere.Seller.network.Handlers.EncryptedOfferReplyer;
 import com.projetenchere.Seller.network.SellerClient;
 import com.projetenchere.common.Models.Bid;
@@ -66,9 +67,6 @@ public class SellerController extends Controller {
         return (!this.seller.getMyBid().isOver());
     }
 
-    public void initServer() {
-
-    }
 
     public void receiveOffersUntilBidEndAndSendSignedEncryptedOffers() {
         ui.waitOffers();
@@ -82,7 +80,7 @@ public class SellerController extends Controller {
 
     public void receiveOkUntilCheckEndAndSendResults() {
         ui.waitOffers();
-        server.addHandler(Headers.GET_WIN_STATUS, new EncryptedOfferReplyer());
+        server.addHandler(Headers.GET_WIN_STATUS, new ChecklistOkReplyer());
         server.start();
         while (auctionInProgress()) {
             waitSynchro(1000);
