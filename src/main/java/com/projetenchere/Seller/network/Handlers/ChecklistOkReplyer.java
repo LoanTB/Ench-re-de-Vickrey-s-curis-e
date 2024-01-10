@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class ChecklistOkReplyer implements IDataHandler {
     @Override
-    public <T extends Serializable> DataWrapper<T> handle(Serializable data) {
+    public DataWrapper<WinStatus> handle(Serializable data) {
         Seller seller = Seller.getInstance();
         synchronized (this) {
             if (!seller.resultsAreIn()) {
