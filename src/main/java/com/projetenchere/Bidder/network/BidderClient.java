@@ -3,6 +3,7 @@ package com.projetenchere.Bidder.network;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
+import com.projetenchere.common.Models.Encrypted.SignedPublicKey;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.network.*;
 import com.projetenchere.common.Utils.NetworkUtil;
@@ -60,11 +61,12 @@ public class BidderClient extends Client{
         );
     }
 
-    public WinStatus validateAndGetWinStatus() {
-        return fetch(
+    public WinStatus validateAndGetWinStatus(SignedPublicKey key) {
+        return fetchWithData(
                 toSeller,
                 Headers.GET_WIN_STATUS,
-                Headers.OK_CURRENT_BIDS
+                Headers.OK_CURRENT_BIDS,
+                key
         );
     }
 
