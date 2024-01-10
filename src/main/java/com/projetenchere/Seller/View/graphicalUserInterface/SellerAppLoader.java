@@ -23,11 +23,9 @@ public class SellerAppLoader extends Application {
         SellerGraphicalUserInterface guiInterface = loader.getController();
         controllerInstance = new SellerController(guiInterface);
 
-        // Exécutez les opérations initiales sur le thread de l'UI
         controllerInstance.displayHello();
         controllerInstance.setSignatureConfig();
 
-        // Exécutez les opérations bloquantes dans un nouveau thread
         new Thread(() -> {
             controllerInstance.createMyBid();
             controllerInstance.sendMyBid();
@@ -38,7 +36,6 @@ public class SellerAppLoader extends Application {
                 throw new RuntimeException(e);
             }
             Platform.runLater(() -> {
-                // Assurez-vous que les interactions avec l'interface utilisateur soient sur le thread de l'UI
                 controllerInstance.displayWinner();
             });
         }).start();
@@ -48,6 +45,6 @@ public class SellerAppLoader extends Application {
     }
 
     public static void launchApp() {
-        launch(com.projetenchere.Seller.View.graphicalUserInterface.SellerAppLoader.class);
+        launch(SellerAppLoader.class);
     }
 }
