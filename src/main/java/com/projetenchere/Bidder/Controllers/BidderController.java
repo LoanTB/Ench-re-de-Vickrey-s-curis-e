@@ -76,8 +76,7 @@ public class BidderController extends Controller {
         client.connectToSeller(bid.getSellerSocketAddress());
         ui.tellOfferSent();
         SignedEncryptedOfferSet set = client.sendOfferReceiveList(encryptedOffer);
-        //TODO: check set
-        if(/*set does not contain offer*/ false) {
+        if(!set.getSet().getOffers().contains(encryptedOffer)) {
             client.stopEverything();
             throw new BidAbortedException("Offer was not present is set");
         }
