@@ -7,4 +7,3 @@ public class ManagerApp {
         ManagerAppLoader.launchApp();
     }
 }
-

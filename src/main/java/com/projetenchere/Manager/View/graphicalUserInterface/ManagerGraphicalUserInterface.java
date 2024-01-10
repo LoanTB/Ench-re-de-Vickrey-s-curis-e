@@ -1,6 +1,7 @@
 package com.projetenchere.Manager.View.graphicalUserInterface;
 
 import com.projetenchere.Manager.View.IManagerUserInterface;
+import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Winner;
 
@@ -16,6 +17,23 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ManagerGraphicalUserInterface implements IManagerUserInterface {
+
+    private static ManagerGraphicalUserInterface instance = null;
+
+    public static ManagerGraphicalUserInterface getInstance(){
+        synchronized (ManagerGraphicalUserInterface.class) {
+            if (instance == null){
+                throw new NullPointerException("Instance non initialisée");
+            }
+            return instance;
+        }
+    }
+
+    public static void setInstance(ManagerGraphicalUserInterface instance){
+        synchronized (ManagerGraphicalUserInterface.class) {
+            ManagerGraphicalUserInterface.instance = instance;
+        }
+    }
 
     private final String instanceId = UUID.randomUUID().toString();
 

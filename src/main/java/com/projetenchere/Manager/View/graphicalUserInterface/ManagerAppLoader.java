@@ -14,14 +14,13 @@ public class ManagerAppLoader extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ManagerGraphicalUserInterface.fxml"));
         Parent root = loader.load();
+        ManagerGraphicalUserInterface.setInstance(loader.getController());
 
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Manager");
         primaryStage.show();
 
-        ManagerGraphicalUserInterface guiInterface = loader.getController();
-
-        controllerInstance = new ManagerController(guiInterface);
+        controllerInstance = new ManagerController(ManagerGraphicalUserInterface.getInstance());
 
         controllerInstance.displayHello();
         controllerInstance.setSignatureConfig();

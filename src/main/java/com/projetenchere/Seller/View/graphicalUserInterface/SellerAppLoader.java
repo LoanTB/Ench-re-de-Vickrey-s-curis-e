@@ -15,13 +15,13 @@ public class SellerAppLoader extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SellerGraphicalUserInterface.fxml"));
         Parent root = loader.load();
+        SellerGraphicalUserInterface.setInstance(loader.getController());
 
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Seller");
         primaryStage.show();
 
-        SellerGraphicalUserInterface guiInterface = loader.getController();
-        controllerInstance = new SellerController(guiInterface);
+        controllerInstance = new SellerController(SellerGraphicalUserInterface.getInstance());
 
         controllerInstance.displayHello();
         controllerInstance.setSignatureConfig();

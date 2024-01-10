@@ -18,12 +18,11 @@ import java.security.KeyPair;
 
 public class ManagerController extends Controller {
 
-    public final IManagerUserInterface ui;
-
-    public ManagerController(ManagerGraphicalUserInterface guiInterface) {
-        this.ui = guiInterface;
+    ManagerGraphicalUserInterface ui;
+    
+    public ManagerController(ManagerGraphicalUserInterface ui) {
+        this.ui = ui;
     }
-
 
     private final CurrentBids currentBids = new CurrentBids();
 
