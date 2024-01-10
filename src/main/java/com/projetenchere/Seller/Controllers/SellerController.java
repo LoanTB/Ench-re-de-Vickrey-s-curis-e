@@ -26,14 +26,9 @@ public class SellerController extends Controller {
     private final SellerClient client = new SellerClient();
     private final Server server = new Server(24682);
     private final Seller seller = Seller.getInstance();
-    private Bid myBid;
     private Winner winner = null;
 
     public SellerController() throws Exception {
-    }
-
-    public Bid getMyBid() {
-        return myBid;
     }
 
     public void setWinner(Winner winner) {
@@ -55,20 +50,20 @@ public class SellerController extends Controller {
         String name = ui.askBidName();
         String description = ui.askBidDescription();
         LocalDateTime end = ui.askBidEndTime();
-        myBid = new Bid(id, name, description, end, new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT), seller.getKey());
-        seller.setEncryptedOffers(new EncryptedOffersSet(myBid.getId(), new HashSet<>()));
-        ui.displayBidCreated(myBid);
+        seller.setMyBid(new Bid(id, name, description, end, new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT), seller.getKey()));
+        seller.setEncryptedOffers(new EncryptedOffersSet(seller.getMyBid().getId(), new HashSet<>()));
+        ui.displayBidCreated(seller.getMyBid());
     }
 
     public void sendMyBid() {
         client.connectToManager();
-        if (myBid == null) throw new RuntimeException("No bid was registered");
+        if (seller.getMyBid() == null) throw new RuntimeException("No bid was registered");
         ui.tellSendBidToManager();
-        client.sendBid(myBid);
+        client.sendBid(seller.getMyBid());
     }
 
     public boolean auctionInProgress() {
-        return (!this.myBid.isOver());
+        return (!this.seller.getMyBid().isOver());
     }
 
     public void initServer() {
