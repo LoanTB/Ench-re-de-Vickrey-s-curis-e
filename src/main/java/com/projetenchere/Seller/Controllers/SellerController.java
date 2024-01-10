@@ -81,7 +81,6 @@ public class SellerController extends Controller {
     public void receiveOkUntilCheckEndAndSendResults() {
         ui.waitOk();
         server.addHandler(Headers.GET_WIN_STATUS, new ChecklistOkReplyer());
-        server.start();
         while (auctionInProgress()) {
             waitSynchro(1000);
         }
