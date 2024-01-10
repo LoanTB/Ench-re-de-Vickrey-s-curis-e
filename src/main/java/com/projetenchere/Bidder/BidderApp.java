@@ -1,6 +1,8 @@
 package com.projetenchere.Bidder;
 
 import com.projetenchere.Bidder.Controllers.BidderController;
+import com.projetenchere.common.Models.Bid;
+import com.projetenchere.exception.BidAbortedException;
 
 public class BidderApp {
     public static void main(String[] args) throws Exception {
@@ -9,6 +11,10 @@ public class BidderApp {
         controller.setSignatureConfig();
         controller.initWithManager();
         controller.showBids();
-        controller.readAndSendOffer();
+        try {
+            controller.readAndSendOffer();
+        } catch (BidAbortedException e) {
+            //TODO: comportement quand la bid est annulée
+        }
     }
 }

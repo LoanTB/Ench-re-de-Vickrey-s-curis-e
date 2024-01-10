@@ -9,11 +9,14 @@ import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
+import com.projetenchere.common.Models.Encrypted.SignedPublicKey;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Offer;
+import com.projetenchere.exception.BidAbortedException;
 
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
+import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +62,7 @@ public class BidderController extends Controller {
     }
 
 
-    public void readAndSendOffer() {
+    public void readAndSendOffer() throws BidAbortedException, SignatureException {
         Offer offer = ui.readOffer(bidder, currentBids);
         Bid bid = currentBids.getBid(offer.getIdBid());
         if (bid == null) throw new RuntimeException("");
@@ -73,13 +76,13 @@ public class BidderController extends Controller {
         client.connectToSeller(bid.getSellerSocketAddress());
         ui.tellOfferSent();
         SignedEncryptedOfferSet set = client.sendOfferReceiveList(encryptedOffer);
-        //TODO: check set
-        if(/*list does not contain set*/ false) {
+        if(!set.getSet().getOffers().contains(encryptedOffer)) {
             client.stopEverything();
-            System.exit(1);
+            throw new BidAbortedException("Offer was not present is set");
         }
         client.stopManager();
-        WinStatus status = client.validateAndGetWinStatus();
+        SignedPublicKey key = new SignedPublicKey(bidder.getKey(), bidder.getSignature());
+        WinStatus status = client.validateAndGetWinStatus(key);
         this.results.put(bid.getId(), status);
         if (status.isWinner()) {
             System.out.println("Prix à payer : " + status.getPrice());
