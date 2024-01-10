@@ -140,6 +140,11 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     }
 
     @Override
+    public void waitOk() {
+        showMessage("Attente des demandes de résultats...");
+    }
+
+    @Override
     public void tellWaitManagerSecurityInformations() {
         showMessage("Attente des informations de sécurité du gestionnaire...");
     }
