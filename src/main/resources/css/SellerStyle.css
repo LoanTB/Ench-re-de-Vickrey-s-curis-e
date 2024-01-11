@@ -1,0 +1,60 @@
+.vbox-main {
+    /* Styles pour le VBox principal */
+    -fx-background-color: #f0f0f0;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+.title-label {
+    /* Styles pour les labels de sous-titre */
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #666666;
+    -fx-alignment: center;
+    -fx-padding: 5;
+}
+
+.scroll-pane {
+    /* Styles pour le ScrollPane */
+    -fx-background: white;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+}
+
+.vbox-content {
+    /* Styles pour le contenu de VBox à l'intérieur du ScrollPane */
+    -fx-spacing: 8;
+}
+
+.text-field {
+    -fx-font-size: 14px;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-padding: 5 10;
+}
+
+.hbox-date-time {
+    -fx-spacing: 5;
+}
+
+/* Styles pour les DatePicker et ComboBox */
+.date-picker, .combo-box {
+    -fx-font-size: 14px;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-padding: 5 10;
+}
+
+/* Styles pour les boutons */
+.button {
+    -fx-background-color: #4caf50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.button:hover {
+    -fx-background-color: #66bb6a;
+}
