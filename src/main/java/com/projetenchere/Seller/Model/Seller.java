@@ -86,10 +86,11 @@ public class Seller extends User{
     }
 
 
-    public synchronized void verifyAndAddOffer(EncryptedOffer offer) throws SignatureException {
+    public synchronized void verifyAndAddOffer(EncryptedOffer offer) throws Exception {
         if (SignatureUtil.verifyDataSignature(offer.getPrice(), offer.getPriceSigned(), offer.getSignaturePublicKey())) {
             addBidder(offer.getSignaturePublicKey(), offer.getPrice());
             getEncryptedOffersSet().getOffers().add(offer);
+            reSignedEncryptedOffers();
         }
     }
 
@@ -106,9 +107,6 @@ public class Seller extends User{
         SignedEncryptedOfferSet offersSignedbl = new SignedEncryptedOfferSet(this.getSignature(), this.getKey(), list);
 
         this.setEncryptedOffersSignedBySeller(offersSignedbl);
-        for(EncryptedOffer o : getEncryptedOffersSignedBySeller().getSet().offers){
-            System.out.println(o.getPrice());
-        }
     }
 
     public synchronized Set<PublicKey> getbiddersOk(){

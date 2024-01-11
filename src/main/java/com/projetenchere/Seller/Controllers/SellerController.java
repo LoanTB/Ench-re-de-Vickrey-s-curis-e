@@ -85,16 +85,13 @@ public class SellerController extends Controller {
             waitSynchro(1000);
         }
 
-        server.removeHandler(Headers.GET_WIN_STATUS);
+        //server.removeHandler(Headers.GET_WIN_STATUS);
     }
 
     public void sendEncryptedOffersSet() throws Exception {
         SignedEncryptedOfferSet offers = seller.getEncryptedOffersSignedBySeller();
-        if(offers==null){
-            System.out.println("c'est nul");
-        }
+        ui.displayEncryptedOffersSet();
         this.setWinner(client.sendEncryptedOffersSet(offers));
-        ui.displayEncryptedOffersSetent();
     }
 
     public void displayHello() {

@@ -28,7 +28,7 @@ public class EncryptedOfferReplyer implements IDataHandler {
                     }
                     seller.reSignedEncryptedOffers();
                     for(EncryptedOffer o : seller.getEncryptedOffersSignedBySeller().getSet().offers){
-                        System.out.println(o.getPrice());
+                        System.out.println("handler :" + o.getPrice());
                     }
                     return new DataWrapper<>(seller.getEncryptedOffersSignedBySeller(), Headers.CHECK_LIST);
                 } catch (ClassCastException e) {
