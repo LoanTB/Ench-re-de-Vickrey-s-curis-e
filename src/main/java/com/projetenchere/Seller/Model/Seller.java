@@ -107,9 +107,7 @@ public class Seller extends User{
         EncryptedOffersSet list = new EncryptedOffersSet(set.getBidId(), offersSigned);
 
         SignedEncryptedOfferSet offersSignedbl = new SignedEncryptedOfferSet(this.getSignature(), this.getKey(), list);
-        //if(offersSignedbl == null){
-        //    System.out.println("reSignedEncryptedOffers : offersSignedbl est nul");
-        //}
+
         this.setEncryptedOffersSignedBySeller(offersSignedbl);
         for(EncryptedOffer o : getEncryptedOffersSignedBySeller().getSet().offers){
             System.out.println(o.getPrice());

@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.security.Signature;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class EncryptedOffer implements Serializable {
     private final String bidId;
@@ -45,4 +47,5 @@ public class EncryptedOffer implements Serializable {
     public PublicKey getSignaturePublicKey(){
         return SignaturePubKey;
     }
+
 }

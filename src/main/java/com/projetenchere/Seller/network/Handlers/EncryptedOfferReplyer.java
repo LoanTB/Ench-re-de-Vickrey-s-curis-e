@@ -23,7 +23,7 @@ public class EncryptedOfferReplyer implements IDataHandler {
                 try {
                     EncryptedOffer offer = (EncryptedOffer) data;
                     seller.verifyAndAddOffer(offer);
-                    while (!seller.resultsAreIn()) {
+                    while (!seller.getMyBid().isOver()) {
                         wait(1000);
                     }
                     seller.reSignedEncryptedOffers();

@@ -29,4 +29,16 @@ public class EncryptedOffersSet implements Serializable {
         return offers;
     }
 
+    public boolean contains(EncryptedOffer a){
+        for (EncryptedOffer offer : offers){
+            if(a.getPriceSigned() == offer.getPriceSigned() &&
+                a.getSignaturePublicKey() == offer.getSignaturePublicKey()
+                && a.getBidId() == offer.getBidId())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
