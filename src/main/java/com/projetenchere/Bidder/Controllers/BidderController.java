@@ -2,7 +2,6 @@ package com.projetenchere.Bidder.Controllers;
 
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
-import com.projetenchere.Bidder.View.graphicalUserInterface.IBidderUserInterfaceFactory;
 import com.projetenchere.Bidder.network.BidderClient;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Bid;
