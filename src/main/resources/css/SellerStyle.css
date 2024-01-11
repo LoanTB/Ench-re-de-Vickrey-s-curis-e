@@ -51,3 +51,8 @@
 .button:hover {
     -fx-background-color: #66bb6a;
 }
+
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+}

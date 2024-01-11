@@ -22,7 +22,7 @@
 
 /* Styles pour le contenu de VBox à l'intérieur du ScrollPane */
 .vbox-content {
-    -fx-spacing: 10;
+    -fx-spacing: 8;
 }
 
 /* Styles pour TableView */
@@ -51,7 +51,7 @@
 
 .label {
     -fx-text-fill: #333333;
-    -fx-font-size: 16px;
+    -fx-font-size: 14px;
 }
 
 .text-field {

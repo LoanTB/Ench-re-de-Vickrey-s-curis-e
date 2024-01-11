@@ -47,3 +47,8 @@
     -fx-border-width: 0 0 1 0;
     -fx-border-style: solid;
 }
+
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+}
