@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <VBox prefHeight="500" prefWidth="750" styleClass="vbox-main" stylesheets="/css/BidderStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface">
-    <Label text="Log Box" styleClass="title-label"/>
-    <ScrollPane fx:id="scrollPane" prefHeight="200" fitToWidth="true" styleClass="scroll-pane">
+    <Label fx:id="labelVBoxTitle" styleClass="title-label" text="Log Box" />
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="270" styleClass="scroll-pane">
         <VBox fx:id="messagesVBox" spacing="10" styleClass="vbox-content">
             <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
+                <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
         </VBox>
     </ScrollPane>
-    <Label text="Sélectionner une enchère" styleClass="title-label"/>
+    <Label fx:id="checkCurrentBidsVBoxTitle" styleClass="title-label" text="Sélectionner une enchère" />
     <VBox spacing="10" styleClass="vbox-content">
         <padding>
             <Insets bottom="10" left="10" right="10" top="10" />
         </padding>
-        <TableView fx:id="auctionsTableView" styleClass="table-view">
+        <TableView fx:id="auctionsTableView" prefHeight="201.0" prefWidth="730.0" styleClass="table-view">
             <columns>
-                <TableColumn text="Nom" fx:id="nameColumn" />
-                <TableColumn text="Description" fx:id="descriptionColumn" />
-                <TableColumn text="Fin" fx:id="endDateColumn" />
+                <TableColumn fx:id="nameColumn" text="Nom" />
+                <TableColumn fx:id="descriptionColumn" text="Description" />
+                <TableColumn fx:id="endDateColumn" text="Fin" />
             </columns>
         </TableView>
         <HBox spacing="10" styleClass="hbox-container">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
-            <Label text="Quel est votre prix ?" textAlignment="CENTER" fx:id="textAskPrice" styleClass="label" />
-            <TextField prefWidth="200" fx:id="offerAmountTextField" styleClass="text-field"/>
-            <Button text="Soumettre Offre" textAlignment="CENTER" onAction="#handleCreateBidButton" fx:id="buttonCreate" styleClass="button"/>
+            <Label fx:id="textAskPrice" styleClass="label" text="Quel est votre prix ?" textAlignment="CENTER" />
+            <TextField fx:id="offerAmountTextField" prefWidth="200" styleClass="text-field" />
+            <Button fx:id="buttonCreate" onAction="#handleCreateBidButton" styleClass="button" text="Soumettre Offre" textAlignment="CENTER" />
         </HBox>
     </VBox>
 </VBox>

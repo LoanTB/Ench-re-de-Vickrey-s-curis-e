@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
-<VBox prefWidth="750" prefHeight="500" styleClass="vbox-main" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface" stylesheets="/css/SellerStyle.css">
-    <Label text="Log Box" styleClass="title-label"/>
-    <ScrollPane fx:id="scrollPane" prefHeight="200" fitToWidth="true" styleClass="scroll-pane">
+<VBox prefHeight="500" prefWidth="750" styleClass="vbox-main" stylesheets="/css/SellerStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface">
+    <Label fx:id="labelVBoxTitle" styleClass="title-label" text="Log Box" />
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="270.0" prefWidth="750.0" styleClass="scroll-pane">
         <VBox fx:id="messagesVBox" spacing="10" styleClass="vbox-content">
             <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
+                <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
         </VBox>
     </ScrollPane>
-    <Label text="Créer une enchère" styleClass="title-label"/>
-    <VBox spacing="10" styleClass="vbox-content">
+    <Label fx:id="createBidVBoxTitle" styleClass="title-label" text="Créer une enchère" />
+    <VBox prefHeight="222.0" prefWidth="750.0" spacing="10" styleClass="vbox-content">
         <padding>
-            <Insets top="10" right="10" bottom="10" left="10"/>
+            <Insets bottom="10" left="10" right="10" top="10" />
         </padding>
-        <TextField fx:id="bidNameTextField" promptText="Nom de l'enchère" styleClass="text-field"/>
-        <TextField fx:id="bidDescriptionTextField" promptText="Description de l'enchère" styleClass="text-field"/>
+        <TextField fx:id="bidNameTextField" promptText="Nom de l'enchère" styleClass="text-field" />
+        <TextField fx:id="bidDescriptionTextField" promptText="Description de l'enchère" styleClass="text-field" />
         <HBox spacing="5" styleClass="hbox-date-time">
-            <DatePicker fx:id="endDatePicker" editable="false" promptText="Date de fin" styleClass="date-picker"/>
-            <ComboBox fx:id="hourComboBox" promptText="Heure" styleClass="combo-box"/>
-            <ComboBox fx:id="minuteComboBox" promptText="Minute" styleClass="combo-box"/>
-            <ComboBox fx:id="secondComboBox" promptText="Seconde" styleClass="combo-box"/>
+            <DatePicker fx:id="endDatePicker" editable="false" promptText="Date de fin" styleClass="date-picker" />
+            <ComboBox fx:id="hourComboBox" promptText="Heure" styleClass="combo-box" />
+            <ComboBox fx:id="minuteComboBox" promptText="Minute" styleClass="combo-box" />
+            <ComboBox fx:id="secondComboBox" promptText="Seconde" styleClass="combo-box" />
         </HBox>
-        <Button text="Créer l'Enchère" onAction="#handleCreateBidButton" fx:id="buttonCreate" styleClass="button"/>
+        <Button fx:id="buttonCreate" onAction="#handleCreateBidButton" styleClass="button" text="Créer l'Enchère" />
     </VBox>
 </VBox>
