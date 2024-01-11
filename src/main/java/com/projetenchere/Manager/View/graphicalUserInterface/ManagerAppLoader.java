@@ -2,6 +2,7 @@ package com.projetenchere.Manager.View.graphicalUserInterface;
 
 import com.projetenchere.Manager.Controllers.ManagerController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,18 +15,22 @@ public class ManagerAppLoader extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ManagerGraphicalUserInterface.fxml"));
         Parent root = loader.load();
+        ManagerGraphicalUserInterface.setInstance(loader.getController());
 
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Manager");
         primaryStage.show();
 
-        ManagerGraphicalUserInterface guiInterface = loader.getController();
-
-        controllerInstance = new ManagerController(guiInterface);
-
-        controllerInstance.displayHello();
-        controllerInstance.setSignatureConfig();
-        controllerInstance.init();
+        Platform.runLater(() -> {
+            controllerInstance = new ManagerController((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance());
+            controllerInstance.displayHello();
+            try {
+                controllerInstance.setSignatureConfig();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            controllerInstance.init();
+        });
     }
 
     public static ManagerController getControllerInstance() {

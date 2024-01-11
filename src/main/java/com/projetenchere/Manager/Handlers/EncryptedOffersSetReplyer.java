@@ -1,6 +1,8 @@
 package com.projetenchere.Manager.Handlers;
 
 import com.projetenchere.Manager.Model.Manager;
+import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
+import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.Winner;
@@ -38,6 +40,7 @@ public class EncryptedOffersSetReplyer implements IDataHandler {
                 }
             }
 
+            ManagerGraphicalUserInterface.getInstance().addLogMessage("L'enchère "+ enc.getBidId() +" à été résolu.");
             return new DataWrapper<>(manager.processPrices(new EncryptedOffersSet(enc.getBidId(),offers), manager.getPrivateKey()), Headers.RESOLVE_BID_OK);
         } catch (Exception e) {
             throw new RuntimeException(e);

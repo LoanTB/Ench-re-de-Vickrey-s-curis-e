@@ -1,39 +1,12 @@
 package com.projetenchere.Manager.View.graphicalUserInterface;
 
 import com.projetenchere.Manager.View.IManagerUserInterface;
-import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Winner;
-
-import javafx.application.Platform;
+import com.projetenchere.common.View.UserGraphicalUserInterface;
 import javafx.fxml.FXML;
-import javafx.scene.layout.VBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-
-
-import java.awt.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-public class ManagerGraphicalUserInterface implements IManagerUserInterface {
-
-    private final String instanceId = UUID.randomUUID().toString();
-
-    public ManagerGraphicalUserInterface() {
-        System.out.println("Controller instance created: " + instanceId);
-    }
-
-    @FXML
-    private VBox messagesVBox = new VBox();
-    @FXML
-    private ScrollPane scrollPane = new ScrollPane();
-
-    public void addLogMessage(String message) {
-            Label messageLabel = new Label(message);
-            messagesVBox.getChildren().add(messageLabel);
-            scrollPane.setVvalue(1.0);
-        };
-
+public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface implements IManagerUserInterface {
 
     @FXML
     public synchronized void handleTestLogButton() {

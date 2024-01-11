@@ -2,43 +2,91 @@ package com.projetenchere.Bidder.View.graphicalUserInterface;
 
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
+import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
-import javafx.application.Platform;
+import com.projetenchere.common.View.UserGraphicalUserInterface;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import java.util.ArrayList;
+import java.util.List;
 
-public class BidderGraphicalUserInterface implements IBidderUserInterface {
+import static java.lang.Thread.sleep;
+
+public class BidderGraphicalUserInterface extends UserGraphicalUserInterface implements IBidderUserInterface {
+
+    private Offer offer = null;
 
     @FXML
-    private VBox messagesVBox = new VBox();
+    private TableView<Item> auctionsTableView;
     @FXML
-    private ScrollPane scrollPane = new ScrollPane();
+    private TableColumn<Item, String> nameColumn;
+    @FXML
+    private TableColumn<Item, String> descriptionColumn;
+    @FXML
+    private TableColumn<Item, String> endDateColumn;
 
-    public void addLogMessage(String message) {
-        Platform.runLater(() -> {
-            Label messageLabel = new Label(message);
-            messagesVBox.getChildren().add(messageLabel);
-            scrollPane.setVvalue(1.0);
+    @FXML
+    private TextField offerAmountTextField;
+    @FXML
+    private Button submitOfferButton;
+
+    private CurrentBids currentBids;
+
+    private Bid selectedBid;
+
+    private Bidder bidder = null;
+
+    public void initialize() {
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("fin"));
+        auctionsTableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() > 0 && auctionsTableView.getSelectionModel().getSelectedItem() != null) {
+                selectedBid = currentBids.getBid(auctionsTableView.getSelectionModel().getSelectedItem().getId());
+            }
         });
-    }
-    @FXML
-    public void handleTestLogButton() {
-        addLogMessage("Message de test");
     }
 
     @Override
     public void displayBid(CurrentBids currentBids) {
-        addLogMessage("Enchères Actuelle :");
-        addLogMessage(currentBids.toString()+"\n");
+        this.currentBids = currentBids;
+        List<Item> items = new ArrayList<>();
+        for (Bid bid:currentBids.getCurrentBids()){
+            items.add(new Item(bid.getId(),bid.getName(), bid.getDescription(), bid.getEndDateTime().toString()));
+        }
+        auctionsTableView.getItems().addAll(items);
+    }
+
+    @FXML
+    private void handleCreateBidButton() {
+        if (selectedBid == null){
+            addLogMessage("Erreur : Vous devez sélectionner une enchère");
+        } else if (offerAmountTextField.getText().isEmpty()){
+            addLogMessage("Erreur : Vous devez entrer un prix");
+        } else if (Double.parseDouble(offerAmountTextField.getText()) <= 0) {
+            addLogMessage("Erreur : Vous devez entrer un prix plus grand que 0");
+        } else if (bidder == null){
+            addLogMessage("Erreur : Ce n'est pas encore le moment d'enchérrir");
+        } else {
+            offer = new Offer(bidder.getSignature(),selectedBid.getId(),offerAmountTextField.getText());
+        }
     }
 
     @Override
     public Offer readOffer(Bidder bidder, CurrentBids currentBids) {
-        return null;
+        this.bidder = bidder;
+        while (offer == null) {
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return offer;
     }
+
 
     @Override
     public void tellSignatureConfigSetup(){
@@ -80,7 +128,7 @@ public class BidderGraphicalUserInterface implements IBidderUserInterface {
 
     @Override
     public void tellWaitBidsPublicKeysAnnoncement() {
-        addLogMessage("Attente/Verification de reception des clés des enchères en cours...");
+        addLogMessage("Attente/Vérification de réception des clés des enchères en cours...");
     }
 
     @Override
@@ -130,12 +178,12 @@ public class BidderGraphicalUserInterface implements IBidderUserInterface {
 
     @Override
     public void tellReceiptOfEncryptionKeysForCurrentBids() {
-        addLogMessage("Reception des clés de chiffrement des enchères actuelles");
+        addLogMessage("Réception des clés de chiffrement des enchères actuelles");
     }
 
     @Override
     public void tellReceiptOfBidResult(String id) {
-        addLogMessage("Reception des résultats de l'enchère "+id);
+        addLogMessage("Réception des résultats de l'enchère "+id);
     }
 
     @Override

@@ -11,6 +11,7 @@ import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Utils.EncryptionUtil;
+import com.projetenchere.common.View.UserGraphicalUserInterface;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
 
@@ -18,12 +19,11 @@ import java.security.KeyPair;
 
 public class ManagerController extends Controller {
 
-    public final IManagerUserInterface ui;
-
-    public ManagerController(ManagerGraphicalUserInterface guiInterface) {
-        this.ui = guiInterface;
+    ManagerGraphicalUserInterface ui;
+    
+    public ManagerController(ManagerGraphicalUserInterface ui) {
+        this.ui = ui;
     }
-
 
     private final CurrentBids currentBids = new CurrentBids();
 

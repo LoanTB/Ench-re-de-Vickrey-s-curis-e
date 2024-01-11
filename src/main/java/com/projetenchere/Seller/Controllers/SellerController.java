@@ -23,16 +23,16 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class SellerController extends Controller {
-    public final ISellerUserInterface ui;
-
-    public SellerController(SellerGraphicalUserInterface guiInterface) {
-        this.ui = guiInterface;
-    }
     private final SellerClient client = new SellerClient();
     private final Server server = new Server(24682);
     private final Seller seller = Seller.getInstance();
     private Bid myBid;
     private Winner winner = null;
+    SellerGraphicalUserInterface ui;
+
+    public SellerController(SellerGraphicalUserInterface ui) {
+        this.ui = ui;
+    }
 
     public Bid getMyBid() {
         return myBid;
@@ -42,10 +42,6 @@ public class SellerController extends Controller {
         this.winner = winner;
         seller.setWinStatusMap(getBiddersWinStatus());
         seller.setResultsAreIn(true);
-    }
-
-    public ISellerUserInterface getUi() {
-        return ui;
     }
 
     public void setSignatureConfig() throws Exception {
@@ -69,10 +65,6 @@ public class SellerController extends Controller {
 
     public boolean auctionInProgress(){
         return (!this.myBid.isOver());
-    }
-
-    public void initServer() {
-
     }
 
     public void receiveOffersUntilBidEndAndSendResults() {

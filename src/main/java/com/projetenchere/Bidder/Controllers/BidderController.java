@@ -2,7 +2,7 @@ package com.projetenchere.Bidder.Controllers;
 
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
-import com.projetenchere.Bidder.View.graphicalUserInterface.IBidderUserInterfaceFactory;
+import com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface;
 import com.projetenchere.Bidder.network.BidderClient;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Bid;
@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.Map;
 
 public class BidderController extends Controller {
-    private IBidderUserInterface ui;
+    BidderGraphicalUserInterface ui;
 
-    public BidderController(IBidderUserInterfaceFactory uiFactory) throws Exception {
-        this.ui = uiFactory.createBidderUserInterface();
+    public BidderController(BidderGraphicalUserInterface ui) {
+        this.ui = ui;
     }
     BidderClient client = new BidderClient();
     private CurrentBids currentBids;
@@ -29,11 +29,6 @@ public class BidderController extends Controller {
     private final Map<String, WinStatus> results = new HashMap<>();
     private final Bidder bidder = new Bidder();
     private PublicKey managerPubKey;
-
-
-    public void setSignatureConfig() throws Exception {
-        setSignatureConfig(ui,bidder);
-    }
 
     public void setCurrentBids(CurrentBids currentBids) {
         this.currentBids = currentBids;
@@ -57,7 +52,6 @@ public class BidderController extends Controller {
     }
 
     public void showBids() {
-        System.out.println(this.currentBids.getCurrentBids().size());
         ui.displayBid(this.currentBids);
     }
 
@@ -82,6 +76,10 @@ public class BidderController extends Controller {
 
     public List<String> getParticipatedBid(){
         return participatedBid;
+    }
+
+    public void setSignatureConfig() throws Exception {
+        setSignatureConfig(ui,bidder);
     }
 
     public void displayHello(){ui.displayHello();}
