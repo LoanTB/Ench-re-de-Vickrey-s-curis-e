@@ -53,7 +53,6 @@ public class BidderController extends Controller {
     }
 
     public void showBids() {
-        System.out.println(this.currentBids.getCurrentBids().size());
         ui.displayBid(this.currentBids);
     }
 

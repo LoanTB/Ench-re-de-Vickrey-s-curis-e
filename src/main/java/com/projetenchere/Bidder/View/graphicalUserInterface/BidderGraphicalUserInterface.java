@@ -6,61 +6,77 @@ import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
 import com.projetenchere.common.View.UserGraphicalUserInterface;
-import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.cell.PropertyValueFactory;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Thread.sleep;
 
 public class BidderGraphicalUserInterface extends UserGraphicalUserInterface implements IBidderUserInterface {
 
-
     private Offer offer = null;
 
     @FXML
-    private TableView<Bid> auctionsTableView;
-
+    private TableView<Item> auctionsTableView;
     @FXML
-    private TableColumn<Bid, String> nameColumn;
+    private TableColumn<Item, String> nameColumn;
     @FXML
-    private TableColumn<Bid, String> descriptionColumn;
+    private TableColumn<Item, String> descriptionColumn;
     @FXML
-    private TableColumn<Bid, String> endDateColumn;
-
+    private TableColumn<Item, String> endDateColumn;
 
     @FXML
     private TextField offerAmountTextField;
     @FXML
     private Button submitOfferButton;
 
-    @FXML
+    private CurrentBids currentBids;
+
+    private Bid selectedBid;
+
+    private Bidder bidder = null;
+
     public void initialize() {
-        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        descriptionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
-        endDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEndDateTime().toString()));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("fin"));
+        auctionsTableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() > 0 && auctionsTableView.getSelectionModel().getSelectedItem() != null) {
+                selectedBid = currentBids.getBid(auctionsTableView.getSelectionModel().getSelectedItem().getId());
+            }
+        });
     }
 
     @Override
     public void displayBid(CurrentBids currentBids) {
-        System.out.println(currentBids.toString()+"\n");
-        ObservableList<Bid> bidObservableList = FXCollections.observableArrayList(currentBids.getCurrentBids());
-        auctionsTableView.setItems(bidObservableList);
+        this.currentBids = currentBids;
+        List<Item> items = new ArrayList<>();
+        for (Bid bid:currentBids.getCurrentBids()){
+            items.add(new Item(bid.getId(),bid.getName(), bid.getDescription(), bid.getEndDateTime().toString()));
+        }
+        auctionsTableView.getItems().addAll(items);
     }
 
-
-
     @FXML
-    private void handleSubmitOfferButton() {
-        Bid selectedBid = auctionsTableView.getSelectionModel().getSelectedItem();
-        String offerAmount = offerAmountTextField.getText();
+    private void handleCreateBidButton() {
+        if (selectedBid == null){
+            addLogMessage("Erreur : Vous devez sélectionner une enchère");
+        } else if (offerAmountTextField.getText().isEmpty()){
+            addLogMessage("Erreur : Vous devez entrer un prix");
+        } else if (Double.parseDouble(offerAmountTextField.getText()) <= 0) {
+            addLogMessage("Erreur : Vous devez entrer un prix plus grand que 0");
+        } else if (bidder == null){
+            addLogMessage("Erreur : Ce n'est pas encore le moment d'enchérrir");
+        } else {
+            offer = new Offer(bidder.getSignature(),selectedBid.getId(),offerAmountTextField.getText());
+        }
     }
 
     @Override
     public Offer readOffer(Bidder bidder, CurrentBids currentBids) {
+        this.bidder = bidder;
         while (offer == null) {
             try {
                 sleep(100);
