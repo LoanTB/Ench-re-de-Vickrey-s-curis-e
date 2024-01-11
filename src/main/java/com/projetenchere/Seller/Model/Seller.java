@@ -15,6 +15,7 @@ import java.util.*;
 public class Seller extends User{
     private static Seller INSTANCE;
     private final Map<PublicKey, byte[]> bidders = new HashMap<>();
+    private Set<PublicKey> biddersOk = new HashSet<>();
     private Map<PublicKey, WinStatus> winStatusMap;
     private EncryptedOffersSet encryptedOffersReceived;
     private SignedEncryptedOfferSet encryptedOffersSignedBySeller;
@@ -83,19 +84,19 @@ public class Seller extends User{
     public void setEncryptedOffersSignedBySeller(SignedEncryptedOfferSet encryptedOffersSignedBySeller){
         this.encryptedOffersSignedBySeller = encryptedOffersSignedBySeller;
     }
-    public SignedEncryptedOfferSet getEncryptedOffersSignedBySeller(){
+    public synchronized SignedEncryptedOfferSet getEncryptedOffersSignedBySeller(){
         return this.encryptedOffersSignedBySeller;
     }
 
 
-    public void verifyAndAddOffer(EncryptedOffer offer) throws SignatureException {
+    public synchronized void verifyAndAddOffer(EncryptedOffer offer) throws SignatureException {
         if (SignatureUtil.verifyDataSignature(offer.getPrice(), offer.getPriceSigned(), offer.getSignaturePublicKey())) {
             addBidder(offer.getSignaturePublicKey(), offer.getPrice());
             getEncryptedOffers().add(offer);
         }
     }
 
-    public void reSignedEncryptedOffers() throws Exception {
+    public synchronized void reSignedEncryptedOffers() throws Exception {
         EncryptedOffersSet set = this.getEncryptedOffersSet();
         Set<EncryptedOffer> offers = set.getOffers();
         Set<EncryptedOffer> offersSigned = new HashSet<>();
@@ -105,9 +106,18 @@ public class Seller extends User{
 
         EncryptedOffersSet list = new EncryptedOffersSet(set.getBidId(), offersSigned);
 
-        setEncryptedOffersSignedBySeller(new SignedEncryptedOfferSet(this.getSignature(), this.getKey(), list));
+        SignedEncryptedOfferSet offersSignedbl = new SignedEncryptedOfferSet(this.getSignature(), this.getKey(), list);
+        //if(offersSignedbl == null){
+        //    System.out.println("reSignedEncryptedOffers : offersSignedbl est nul");
+        //}
+        this.setEncryptedOffersSignedBySeller(offersSignedbl);
+        for(EncryptedOffer o : getEncryptedOffersSignedBySeller().getSet().offers){
+            System.out.println(o.getPrice());
+        }
     }
 
-
+    public synchronized Set<PublicKey> getbiddersOk(){
+        return this.biddersOk;
+    }
 
 }
