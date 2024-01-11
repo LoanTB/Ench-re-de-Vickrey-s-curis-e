@@ -36,11 +36,12 @@ public class ChecklistOkReplyer implements IDataHandler {
                             if(offer.getSignaturePublicKey() == signedPublicKey.getPublicKey())
                             {
                                 bidderPk = signedPublicKey.getPublicKey();
+                                seller.getbiddersOk().add(bidderPk);
                             }
                         }
                     }
 
-                    while (!seller.resultsAreIn()) { //TODO : Mettre un autre timer ???
+                    while (!seller.resultsAreIn()) {
                         wait(1000);
                     }
 
