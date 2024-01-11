@@ -1,31 +1,23 @@
+/* Styles pour le VBox principal */
 .vbox-main {
-    /* Styles pour le VBox principal */
-    -fx-background-color: #f0f0f0;
+    -fx-background-color: #f8f8f8;
     -fx-padding: 10;
     -fx-spacing: 10;
 }
 
-.title-label {
-    /* Styles pour les labels de sous-titre */
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #666666;
-    -fx-alignment: center;
-    -fx-padding: 5;
-}
-
+/* Styles pour le ScrollPane */
 .scroll-pane {
-    /* Styles pour le ScrollPane */
     -fx-background: white;
-    -fx-border-color: #cccccc;
+    -fx-border-color: #d3d3d3;
     -fx-border-width: 1;
 }
 
+/* Styles pour le contenu de VBox à l'intérieur du ScrollPane */
 .vbox-content {
-    /* Styles pour le contenu de VBox à l'intérieur du ScrollPane */
     -fx-spacing: 8;
 }
 
+/* Styles pour les champs de texte */
 .text-field {
     -fx-font-size: 14px;
     -fx-border-color: #cccccc;
@@ -33,6 +25,7 @@
     -fx-padding: 5 10;
 }
 
+/* Styles pour le HBox contenant les éléments de date et heure */
 .hbox-date-time {
     -fx-spacing: 5;
 }

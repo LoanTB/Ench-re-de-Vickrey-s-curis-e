@@ -4,32 +4,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="500" prefWidth="750" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface">
-    <ScrollPane fx:id="scrollPane" prefHeight="200" fitToWidth="true">
-        <VBox fx:id="messagesVBox" spacing="10">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-        </VBox>
-    </ScrollPane>
-    <VBox spacing="10">
-        <padding>
-            <Insets bottom="10" left="10" right="10" top="10" />
-        </padding>
-        <TableView fx:id="auctionsTableView">
-            <columns>
-                <TableColumn text="Nom" fx:id="nameColumn" />
-                <TableColumn text="Description" fx:id="descriptionColumn" />
-                <TableColumn text="Fin" fx:id="endDateColumn" />
-            </columns>
-        </TableView>
-        <HBox spacing="10">
+<VBox prefHeight="500" prefWidth="750" styleClass="vbox-main" stylesheets="/css/BidderStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface">
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="400.0" prefWidth="750.0" styleClass="scroll-pane">
+        <VBox fx:id="messagesVBox" spacing="10" styleClass="vbox-content">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
-            <Label text="Quel est votre prix ?" textAlignment="CENTER" fx:id="textAskPrice" />
-            <TextField prefWidth="200" fx:id="offerAmountTextField"/>
-            <Button text="Soumettre Offre" textAlignment="CENTER"  onAction="#handleCreateBidButton" fx:id="buttonCreate" />
+        </VBox>
+    </ScrollPane>
+    <VBox spacing="10" styleClass="vbox-content">
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="10" />
+        </padding>
+        <TableView fx:id="auctionsTableView" styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="nameColumn" text="Nom" />
+                <TableColumn fx:id="descriptionColumn" text="Description" />
+                <TableColumn fx:id="endDateColumn" text="Fin" />
+            </columns>
+        </TableView>
+        <HBox spacing="10" styleClass="hbox-container">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <Label styleClass="label" text="Quel est votre prix ?" textAlignment="CENTER" />
+            <TextField fx:id="offerAmountTextField" prefWidth="200" styleClass="text-field" />
+            <Button onAction="#handleCreateBidButton" styleClass="button" text="Soumettre Offre" textAlignment="CENTER" />
         </HBox>
     </VBox>
 </VBox>
