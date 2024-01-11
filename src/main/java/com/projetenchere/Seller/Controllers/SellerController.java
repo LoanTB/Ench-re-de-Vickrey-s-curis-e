@@ -76,8 +76,9 @@ public class SellerController extends Controller {
         while (auctionInProgress()) {
             waitSynchro(1000);
         }
-        server.removeHandler(Headers.SEND_OFFER);
         server.addHandler(Headers.GET_WIN_STATUS, new ChecklistOkReplyer());
+        seller.resultsAreReady();
+        server.removeHandler(Headers.SEND_OFFER);
 
         Map<PublicKey, byte[]> map = seller.getBidders();
 

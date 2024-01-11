@@ -21,8 +21,19 @@ public class Seller extends User{
     private SignedEncryptedOfferSet encryptedOffersSignedBySeller;
     private Bid myBid;
     private boolean resultsAreIn = false;
+    private boolean resultsReady = false;
+
 
     private Seller(){}
+
+    public synchronized boolean isResultsReady() {
+        return resultsReady;
+    }
+
+    public synchronized void resultsAreReady() {
+        this.resultsReady = true;
+    }
+
 
     public synchronized boolean resultsAreIn() {
         return resultsAreIn;

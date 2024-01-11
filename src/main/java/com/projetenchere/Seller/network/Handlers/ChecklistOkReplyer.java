@@ -19,47 +19,47 @@ public class ChecklistOkReplyer implements IDataHandler {
     public DataWrapper<WinStatus> handle(Serializable data) {
         Seller seller = Seller.getInstance();
         synchronized (this) {
-            if (!seller.resultsAreIn()) {
-                try {
-                    SignedPublicKey signedPublicKey = (SignedPublicKey) data;
-                    PublicKey bidderPk = null;
-                    WinStatus status;
 
-                    if(SignatureUtil.verifyDataSignature(signedPublicKey.getPublicKeySigned(),
-                                                        signedPublicKey.getPublicKey().getEncoded(),
-                                                        signedPublicKey.getPublicKey()))
-                    {
-                        Set<EncryptedOffer> offers = seller.getEncryptedOffersSet().getOffers();
+            try {
+                SignedPublicKey signedPublicKey = (SignedPublicKey) data;
+                PublicKey bidderPk = null;
+                WinStatus status;
 
-                        for(EncryptedOffer offer : offers)
-                        {
-                            if(offer.getSignaturePublicKey() == signedPublicKey.getPublicKey())
-                            {
-                                bidderPk = signedPublicKey.getPublicKey();
-                                seller.getbiddersOk().add(bidderPk);
-                            }
+
+
+                if (SignatureUtil.verifyDataSignature(
+                        "ok".getBytes(),
+                        signedPublicKey.getOkSigned(),
+                        signedPublicKey.getPublicKey())) {
+                    Set<EncryptedOffer> offers = seller.getEncryptedOffersSet().getOffers();
+
+                    for (EncryptedOffer offer : offers) {
+                        if (offer.getSignaturePublicKey() == signedPublicKey.getPublicKey()) {
+                            bidderPk = signedPublicKey.getPublicKey();
+                            seller.getbiddersOk().add(bidderPk);
                         }
                     }
-
-                    while (!seller.resultsAreIn()) {
-                        wait(1000);
-                    }
-
-                    if(bidderPk == null){
-                        status = new WinStatus(seller.getMyBid().getId(), false, 0);
-                    }else {
-                        status = seller.getSignatureWinStatus(bidderPk);
-                    }
-
-                    return new DataWrapper<>(status, Headers.OK_WIN_STATUS);
-                } catch (ClassCastException e) {
-                    throw new RuntimeException("Received unreadable data");
-                } catch (InterruptedException e) {
-                    throw new RuntimeException("Timeout");
-                } catch (SignatureException e) {
-                    throw new RuntimeException("Signature falsify");
                 }
-            } else return new DataWrapper<>(null, Headers.ERROR);
+
+                while (!seller.resultsAreIn()) {
+                    wait(1000);
+                }
+                System.out.println("ResultsAregood!");
+                if (bidderPk == null) {
+                    status = new WinStatus(seller.getMyBid().getId(), false, 0);
+                } else {
+                    status = seller.getSignatureWinStatus(bidderPk);
+                }
+
+                return new DataWrapper<>(status, Headers.OK_WIN_STATUS);
+            } catch (ClassCastException e) {
+                throw new RuntimeException("Received unreadable data");
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Timeout");
+            } catch (SignatureException e) {
+                throw new RuntimeException("Signature falsify");
+            }
         }
     }
 }
+
