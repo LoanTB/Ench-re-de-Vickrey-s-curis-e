@@ -19,6 +19,8 @@ import static java.lang.Thread.sleep;
 public class SellerGraphicalUserInterface extends UserGraphicalUserInterface implements ISellerUserInterface {
 
     @FXML
+    public Button buttonCreate;
+    @FXML
     private TextField bidNameTextField = new TextField();
     @FXML
     private TextField bidDescriptionTextField = new TextField();
@@ -74,6 +76,14 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
         if (bidName.isEmpty() || bidDescription.isEmpty() || bidEndDateTime == null) {
             addLogMessage("Erreur : Veuillez remplir tous les champs correctement.");
         } else {
+            endDatePicker.setVisible(false);
+            hourComboBox.setVisible(false);
+            minuteComboBox.setVisible(false);
+            secondComboBox.setVisible(false);
+            bidNameTextField.setVisible(false);
+            bidDescriptionTextField.setVisible(false);
+            bidDescriptionTextField.setVisible(false);
+            buttonCreate.setVisible(false);
             bid = new Bid(UUID.randomUUID().toString(), bidName, bidDescription, bidEndDateTime);
         }
     }

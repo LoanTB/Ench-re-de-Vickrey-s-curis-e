@@ -19,6 +19,10 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     private Offer offer = null;
 
     @FXML
+    public Label textAskPrice;
+    @FXML
+    public Button buttonCreate;
+    @FXML
     private TableView<ItemBidderTable> auctionsTableView;
     @FXML
     private TableColumn<ItemBidderTable, String> nameColumn;
@@ -70,6 +74,11 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
         } else if (bidder == null){
             addLogMessage("Erreur : Ce n'est pas encore le moment d'enchérrir");
         } else {
+            auctionsTableView.setVisible(false);
+            offerAmountTextField.setVisible(false);
+            buttonCreate.setVisible(false);
+            buttonCreate.setVisible(false);
+            textAskPrice.setVisible(false);
             offer = new Offer(bidder.getSignature(),selectedBid.getId(),offerAmountTextField.getText());
         }
     }

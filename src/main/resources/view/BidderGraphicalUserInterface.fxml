@@ -27,9 +27,9 @@
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
-            <Label text="Quel est votre prix ?" textAlignment="CENTER" />
+            <Label text="Quel est votre prix ?" textAlignment="CENTER" fx:id="textAskPrice" />
             <TextField prefWidth="200" fx:id="offerAmountTextField"/>
-            <Button text="Soumettre Offre" textAlignment="CENTER"  onAction="#handleCreateBidButton"/>
+            <Button text="Soumettre Offre" textAlignment="CENTER"  onAction="#handleCreateBidButton" fx:id="buttonCreate" />
         </HBox>
     </VBox>
 </VBox>

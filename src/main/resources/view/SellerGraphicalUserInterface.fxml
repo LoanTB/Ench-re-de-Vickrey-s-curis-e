@@ -23,7 +23,7 @@
             <ComboBox fx:id="minuteComboBox" promptText="Minute"/>
             <ComboBox fx:id="secondComboBox" promptText="Seconde"/>
         </HBox>
-        <Button text="Créer l'Enchère" onAction="#handleCreateBidButton"/>
+        <Button text="Créer l'Enchère" onAction="#handleCreateBidButton" fx:id="buttonCreate"/>
     </VBox>
 </VBox>
 
