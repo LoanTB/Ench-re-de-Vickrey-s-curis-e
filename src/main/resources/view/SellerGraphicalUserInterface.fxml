@@ -3,28 +3,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox prefWidth="750" prefHeight="500" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface">
-    <ScrollPane fx:id="scrollPane" prefHeight="200" fitToWidth="true">
-        <VBox fx:id="messagesVBox" spacing="10">
+<VBox prefWidth="750" prefHeight="500" styleClass="vbox-main" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface" stylesheets="/css/SellerStyle.css">
+    <Label text="Log Box" styleClass="title-label"/>
+    <ScrollPane fx:id="scrollPane" prefHeight="200" fitToWidth="true" styleClass="scroll-pane">
+        <VBox fx:id="messagesVBox" spacing="10" styleClass="vbox-content">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
         </VBox>
     </ScrollPane>
-    <VBox spacing="10">
+    <Label text="Créer une enchère" styleClass="title-label"/>
+    <VBox spacing="10" styleClass="vbox-content">
         <padding>
             <Insets top="10" right="10" bottom="10" left="10"/>
         </padding>
-        <TextField fx:id="bidNameTextField" promptText="Nom de l'enchère"/>
-        <TextField fx:id="bidDescriptionTextField" promptText="Description de l'enchère"/>
-        <HBox spacing="5">
-            <DatePicker fx:id="endDatePicker" editable="false" promptText="Date de fin"/>
-            <ComboBox fx:id="hourComboBox" promptText="Heure"/>
-            <ComboBox fx:id="minuteComboBox" promptText="Minute"/>
-            <ComboBox fx:id="secondComboBox" promptText="Seconde"/>
+        <TextField fx:id="bidNameTextField" promptText="Nom de l'enchère" styleClass="text-field"/>
+        <TextField fx:id="bidDescriptionTextField" promptText="Description de l'enchère" styleClass="text-field"/>
+        <HBox spacing="5" styleClass="hbox-date-time">
+            <DatePicker fx:id="endDatePicker" editable="false" promptText="Date de fin" styleClass="date-picker"/>
+            <ComboBox fx:id="hourComboBox" promptText="Heure" styleClass="combo-box"/>
+            <ComboBox fx:id="minuteComboBox" promptText="Minute" styleClass="combo-box"/>
+            <ComboBox fx:id="secondComboBox" promptText="Seconde" styleClass="combo-box"/>
         </HBox>
-        <Button text="Créer l'Enchère" onAction="#handleCreateBidButton" fx:id="buttonCreate"/>
+        <Button text="Créer l'Enchère" onAction="#handleCreateBidButton" fx:id="buttonCreate" styleClass="button"/>
     </VBox>
 </VBox>
-
-

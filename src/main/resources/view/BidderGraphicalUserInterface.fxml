@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="500" prefWidth="750" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface">
-    <ScrollPane fx:id="scrollPane" prefHeight="200" fitToWidth="true">
-        <VBox fx:id="messagesVBox" spacing="10">
+<VBox prefHeight="500" prefWidth="750" styleClass="vbox-main" stylesheets="/css/BidderStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface">
+    <Label text="Log Box" styleClass="title-label"/>
+    <ScrollPane fx:id="scrollPane" prefHeight="200" fitToWidth="true" styleClass="scroll-pane">
+        <VBox fx:id="messagesVBox" spacing="10" styleClass="vbox-content">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
         </VBox>
     </ScrollPane>
-    <VBox spacing="10">
+    <Label text="Sélectionner une enchère" styleClass="title-label"/>
+    <VBox spacing="10" styleClass="vbox-content">
         <padding>
             <Insets bottom="10" left="10" right="10" top="10" />
         </padding>
-        <TableView fx:id="auctionsTableView">
+        <TableView fx:id="auctionsTableView" styleClass="table-view">
             <columns>
                 <TableColumn text="Nom" fx:id="nameColumn" />
                 <TableColumn text="Description" fx:id="descriptionColumn" />
                 <TableColumn text="Fin" fx:id="endDateColumn" />
             </columns>
         </TableView>
-        <HBox spacing="10">
+        <HBox spacing="10" styleClass="hbox-container">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
-            <Label text="Quel est votre prix ?" textAlignment="CENTER" fx:id="textAskPrice" />
-            <TextField prefWidth="200" fx:id="offerAmountTextField"/>
-            <Button text="Soumettre Offre" textAlignment="CENTER"  onAction="#handleCreateBidButton" fx:id="buttonCreate" />
+            <Label text="Quel est votre prix ?" textAlignment="CENTER" fx:id="textAskPrice" styleClass="label" />
+            <TextField prefWidth="200" fx:id="offerAmountTextField" styleClass="text-field"/>
+            <Button text="Soumettre Offre" textAlignment="CENTER" onAction="#handleCreateBidButton" fx:id="buttonCreate" styleClass="button"/>
         </HBox>
     </VBox>
 </VBox>

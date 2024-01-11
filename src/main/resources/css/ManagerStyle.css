@@ -36,17 +36,17 @@
 }
 
 .table-view .column-header-background {
-    /* Styles pour l'en-tête des colonnes de la table */
+
     -fx-background-color: #e6e6e6;
 }
 
-.table-view .table-row-cell {
-    /* Styles pour les cellules de la table */
+/*.table-view .table-row-cell {
+
     -fx-padding: 10px;
     -fx-border-color: transparent;
     -fx-border-width: 0 0 1 0;
     -fx-border-style: solid;
-}
+}*/
 
 .label {
     -fx-text-fill: #333333;

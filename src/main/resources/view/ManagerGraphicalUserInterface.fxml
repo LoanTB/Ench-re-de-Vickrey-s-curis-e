@@ -3,19 +3,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox prefHeight="500" prefWidth="750" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface">
-    <ScrollPane fx:id="scrollPane" prefHeight="200" fitToWidth="true">
-        <VBox fx:id="messagesVBox" spacing="10">
+<VBox prefHeight="500" prefWidth="750" styleClass="vbox-main" stylesheets="/css/ManagerStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface">
+    <Label text="Log Box" styleClass="title-label"/>
+    <ScrollPane fx:id="scrollPane" prefHeight="200" fitToWidth="true" styleClass="scroll-pane">
+        <VBox fx:id="messagesVBox" spacing="10" styleClass="vbox-content">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
         </VBox>
     </ScrollPane>
-    <VBox spacing="10">
+    <Label text="Enchères en cours" styleClass="title-label"/>
+    <VBox spacing="10" styleClass="vbox-content">
         <padding>
             <Insets bottom="10" left="10" right="10" top="10" />
         </padding>
-        <TableView fx:id="auctionsTableView">
+        <TableView fx:id="auctionsTableView" styleClass="table-view">
             <columns>
                 <TableColumn text="Nom" fx:id="nameColumn" />
                 <TableColumn text="Description" fx:id="descriptionColumn" />
@@ -31,7 +33,3 @@
         </HBox>
     </VBox>
 </VBox>
-
-
-
-
