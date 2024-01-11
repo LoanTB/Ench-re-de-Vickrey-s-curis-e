@@ -13,6 +13,10 @@ import javafx.scene.layout.VBox;
 
 public class BidderGraphicalUserInterface extends UserGraphicalUserInterface implements IBidderUserInterface {
 
+    @FXML
+    public void handleTestLogButton() {
+        addLogMessage("Message de test");
+    }
     @Override
     public void displayBid(CurrentBids currentBids) {
         addLogMessage("Enchères Actuelle :");

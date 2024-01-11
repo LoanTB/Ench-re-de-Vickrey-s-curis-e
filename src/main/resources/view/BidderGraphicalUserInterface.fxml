@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="500" prefWidth="750" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="500" prefWidth="750" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface">
     <ScrollPane fx:id="scrollPane" prefHeight="200" fitToWidth="true">
         <VBox fx:id="messagesVBox" spacing="10">
             <padding>
@@ -17,13 +17,13 @@
         <padding>
             <Insets bottom="10" left="10" right="10" top="10" />
         </padding>
-        <TilePane prefColumns="3" prefHeight="218.0" prefWidth="730.0">
-            <VBox styleClass="auctionItem" style="-fx-border-color: black; -fx-padding: 10;">
-                <Label text="Enchère 1" styleClass="auctionTitle"/>
-                <Label text="Nom: Produit X" />
-                <Label text="Fin: 20-04-2024 18:00" />
-            </VBox>
-        </TilePane>
+        <TableView fx:id="auctionsTableView">
+            <columns>
+                <TableColumn text="Nom" fx:id="nameColumn" />
+                <TableColumn text="Description" fx:id="descriptionColumn" />
+                <TableColumn text="Fin" fx:id="endDateColumn" />
+            </columns>
+        </TableView>
         <HBox spacing="10">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
