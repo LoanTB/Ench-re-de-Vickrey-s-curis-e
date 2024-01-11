@@ -2,16 +2,23 @@ package com.projetenchere.Bidder.View.graphicalUserInterface;
 
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
+import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
 import com.projetenchere.common.View.UserGraphicalUserInterface;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 public class BidderGraphicalUserInterface extends UserGraphicalUserInterface implements IBidderUserInterface {
+
+    @FXML
+    private TableView<Bid> auctionsTableView;
+    @FXML
+    private TextField offerAmountTextField;
+    @FXML
+    private Button submitOfferButton;
 
     @FXML
     public void handleTestLogButton() {
@@ -21,6 +28,23 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     public void displayBid(CurrentBids currentBids) {
         addLogMessage("Enchères Actuelle :");
         addLogMessage(currentBids.toString()+"\n");
+    }
+
+    @FXML
+    private void handleSubmitOfferButton() {
+        Bid selectedBid = auctionsTableView.getSelectionModel().getSelectedItem();
+        String offerAmount = offerAmountTextField.getText();
+
+        if (selectedBid != null && !offerAmount.isEmpty()) {
+            try {
+                double amount = Double.parseDouble(offerAmount);
+                // créer l'offre
+            } catch (NumberFormatException e) {
+                addLogMessage("Erreur : Montant invalide.");
+            }
+        } else {
+            addLogMessage("Erreur : Veuillez sélectionner une enchère et entrer un montant.");
+        }
     }
 
     @Override
@@ -68,7 +92,7 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void tellWaitBidsPublicKeysAnnoncement() {
-        addLogMessage("Attente/Verification de reception des clés des enchères en cours...");
+        addLogMessage("Attente/Vérification de réception des clés des enchères en cours...");
     }
 
     @Override
@@ -118,12 +142,12 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void tellReceiptOfEncryptionKeysForCurrentBids() {
-        addLogMessage("Reception des clés de chiffrement des enchères actuelles");
+        addLogMessage("Réception des clés de chiffrement des enchères actuelles");
     }
 
     @Override
     public void tellReceiptOfBidResult(String id) {
-        addLogMessage("Reception des résultats de l'enchère "+id);
+        addLogMessage("Réception des résultats de l'enchère "+id);
     }
 
     @Override
