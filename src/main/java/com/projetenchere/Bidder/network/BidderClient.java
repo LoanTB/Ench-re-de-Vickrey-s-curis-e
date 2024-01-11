@@ -65,7 +65,7 @@ public class BidderClient extends Client{
         return fetchWithData(
                 toSeller,
                 Headers.GET_WIN_STATUS,
-                Headers.OK_CURRENT_BIDS,
+                Headers.OK_WIN_STATUS,
                 key
         );
     }
