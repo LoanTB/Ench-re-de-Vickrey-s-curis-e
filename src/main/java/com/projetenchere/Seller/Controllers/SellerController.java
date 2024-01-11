@@ -79,11 +79,9 @@ public class SellerController extends Controller {
         server.removeHandler(Headers.SEND_OFFER);
         server.addHandler(Headers.GET_WIN_STATUS, new ChecklistOkReplyer());
 
-        Set<PublicKey> biddersPk = new HashSet<>();
         Map<PublicKey, byte[]> map = seller.getBidders();
-        biddersPk.addAll(map.keySet());
 
-        while (seller.getbiddersOk().containsAll(biddersPk)){
+        while (seller.getbiddersOk().containsAll(map.keySet())){
             waitSynchro(1000);
         }
 
