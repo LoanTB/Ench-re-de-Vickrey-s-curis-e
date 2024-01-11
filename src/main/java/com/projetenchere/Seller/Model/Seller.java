@@ -69,9 +69,6 @@ public class Seller extends User{
         this.myBid = bid;
     }
 
-    public Set<EncryptedOffer> getEncryptedOffers() {
-        return this.encryptedOffersReceived.getOffers();
-    }
     public EncryptedOffersSet getEncryptedOffersSet() {
         return this.encryptedOffersReceived;
     }
@@ -84,7 +81,7 @@ public class Seller extends User{
     public void setEncryptedOffersSignedBySeller(SignedEncryptedOfferSet encryptedOffersSignedBySeller){
         this.encryptedOffersSignedBySeller = encryptedOffersSignedBySeller;
     }
-    public synchronized SignedEncryptedOfferSet getEncryptedOffersSignedBySeller(){
+    public synchronized SignedEncryptedOfferSet getEncryptedOffersSignedBySeller() {
         return this.encryptedOffersSignedBySeller;
     }
 
@@ -92,7 +89,7 @@ public class Seller extends User{
     public synchronized void verifyAndAddOffer(EncryptedOffer offer) throws SignatureException {
         if (SignatureUtil.verifyDataSignature(offer.getPrice(), offer.getPriceSigned(), offer.getSignaturePublicKey())) {
             addBidder(offer.getSignaturePublicKey(), offer.getPrice());
-            getEncryptedOffers().add(offer);
+            getEncryptedOffersSet().getOffers().add(offer);
         }
     }
 

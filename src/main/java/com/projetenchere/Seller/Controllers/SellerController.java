@@ -106,11 +106,11 @@ public class SellerController extends Controller {
     }
 
     public void displayWinner() {
-        Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
+        Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffersSet().getOffers();
     }
 
     public Map<PublicKey, WinStatus> getBiddersWinStatus() {
-        Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffers();
+        Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffersSet().getOffers();
         boolean haveAWinner = false;
         Map<PublicKey, WinStatus> winStatusMap = new HashMap<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {

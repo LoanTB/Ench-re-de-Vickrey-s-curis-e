@@ -29,7 +29,7 @@ public class ChecklistOkReplyer implements IDataHandler {
                                                         signedPublicKey.getPublicKey().getEncoded(),
                                                         signedPublicKey.getPublicKey()))
                     {
-                        Set<EncryptedOffer> offers = seller.getEncryptedOffers();
+                        Set<EncryptedOffer> offers = seller.getEncryptedOffersSet().getOffers();
 
                         for(EncryptedOffer offer : offers)
                         {

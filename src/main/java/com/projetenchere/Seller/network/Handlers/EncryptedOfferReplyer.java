@@ -27,6 +27,9 @@ public class EncryptedOfferReplyer implements IDataHandler {
                         wait(1000);
                     }
                     seller.reSignedEncryptedOffers();
+                    for(EncryptedOffer o : seller.getEncryptedOffersSignedBySeller().getSet().offers){
+                        System.out.println(o.getPrice());
+                    }
                     return new DataWrapper<>(seller.getEncryptedOffersSignedBySeller(), Headers.CHECK_LIST);
                 } catch (ClassCastException e) {
                     throw new RuntimeException("Received unreadable data");

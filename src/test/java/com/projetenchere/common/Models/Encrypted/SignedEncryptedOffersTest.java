@@ -52,14 +52,8 @@ public class SignedEncryptedOffersTest {
         a.setEncryptedOffersSignedBySeller(setSigned);
         a.reSignedEncryptedOffers();
 
-        for(EncryptedOffer b : a.getEncryptedOffersSignedBySeller().getSet().getOffers()){
-
-            assertTrue(SignatureUtil.verifyDataSignature(a,));
-        }
-
         EncryptedOffersSet offersToVerify = setSigned.getSet();
         boolean verifyDataSignature = SignatureUtil.verifyDataSignature(offersToVerify, setSigned.getSetSigned(), kpOffer3.getPublic());
-
         assertTrue(verifyDataSignature);
 
         Set<EncryptedOffer> offersSetToVerify = offersToVerify.getOffers();
