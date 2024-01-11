@@ -2,7 +2,9 @@ package com.projetenchere.Bidder.Controllers;
 
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
+import com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface;
 import com.projetenchere.Bidder.network.BidderClient;
+import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
@@ -30,8 +32,10 @@ public class BidderController extends Controller {
     private PublicKey managerPubKey;
 
 
-    public void setSignatureConfig() throws Exception {
-        setSignatureConfig(ui,bidder);
+    BidderGraphicalUserInterface ui;
+
+    public BidderController(BidderGraphicalUserInterface ui) {
+        this.ui = ui;
     }
 
     public void setCurrentBids(CurrentBids currentBids) {
