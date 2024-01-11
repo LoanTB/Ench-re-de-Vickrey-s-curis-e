@@ -55,10 +55,21 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void displayBid(CurrentBids currentBids) {
+        boolean ok=true;
         this.currentBids = currentBids;
         List<ItemBidderTable> itemBidderTables = new ArrayList<>();
         for (Bid bid:currentBids.getCurrentBids()){
-            itemBidderTables.add(new ItemBidderTable(bid.getId(),bid.getName(), bid.getDescription(), bid.getEndDateTime().toString()));
+            if (auctionsTableView.getItems() != null) {
+                for (ItemBidderTable item:auctionsTableView.getItems()){
+                    if (item.getId().equals(bid.getId())){
+                        ok = false;
+                    }
+                }
+            }
+            if (ok){
+                itemBidderTables.add(new ItemBidderTable(bid.getId(),bid.getName(), bid.getDescription(), bid.getEndDateTime().toString()));
+            }
+
         }
         auctionsTableView.getItems().addAll(itemBidderTables);
     }

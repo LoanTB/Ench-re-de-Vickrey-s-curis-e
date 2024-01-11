@@ -31,7 +31,6 @@ public class BidderAppLoader extends Application {
                 throw new RuntimeException(e);
             }
             controllerInstance.initWithManager();
-            controllerInstance.showBids();
             try {
                 controllerInstance.readAndSendOffer();
             } catch (Exception e) {
