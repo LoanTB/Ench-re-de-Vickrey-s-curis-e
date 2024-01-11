@@ -7,11 +7,17 @@ import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
 import com.projetenchere.common.View.UserGraphicalUserInterface;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import static java.lang.Thread.sleep;
+
 public class BidderGraphicalUserInterface extends UserGraphicalUserInterface implements IBidderUserInterface {
+
+    private Offer offer = null;
 
     @FXML
     private TableView<Bid> auctionsTableView;
@@ -26,31 +32,28 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     }
     @Override
     public void displayBid(CurrentBids currentBids) {
-        addLogMessage("Enchères Actuelle :");
-        addLogMessage(currentBids.toString()+"\n");
+        // Convertir currentBids en liste observable et l'ajouter au TableView
+        ObservableList<Bid> bidObservableList = FXCollections.observableArrayList(currentBids.getCurrentBids());
+        auctionsTableView.setItems(bidObservableList);
     }
-
     @FXML
     private void handleSubmitOfferButton() {
         Bid selectedBid = auctionsTableView.getSelectionModel().getSelectedItem();
         String offerAmount = offerAmountTextField.getText();
-
-        if (selectedBid != null && !offerAmount.isEmpty()) {
-            try {
-                double amount = Double.parseDouble(offerAmount);
-                // créer l'offre
-            } catch (NumberFormatException e) {
-                addLogMessage("Erreur : Montant invalide.");
-            }
-        } else {
-            addLogMessage("Erreur : Veuillez sélectionner une enchère et entrer un montant.");
-        }
     }
 
     @Override
     public Offer readOffer(Bidder bidder, CurrentBids currentBids) {
-        return null;
+        while (offer == null) {
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return offer;
     }
+
 
     @Override
     public void tellSignatureConfigSetup(){

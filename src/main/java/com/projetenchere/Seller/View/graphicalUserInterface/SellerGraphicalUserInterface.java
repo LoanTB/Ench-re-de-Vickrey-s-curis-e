@@ -49,11 +49,6 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
     }
 
     @FXML
-    public void handleTestLogButton() {
-        addLogMessage("Message de test");
-    }
-
-    @FXML
     private void handleCreateBidButton() {
         String bidName = bidNameTextField.getText();
         String bidDescription = bidDescriptionTextField.getText();
