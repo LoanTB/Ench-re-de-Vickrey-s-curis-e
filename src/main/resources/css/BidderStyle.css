@@ -1,0 +1,75 @@
+/* Styles pour le VBox principal */
+.vbox-main {
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+.title-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #666666;
+    -fx-alignment: center;
+    -fx-padding: 5;
+}
+
+/* Styles pour le ScrollPane */
+.scroll-pane {
+    -fx-background: white;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1;
+}
+
+/* Styles pour le contenu de VBox à l'intérieur du ScrollPane */
+.vbox-content {
+    -fx-spacing: 10;
+}
+
+/* Styles pour TableView */
+.table-view {
+    -fx-font-size: 14px;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1;
+    -fx-padding: 5;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #e7e7e7;
+}
+
+.table-view .table-row-cell {
+    -fx-padding: 10px;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-style: solid;
+}
+
+.hbox-container {
+    -fx-spacing: 10;
+    -fx-alignment: center-left;
+}
+
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 16px;
+}
+
+.text-field {
+    -fx-font-size: 14px;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-padding: 5 10;
+}
+
+.button {
+    -fx-background-color: #5cb85c;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.button:hover {
+    -fx-background-color: #4cae4c;
+}
