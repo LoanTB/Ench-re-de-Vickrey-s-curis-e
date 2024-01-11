@@ -1,8 +1,6 @@
 package com.projetenchere.Manager.View.graphicalUserInterface;
 
 import com.projetenchere.Manager.View.IManagerUserInterface;
-import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
-import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Winner;
 
 import javafx.application.Platform;
@@ -21,24 +19,20 @@ public class ManagerGraphicalUserInterface implements IManagerUserInterface {
     private static ManagerGraphicalUserInterface instance = null;
 
     public static ManagerGraphicalUserInterface getInstance(){
-        synchronized (ManagerGraphicalUserInterface.class) {
-            if (instance == null){
-                throw new NullPointerException("Instance non initialisée");
-            }
-            return instance;
+        if (instance == null){
+            throw new NullPointerException("Instance non initialisée");
         }
+        return instance;
     }
 
     public static void setInstance(ManagerGraphicalUserInterface instance){
-        synchronized (ManagerGraphicalUserInterface.class) {
-            ManagerGraphicalUserInterface.instance = instance;
-        }
+        ManagerGraphicalUserInterface.instance = instance;
     }
 
     private final String instanceId = UUID.randomUUID().toString();
 
     public ManagerGraphicalUserInterface() {
-        System.out.println("Controller instance created: " + instanceId);
+        System.out.println("Interface instance created: " + instanceId);
     }
 
     @FXML
@@ -47,10 +41,13 @@ public class ManagerGraphicalUserInterface implements IManagerUserInterface {
     private ScrollPane scrollPane = new ScrollPane();
 
     public void addLogMessage(String message) {
+        // Utiliser Platform.runLater pour s'assurer que la modification de l'interface utilisateur se fait sur le thread de l'application JavaFX
+        Platform.runLater(() -> {
             Label messageLabel = new Label(message);
             messagesVBox.getChildren().add(messageLabel);
-            scrollPane.setVvalue(1.0);
-        };
+            scrollPane.setVvalue(1.0); // Fait défiler automatiquement vers le bas
+        });
+    }
 
 
     @FXML

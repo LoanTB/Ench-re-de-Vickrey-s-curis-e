@@ -21,18 +21,14 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
     private static SellerGraphicalUserInterface instance = null;
 
     public static SellerGraphicalUserInterface getInstance(){
-        synchronized (SellerGraphicalUserInterface.class) {
-            if (instance == null){
-                throw new NullPointerException("Instance non initialisée");
-            }
-            return instance;
+        if (instance == null){
+            throw new NullPointerException("Instance non initialisée");
         }
+        return instance;
     }
 
     public static void setInstance(SellerGraphicalUserInterface instance){
-        synchronized (SellerGraphicalUserInterface.class) {
-            SellerGraphicalUserInterface.instance = instance;
-        }
+        SellerGraphicalUserInterface.instance = instance;
     }
 
     @FXML

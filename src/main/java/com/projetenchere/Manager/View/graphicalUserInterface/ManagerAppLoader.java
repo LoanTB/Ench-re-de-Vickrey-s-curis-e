@@ -2,6 +2,7 @@ package com.projetenchere.Manager.View.graphicalUserInterface;
 
 import com.projetenchere.Manager.Controllers.ManagerController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,11 +21,16 @@ public class ManagerAppLoader extends Application {
         primaryStage.setTitle("Manager");
         primaryStage.show();
 
-        controllerInstance = new ManagerController(ManagerGraphicalUserInterface.getInstance());
-
-        controllerInstance.displayHello();
-        controllerInstance.setSignatureConfig();
-        controllerInstance.init();
+        Platform.runLater(() -> {
+            controllerInstance = new ManagerController(ManagerGraphicalUserInterface.getInstance());
+            controllerInstance.displayHello();
+            try {
+                controllerInstance.setSignatureConfig();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            controllerInstance.init();
+        });
     }
 
     public static ManagerController getControllerInstance() {
