@@ -81,6 +81,10 @@ public class BidderController extends Controller {
         return participatedBid;
     }
 
+    public void setSignatureConfig() throws Exception {
+        setSignatureConfig(ui,bidder);
+    }
+
     public void displayHello(){ui.displayHello();}
 
     public IBidderUserInterface getUi() {
