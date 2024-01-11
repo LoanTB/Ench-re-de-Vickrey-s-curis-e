@@ -24,12 +24,6 @@ public class BidderAppLoader extends Application {
         Platform.runLater(() -> {
             controllerInstance = new BidderController((BidderGraphicalUserInterface) BidderGraphicalUserInterface.getInstance());
             controllerInstance.displayHello();
-            try {
-                controllerInstance.setSignatureConfig();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            controllerInstance.init();
         });
     }
 

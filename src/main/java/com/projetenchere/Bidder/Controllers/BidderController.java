@@ -4,7 +4,6 @@ import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface;
 import com.projetenchere.Bidder.network.BidderClient;
-import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
@@ -19,10 +18,10 @@ import java.util.List;
 import java.util.Map;
 
 public class BidderController extends Controller {
-    private IBidderUserInterface ui;
+    BidderGraphicalUserInterface ui;
 
-    public BidderController(IBidderUserInterfaceFactory uiFactory) throws Exception {
-        this.ui = uiFactory.createBidderUserInterface();
+    public BidderController(BidderGraphicalUserInterface ui) {
+        this.ui = ui;
     }
     BidderClient client = new BidderClient();
     private CurrentBids currentBids;
@@ -30,13 +29,6 @@ public class BidderController extends Controller {
     private final Map<String, WinStatus> results = new HashMap<>();
     private final Bidder bidder = new Bidder();
     private PublicKey managerPubKey;
-
-
-    BidderGraphicalUserInterface ui;
-
-    public BidderController(BidderGraphicalUserInterface ui) {
-        this.ui = ui;
-    }
 
     public void setCurrentBids(CurrentBids currentBids) {
         this.currentBids = currentBids;
