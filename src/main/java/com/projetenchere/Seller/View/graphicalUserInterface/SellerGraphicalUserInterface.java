@@ -77,13 +77,19 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
             addLogMessage("Erreur : Veuillez remplir tous les champs correctement.");
         } else {
             endDatePicker.setVisible(false);
+            endDatePicker.setManaged(false);
             hourComboBox.setVisible(false);
+            hourComboBox.setManaged(false);
             minuteComboBox.setVisible(false);
+            minuteComboBox.setManaged(false);
             secondComboBox.setVisible(false);
+            secondComboBox.setManaged(false);
             bidNameTextField.setVisible(false);
+            bidNameTextField.setManaged(false);
             bidDescriptionTextField.setVisible(false);
-            bidDescriptionTextField.setVisible(false);
+            bidDescriptionTextField.setManaged(false);
             buttonCreate.setVisible(false);
+            buttonCreate.setManaged(false);
             bid = new Bid(UUID.randomUUID().toString(), bidName, bidDescription, bidEndDateTime);
         }
     }

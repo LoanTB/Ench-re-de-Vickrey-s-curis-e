@@ -6,12 +6,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.UUID;
 
 public class UserGraphicalUserInterface {
 
     private static UserGraphicalUserInterface instance = null;
+    protected Stage primaryStage;
 
     public static UserGraphicalUserInterface getInstance(){
         if (instance == null){
@@ -24,6 +26,10 @@ public class UserGraphicalUserInterface {
         UserGraphicalUserInterface.instance = instance;
     }
 
+    public void setPrimaryStage(Stage primaryStage){
+        this.primaryStage = primaryStage;
+    }
+
     protected final String instanceId = UUID.randomUUID().toString();
 
     public UserGraphicalUserInterface() {
@@ -33,7 +39,7 @@ public class UserGraphicalUserInterface {
     @FXML
     private VBox messagesVBox = new VBox();
     @FXML
-    private ScrollPane scrollPane = new ScrollPane();
+    protected ScrollPane scrollPane = new ScrollPane();
 
     public void addLogMessage(String message) {
         Platform.runLater(() -> {

@@ -1,6 +1,7 @@
 package com.projetenchere.Bidder.View.graphicalUserInterface;
 
 import com.projetenchere.Bidder.Controllers.BidderController;
+import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,6 +16,7 @@ public class BidderAppLoader extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BidderGraphicalUserInterface.fxml"));
         Parent root = loader.load();
         BidderGraphicalUserInterface.setInstance(loader.getController());
+        SellerGraphicalUserInterface.getInstance().setPrimaryStage(primaryStage);
 
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Bidder");
