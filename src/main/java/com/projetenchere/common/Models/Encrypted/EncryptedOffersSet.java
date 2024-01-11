@@ -13,7 +13,7 @@ public class EncryptedOffersSet implements Serializable {
         this.offers = offers;
     }
 
-    public String getBidId() {
+    public synchronized String getBidId() {
         return bidId;
     }
 
@@ -25,7 +25,7 @@ public class EncryptedOffersSet implements Serializable {
         return prices;
     }
 
-    public Set<EncryptedOffer> getOffers(){
+    public synchronized Set<EncryptedOffer> getOffers(){
         return offers;
     }
 
