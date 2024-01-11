@@ -7,6 +7,7 @@ import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
 import com.projetenchere.common.View.UserGraphicalUserInterface;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,25 +18,41 @@ import static java.lang.Thread.sleep;
 
 public class BidderGraphicalUserInterface extends UserGraphicalUserInterface implements IBidderUserInterface {
 
+
     private Offer offer = null;
 
     @FXML
     private TableView<Bid> auctionsTableView;
+
+    @FXML
+    private TableColumn<Bid, String> nameColumn;
+    @FXML
+    private TableColumn<Bid, String> descriptionColumn;
+    @FXML
+    private TableColumn<Bid, String> endDateColumn;
+
+
     @FXML
     private TextField offerAmountTextField;
     @FXML
     private Button submitOfferButton;
 
     @FXML
-    public void handleTestLogButton() {
-        addLogMessage("Message de test");
+    public void initialize() {
+        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        descriptionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
+        endDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEndDateTime().toString()));
     }
+
     @Override
     public void displayBid(CurrentBids currentBids) {
-        // Convertir currentBids en liste observable et l'ajouter au TableView
+        System.out.println(currentBids.toString()+"\n");
         ObservableList<Bid> bidObservableList = FXCollections.observableArrayList(currentBids.getCurrentBids());
         auctionsTableView.setItems(bidObservableList);
     }
+
+
+
     @FXML
     private void handleSubmitOfferButton() {
         Bid selectedBid = auctionsTableView.getSelectionModel().getSelectedItem();
