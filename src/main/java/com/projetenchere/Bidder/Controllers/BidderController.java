@@ -42,6 +42,7 @@ public class BidderController extends Controller {
     public void askForCurrentBids() {
         currentBids = client.getCurrentBids();
         ui.tellReceiptOfCurrentBids();
+        ui.displayBid(this.currentBids);
     }
 
     public void initWithManager() {
@@ -52,7 +53,6 @@ public class BidderController extends Controller {
     }
 
     public void showBids() {
-        ui.displayBid(this.currentBids);
     }
 
     public void readAndSendOffer() throws Exception {
