@@ -40,7 +40,7 @@ public class EncryptedOffersSetReplyer implements IDataHandler {
                 }
             }
 
-            ManagerGraphicalUserInterface.getInstance().addLogMessage("L'enchère "+ enc.getBidId() +" à été résolu.");
+            ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).diplayEndBid(enc.getBidId());
             return new DataWrapper<>(manager.processPrices(new EncryptedOffersSet(enc.getBidId(),offers), manager.getPrivateKey()), Headers.RESOLVE_BID_OK);
         } catch (Exception e) {
             throw new RuntimeException(e);

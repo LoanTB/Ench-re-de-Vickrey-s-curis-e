@@ -50,6 +50,7 @@ public class SellerController extends Controller {
 
     public void createMyBid(){
         myBid = ui.askBid();
+        myBid.startBid();
         myBid.setSellerInformations(new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT));
         myBid.setPubKeySignatureSeller(seller.getKey());
         seller.setEncryptedOffersSignedBySeller(new EncryptedOffersSet(myBid.getId(),new HashSet<>()));

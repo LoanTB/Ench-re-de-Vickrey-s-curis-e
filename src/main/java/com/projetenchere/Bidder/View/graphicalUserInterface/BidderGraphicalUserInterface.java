@@ -19,13 +19,13 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     private Offer offer = null;
 
     @FXML
-    private TableView<Item> auctionsTableView;
+    private TableView<ItemBidderTable> auctionsTableView;
     @FXML
-    private TableColumn<Item, String> nameColumn;
+    private TableColumn<ItemBidderTable, String> nameColumn;
     @FXML
-    private TableColumn<Item, String> descriptionColumn;
+    private TableColumn<ItemBidderTable, String> descriptionColumn;
     @FXML
-    private TableColumn<Item, String> endDateColumn;
+    private TableColumn<ItemBidderTable, String> endDateColumn;
 
     @FXML
     private TextField offerAmountTextField;
@@ -52,11 +52,11 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     @Override
     public void displayBid(CurrentBids currentBids) {
         this.currentBids = currentBids;
-        List<Item> items = new ArrayList<>();
+        List<ItemBidderTable> itemBidderTables = new ArrayList<>();
         for (Bid bid:currentBids.getCurrentBids()){
-            items.add(new Item(bid.getId(),bid.getName(), bid.getDescription(), bid.getEndDateTime().toString()));
+            itemBidderTables.add(new ItemBidderTable(bid.getId(),bid.getName(), bid.getDescription(), bid.getEndDateTime().toString()));
         }
-        auctionsTableView.getItems().addAll(items);
+        auctionsTableView.getItems().addAll(itemBidderTables);
     }
 
     @FXML

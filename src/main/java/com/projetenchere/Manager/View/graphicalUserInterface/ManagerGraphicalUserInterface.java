@@ -1,12 +1,39 @@
 package com.projetenchere.Manager.View.graphicalUserInterface;
 
+import com.projetenchere.Bidder.View.graphicalUserInterface.ItemBidderTable;
 import com.projetenchere.Manager.View.IManagerUserInterface;
+import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.View.UserGraphicalUserInterface;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.time.LocalDateTime;
 
 public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface implements IManagerUserInterface {
+
+    @FXML
+    private TableView<ItemManagerTable> auctionsTableView;
+    @FXML
+    private TableColumn<ItemManagerTable, String> nameColumn;
+    @FXML
+    private TableColumn<ItemManagerTable, String> descriptionColumn;
+    @FXML
+    private TableColumn<ItemManagerTable, String> startDateColumn;
+    @FXML
+    private TableColumn<ItemManagerTable, String> endDateColumn;
+    @FXML
+    private TableColumn<ItemManagerTable, String> statusColumn;
+
+    public void initialize() {
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("debut"));
+        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("fin"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+    }
 
     @FXML
     public synchronized void handleTestLogButton() {
@@ -17,6 +44,22 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
     public void displayHello() {
             System.out.println("displayHello called on instance: " + instanceId);
             addLogMessage("Bienvenue Manager");
+    }
+
+    public void displayNewBid(Bid bid) {
+        addLogMessage("Nouvelle enchère reçue : "+bid.getName()+" ("+bid.getId()+") Date:"+bid.getStartDateTime().toString());
+        auctionsTableView.getItems().add(new ItemManagerTable(bid.getId(),bid.getName(), bid.getDescription(), bid.getStartDateTime().toString() , bid.getEndDateTime().toString(), "En cours..."));
+    }
+
+    public void diplayEndBid(String idBid){
+        addLogMessage("L'enchère "+ idBid +" à été résolu.");
+        for (ItemManagerTable item:auctionsTableView.getItems()){
+            if (item.getId().equals(idBid)){
+                item.statusProperty().set("Finie");
+                break;
+            }
+        }
+
     }
 
     @Override
