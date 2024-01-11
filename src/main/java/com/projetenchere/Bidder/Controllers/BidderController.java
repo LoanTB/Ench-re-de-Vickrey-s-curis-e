@@ -42,12 +42,11 @@ public class BidderController extends Controller {
     public void askForManagerPubKey(){
         ui.tellWaitManagerSecurityInformations();
         managerPubKey = client.getManagerPubKey();
-        System.out.println("Public key received");
     }
 
     public void askForCurrentBids() {
         currentBids = client.getCurrentBids();
-        System.out.println("Received bids");
+        ui.tellReceiptOfCurrentBids();
     }
 
     public void initWithManager() {
@@ -65,7 +64,6 @@ public class BidderController extends Controller {
     public void readAndSendOffer() throws Exception {
         Offer offer = ui.readOffer(bidder, currentBids);
         Bid bid = currentBids.getBid(offer.getIdBid());
-        if (bid == null) throw new RuntimeException("");
 
         EncryptedOffer encryptedOffer = new EncryptedOffer(bidder.getSignature(), offer, bidder.getKey(), managerPubKey, bid.getId());
 
@@ -75,9 +73,9 @@ public class BidderController extends Controller {
         WinStatus status = client.sendOfferAndWaitForResult(encryptedOffer);
         this.results.put(bid.getId(), status);
         if (status.isWinner()) {
-            System.out.println("Prix à payer : " + status.getPrice());
+            ui.tellOfferWon(status.getPrice());
         } else {
-            System.out.println("Vous avez perdu");
+            ui.tellOfferLost();
         }
         client.stopSeller();
     }
