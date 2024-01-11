@@ -68,27 +68,34 @@ public class SellerController extends Controller {
     }
 
 
-    public void receiveOffersUntilBidEndAndSendSignedEncryptedOffers() {
-        ui.waitOffers();
-        server.addHandler(Headers.CHECK_LIST, new EncryptedOfferReplyer());
-        server.start();
-        while (auctionInProgress()) {
-            waitSynchro(1000);
-        }
-        server.removeHandler(Headers.CHECK_LIST);
-    }
-
     public void receiveOkUntilCheckEndAndSendResults() {
         ui.waitOk();
-        server.addHandler(Headers.GET_WIN_STATUS, new ChecklistOkReplyer());
+        server.start();
+        server.addHandler(Headers.SEND_OFFER, new EncryptedOfferReplyer());
+
         while (auctionInProgress()) {
             waitSynchro(1000);
         }
+        server.removeHandler(Headers.SEND_OFFER);
+        server.addHandler(Headers.GET_WIN_STATUS, new ChecklistOkReplyer());
+
+        Set<PublicKey> biddersPk = new HashSet<>();
+        Map<PublicKey, byte[]> map = seller.getBidders();
+        biddersPk.addAll(map.keySet());
+
+        while (seller.getbiddersOk().containsAll(biddersPk)){
+            waitSynchro(1000);
+        }
+
         server.removeHandler(Headers.GET_WIN_STATUS);
     }
 
     public void sendEncryptedOffersSet() throws Exception {
-        this.setWinner(client.sendEncryptedOffersSet(seller.getEncryptedOffersSignedBySeller()));
+        SignedEncryptedOfferSet offers = seller.getEncryptedOffersSignedBySeller();
+        if(offers==null){
+            System.out.println("c'est nul");
+        }
+        this.setWinner(client.sendEncryptedOffersSet(offers));
         ui.displayEncryptedOffersSetent();
     }
 
