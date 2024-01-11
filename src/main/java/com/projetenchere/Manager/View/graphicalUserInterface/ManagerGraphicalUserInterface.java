@@ -29,6 +29,7 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
 
     public void initialize() {
         auctionsTableView.setVisible(false);
+        auctionsTableView.setManaged(false);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         startDateColumn.setCellValueFactory(new PropertyValueFactory<>("debut"));
@@ -48,8 +49,9 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
     }
 
     public void displayNewBid(Bid bid) {
-        if (!auctionsTableView.isVisible()){
+        if (!auctionsTableView.isVisible() || !auctionsTableView.isManaged()){
             auctionsTableView.setVisible(true);
+            auctionsTableView.setManaged(true);
         }
         addLogMessage("Nouvelle enchère reçue : "+bid.getName()+" ("+bid.getId()+") Date:"+bid.getStartDateTime().toString());
         auctionsTableView.getItems().add(new ItemManagerTable(bid.getId(),bid.getName(), bid.getDescription(), bid.getStartDateTime().toString() , bid.getEndDateTime().toString(), "En cours..."));

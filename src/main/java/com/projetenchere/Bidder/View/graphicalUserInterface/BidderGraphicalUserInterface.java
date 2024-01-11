@@ -75,10 +75,13 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
             addLogMessage("Erreur : Ce n'est pas encore le moment d'enchérrir");
         } else {
             auctionsTableView.setVisible(false);
+            auctionsTableView.setManaged(false);
             offerAmountTextField.setVisible(false);
+            offerAmountTextField.setManaged(false);
             buttonCreate.setVisible(false);
-            buttonCreate.setVisible(false);
+            buttonCreate.setManaged(false);
             textAskPrice.setVisible(false);
+            textAskPrice.setManaged(false);
             offer = new Offer(bidder.getSignature(),selectedBid.getId(),offerAmountTextField.getText());
         }
     }
