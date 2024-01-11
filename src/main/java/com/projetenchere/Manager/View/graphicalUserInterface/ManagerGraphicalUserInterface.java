@@ -6,6 +6,7 @@ import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.View.UserGraphicalUserInterface;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,6 +15,10 @@ import java.time.LocalDateTime;
 
 public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface implements IManagerUserInterface {
 
+    @FXML
+    public Label checkCurrentBidsVBoxTitle;
+    @FXML
+    public Label labelVBoxTitle;
     @FXML
     private TableView<ItemManagerTable> auctionsTableView;
     @FXML
@@ -28,6 +33,8 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
     private TableColumn<ItemManagerTable, String> statusColumn;
 
     public void initialize() {
+        checkCurrentBidsVBoxTitle.setVisible(false);
+        checkCurrentBidsVBoxTitle.setManaged(false);
         auctionsTableView.setVisible(false);
         auctionsTableView.setManaged(false);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
@@ -52,6 +59,8 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
         if (!auctionsTableView.isVisible() || !auctionsTableView.isManaged()){
             auctionsTableView.setVisible(true);
             auctionsTableView.setManaged(true);
+            checkCurrentBidsVBoxTitle.setVisible(true);
+            checkCurrentBidsVBoxTitle.setManaged(true);
         }
         addLogMessage("Nouvelle enchère reçue : "+bid.getName()+" ("+bid.getId()+") Date:"+bid.getStartDateTime().toString());
         auctionsTableView.getItems().add(new ItemManagerTable(bid.getId(),bid.getName(), bid.getDescription(), bid.getStartDateTime().toString() , bid.getEndDateTime().toString(), "En cours..."));

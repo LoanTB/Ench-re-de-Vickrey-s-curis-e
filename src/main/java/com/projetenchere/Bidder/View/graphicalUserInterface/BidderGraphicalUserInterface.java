@@ -16,6 +16,10 @@ import static java.lang.Thread.sleep;
 
 public class BidderGraphicalUserInterface extends UserGraphicalUserInterface implements IBidderUserInterface {
 
+    @FXML
+    public Label checkCurrentBidsVBoxTitle;
+    @FXML
+    public Label labelVBoxTitle;
     private Offer offer = null;
 
     @FXML
@@ -93,6 +97,8 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
             buttonCreate.setManaged(false);
             textAskPrice.setVisible(false);
             textAskPrice.setManaged(false);
+            checkCurrentBidsVBoxTitle.setVisible(false);
+            checkCurrentBidsVBoxTitle.setManaged(false);
             offer = new Offer(bidder.getSignature(),selectedBid.getId(),offerAmountTextField.getText());
         }
     }
