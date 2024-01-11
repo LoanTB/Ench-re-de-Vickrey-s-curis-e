@@ -6,7 +6,7 @@
 
 <VBox prefHeight="500" prefWidth="750" styleClass="vbox-main" stylesheets="/css/SellerStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface">
     <Label fx:id="labelVBoxTitle" styleClass="title-label" text="Log Box" />
-    <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="270.0" prefWidth="750.0" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="270.0" prefWidth="750.0" styleClass="scroll-pane" VBox.vgrow="ALWAYS"  >
         <VBox fx:id="messagesVBox" spacing="10" styleClass="vbox-content">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
@@ -22,7 +22,7 @@
         <TextField fx:id="bidDescriptionTextField" promptText="Description de l'enchère" styleClass="text-field" />
         <HBox spacing="5" styleClass="hbox-date-time">
             <DatePicker fx:id="endDatePicker" editable="false" promptText="Date de fin" styleClass="date-picker" />
-            <ComboBox fx:id="hourComboBox" promptText="Heure" styleClass="combo-box" />
+            <ComboBox fx:id="hourComboBox" promptText="Heure" styleClass="combo-box, uniform-size" />
             <ComboBox fx:id="minuteComboBox" promptText="Minute" styleClass="combo-box" />
             <ComboBox fx:id="secondComboBox" promptText="Seconde" styleClass="combo-box" />
         </HBox>
