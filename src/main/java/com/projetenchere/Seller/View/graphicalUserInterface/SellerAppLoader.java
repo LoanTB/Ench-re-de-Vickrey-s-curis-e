@@ -21,7 +21,7 @@ public class SellerAppLoader extends Application {
         primaryStage.setTitle("Seller");
         primaryStage.show();
 
-        controllerInstance = new SellerController(SellerGraphicalUserInterface.getInstance());
+        controllerInstance = new SellerController((SellerGraphicalUserInterface) SellerGraphicalUserInterface.getInstance());
 
         controllerInstance.displayHello();
         controllerInstance.setSignatureConfig();

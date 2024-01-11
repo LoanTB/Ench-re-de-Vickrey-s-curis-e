@@ -11,6 +11,7 @@ import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Utils.EncryptionUtil;
+import com.projetenchere.common.View.UserGraphicalUserInterface;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
 

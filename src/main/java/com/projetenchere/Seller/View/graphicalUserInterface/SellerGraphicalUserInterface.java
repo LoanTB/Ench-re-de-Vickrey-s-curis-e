@@ -1,8 +1,8 @@
 package com.projetenchere.Seller.View.graphicalUserInterface;
 
 import com.projetenchere.Seller.View.ISellerUserInterface;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.View.UserGraphicalUserInterface;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,25 +16,8 @@ import java.util.UUID;
 
 import static java.lang.Thread.sleep;
 
-public class SellerGraphicalUserInterface implements ISellerUserInterface {
+public class SellerGraphicalUserInterface extends UserGraphicalUserInterface implements ISellerUserInterface {
 
-    private static SellerGraphicalUserInterface instance = null;
-
-    public static SellerGraphicalUserInterface getInstance(){
-        if (instance == null){
-            throw new NullPointerException("Instance non initialisée");
-        }
-        return instance;
-    }
-
-    public static void setInstance(SellerGraphicalUserInterface instance){
-        SellerGraphicalUserInterface.instance = instance;
-    }
-
-    @FXML
-    private VBox messagesVBox = new VBox();
-    @FXML
-    private ScrollPane scrollPane = new ScrollPane();
     @FXML
     private TextField bidNameTextField = new TextField();
     @FXML
@@ -63,15 +46,6 @@ public class SellerGraphicalUserInterface implements ISellerUserInterface {
         hourComboBox.getSelectionModel().select(Integer.valueOf(now.getHour()));
         minuteComboBox.getSelectionModel().select(Integer.valueOf(now.getMinute() + 2));
         secondComboBox.getSelectionModel().select(Integer.valueOf(now.getSecond()));
-    }
-
-    public void addLogMessage(String message) {
-        // Utiliser Platform.runLater pour s'assurer que la modification de l'interface utilisateur se fait sur le thread de l'application JavaFX
-        Platform.runLater(() -> {
-            Label messageLabel = new Label(message);
-            messagesVBox.getChildren().add(messageLabel);
-            scrollPane.setVvalue(1.0); // Fait défiler automatiquement vers le bas
-        });
     }
 
     @FXML

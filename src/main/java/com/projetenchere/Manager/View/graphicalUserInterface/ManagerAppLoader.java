@@ -22,7 +22,7 @@ public class ManagerAppLoader extends Application {
         primaryStage.show();
 
         Platform.runLater(() -> {
-            controllerInstance = new ManagerController(ManagerGraphicalUserInterface.getInstance());
+            controllerInstance = new ManagerController((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance());
             controllerInstance.displayHello();
             try {
                 controllerInstance.setSignatureConfig();
