@@ -65,6 +65,8 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
                 column.setPrefWidth(auctionsTableView.getWidth() / auctionsTableView.getColumns().size());
             }
         });
+
+
     }
 
     @Override
@@ -90,10 +92,21 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @FXML
     private void handleCreateBidButton() {
+        boolean correctDoule;
+        try{
+            Double.parseDouble(offerAmountTextField.getText());
+            correctDoule = true;
+        } catch (Exception ignore) {
+            correctDoule = false;
+        }
         if (selectedBid == null){
             addLogMessage("Erreur : Vous devez sélectionner une enchère");
-        } else if (offerAmountTextField.getText().isEmpty()){
+        } else if (offerAmountTextField.getText().isEmpty()) {
             addLogMessage("Erreur : Vous devez entrer un prix");
+        } else if (!correctDoule) {
+            addLogMessage("Erreur : Le prix doit être un nombre correcte");
+        } else if (offerAmountTextField.getText().length() > 10){
+            addLogMessage("Erreur : Le prix est trop grand");
         } else if (Double.parseDouble(offerAmountTextField.getText()) <= 0) {
             addLogMessage("Erreur : Vous devez entrer un prix plus grand que 0");
         } else if (bidder == null){

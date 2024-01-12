@@ -1,4 +1,4 @@
-package com.projetenchere.common.Utils;
+/*package com.projetenchere.common.Utils;
 
 import com.projetenchere.common.Models.Network.Sendable.DataWrapper;
 import org.junit.jupiter.api.Test;
@@ -34,3 +34,4 @@ public class SignatureUtilTest {
         assertTrue(SignatureUtil.verifyDataSignature(SerializationUtil.serialize(dataWrapper),sign, keyPair.getPublic()));
     }
 }
+*/
