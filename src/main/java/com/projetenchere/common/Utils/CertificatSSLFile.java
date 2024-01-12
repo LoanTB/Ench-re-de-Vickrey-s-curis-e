@@ -23,9 +23,12 @@ public class CertificatSSLFile {
             System.out.println("Dossier de destination déjà existant : " + destinationDirectory);
         }
 
-        // Copier le fichier JKS vers le dossier de destination
-        Files.copy(inputStream, destination, StandardCopyOption.REPLACE_EXISTING);
+        if (!destination.toFile().exists()){
+            Files.copy(inputStream, destination, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("Copie de la configuration JKS réussie vers " + destinationPath);
+        } else {
+            System.out.println("La configuration JKS est déjà initialisé");
+        }
 
-        System.out.println("Copie réussie vers " + destinationPath);
     }
 }
