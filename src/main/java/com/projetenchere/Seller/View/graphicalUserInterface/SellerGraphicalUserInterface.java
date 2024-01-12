@@ -25,6 +25,12 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
     @FXML
     public Label labelVBoxTitle;
     @FXML
+    public Label hLabel;
+    @FXML
+    public Label mLabel;
+    @FXML
+    public Label sLabel;
+    @FXML
     private TextField bidNameTextField = new TextField();
     @FXML
     private TextField bidDescriptionTextField = new TextField();
@@ -98,6 +104,12 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
             buttonCreate.setManaged(false);
             createBidVBoxTitle.setVisible(false);
             createBidVBoxTitle.setManaged(false);
+            hLabel.setVisible(false);
+            hLabel.setManaged(false);
+            mLabel.setVisible(false);
+            mLabel.setManaged(false);
+            sLabel.setVisible(false);
+            sLabel.setManaged(false);
             bid = new Bid(UUID.randomUUID().toString(), bidName, bidDescription, bidEndDateTime);
         }
     }

@@ -23,11 +23,11 @@
         <HBox spacing="5" styleClass="hbox-date-time">
             <DatePicker fx:id="endDatePicker" editable="false" promptText="Date de fin" styleClass="date-picker" />
             <ComboBox fx:id="hourComboBox" promptText="Heure" styleClass="combo-box" />
-            <Label text="h" styleClass="time-label" />
+            <Label text="h" styleClass="time-label" fx:id="hLabel"/>
             <ComboBox fx:id="minuteComboBox" promptText="Minute" styleClass="combo-box" />
-            <Label text="m" styleClass="time-label" />
+            <Label text="m" styleClass="time-label" fx:id="mLabel"/>
             <ComboBox fx:id="secondComboBox" promptText="Seconde" styleClass="combo-box" />
-            <Label text="s" styleClass="time-label" />
+            <Label text="s" styleClass="time-label" fx:id="sLabel"/>
         </HBox>
         <Button fx:id="buttonCreate" onAction="#handleCreateBidButton" styleClass="button" text="Créer l'Enchère" />
     </VBox>
