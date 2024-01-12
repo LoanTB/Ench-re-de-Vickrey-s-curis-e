@@ -134,6 +134,10 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
     }
 
     @Override
+    public void displayEncryptedOffersSet() {
+
+    }
+
     public void displayEncryptedOffersSetent() {
         addLogMessage("Prix chiffrés envoyés à l'autorité de gestion pour traitement...");
     }

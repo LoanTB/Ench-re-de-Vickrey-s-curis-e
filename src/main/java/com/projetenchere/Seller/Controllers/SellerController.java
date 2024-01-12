@@ -32,9 +32,9 @@ public class SellerController extends Controller {
     private Winner winner = null;
     SellerGraphicalUserInterface ui;
 
-    public SellerController() {
+    public SellerController(SellerGraphicalUserInterface ui) {
+        this.ui = ui;
     }
-    
     public Bid getMyBid() {
         return seller.getMyBid();
     }
@@ -45,8 +45,8 @@ public class SellerController extends Controller {
         seller.setResultsAreIn(true);
     }
 
-    public void setSignatureConfig() {
-        setSignatureConfig();
+    public void setSignatureConfig() throws Exception {
+        setSignatureConfig(ui, seller);
     }
 
     public void createMyBid() {

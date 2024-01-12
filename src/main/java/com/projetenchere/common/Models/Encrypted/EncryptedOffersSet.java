@@ -1,6 +1,7 @@
 package com.projetenchere.common.Models.Encrypted;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class EncryptedOffersSet implements Serializable {
 
     public boolean contains(EncryptedOffer a){
         for (EncryptedOffer offer : offers){
-            if(a.getPriceSigned() == offer.getPriceSigned()
+            if(Arrays.equals(a.getPriceSigned(), offer.getPriceSigned())
                 && a.getBidId().equals(offer.getBidId()))
             {
                 return true;

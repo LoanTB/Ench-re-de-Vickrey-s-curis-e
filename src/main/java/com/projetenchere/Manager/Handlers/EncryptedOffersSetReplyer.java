@@ -29,31 +29,24 @@ public class EncryptedOffersSetReplyer implements IDataHandler {
             Set<EncryptedOffer> offersToRemove = new HashSet<>();
 
             PublicKey sellerPubKey = manager.getBids().getBid(enc.getSet().getBidId()).getSellerSignaturePublicKey();
-            System.out.println("Recuperation...");
             for (EncryptedOffer o : offers){
                 boolean verify = SignatureUtil.verifyDataSignature(o.getPrice(),o.getPriceSigned(),sellerPubKey);
                 if(!verify){
                     offersToRemove.add(o);
                 }
             }
-            System.out.println("Tri...");
             if(!offersToRemove.isEmpty()){
                 for(EncryptedOffer o : offersToRemove){
                     offers.remove(o);
                 }
             }
 
-            ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).diplayEndBid(enc.getBidId());
-            return new DataWrapper<>(manager.processPrices(new EncryptedOffersSet(enc.getBidId(),offers), manager.getPrivateKey()), Headers.RESOLVE_BID_OK);
-            System.out.println("Encrypted offers...");
             EncryptedOffersSet results = new EncryptedOffersSet(enc.getSet().getBidId(),offers);
-            System.out.println("Process prices...");
             Winner win = manager.processPrices(results,manager.getPrivateKey());
-            System.out.println("Wrapper...");
+            ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).diplayEndBid(enc.getSet().getBidId());
             return new DataWrapper<>(win, Headers.RESOLVE_BID_OK);
         } catch (Exception e) {
             throw new RuntimeException(e);
-            //return new DataWrapper<>(null, Headers.ERROR);
         }
     }
 }
