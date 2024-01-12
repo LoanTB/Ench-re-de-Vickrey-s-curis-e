@@ -20,7 +20,6 @@ public class BidderClient extends Client{
     public void connectToManager() {
         SSLSocketFactory factory = new SSLSocketFactory();
         toManager = new ClientSocketWrapper(factory.createSocket(NetworkUtil.MANAGER_SOCKET_ADDRESS));
-        System.out.println("iudvecu");
     }
 
     public void connectToSeller(InetSocketAddress sellerSocketAddress) {

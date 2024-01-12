@@ -1,12 +1,9 @@
 package com.projetenchere.Manager;
 
-import com.projetenchere.Manager.Controllers.ManagerController;
+import com.projetenchere.Manager.View.graphicalUserInterface.ManagerAppLoader;
 
 public class ManagerApp {
-    public static void main(String[] args) throws Exception {
-        ManagerController controller = new ManagerController();
-        controller.displayHello();
-        controller.setSignatureConfig();
-        controller.init();
+    public static void main(String[] args) {
+        ManagerAppLoader.launchApp();
     }
 }

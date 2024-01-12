@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class SellerCommandLineInterface implements ISellerUserInterface {
 
@@ -140,8 +141,12 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     }
 
     @Override
-    public void waitOk() {
-        showMessage("Attente des demandes de résultats...");
+    public Bid askBid() {
+        String id = UUID.randomUUID().toString();
+        String name = askBidName();
+        String description = askBidDescription();
+        LocalDateTime end = askBidEndTime();
+        return new Bid(id, name, description, end);
     }
 
     @Override
@@ -197,7 +202,7 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
 
     @Override
     public void tellManagerFound() {
-        showMessage("Contacter le gestionnaire établie !");
+        showMessage("Contact avec le gestionnaire établi !");
     }
 
     @Override
