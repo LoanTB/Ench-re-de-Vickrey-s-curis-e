@@ -7,6 +7,8 @@ import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
 import com.projetenchere.common.View.UserGraphicalUserInterface;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -66,6 +68,19 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
             }
         });
 
+        offerAmountTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    String value = newValue.replaceAll("[^\\d.]", "");
+                    offerAmountTextField.setText(value);
+                }
+                if (offerAmountTextField.getText().length() > 10) {
+                    String s = offerAmountTextField.getText().substring(0, 10);
+                    offerAmountTextField.setText(s);
+                }
+            }
+        });
 
     }
 
