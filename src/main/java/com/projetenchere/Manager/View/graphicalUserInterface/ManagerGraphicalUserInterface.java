@@ -53,14 +53,8 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
         });
     }
 
-    @FXML
-    public synchronized void handleTestLogButton() {
-        System.out.println("Button test called on instance: " + instanceId);
-        addLogMessage("Message de test");
-    }
 
     public void displayHello() {
-            System.out.println("displayHello called on instance: " + instanceId);
             addLogMessage("Bienvenue Manager");
     }
 
