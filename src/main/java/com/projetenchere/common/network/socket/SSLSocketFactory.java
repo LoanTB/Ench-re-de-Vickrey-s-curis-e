@@ -17,6 +17,23 @@ public class SSLSocketFactory implements ISocketFactory{
             char[] password = ";oW+~E8T65DKiZny{hAD?~kH-e;:{E)*n?U:lUv6MOPnEc/l[k5tQ')8O48YGsJI".toCharArray(); // Keystore password
             KeyStore keyStore = KeyStore.getInstance("JKS");
 
+            try {
+                // Définir le chemin du fichier de destination
+                String destinationPath = System.getProperty("user.home") + "/.config/securewin/managerIp.txt";
+                File f = new File(destinationPath);
+                if(!f.exists()){
+                    // Créer le fichier et écrire l'adresse IP
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(destinationPath));
+                    System.out.println("dansleif");
+
+                    writer.write("127.0.0.0");
+                }
+
+                System.out.println("Fichier managerIp.txt créé avec succès à l'emplacement : " + destinationPath);
+            } catch (IOException e) {
+                throw new RuntimeException("Une erreur s'est produite lors de la création du fichier managerIp.txt.", e);
+            }
+
             String sourcePath = "src/main/java/ressources/ssl/keystore.jks";
             String destinationPath = System.getProperty("user.home") + "/.config/securewin/ssl/keystore.jks";
             try {
