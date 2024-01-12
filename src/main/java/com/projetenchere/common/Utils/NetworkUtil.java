@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 
 public class NetworkUtil {
 
-    public static final InetSocketAddress MANAGER_SOCKET_ADDRESS = new InetSocketAddress("127.0.0.1", 24683);
+    public static final InetSocketAddress MANAGER_SOCKET_ADDRESS = new InetSocketAddress("10.20.133.19", 24683);
     public static final int SELLER_PORT = 24682;
     public static String getMyIP(){
         try {
