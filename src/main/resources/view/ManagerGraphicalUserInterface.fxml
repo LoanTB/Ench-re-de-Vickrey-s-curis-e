@@ -21,7 +21,7 @@
                 <TableColumn fx:id="descriptionColumn" text="Description" />
                 <TableColumn fx:id="startDateColumn" text="Début" />
                 <TableColumn fx:id="endDateColumn" text="Fin" />
-                <TableColumn fx:id="statusColumn" text="Status" />
+                <TableColumn fx:id="statusColumn" text="Statut" />
             </columns>
         </TableView>
         <HBox spacing="10">

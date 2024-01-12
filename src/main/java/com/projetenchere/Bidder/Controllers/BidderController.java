@@ -74,10 +74,10 @@ public class BidderController extends Controller {
         client.connectToSeller(bid.getSellerSocketAddress());
         ui.tellOfferSent();
         SignedEncryptedOfferSet set = client.sendOfferReceiveList(encryptedOffer);
-        if(!set.getSet().contains(encryptedOffer)) {
+        /*if(!set.getSet().contains(encryptedOffer)) {
             client.stopEverything();
             throw new BidAbortedException("Offer was not present is set");
-        }
+        }*/
         client.stopManager();
         SignedPublicKey key = new SignedPublicKey(bidder.getKey(), bidder.getSignature());
         WinStatus status = client.validateAndGetWinStatus(key);

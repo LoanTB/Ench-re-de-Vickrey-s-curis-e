@@ -25,7 +25,7 @@
          </HBox>
          <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
             <children>
-               <Button mnemonicParsing="false" style="-fx-alignment: right;" text="Rafraichir" fx:id="refreshButton">
+               <Button mnemonicParsing="false" text="Rafraichir" fx:id="refreshButton">
                   <HBox.margin>
                      <Insets bottom="5.0" right="20.0" top="5.0" />
                   </HBox.margin></Button>
