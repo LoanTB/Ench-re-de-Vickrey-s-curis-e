@@ -27,9 +27,12 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
             configPath = userHome+"/.config/securewin";
             KEYSTORE_FILEPATH = configPath+"/config_signature_keypair.jks";
             CERT_FILEPATH = configPath+"/config_signature_certificat.cer";
-        }
-        else {
-            System.err.println("Système non prix en charge !");
+        } else if (OS.contains("windows")){
+            configPath = userHome+"/.config/securewin";
+            KEYSTORE_FILEPATH = configPath+"/config_signature_keypair.jks";
+            CERT_FILEPATH = configPath+"/config_signature_certificat.cer";
+        } else {
+            System.err.println("Système non prix en charge : "+OS);
         }
 
         File directoryConfig = new File(configPath);
