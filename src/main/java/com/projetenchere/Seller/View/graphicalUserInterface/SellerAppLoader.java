@@ -16,6 +16,7 @@ public class SellerAppLoader extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SellerGraphicalUserInterface.fxml"));
         Parent root = loader.load();
         SellerGraphicalUserInterface.setInstance(loader.getController());
+        SellerGraphicalUserInterface.getInstance().setPrimaryStage(primaryStage);
 
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Seller");

@@ -13,7 +13,7 @@ public class NewBidReplyer implements IDataHandler {
     @Override
     public <T extends Serializable> DataWrapper<T> handle(Serializable data) {
         Manager.getInstance().addBid((Bid) data);
-        ManagerGraphicalUserInterface.getInstance().addLogMessage("Nouvelle enchère reçue : "+((Bid) data).getName()+" (+"+((Bid) data).getId()+"+)");
+        ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).displayNewBid((Bid) data);
         return new DataWrapper<>(Headers.OK_NEW_BID);
     }
 }

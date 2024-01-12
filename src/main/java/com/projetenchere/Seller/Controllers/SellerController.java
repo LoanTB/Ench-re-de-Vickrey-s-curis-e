@@ -32,7 +32,7 @@ public class SellerController extends Controller {
     private Winner winner = null;
     SellerGraphicalUserInterface ui;
 
-    public SellerController() throws Exception {
+    public SellerController() {
     }
 
     public SellerController(SellerGraphicalUserInterface ui) {
@@ -58,7 +58,6 @@ public class SellerController extends Controller {
         seller.setMyBid(ui.askBid());
         seller.getMyBid().setSellerInformations(new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT));
         seller.getMyBid().setPubKeySignatureSeller(seller.getKey());
-        //seller.setEncryptedOffersSignedBySeller(new EncryptedOffersSet(seller.getMyBid().getId(), new HashSet<>()));
         seller.setEncryptedOffers(new EncryptedOffersSet(seller.getMyBid().getId(), new HashSet<>()));
         ui.displayBidCreated(seller.getMyBid());
     }
@@ -121,7 +120,7 @@ public class SellerController extends Controller {
         Map<PublicKey, WinStatus> winStatusMap = new HashMap<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {
             if (Arrays.equals(encryptedOffer.getPrice(), winner.encryptedPrice()) && !haveAWinner) {
-                winStatusMap.put(encryptedOffer.getSignaturePublicKey(), new WinStatus(winner.bidId(), true, winner.price()));
+                winStatusMap.put(encryptedOffer.getSignaturePublicKey(),new WinStatus(winner.bidId(),true,winner.price()));
                 haveAWinner = true;
             } else {
                 winStatusMap.put(encryptedOffer.getSignaturePublicKey(), new WinStatus(winner.bidId(), false, -1));

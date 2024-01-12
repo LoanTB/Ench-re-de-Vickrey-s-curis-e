@@ -16,16 +16,24 @@ import static java.lang.Thread.sleep;
 
 public class BidderGraphicalUserInterface extends UserGraphicalUserInterface implements IBidderUserInterface {
 
+    @FXML
+    public Label checkCurrentBidsVBoxTitle;
+    @FXML
+    public Label labelVBoxTitle;
     private Offer offer = null;
 
     @FXML
-    private TableView<Item> auctionsTableView;
+    public Label textAskPrice;
     @FXML
-    private TableColumn<Item, String> nameColumn;
+    public Button buttonCreate;
     @FXML
-    private TableColumn<Item, String> descriptionColumn;
+    private TableView<ItemBidderTable> auctionsTableView;
     @FXML
-    private TableColumn<Item, String> endDateColumn;
+    private TableColumn<ItemBidderTable, String> nameColumn;
+    @FXML
+    private TableColumn<ItemBidderTable, String> descriptionColumn;
+    @FXML
+    private TableColumn<ItemBidderTable, String> endDateColumn;
 
     @FXML
     private TextField offerAmountTextField;
@@ -51,12 +59,23 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void displayBid(CurrentBids currentBids) {
+        boolean ok=true;
         this.currentBids = currentBids;
-        List<Item> items = new ArrayList<>();
+        List<ItemBidderTable> itemBidderTables = new ArrayList<>();
         for (Bid bid:currentBids.getCurrentBids()){
-            items.add(new Item(bid.getId(),bid.getName(), bid.getDescription(), bid.getEndDateTime().toString()));
+            if (auctionsTableView.getItems() != null) {
+                for (ItemBidderTable item:auctionsTableView.getItems()){
+                    if (item.getId().equals(bid.getId())){
+                        ok = false;
+                    }
+                }
+            }
+            if (ok){
+                itemBidderTables.add(new ItemBidderTable(bid.getId(),bid.getName(), bid.getDescription(), bid.getEndDateTime().toString()));
+            }
+
         }
-        auctionsTableView.getItems().addAll(items);
+        auctionsTableView.getItems().addAll(itemBidderTables);
     }
 
     @FXML
@@ -70,6 +89,16 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
         } else if (bidder == null){
             addLogMessage("Erreur : Ce n'est pas encore le moment d'enchérrir");
         } else {
+            auctionsTableView.setVisible(false);
+            auctionsTableView.setManaged(false);
+            offerAmountTextField.setVisible(false);
+            offerAmountTextField.setManaged(false);
+            buttonCreate.setVisible(false);
+            buttonCreate.setManaged(false);
+            textAskPrice.setVisible(false);
+            textAskPrice.setManaged(false);
+            checkCurrentBidsVBoxTitle.setVisible(false);
+            checkCurrentBidsVBoxTitle.setManaged(false);
             offer = new Offer(selectedBid.getId(),offerAmountTextField.getText());
         }
     }

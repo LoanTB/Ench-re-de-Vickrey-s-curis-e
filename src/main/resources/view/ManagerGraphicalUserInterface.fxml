@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
-<VBox prefHeight="500" prefWidth="750" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface">
-    <ScrollPane fx:id="scrollPane" prefHeight="200" fitToWidth="true">
-        <VBox fx:id="messagesVBox" spacing="10">
+<VBox prefHeight="500" prefWidth="750" styleClass="vbox-main" stylesheets="/css/ManagerStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface">
+    <Label fx:id="labelVBoxTitle" styleClass="title-label" text="Log Box" />
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="270" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
+        <VBox fx:id="messagesVBox" spacing="10" styleClass="vbox-content">
             <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
+                <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
         </VBox>
     </ScrollPane>
-    <VBox spacing="10">
+    <Label fx:id="checkCurrentBidsVBoxTitle" styleClass="title-label" text="Enchères en cours" />
+    <VBox spacing="10" styleClass="vbox-content">
         <padding>
             <Insets bottom="10" left="10" right="10" top="10" />
         </padding>
-        <TableView fx:id="auctionsTableView">
+        <TableView fx:id="auctionsTableView" prefHeight="232.0" prefWidth="730.0" styleClass="table-view">
             <columns>
-                <TableColumn text="Nom" fx:id="nameColumn" />
-                <TableColumn text="Description" fx:id="descriptionColumn" />
-                <TableColumn text="Début" fx:id="startDateColumn" />
-                <TableColumn text="Fin" fx:id="endDateColumn" />
-                <TableColumn text="Status" fx:id="statusColumn" />
+                <TableColumn fx:id="nameColumn" text="Nom" />
+                <TableColumn fx:id="descriptionColumn" text="Description" />
+                <TableColumn fx:id="startDateColumn" text="Début" />
+                <TableColumn fx:id="endDateColumn" text="Fin" />
+                <TableColumn fx:id="statusColumn" text="Status" />
             </columns>
         </TableView>
         <HBox spacing="10">
@@ -31,7 +34,3 @@
         </HBox>
     </VBox>
 </VBox>
-
-
-
-

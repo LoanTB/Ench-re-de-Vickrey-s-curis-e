@@ -19,6 +19,12 @@ import static java.lang.Thread.sleep;
 public class SellerGraphicalUserInterface extends UserGraphicalUserInterface implements ISellerUserInterface {
 
     @FXML
+    public Button buttonCreate;
+    @FXML
+    public Label createBidVBoxTitle;
+    @FXML
+    public Label labelVBoxTitle;
+    @FXML
     private TextField bidNameTextField = new TextField();
     @FXML
     private TextField bidDescriptionTextField = new TextField();
@@ -42,10 +48,12 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
             minuteComboBox.getItems().add(i);
             secondComboBox.getItems().add(i);
         }
+        LocalDate currentDate = LocalDate.now();
+        endDatePicker.setValue(currentDate);
         LocalTime now = LocalTime.now();
         hourComboBox.getSelectionModel().select(Integer.valueOf(now.getHour()));
-        minuteComboBox.getSelectionModel().select(Integer.valueOf(now.getMinute() + 2));
-        secondComboBox.getSelectionModel().select(Integer.valueOf(now.getSecond()));
+        minuteComboBox.getSelectionModel().select(Integer.valueOf((now.getMinute()+1)%60));
+        secondComboBox.getSelectionModel().select(Integer.valueOf((now.getSecond()+30)%60));
     }
 
     @FXML
@@ -74,6 +82,22 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
         if (bidName.isEmpty() || bidDescription.isEmpty() || bidEndDateTime == null) {
             addLogMessage("Erreur : Veuillez remplir tous les champs correctement.");
         } else {
+            endDatePicker.setVisible(false);
+            endDatePicker.setManaged(false);
+            hourComboBox.setVisible(false);
+            hourComboBox.setManaged(false);
+            minuteComboBox.setVisible(false);
+            minuteComboBox.setManaged(false);
+            secondComboBox.setVisible(false);
+            secondComboBox.setManaged(false);
+            bidNameTextField.setVisible(false);
+            bidNameTextField.setManaged(false);
+            bidDescriptionTextField.setVisible(false);
+            bidDescriptionTextField.setManaged(false);
+            buttonCreate.setVisible(false);
+            buttonCreate.setManaged(false);
+            createBidVBoxTitle.setVisible(false);
+            createBidVBoxTitle.setManaged(false);
             bid = new Bid(UUID.randomUUID().toString(), bidName, bidDescription, bidEndDateTime);
         }
     }
