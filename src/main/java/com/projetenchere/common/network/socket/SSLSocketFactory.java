@@ -23,10 +23,11 @@ public class SSLSocketFactory implements ISocketFactory{
                 File f = new File(destinationPath);
                 if(!f.exists()){
                     // Créer le fichier et écrire l'adresse IP
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(destinationPath));
+                    if (!f.createNewFile()) throw new IOException();
                     System.out.println("dansleif");
-
+                    FileWriter writer = new FileWriter(f);
                     writer.write("127.0.0.0");
+                    writer.close();
                 }
 
                 System.out.println("Fichier managerIp.txt créé avec succès à l'emplacement : " + destinationPath);
