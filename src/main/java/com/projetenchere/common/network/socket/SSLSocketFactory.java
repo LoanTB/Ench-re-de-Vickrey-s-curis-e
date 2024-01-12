@@ -5,7 +5,8 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.security.KeyStore;
 
-import static com.projetenchere.common.Utils.CertificatSSLFile.copyJks;
+import static com.projetenchere.common.Utils.CertificatSSLFile.copyJksFromInputStream;
+
 
 public class SSLSocketFactory implements ISocketFactory{
     //TODO: gérer les exceptions correctement
@@ -19,7 +20,7 @@ public class SSLSocketFactory implements ISocketFactory{
             String sourcePath = "src/main/java/ressources/ssl/keystore.jks";
             String destinationPath = System.getProperty("user.home") + "/.config/securewin/ssl/keystore.jks";
             try {
-                copyJks(sourcePath, destinationPath);
+                copyJksFromInputStream(destinationPath);
                 System.out.println("Copie réussie de " + sourcePath + " vers " + destinationPath);
             } catch (Exception e) {
                 e.printStackTrace();
