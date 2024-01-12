@@ -6,7 +6,6 @@ import com.projetenchere.Seller.network.Handlers.ChecklistOkReplyer;
 import com.projetenchere.Seller.network.Handlers.EncryptedOfferReplyer;
 import com.projetenchere.Seller.network.SellerClient;
 import com.projetenchere.common.Controllers.Controller;
-import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;

@@ -40,8 +40,8 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
         File directoryConfig = new File(configPath);
         if (!directoryConfig.exists()) {
             if (directoryConfig.mkdirs()) {
-            }else{
-                System.err.println("Echec de la creation du dossier de config : " +  configPath);
+            } else {
+                System.err.println("Echec de la creation du dossier de config : " + configPath);
             }
         }
     }
@@ -56,18 +56,18 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     }
 
     @Override
-    public void generateAndSaveKeyPair(){
+    public void generateAndSaveKeyPair() {
         try {
             try {
                 // Commande pour générer une paire de clés dans .jks
-                String genKeyCommand = "keytool -genkeypair -alias "+ KEYSTORE_ALIAS +" -keyalg "+KEY_ALGORITHM+" -keysize "+KEY_SIZE+" -keystore "+ KEYSTORE_FILEPATH +" -validity "+VALIDITY_DAYS+" -dname \"CN=Secure, OU=Win, O=SecureWin, L=Montpellier, ST=Occitanie, C=FR\" -storepass "+KEYSTORE_PASSWORD+" -keypass "+KEYSTORE_PASSWORD;
+                String genKeyCommand = "keytool -genkeypair -alias " + KEYSTORE_ALIAS + " -keyalg " + KEY_ALGORITHM + " -keysize " + KEY_SIZE + " -keystore " + KEYSTORE_FILEPATH + " -validity " + VALIDITY_DAYS + " -dname \"CN=Secure, OU=Win, O=SecureWin, L=Montpellier, ST=Occitanie, C=FR\" -storepass " + KEYSTORE_PASSWORD + " -keypass " + KEYSTORE_PASSWORD;
 
                 boolean result = executeCommand(genKeyCommand);
                 if (result) {
                     // Commande pour exporter le certificat associé au .jks
-                    String exportCertCommand = "keytool -export -alias "+ KEYSTORE_ALIAS +" -file "+CERT_FILEPATH+" -keystore "+KEYSTORE_FILEPATH+" -storepass "+KEYSTORE_PASSWORD+" -keypass "+KEYSTORE_PASSWORD;
+                    String exportCertCommand = "keytool -export -alias " + KEYSTORE_ALIAS + " -file " + CERT_FILEPATH + " -keystore " + KEYSTORE_FILEPATH + " -storepass " + KEYSTORE_PASSWORD + " -keypass " + KEYSTORE_PASSWORD;
 
-                    result= executeCommand(exportCertCommand);
+                    result = executeCommand(exportCertCommand);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

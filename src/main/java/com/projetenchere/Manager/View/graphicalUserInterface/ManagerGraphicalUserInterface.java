@@ -2,15 +2,12 @@ package com.projetenchere.Manager.View.graphicalUserInterface;
 
 import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.View.UserGraphicalUserInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.time.LocalDateTime;
 
 public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface implements IManagerUserInterface {
 

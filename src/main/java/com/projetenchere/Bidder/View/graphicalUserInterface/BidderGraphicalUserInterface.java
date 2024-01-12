@@ -188,45 +188,6 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
         addLogMessage("Votre offre a bien été envoyée");
     }
 
-    @Override
-    public void tellWaitOfferResult() {
-        addLogMessage("Attente des résultats...");
-    }
-
-    @Override
-    public void tellWaitBidsAnnoncement() {
-        addLogMessage("Attente de reception des enchères en cours...");
-    }
-
-    @Override
-    public void tellWaitBidsPublicKeysAnnoncement() {
-        addLogMessage("Attente/Vérification de réception des clés des enchères en cours...");
-    }
-
-    @Override
-    public String readName() {
-        return null;
-    }
-
-    @Override
-    public String readSurname() {
-        return null;
-    }
-
-    @Override
-    public int readPort() {
-        return 0;
-    }
-
-    @Override
-    public void tellWaitManager() {
-
-    }
-
-    @Override
-    public void tellManagerFound() {
-
-    }
 
     @Override
     public void tellWaitManagerSecurityInformations() {
@@ -239,27 +200,8 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     }
 
     @Override
-    public void tellReceivingInformationOf(String id, String type) {
-        addLogMessage("Réception d'information de " + type + " " + id);
-    }
-
-    @Override
     public void tellReceiptOfCurrentBids() {
         addLogMessage("Réception des enchères actuelles");
     }
 
-    @Override
-    public void tellReceiptOfEncryptionKeysForCurrentBids() {
-        addLogMessage("Réception des clés de chiffrement des enchères actuelles");
-    }
-
-    @Override
-    public void tellReceiptOfBidResult(String id) {
-        addLogMessage("Réception des résultats de l'enchère " + id);
-    }
-
-    @Override
-    public void tellSendRequestOffers() {
-        addLogMessage("Envoie de la demande d'enchères actuelles au gestionnaire");
-    }
 }

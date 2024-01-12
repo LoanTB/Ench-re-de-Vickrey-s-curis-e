@@ -83,43 +83,6 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
-    public void tellWaitOfferResult() {
-        showMessage("Attente des résultats...");
-    }
-
-    @Override
-    public void tellWaitBidsAnnoncement() {
-        showMessage("Attente de reception des enchères en cours...");
-    }
-
-    @Override
-    public void tellWaitBidsPublicKeysAnnoncement() {
-        showMessage("Attente/Verification de réception des clés des enchères en cours...");
-    }
-
-    @Override
-    public void tellWaitManager() {
-        showMessage("Le gestionnaire des enchères semble indisponible, attente du gestionnaire...");
-    }
-
-    @Override
-    public void tellManagerFound() {
-        showMessage("Contacter le gestionnaire établie !");
-    }
-
-    @Override
-    public String readName() {
-        showMessage("Quel est votre prénom ?");
-        return readMessage();
-    }
-
-    @Override
-    public String readSurname() {
-        showMessage("Quel est votre nom ?");
-        return readMessage();
-    }
-
-    @Override
     public void tellWaitManagerSecurityInformations() {
         showMessage("Attente des informations de sécurité du gestionnaire...");
     }
@@ -130,47 +93,9 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
-    public void tellReceivingInformationOf(String id, String type) {
-        showMessage("Reception d'information de " + type + " " + id);
-    }
-
-    @Override
     public void tellReceiptOfCurrentBids() {
         showMessage("Réception des enchères actuelles");
     }
 
-    @Override
-    public void tellReceiptOfEncryptionKeysForCurrentBids() {
-        showMessage("Réception des clés de chiffrement des enchères actuelles");
-    }
-
-    @Override
-    public void tellReceiptOfBidResult(String id) {
-        showMessage("Réception des résultats de l'enchère " + id);
-    }
-
-    @Override
-    public void tellSendRequestOffers() {
-        showMessage("Envoi de la demande d'enchères actuelles au gestionnaire");
-    }
-
-    @Override
-    public int readPort() {
-        showMessage("Quel port voulez-vous utiliser ? (49152 à 65535)");
-        String portString = "";
-        int port = 0;
-        while (port < 49152 || port > 65535 || !portString.matches("\\d+")) {
-            portString = readMessage();
-            if (portString.matches("\\d+")) {
-                port = Integer.parseInt(portString);
-                if (port < 49152 || port > 65535) {
-                    showMessage("Port invalide, entrez un port valide (entre 49152 et 65535) :");
-                }
-            } else {
-                showMessage("Port invalide, entrez un port sans lettres :");
-            }
-        }
-        return port;
-    }
 
 }

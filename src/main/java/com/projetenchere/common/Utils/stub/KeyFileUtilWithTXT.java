@@ -36,11 +36,11 @@ public class KeyFileUtilWithTXT implements I_KeyFileUtil {
         }
 
         File directoryConfig = new File(configPath);
-        if(!directoryConfig.exists()){
-            if(directoryConfig.mkdirs()){
+        if (!directoryConfig.exists()) {
+            if (directoryConfig.mkdirs()) {
 
-            }else{
-                System.err.println("Echec de la creation du dossier de config : " +  configPath);
+            } else {
+                System.err.println("Echec de la creation du dossier de config : " + configPath);
             }
         }
     }

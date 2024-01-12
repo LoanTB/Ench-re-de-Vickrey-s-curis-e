@@ -1,7 +1,6 @@
 package com.projetenchere.Bidder.Controllers;
 
 import com.projetenchere.Bidder.Model.Bidder;
-import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface;
 import com.projetenchere.Bidder.network.BidderClient;
 import com.projetenchere.common.Controllers.Controller;
@@ -30,12 +29,9 @@ public class BidderController extends Controller {
     BidderClient client = new BidderClient();
     private CurrentBids currentBids;
     private PublicKey managerPubKey;
+
     public BidderController(BidderGraphicalUserInterface ui) {
         this.ui = ui;
-    }
-
-    public void setCurrentBids(CurrentBids currentBids) {
-        this.currentBids = currentBids;
     }
 
     public void askForManagerPubKey() {
@@ -55,10 +51,6 @@ public class BidderController extends Controller {
         askForManagerPubKey();
     }
 
-    public void showBids() {
-    }
-
-
     public void readAndSendOffer() throws BidAbortedException, SignatureException {
         Offer offer = ui.readOffer(bidder, currentBids);
         Bid bid = currentBids.getBid(offer.getIdBid());
@@ -76,7 +68,7 @@ public class BidderController extends Controller {
         /*if(!set.getSet().contains(encryptedOffer)) {
             client.stopEverything();
             throw new BidAbortedException("Offer was not present is set");
-        }*/
+        }*/ //TODO : VITE
         client.stopManager();
         SignedPublicKey key = new SignedPublicKey(bidder.getKey(), bidder.getSignature());
         WinStatus status = client.validateAndGetWinStatus(key);
@@ -90,10 +82,6 @@ public class BidderController extends Controller {
         client.stopSeller();
     }
 
-    public List<String> getParticipatedBid() {
-        return participatedBid;
-    }
-
     public void setSignatureConfig() throws Exception {
         setSignatureConfig(ui, bidder);
     }
@@ -102,7 +90,4 @@ public class BidderController extends Controller {
         ui.displayHello();
     }
 
-    public IBidderUserInterface getUi() {
-        return ui;
-    }
 }
