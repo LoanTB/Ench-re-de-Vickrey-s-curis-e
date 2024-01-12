@@ -5,6 +5,8 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.security.KeyStore;
 
+import static com.projetenchere.common.Utils.CertificatSSLFile.copyJks;
+
 public class SSLSocketFactory implements ISocketFactory{
     //TODO: gérer les exceptions correctement
     protected SSLContext sslContext;
@@ -13,7 +15,17 @@ public class SSLSocketFactory implements ISocketFactory{
         try {
             char[] password = ";oW+~E8T65DKiZny{hAD?~kH-e;:{E)*n?U:lUv6MOPnEc/l[k5tQ')8O48YGsJI".toCharArray(); // Keystore password
             KeyStore keyStore = KeyStore.getInstance("JKS");
-            FileInputStream keyStoreFile = new FileInputStream(System.getProperty("user.home") + "/.config/securewin/ssl/keystore.jks");
+
+            String sourcePath = "src/main/java/ressources/ssl/keystore.jks";
+            String destinationPath = System.getProperty("user.home") + "/.config/securewin/ssl/keystore.jks";
+            try {
+                copyJks(sourcePath, destinationPath);
+                System.out.println("Copie réussie de " + sourcePath + " vers " + destinationPath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            FileInputStream keyStoreFile = new FileInputStream(destinationPath);
             keyStore.load(keyStoreFile, password);
             KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
             keyManagerFactory.init(keyStore, password);

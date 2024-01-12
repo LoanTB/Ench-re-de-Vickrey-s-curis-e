@@ -1,11 +1,12 @@
 package com.projetenchere.common.Utils;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 public class CertificatSSLFile {
-
-    public static void main(String[] args) {
-        // Spécifiez le chemin du fichier source et de destination
+    /*
+            // Spécifiez le chemin du fichier source et de destination
         String sourcePath = "/chemin/vers/source.jks";
         String destinationPath = "/chemin/vers/destination.jks";
 
@@ -15,17 +16,11 @@ public class CertificatSSLFile {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private static void copyJks(String sourcePath, String destinationPath) throws Exception {
+    */
+    public static void copyJks(String sourcePath, String destinationPath) throws IOException {
         Path source = Path.of(sourcePath);
         Path destination = Path.of(destinationPath);
 
-        // Utilisez Files.copy pour copier le fichier avec ARM (Automatic Resource Management)
-        try (var inputStream = Files.newInputStream(source);
-             var outputStream = Files.newOutputStream(destination)) {
-
-            Files.copy(inputStream, destination, StandardCopyOption.REPLACE_EXISTING);
-        }
+        Files.copy(source,destination, StandardCopyOption.REPLACE_EXISTING);
     }
 }
