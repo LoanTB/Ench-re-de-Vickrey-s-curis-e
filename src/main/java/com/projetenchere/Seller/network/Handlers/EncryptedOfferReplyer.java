@@ -4,14 +4,11 @@ import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
-import com.projetenchere.common.Models.WinStatus;
-import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.DataWrapper;
-import com.projetenchere.common.network.IDataHandler;
 import com.projetenchere.common.network.Headers;
+import com.projetenchere.common.network.IDataHandler;
 
 import java.io.Serializable;
-import java.security.SignatureException;
 
 //Bidder envoient au seller leurs offres
 
@@ -29,11 +26,11 @@ public class EncryptedOfferReplyer implements IDataHandler {
                         wait(1000);
                     }
                     seller.reSignedEncryptedOffers();
-                    for(EncryptedOffer o : seller.getEncryptedOffersSignedBySeller().getSet().offers){
+                    for (EncryptedOffer o : seller.getEncryptedOffersSignedBySeller().getSet().offers) {
                         System.out.println("handler :" + o.getPrice());
                     }
 
-                    while (!seller.isResultsReady()){
+                    while (!seller.isResultsReady()) {
                         wait(1000);
                     }
                     return new DataWrapper<>(seller.getEncryptedOffersSignedBySeller(), Headers.CHECK_LIST);

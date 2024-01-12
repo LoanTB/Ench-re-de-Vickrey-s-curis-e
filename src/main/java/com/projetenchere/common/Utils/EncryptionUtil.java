@@ -4,22 +4,22 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.*;
 import java.nio.ByteBuffer;
+import java.security.*;
 
 public class EncryptionUtil {
 
-    public static KeyPair generateKeyPair()  {
+    public static KeyPair generateKeyPair() {
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             keyPairGenerator.initialize(2048);
             return keyPairGenerator.generateKeyPair();
-        } catch (NoSuchAlgorithmException ignored){
+        } catch (NoSuchAlgorithmException ignored) {
             throw new RuntimeException("");
         }
     }
 
-    public static byte[] encryptPrice(double number, PublicKey publicKey) throws GeneralSecurityException{
+    public static byte[] encryptPrice(double number, PublicKey publicKey) throws GeneralSecurityException {
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
         byte[] bytes = ByteBuffer.allocate(Double.BYTES).putDouble(number).array();

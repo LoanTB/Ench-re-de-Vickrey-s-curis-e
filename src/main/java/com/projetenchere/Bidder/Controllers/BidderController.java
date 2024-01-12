@@ -10,8 +10,8 @@ import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.Encrypted.SignedPublicKey;
-import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Offer;
+import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.exception.BidAbortedException;
 
 import java.security.GeneralSecurityException;
@@ -23,23 +23,22 @@ import java.util.List;
 import java.util.Map;
 
 public class BidderController extends Controller {
-    BidderGraphicalUserInterface ui;
-
-    public BidderController(BidderGraphicalUserInterface ui) {
-        this.ui = ui;
-    }
-    BidderClient client = new BidderClient();
-    private CurrentBids currentBids;
     private final List<String> participatedBid = new ArrayList<>();
     private final Map<String, WinStatus> results = new HashMap<>();
     private final Bidder bidder = new Bidder();
+    BidderGraphicalUserInterface ui;
+    BidderClient client = new BidderClient();
+    private CurrentBids currentBids;
     private PublicKey managerPubKey;
+    public BidderController(BidderGraphicalUserInterface ui) {
+        this.ui = ui;
+    }
 
     public void setCurrentBids(CurrentBids currentBids) {
         this.currentBids = currentBids;
     }
 
-    public void askForManagerPubKey(){
+    public void askForManagerPubKey() {
         ui.tellWaitManagerSecurityInformations();
         managerPubKey = client.getManagerPubKey();
     }
@@ -91,15 +90,17 @@ public class BidderController extends Controller {
         client.stopSeller();
     }
 
-    public List<String> getParticipatedBid(){
+    public List<String> getParticipatedBid() {
         return participatedBid;
     }
 
     public void setSignatureConfig() throws Exception {
-        setSignatureConfig(ui,bidder);
+        setSignatureConfig(ui, bidder);
     }
 
-    public void displayHello(){ui.displayHello();}
+    public void displayHello() {
+        ui.displayHello();
+    }
 
     public IBidderUserInterface getUi() {
         return ui;

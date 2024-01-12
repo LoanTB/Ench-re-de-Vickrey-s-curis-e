@@ -1,35 +1,28 @@
 package com.projetenchere.Manager.Model;
 
-import com.projetenchere.common.Models.User;
-
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
+import com.projetenchere.common.Models.User;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-public class Manager extends User{
+public class Manager extends User {
 
+    public static Manager INSTANCE;
+    private final CurrentBids bids = new CurrentBids();
     private PrivateKey privateKey;
     private PublicKey publicKey;
-    private final CurrentBids bids = new CurrentBids();
-    public static Manager INSTANCE;
+
+    private Manager() {
+    }
 
     public static Manager getInstance() {
         if (INSTANCE == null) INSTANCE = new Manager();
         return INSTANCE;
-    }
-
-    private Manager(){}
-
-    public synchronized void setPrivateKey(PrivateKey privateKey) {
-        this.privateKey = privateKey;
-    }
-    public synchronized void setPublicKey(PublicKey publicKey) {
-        this.publicKey = publicKey;
     }
 
     public synchronized void addBid(Bid bid) {
@@ -39,8 +32,17 @@ public class Manager extends User{
     public synchronized PrivateKey getPrivateKey() {
         return privateKey;
     }
+
+    public synchronized void setPrivateKey(PrivateKey privateKey) {
+        this.privateKey = privateKey;
+    }
+
     public synchronized PublicKey getPublicKey() {
         return publicKey;
+    }
+
+    public synchronized void setPublicKey(PublicKey publicKey) {
+        this.publicKey = publicKey;
     }
 
     public synchronized CurrentBids getBids() {
@@ -52,23 +54,23 @@ public class Manager extends User{
         byte[] encrypted1 = null;
         double decrypted;
         for (byte[] encrypted : encryptedOffersSet.getPrices()) {
-            decrypted = EncryptionUtil.decryptPrice(encrypted,privateKey);
-            if (decrypted > price1){
+            decrypted = EncryptionUtil.decryptPrice(encrypted, privateKey);
+            if (decrypted > price1) {
                 price1 = decrypted;
                 encrypted1 = encrypted;
             }
         }
         double price2 = -1;
         for (byte[] encrypted : encryptedOffersSet.getPrices()) {
-            decrypted = EncryptionUtil.decryptPrice(encrypted,privateKey);
-            if (decrypted > price2 && decrypted != price1){
+            decrypted = EncryptionUtil.decryptPrice(encrypted, privateKey);
+            if (decrypted > price2 && decrypted != price1) {
                 price2 = decrypted;
             }
         }
-        if (price2 == -1){
+        if (price2 == -1) {
             price2 = price1;
         }
-        Winner winner = new Winner(encryptedOffersSet.getBidId(), encrypted1,price2);
+        Winner winner = new Winner(encryptedOffersSet.getBidId(), encrypted1, price2);
         return winner;
     }
 

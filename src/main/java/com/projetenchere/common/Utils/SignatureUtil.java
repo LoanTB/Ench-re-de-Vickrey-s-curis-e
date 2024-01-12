@@ -1,15 +1,9 @@
 package com.projetenchere.common.Utils;
 
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
-import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 
 import java.io.*;
-import java.security.Signature;
-import java.security.PublicKey;
-import java.security.PrivateKey;
-import java.security.SignatureException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 
 public class SignatureUtil {
     private static final String SIGNATURE_ALGORITHM = "SHA256withRSA";
@@ -30,31 +24,31 @@ public class SignatureUtil {
     }
 
     public static byte[] signData(Object data, Signature signature) throws SignatureException {
-        return signData(objectToArrayByte(data),signature);
+        return signData(objectToArrayByte(data), signature);
     }
 
-    public static byte[] objectToArrayByte(Object objetSerializable){
+    public static byte[] objectToArrayByte(Object objetSerializable) {
         byte[] tab = new byte[0];
-        try{
+        try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
             oos.writeObject(objetSerializable);
-            tab= baos.toByteArray();
+            tab = baos.toByteArray();
             oos.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return tab;
     }
 
-    public static EncryptedOffersSet toObject(byte[] tab){
+    public static EncryptedOffersSet toObject(byte[] tab) {
         EncryptedOffersSet objet = null;
-        try{
+        try {
             ByteArrayInputStream bais = new ByteArrayInputStream(tab);
             ObjectInputStream ois = new ObjectInputStream(bais);
             objet = (EncryptedOffersSet) ois.readObject();
             ois.close();
-        }catch (IOException | ClassNotFoundException e){
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return objet;

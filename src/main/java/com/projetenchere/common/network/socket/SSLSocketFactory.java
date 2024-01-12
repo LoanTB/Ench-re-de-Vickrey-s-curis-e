@@ -1,14 +1,17 @@
 package com.projetenchere.common.network.socket;
 
 import javax.net.ssl.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.security.KeyStore;
 
 import static com.projetenchere.common.Utils.CertificatSSLFile.copyJksFromInputStream;
 
 
-public class SSLSocketFactory implements ISocketFactory{
+public class SSLSocketFactory implements ISocketFactory {
     //TODO: gérer les exceptions correctement
     protected SSLContext sslContext;
 
@@ -21,7 +24,7 @@ public class SSLSocketFactory implements ISocketFactory{
                 // Définir le chemin du fichier de destination
                 String destinationPath = System.getProperty("user.home") + "/.config/securewin/managerIp.txt";
                 File f = new File(destinationPath);
-                if(!f.exists()){
+                if (!f.exists()) {
                     // Créer le fichier et écrire l'adresse IP
                     if (!f.createNewFile()) throw new IOException();
                     System.out.println("dansleif");

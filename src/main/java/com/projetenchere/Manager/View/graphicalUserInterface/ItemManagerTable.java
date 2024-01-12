@@ -9,7 +9,7 @@ public class ItemManagerTable {
     private final SimpleStringProperty description;
     private final SimpleStringProperty debut;
     private final SimpleStringProperty fin;
-    private SimpleStringProperty status;
+    private final SimpleStringProperty status;
 
     public ItemManagerTable(String id, String nom, String description, String debut, String fin, String status) {
         this.id = id;

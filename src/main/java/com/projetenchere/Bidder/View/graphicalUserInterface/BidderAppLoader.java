@@ -11,6 +11,14 @@ import javafx.stage.Stage;
 public class BidderAppLoader extends Application {
     private static BidderController controllerInstance;
 
+    public static BidderController getControllerInstance() {
+        return controllerInstance;
+    }
+
+    public static void launchApp() {
+        launch(BidderAppLoader.class);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BidderGraphicalUserInterface.fxml"));
@@ -37,14 +45,6 @@ public class BidderAppLoader extends Application {
                 throw new RuntimeException(e);
             }
         }).start();
-    }
-
-    public static BidderController getControllerInstance() {
-        return controllerInstance;
-    }
-
-    public static void launchApp() {
-        launch(BidderAppLoader.class);
     }
 }
 

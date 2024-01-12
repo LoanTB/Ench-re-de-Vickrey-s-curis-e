@@ -9,7 +9,7 @@ import java.security.SignatureException;
 
 public class SignedPublicKey implements Serializable {
     private final byte[] okSigned;
-    private final PublicKey publicKey ;
+    private final PublicKey publicKey;
 
     public SignedPublicKey(PublicKey publicKey, Signature signature) throws SignatureException {
         this.okSigned = SignatureUtil.signData("ok".getBytes(), signature);

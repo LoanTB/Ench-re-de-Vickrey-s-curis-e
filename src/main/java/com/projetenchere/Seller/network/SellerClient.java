@@ -1,8 +1,6 @@
 package com.projetenchere.Seller.network;
 
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.NetworkUtil;
@@ -11,12 +9,12 @@ import com.projetenchere.common.network.ClientSocketWrapper;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.socket.SSLSocketFactory;
 
-import java.net.Socket;
 import java.security.Signature;
 
 public class SellerClient extends Client {
     ClientSocketWrapper toManager;
     Signature sellerSignature;
+
     public void connectToManager() {
         SSLSocketFactory factory = new SSLSocketFactory();
         toManager = new ClientSocketWrapper(factory.createSocket(NetworkUtil.MANAGER_SOCKET_ADDRESS));

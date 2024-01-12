@@ -1,14 +1,7 @@
 package com.projetenchere.common.network;
 
-import com.projetenchere.common.Utils.SerializationUtil;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.net.Socket;
-import java.security.PublicKey;
 
 public class Client {
 
@@ -20,14 +13,15 @@ public class Client {
             ClientSocketWrapper socket,
             Headers headerToSend,
             Headers headerToReceive
-            ) {
+    ) {
         checkConnection(socket);
         DataWrapper<?> request = new DataWrapper<>(headerToSend);
         DataWrapper<T> wrapped;
         try {
             socket.getObjectOutputStream().writeObject(request);
             wrapped = (DataWrapper<T>) socket.getObjectInputStream().readObject();
-            if (!wrapped.checkHeader(headerToReceive)) throw new RuntimeException("Wrong header received: " + headerToReceive);
+            if (!wrapped.checkHeader(headerToReceive))
+                throw new RuntimeException("Wrong header received: " + headerToReceive);
         } catch (IOException | ClassCastException | ClassNotFoundException e) {
             throw new RuntimeException("Socket error");
         }
@@ -46,7 +40,8 @@ public class Client {
         try {
             socket.getObjectOutputStream().writeObject(wrappedToSend);
             wrappedToReceive = (DataWrapper<T1>) socket.getObjectInputStream().readObject();
-            if (!wrappedToReceive.checkHeader(headerToReceive)) throw new RuntimeException("Wrong header | wanted " + headerToReceive + " received " + wrappedToReceive.getHeader());
+            if (!wrappedToReceive.checkHeader(headerToReceive))
+                throw new RuntimeException("Wrong header | wanted " + headerToReceive + " received " + wrappedToReceive.getHeader());
         } catch (IOException | ClassCastException | ClassNotFoundException e) {
             throw new RuntimeException("Socket error");
         }

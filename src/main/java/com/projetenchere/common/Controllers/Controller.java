@@ -16,7 +16,7 @@ public abstract class Controller {
         ui.tellSignatureConfigSetup();
         I_KeyFileUtil keyFile = new KeyFileUtilWithJKS();
 
-        if(!keyFile.isKeyPairSaved()){
+        if (!keyFile.isKeyPairSaved()) {
             ui.tellSignatureConfigGeneration();
             keyFile.generateAndSaveKeyPair();
         }
@@ -30,7 +30,7 @@ public abstract class Controller {
         ui.tellSignatureConfigReady();
     }
 
-    public void waitSynchro(int ms){
+    public void waitSynchro(int ms) {
         synchronized (this) {
             try {
                 wait(ms);

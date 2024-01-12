@@ -4,18 +4,20 @@ import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
-import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.User;
+import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Utils.SignatureUtil;
 
 import java.security.PublicKey;
-import java.security.SignatureException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-public class Seller extends User{
+public class Seller extends User {
     private static Seller INSTANCE;
     private final Map<PublicKey, byte[]> bidders = new HashMap<>();
-    private Set<PublicKey> biddersOk = new HashSet<>();
+    private final Set<PublicKey> biddersOk = new HashSet<>();
     private Map<PublicKey, WinStatus> winStatusMap;
     private EncryptedOffersSet encryptedOffersReceived;
     private SignedEncryptedOfferSet encryptedOffersSignedBySeller;
@@ -24,7 +26,13 @@ public class Seller extends User{
     private boolean resultsReady = false;
 
 
-    private Seller(){}
+    private Seller() {
+    }
+
+    public synchronized static Seller getInstance() {
+        if (INSTANCE == null) INSTANCE = new Seller();
+        return INSTANCE;
+    }
 
     public synchronized boolean isResultsReady() {
         return resultsReady;
@@ -34,22 +42,12 @@ public class Seller extends User{
         this.resultsReady = true;
     }
 
-
     public synchronized boolean resultsAreIn() {
         return resultsAreIn;
     }
 
     public synchronized void setResultsAreIn(boolean resultsAreIn) {
         this.resultsAreIn = resultsAreIn;
-    }
-
-    public synchronized static Seller getInstance() {
-        if (INSTANCE == null) INSTANCE = new Seller();
-        return INSTANCE;
-    }
-
-    public void setWinStatusMap(Map<PublicKey, WinStatus> winStatusMap) {
-        this.winStatusMap = winStatusMap;
     }
 
     public synchronized void addBidder(PublicKey key, byte[] price) {
@@ -68,6 +66,10 @@ public class Seller extends User{
         return winStatusMap;
     }
 
+    public void setWinStatusMap(Map<PublicKey, WinStatus> winStatusMap) {
+        this.winStatusMap = winStatusMap;
+    }
+
     public synchronized void finish() {
         this.resultsAreIn = true;
     }
@@ -76,7 +78,8 @@ public class Seller extends User{
     public Bid getMyBid() {
         return myBid;
     }
-    public void setMyBid(Bid bid){
+
+    public void setMyBid(Bid bid) {
         this.myBid = bid;
     }
 
@@ -84,18 +87,17 @@ public class Seller extends User{
         return this.encryptedOffersReceived;
     }
 
-    public void setEncryptedOffers(EncryptedOffersSet offers){
+    public void setEncryptedOffers(EncryptedOffersSet offers) {
         this.encryptedOffersReceived = offers;
     }
 
-
-    public void setEncryptedOffersSignedBySeller(SignedEncryptedOfferSet encryptedOffersSignedBySeller){
-        this.encryptedOffersSignedBySeller = encryptedOffersSignedBySeller;
-    }
     public synchronized SignedEncryptedOfferSet getEncryptedOffersSignedBySeller() {
         return this.encryptedOffersSignedBySeller;
     }
 
+    public void setEncryptedOffersSignedBySeller(SignedEncryptedOfferSet encryptedOffersSignedBySeller) {
+        this.encryptedOffersSignedBySeller = encryptedOffersSignedBySeller;
+    }
 
     public synchronized void verifyAndAddOffer(EncryptedOffer offer) throws Exception {
         if (SignatureUtil.verifyDataSignature(offer.getPrice(), offer.getPriceSigned(), offer.getSignaturePublicKey())) {
@@ -120,7 +122,7 @@ public class Seller extends User{
         this.setEncryptedOffersSignedBySeller(offersSignedbl);
     }
 
-    public synchronized Set<PublicKey> getbiddersOk(){
+    public synchronized Set<PublicKey> getbiddersOk() {
         return this.biddersOk;
     }
 

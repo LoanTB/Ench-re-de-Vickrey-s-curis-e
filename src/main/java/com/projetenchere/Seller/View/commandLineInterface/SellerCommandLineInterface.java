@@ -13,6 +13,24 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
 
     public static final Scanner scanner = new Scanner(System.in);
 
+    private static boolean isValidDateFormat(String value, DateTimeFormatter formatter) {
+        try {
+            LocalDateTime.parse(value, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    private static boolean isValidInt(String value) {
+        try {
+            Integer.parseInt(value);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
     public void showMessage(String message) {
         System.out.println(message);
     }
@@ -40,7 +58,7 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
 
     @Override
     public void displayWinner(String winnerID, Double price) {
-        showMessage("Le grand gagnant est "+winnerID+" ! La mise à payer est de "+price+"€.");
+        showMessage("Le grand gagnant est " + winnerID + " ! La mise à payer est de " + price + "€.");
     }
 
     @Override
@@ -64,26 +82,28 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     }
 
     @Override
-    public void tellSignatureConfigSetup(){
+    public void tellSignatureConfigSetup() {
         showMessage("Mise en place de la configuration de la signature...");
     }
+
     @Override
-    public void tellSignatureConfigGeneration(){
+    public void tellSignatureConfigGeneration() {
         showMessage("Génération de la configuration de la signature ...");
     }
+
     @Override
-    public void tellSignatureConfigReady(){
+    public void tellSignatureConfigReady() {
         showMessage("Configuration de la signature terminée.");
     }
 
     @Override
-    public void displayBidReceived(String bid){
+    public void displayBidReceived(String bid) {
         showMessage("Enchère reçue :");
-        showMessage(bid+"\n");
+        showMessage(bid + "\n");
     }
 
     @Override
-    public void waitOffers(){
+    public void waitOffers() {
         showMessage("Attente d'offres...");
     }
 
@@ -92,27 +112,18 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
         showMessage("Quel port voulez-vous utiliser ? (49152 à 65535)");
         String portString = "";
         int port = 0;
-        while (port < 49152 || port > 65535 || !portString.matches("\\d+") ){
+        while (port < 49152 || port > 65535 || !portString.matches("\\d+")) {
             portString = readMessage();
-            if(portString.matches("\\d+")){
+            if (portString.matches("\\d+")) {
                 port = Integer.parseInt(portString);
-                if(port < 49152 || port > 65535){
+                if (port < 49152 || port > 65535) {
                     showMessage("Port invalide, entrez un port valide (entre 49152 et 65535) :");
                 }
-            }else {
+            } else {
                 showMessage("Port invalide, entrez un port sans lettres :");
             }
         }
         return port;
-    }
-
-    private static boolean isValidDateFormat(String value, DateTimeFormatter formatter) {
-        try {
-            LocalDateTime.parse(value, formatter);
-            return true;
-        } catch (DateTimeParseException e) {
-            return false;
-        }
     }
 
     public LocalDateTime askBidEndTime() {
@@ -166,17 +177,17 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
 
     @Override
     public void tellReceivingInformationOf(String id, String type) {
-        showMessage("Reception d'information de "+type+" "+id);
+        showMessage("Reception d'information de " + type + " " + id);
     }
 
     @Override
     public void tellReceiptOfferByBidder(String id) {
-        showMessage("Réception d'une offre de l'enchérisseur "+id);
+        showMessage("Réception d'une offre de l'enchérisseur " + id);
     }
 
     @Override
     public void tellReceiptBidResult(String id) {
-        showMessage("Réception des résultats de l'enchère "+id);
+        showMessage("Réception des résultats de l'enchère " + id);
     }
 
     @Override
@@ -226,15 +237,5 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
     public String askBidName() {
         showMessage("Veuillez saisir le nom de l'enchère : ");
         return readMessage();
-    }
-
-
-    private static boolean isValidInt(String value) {
-        try {
-            Integer.parseInt(value);
-            return true;
-        } catch (DateTimeParseException e) {
-            return false;
-        }
     }
 }

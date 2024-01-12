@@ -1,16 +1,12 @@
 package com.projetenchere.Seller.Controllers;
 
-import com.projetenchere.Manager.View.IManagerUserInterface;
-import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.Seller.Model.Seller;
-import com.projetenchere.Seller.View.ISellerUserInterface;
-import com.projetenchere.Seller.View.commandLineInterface.SellerCommandLineInterface;
-import com.projetenchere.Seller.network.Handlers.ChecklistOkReplyer;
 import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
+import com.projetenchere.Seller.network.Handlers.ChecklistOkReplyer;
 import com.projetenchere.Seller.network.Handlers.EncryptedOfferReplyer;
 import com.projetenchere.Seller.network.SellerClient;
-import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Controllers.Controller;
+import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
@@ -22,19 +18,19 @@ import com.projetenchere.common.network.Server;
 
 import java.net.InetSocketAddress;
 import java.security.PublicKey;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class SellerController extends Controller {
     private final SellerClient client = new SellerClient();
     private final Server server = new Server(24682);
     private final Seller seller = Seller.getInstance();
-    private Winner winner = null;
     SellerGraphicalUserInterface ui;
+    private Winner winner = null;
 
     public SellerController(SellerGraphicalUserInterface ui) {
         this.ui = ui;
     }
+
     public Bid getMyBid() {
         return seller.getMyBid();
     }
@@ -95,7 +91,7 @@ public class SellerController extends Controller {
         SignedEncryptedOfferSet offers = seller.getEncryptedOffersSignedBySeller();
         ui.displayEncryptedOffersSet();
         this.setWinner(client.sendEncryptedOffersSet(offers));
-        ui.addLogMessage("Le prix gagnant est "+winner.price()+"€");
+        ui.addLogMessage("Le prix gagnant est " + winner.price() + "€");
         ui.addLogMessage("Résultats envoyés aux enchérisseurs.");
     }
 
@@ -117,7 +113,7 @@ public class SellerController extends Controller {
         Map<PublicKey, WinStatus> winStatusMap = new HashMap<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {
             if (Arrays.equals(encryptedOffer.getPrice(), winner.encryptedPrice()) && !haveAWinner) {
-                winStatusMap.put(encryptedOffer.getSignaturePublicKey(),new WinStatus(winner.bidId(),true,winner.price()));
+                winStatusMap.put(encryptedOffer.getSignaturePublicKey(), new WinStatus(winner.bidId(), true, winner.price()));
                 haveAWinner = true;
             } else {
                 winStatusMap.put(encryptedOffer.getSignaturePublicKey(), new WinStatus(winner.bidId(), false, -1));

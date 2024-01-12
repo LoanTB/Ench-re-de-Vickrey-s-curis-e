@@ -1,6 +1,5 @@
 package com.projetenchere.Bidder.View.graphicalUserInterface;
 
-import com.projetenchere.Bidder.Controllers.BidderController;
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.common.Models.Bid;
@@ -12,6 +11,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,19 +86,20 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void displayBid(CurrentBids currentBids) {
-        boolean ok=true;
+        boolean ok = true;
         this.currentBids = currentBids;
         List<ItemBidderTable> itemBidderTables = new ArrayList<>();
-        for (Bid bid:currentBids.getCurrentBids()){
+        for (Bid bid : currentBids.getCurrentBids()) {
             if (auctionsTableView.getItems() != null) {
-                for (ItemBidderTable item:auctionsTableView.getItems()){
-                    if (item.getId().equals(bid.getId())){
+                for (ItemBidderTable item : auctionsTableView.getItems()) {
+                    if (item.getId().equals(bid.getId())) {
                         ok = false;
+                        break;
                     }
                 }
             }
-            if (ok){
-                itemBidderTables.add(new ItemBidderTable(bid.getId(),bid.getName(), bid.getDescription(), bid.getEndDateTime().toString()));
+            if (ok) {
+                itemBidderTables.add(new ItemBidderTable(bid.getId(), bid.getName(), bid.getDescription(), bid.getEndDateTime().toString()));
             }
 
         }
@@ -108,23 +109,23 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     @FXML
     private void handleCreateBidButton() {
         boolean correctDoule;
-        try{
+        try {
             Double.parseDouble(offerAmountTextField.getText());
             correctDoule = true;
         } catch (Exception ignore) {
             correctDoule = false;
         }
-        if (selectedBid == null){
+        if (selectedBid == null) {
             addLogMessage("Erreur : Vous devez sélectionner une enchère");
         } else if (offerAmountTextField.getText().isEmpty()) {
             addLogMessage("Erreur : Vous devez entrer un prix");
         } else if (!correctDoule) {
             addLogMessage("Erreur : Le prix doit être un nombre correcte");
-        } else if (offerAmountTextField.getText().length() > 10){
+        } else if (offerAmountTextField.getText().length() > 10) {
             addLogMessage("Erreur : Le prix est trop grand");
         } else if (Double.parseDouble(offerAmountTextField.getText()) <= 0) {
             addLogMessage("Erreur : Vous devez entrer un prix plus grand que 0");
-        } else if (bidder == null){
+        } else if (bidder == null) {
             addLogMessage("Erreur : Ce n'est pas encore le moment d'enchérrir");
         } else {
             auctionsTableView.setVisible(false);
@@ -139,7 +140,7 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
             checkCurrentBidsVBoxTitle.setManaged(false);
             refreshButton.setVisible(false);
             refreshButton.setManaged(false);
-            offer = new Offer(selectedBid.getId(),offerAmountTextField.getText());
+            offer = new Offer(selectedBid.getId(), offerAmountTextField.getText());
         }
     }
 
@@ -158,15 +159,17 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
 
 
     @Override
-    public void tellSignatureConfigSetup(){
+    public void tellSignatureConfigSetup() {
         addLogMessage("Mise en place de la configuration de la signature...");
     }
+
     @Override
-    public void tellSignatureConfigGeneration(){
+    public void tellSignatureConfigGeneration() {
         addLogMessage("Génération de la configuration de la signature ...");
     }
+
     @Override
-    public void tellSignatureConfigReady(){
+    public void tellSignatureConfigReady() {
         addLogMessage("Configuration de la signature terminée.");
     }
 
@@ -237,7 +240,7 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void tellReceivingInformationOf(String id, String type) {
-        addLogMessage("Réception d'information de "+type+" "+id);
+        addLogMessage("Réception d'information de " + type + " " + id);
     }
 
     @Override
@@ -252,7 +255,7 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void tellReceiptOfBidResult(String id) {
-        addLogMessage("Réception des résultats de l'enchère "+id);
+        addLogMessage("Réception des résultats de l'enchère " + id);
     }
 
     @Override

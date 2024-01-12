@@ -24,33 +24,28 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     @Override
     public void displayBid(CurrentBids currentBids) {
         showMessage("Enchères Actuelle :");
-        showMessage(currentBids.toString()+"\n");
+        showMessage(currentBids.toString() + "\n");
     }
 
     @Override
     public Offer readOffer(Bidder bidder, CurrentBids currentBids) {
         showMessage("Quel est l'identifiant de l'enchère sur laquelle vous voulez enchérir ?");
         String idBidString = "";
-        while(currentBids.getBid(idBidString) == null)
-        {
+        while (currentBids.getBid(idBidString) == null) {
             idBidString = readMessage();
-            if(currentBids.getBid(idBidString) == null)
-            {
+            if (currentBids.getBid(idBidString) == null) {
                 showMessage("Id invalide, entrez un id d'enchère valide :");
             }
         }
         showMessage("Quel est votre prix ?");
         String offerString = "";
         int offer = 0;
-        while (offer < 0 || !offerString.matches("\\d+"))
-        {
+        while (offer < 0 || !offerString.matches("\\d+")) {
             offerString = readMessage();
-            if(!offerString.matches("\\d+"))
-            {
+            if (!offerString.matches("\\d+")) {
                 showMessage("Prix invalide, entrez un prix sans caractère spéciaux :");
             }
-            if(offer < 0 )
-            {
+            if (offer < 0) {
                 showMessage("Prix invalide, entrez un prix positif :");
             }
         }
@@ -58,15 +53,17 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
-    public void tellSignatureConfigSetup(){
+    public void tellSignatureConfigSetup() {
         showMessage("Mise en place de la configuration de la signature...");
     }
+
     @Override
-    public void tellSignatureConfigGeneration(){
+    public void tellSignatureConfigGeneration() {
         showMessage("Génération de la configuration de la signature ...");
     }
+
     @Override
-    public void tellSignatureConfigReady(){
+    public void tellSignatureConfigReady() {
         showMessage("Configuration de la signature terminée.");
     }
 
@@ -81,12 +78,12 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
     }
 
     @Override
-    public void tellOfferSent(){
+    public void tellOfferSent() {
         showMessage("Votre offre a bien été envoyée");
     }
 
     @Override
-    public void tellWaitOfferResult(){
+    public void tellWaitOfferResult() {
         showMessage("Attente des résultats...");
     }
 
@@ -134,7 +131,7 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     @Override
     public void tellReceivingInformationOf(String id, String type) {
-        showMessage("Reception d'information de "+type+" "+id);
+        showMessage("Reception d'information de " + type + " " + id);
     }
 
     @Override
@@ -149,7 +146,7 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     @Override
     public void tellReceiptOfBidResult(String id) {
-        showMessage("Réception des résultats de l'enchère "+id);
+        showMessage("Réception des résultats de l'enchère " + id);
     }
 
     @Override
@@ -162,14 +159,14 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
         showMessage("Quel port voulez-vous utiliser ? (49152 à 65535)");
         String portString = "";
         int port = 0;
-        while (port < 49152 || port > 65535 || !portString.matches("\\d+") ){
+        while (port < 49152 || port > 65535 || !portString.matches("\\d+")) {
             portString = readMessage();
-            if(portString.matches("\\d+")){
+            if (portString.matches("\\d+")) {
                 port = Integer.parseInt(portString);
-                if(port < 49152 || port > 65535){
+                if (port < 49152 || port > 65535) {
                     showMessage("Port invalide, entrez un port valide (entre 49152 et 65535) :");
                 }
-            }else {
+            } else {
                 showMessage("Port invalide, entrez un port sans lettres :");
             }
         }

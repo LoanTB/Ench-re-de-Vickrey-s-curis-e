@@ -13,7 +13,8 @@ import java.util.regex.Pattern;
 public class ManagerCommandLineInterface implements IManagerUserInterface {
     public static final Scanner scanner = new Scanner(System.in);
 
-    public ManagerCommandLineInterface() {}
+    public ManagerCommandLineInterface() {
+    }
 
     private static boolean isValidDateFormat(String value, DateTimeFormatter formatter) {
         try {
@@ -46,15 +47,17 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
     }
 
     @Override
-    public void tellSignatureConfigSetup(){
+    public void tellSignatureConfigSetup() {
         showMessage("Mise en place de la configuration de la signature...");
     }
+
     @Override
-    public void tellSignatureConfigGeneration(){
+    public void tellSignatureConfigGeneration() {
         showMessage("Génération de la configuration de la signature ...");
     }
+
     @Override
-    public void tellSignatureConfigReady(){
+    public void tellSignatureConfigReady() {
         showMessage("Configuration de la signature terminée.");
     }
 
@@ -159,37 +162,37 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
 
     @Override
     public void displayWinnerPrice(Winner winner) {
-        System.out.println("Le prix gagnant de l'enchère "+winner.bidId() + " à été déterminé et répondu (" + winner.price()+"€)");
+        System.out.println("Le prix gagnant de l'enchère " + winner.bidId() + " à été déterminé et répondu (" + winner.price() + "€)");
     }
 
     @Override
     public void tellConnectingNewSeller(String id) {
-        showMessage("Connexion avec un nouveau vendeur ("+id+")");
+        showMessage("Connexion avec un nouveau vendeur (" + id + ")");
     }
 
     @Override
     public void tellConnectingNewBidder(String id) {
-        showMessage("Connexion d'un nouvel enchérisseur ("+id+"), notification des vendeurs pour prévenir d'un nouvel enchérisseur potentiel");
+        showMessage("Connexion d'un nouvel enchérisseur (" + id + "), notification des vendeurs pour prévenir d'un nouvel enchérisseur potentiel");
     }
 
     @Override
     public void tellRequestInformationAboutBiddersBySeller(String id) {
-        showMessage("Demande des informations sur les enchérisseurs actuellement connectés par le vendeur "+id);
+        showMessage("Demande des informations sur les enchérisseurs actuellement connectés par le vendeur " + id);
     }
 
     @Override
     public void tellRequestCurrentBidsByBidder(String id) {
-        showMessage("Demande des enchères actuelles par l'enchérisseur "+id);
+        showMessage("Demande des enchères actuelles par l'enchérisseur " + id);
     }
 
     @Override
     public void tellRequestToDetermineTheWinnerOfBidBySeller(String idBid, String idSeller) {
-        showMessage("Demande de détermination du gagnant de l'enchère "+idBid+" par le vendeur "+idSeller);
+        showMessage("Demande de détermination du gagnant de l'enchère " + idBid + " par le vendeur " + idSeller);
     }
 
     @Override
     public void tellReceivingAndReplyToInformationOf(String id, String type) {
-        showMessage("Etablissement d'une connexion sécurisé avec un nouvel "+type+" ("+id+")");
+        showMessage("Etablissement d'une connexion sécurisé avec un nouvel " + type + " (" + id + ")");
     }
 
     @Override
@@ -199,7 +202,7 @@ public class ManagerCommandLineInterface implements IManagerUserInterface {
 
     @Override
     public void tellBidReceivedby(String idSeller, String idBid) {
-        showMessage("Enchère reçu ("+idBid+") créé par le vendeur "+idSeller);
+        showMessage("Enchère reçu (" + idBid + ") créé par le vendeur " + idSeller);
     }
 
 }

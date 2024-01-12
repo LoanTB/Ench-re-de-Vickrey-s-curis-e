@@ -10,8 +10,8 @@ public class Bid implements Serializable {
     private final String id;
     private final String name;
     private final String description;
-    private LocalDateTime startDateTime = null;
     private final LocalDateTime endDateTime;
+    private LocalDateTime startDateTime = null;
     private InetSocketAddress sellerInformations;
     private PublicKey pubKeySignatureSeller;
 

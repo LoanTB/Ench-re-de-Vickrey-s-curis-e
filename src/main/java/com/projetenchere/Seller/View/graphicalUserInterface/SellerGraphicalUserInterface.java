@@ -3,10 +3,8 @@ package com.projetenchere.Seller.View.graphicalUserInterface;
 import com.projetenchere.Seller.View.ISellerUserInterface;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.View.UserGraphicalUserInterface;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -58,8 +56,8 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
         endDatePicker.setValue(currentDate);
         LocalTime now = LocalTime.now();
         hourComboBox.getSelectionModel().select(Integer.valueOf(now.getHour()));
-        minuteComboBox.getSelectionModel().select(Integer.valueOf((now.getMinute()+1)%60));
-        secondComboBox.getSelectionModel().select(Integer.valueOf((now.getSecond()+30)%60));
+        minuteComboBox.getSelectionModel().select(Integer.valueOf((now.getMinute() + 1) % 60));
+        secondComboBox.getSelectionModel().select(Integer.valueOf((now.getSecond() + 30) % 60));
     }
 
     @FXML
@@ -137,7 +135,7 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void displayWinner(String winnerID, Double price) {
-        addLogMessage("Le grand gagnant est "+winnerID+" ! La mise à payer est de "+price+"€.");
+        addLogMessage("Le grand gagnant est " + winnerID + " ! La mise à payer est de " + price + "€.");
     }
 
     @Override
@@ -162,7 +160,7 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
     @Override
     public void displayBidReceived(String bid) {
         addLogMessage("Enchère reçue :");
-        addLogMessage(bid+"\n");
+        addLogMessage(bid + "\n");
     }
 
     @Override
@@ -182,7 +180,7 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public Bid askBid() {
-        while (bid==null){
+        while (bid == null) {
             try {
                 sleep(100);
             } catch (InterruptedException e) {
@@ -240,17 +238,17 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void tellReceivingInformationOf(String id, String type) {
-        addLogMessage("Réception d'information de "+type+" "+id);
+        addLogMessage("Réception d'information de " + type + " " + id);
     }
 
     @Override
     public void tellReceiptOfferByBidder(String id) {
-        addLogMessage("Réception d'une offre de l'enchérisseur "+id);
+        addLogMessage("Réception d'une offre de l'enchérisseur " + id);
     }
 
     @Override
     public void tellReceiptBidResult(String id) {
-        addLogMessage("Réception des résultats de l'enchère "+id);
+        addLogMessage("Réception des résultats de l'enchère " + id);
     }
 
     @Override

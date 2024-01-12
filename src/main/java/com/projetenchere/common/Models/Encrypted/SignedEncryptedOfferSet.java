@@ -1,5 +1,7 @@
 package com.projetenchere.common.Models.Encrypted;
+
 import com.projetenchere.common.Utils.SignatureUtil;
+
 import java.io.Serializable;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
@@ -9,11 +11,11 @@ public class SignedEncryptedOfferSet implements Serializable {
 
     private final byte[] setSigned;
     private final EncryptedOffersSet set;
-    private PublicKey signaturePubKey;
+    private final PublicKey signaturePubKey;
 
     public SignedEncryptedOfferSet(Signature signature, PublicKey signaturePubKey, EncryptedOffersSet list) throws GeneralSecurityException {
         this.set = list;
-        this.setSigned = SignatureUtil.signData(list,signature);
+        this.setSigned = SignatureUtil.signData(list, signature);
         this.signaturePubKey = signaturePubKey;
     }
 

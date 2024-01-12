@@ -11,6 +11,14 @@ import javafx.stage.Stage;
 public class SellerAppLoader extends Application {
     private static SellerController controllerInstance;
 
+    public static SellerController getControllerInstance() {
+        return controllerInstance;
+    }
+
+    public static void launchApp() {
+        launch(SellerAppLoader.class);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SellerGraphicalUserInterface.fxml"));
@@ -40,12 +48,5 @@ public class SellerAppLoader extends Application {
                 controllerInstance.displayWinner();
             });
         }).start();
-    }
-    public static SellerController getControllerInstance() {
-        return controllerInstance;
-    }
-
-    public static void launchApp() {
-        launch(SellerAppLoader.class);
     }
 }

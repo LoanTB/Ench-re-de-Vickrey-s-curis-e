@@ -19,10 +19,14 @@ public class DataWrapper<T extends Serializable> implements Serializable {
         this(null, header);
     }
 
+    public static DataWrapper<?> error() {
+        return new DataWrapper<>(Headers.ERROR, null);
+    }
+
     public boolean containsWrappedObject() {
         return this.object != null;
     }
-    
+
     public Headers getHeader() {
         return this.header;
     }
@@ -33,10 +37,6 @@ public class DataWrapper<T extends Serializable> implements Serializable {
             return false;
         }
         return this.getHeader().equals(otherHeader);
-    }
-
-    public static DataWrapper<?> error() {
-        return new DataWrapper<>(Headers.ERROR, null);
     }
 
     public T unwrap() {

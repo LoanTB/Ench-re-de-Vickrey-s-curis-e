@@ -1,6 +1,5 @@
 package com.projetenchere.Manager.View.graphicalUserInterface;
 
-import com.projetenchere.Bidder.View.graphicalUserInterface.ItemBidderTable;
 import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Winner;
@@ -55,24 +54,24 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
 
 
     public void displayHello() {
-            addLogMessage("Bienvenue Manager");
+        addLogMessage("Bienvenue Manager");
     }
 
     public void displayNewBid(Bid bid) {
-        if (!auctionsTableView.isVisible() || !auctionsTableView.isManaged()){
+        if (!auctionsTableView.isVisible() || !auctionsTableView.isManaged()) {
             auctionsTableView.setVisible(true);
             auctionsTableView.setManaged(true);
             checkCurrentBidsVBoxTitle.setVisible(true);
             checkCurrentBidsVBoxTitle.setManaged(true);
         }
-        addLogMessage("Nouvelle enchère reçue : "+bid.getName()+" ("+bid.getId()+") Date:"+bid.getStartDateTime().toString());
-        auctionsTableView.getItems().add(new ItemManagerTable(bid.getId(),bid.getName(), bid.getDescription(), bid.getStartDateTime().toString() , bid.getEndDateTime().toString(), "En cours..."));
+        addLogMessage("Nouvelle enchère reçue : " + bid.getName() + " (" + bid.getId() + ") Date:" + bid.getStartDateTime().toString());
+        auctionsTableView.getItems().add(new ItemManagerTable(bid.getId(), bid.getName(), bid.getDescription(), bid.getStartDateTime().toString(), bid.getEndDateTime().toString(), "En cours..."));
     }
 
-    public void diplayEndBid(String idBid){
-        addLogMessage("L'enchère "+ idBid +" a été résolue.");
-        for (ItemManagerTable item:auctionsTableView.getItems()){
-            if (item.getId().equals(idBid)){
+    public void diplayEndBid(String idBid) {
+        addLogMessage("L'enchère " + idBid + " a été résolue.");
+        for (ItemManagerTable item : auctionsTableView.getItems()) {
+            if (item.getId().equals(idBid)) {
                 item.statusProperty().set("Fini");
                 break;
             }

@@ -1,14 +1,13 @@
 package com.projetenchere.common.Models;
 
 import java.io.Serializable;
-import java.security.Signature;
 
 public class Offer implements Serializable {
     //private final Signature signature;
     private final String idBid;
     private final double price;
 
-    public Offer(String idBid, String price){
+    public Offer(String idBid, String price) {
 //        this.signature = signature;
         this.idBid = idBid;
         this.price = Double.parseDouble(price);

@@ -8,7 +8,7 @@ public class WinStatus implements Serializable {
     private final boolean winner;
     private final double price;
 
-    public WinStatus(String bidId, boolean status, double price){
+    public WinStatus(String bidId, boolean status, double price) {
         this.bidId = bidId;
         this.winner = status;
         this.price = price;

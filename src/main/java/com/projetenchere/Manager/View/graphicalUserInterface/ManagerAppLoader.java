@@ -11,6 +11,14 @@ import javafx.stage.Stage;
 public class ManagerAppLoader extends Application {
     private static ManagerController controllerInstance;
 
+    public static ManagerController getControllerInstance() {
+        return controllerInstance;
+    }
+
+    public static void launchApp() {
+        launch(ManagerAppLoader.class);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ManagerGraphicalUserInterface.fxml"));
@@ -31,14 +39,6 @@ public class ManagerAppLoader extends Application {
             }
             controllerInstance.init();
         });
-    }
-
-    public static ManagerController getControllerInstance() {
-        return controllerInstance;
-    }
-
-    public static void launchApp() {
-        launch(ManagerAppLoader.class);
     }
 }
 

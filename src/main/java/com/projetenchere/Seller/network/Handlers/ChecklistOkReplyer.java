@@ -26,7 +26,6 @@ public class ChecklistOkReplyer implements IDataHandler {
                 WinStatus status;
 
 
-
                 if (SignatureUtil.verifyDataSignature(
                         "ok".getBytes(),
                         signedPublicKey.getOkSigned(),
