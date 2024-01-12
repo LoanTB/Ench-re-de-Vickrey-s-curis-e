@@ -13,11 +13,30 @@
             </padding>
         </VBox>
     </ScrollPane>
-    <Label fx:id="checkCurrentBidsVBoxTitle" styleClass="title-label" text="Sélectionner une enchère" />
+   <HBox alignment="TOP_CENTER" prefHeight="80.0" prefWidth="750.0" style="-fx-spacing: 5px;">
+      <children>
+         <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+            <children>
+                <Label fx:id="checkCurrentBidsVBoxTitle" styleClass="title-label" text="Sélectionnez une enchère">
+                  <HBox.margin>
+                     <Insets bottom="5.0" left="20.0" top="5.0" />
+                  </HBox.margin></Label>
+            </children>
+         </HBox>
+         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+            <children>
+               <Button mnemonicParsing="false" style="-fx-alignment: right;" text="Rafraichir">
+                  <HBox.margin>
+                     <Insets bottom="5.0" right="20.0" top="5.0" />
+                  </HBox.margin></Button>
+            </children>
+         </HBox>
+      </children>
+      <opaqueInsets>
+         <Insets />
+      </opaqueInsets>
+   </HBox>
     <VBox spacing="10" styleClass="vbox-content">
-        <padding>
-            <Insets bottom="10" left="10" right="10" top="10" />
-        </padding>
         <TableView fx:id="auctionsTableView" prefHeight="201.0" prefWidth="730.0" styleClass="table-view">
             <columns>
                 <TableColumn fx:id="nameColumn" text="Nom" />
@@ -25,7 +44,7 @@
                 <TableColumn fx:id="endDateColumn" text="Fin" />
             </columns>
         </TableView>
-        <HBox spacing="10" styleClass="hbox-container">
+        <HBox alignment="TOP_CENTER" spacing="10" style="-fx-alignment: center;" styleClass="hbox-container">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
