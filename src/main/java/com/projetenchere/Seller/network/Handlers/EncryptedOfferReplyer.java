@@ -1,6 +1,7 @@
 package com.projetenchere.Seller.network.Handlers;
 
 import com.projetenchere.Seller.Model.Seller;
+import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.WinStatus;
@@ -23,6 +24,7 @@ public class EncryptedOfferReplyer implements IDataHandler {
                 try {
                     EncryptedOffer offer = (EncryptedOffer) data;
                     seller.verifyAndAddOffer(offer);
+                    SellerGraphicalUserInterface.getInstance().addLogMessage("Nouvelle offre reçue !");
                     while (!seller.getMyBid().isOver()) {
                         wait(1000);
                     }

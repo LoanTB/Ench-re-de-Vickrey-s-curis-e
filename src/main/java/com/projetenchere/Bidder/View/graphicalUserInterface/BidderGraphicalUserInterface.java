@@ -109,6 +109,8 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
             textAskPrice.setManaged(false);
             checkCurrentBidsVBoxTitle.setVisible(false);
             checkCurrentBidsVBoxTitle.setManaged(false);
+            refreshButton.setVisible(false);
+            refreshButton.setManaged(false);
             offer = new Offer(selectedBid.getId(),offerAmountTextField.getText());
         }
     }
