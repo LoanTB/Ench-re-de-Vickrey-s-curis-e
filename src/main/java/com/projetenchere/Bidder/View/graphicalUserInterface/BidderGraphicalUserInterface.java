@@ -70,7 +70,7 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
         } else if (bidder == null){
             addLogMessage("Erreur : Ce n'est pas encore le moment d'enchérrir");
         } else {
-            offer = new Offer(bidder.getSignature(),selectedBid.getId(),offerAmountTextField.getText());
+            offer = new Offer(selectedBid.getId(),offerAmountTextField.getText());
         }
     }
 

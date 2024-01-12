@@ -115,7 +115,6 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
         }
     }
 
-    @Override
     public LocalDateTime askBidEndTime() {
         boolean checkType = true;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");

@@ -29,7 +29,7 @@ public class SellerAppLoader extends Application {
         new Thread(() -> {
             controllerInstance.createMyBid();
             controllerInstance.sendMyBid();
-            controllerInstance.receiveOffersUntilBidEndAndSendResults();
+            controllerInstance.receiveOkUntilCheckEndAndSendResults();
             try {
                 controllerInstance.sendEncryptedOffersSet();
             } catch (Exception e) {
