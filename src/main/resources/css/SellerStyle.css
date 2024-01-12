@@ -74,3 +74,7 @@
 .button:hover {
     -fx-background-color: #4cae4c;
 }
+
+.combo-box {
+    -fx-pref-height: 200px; /* Ajustez cette valeur pour correspondre à la largeur de vos TextField */
+}
