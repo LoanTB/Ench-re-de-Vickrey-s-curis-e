@@ -26,7 +26,7 @@ public class SSLSocketFactory implements ISocketFactory{
                     if (!f.createNewFile()) throw new IOException();
                     System.out.println("dansleif");
                     FileWriter writer = new FileWriter(f);
-                    writer.write("127.0.0.0");
+                    writer.write("127.0.0.1");
                     writer.close();
                 }
 
