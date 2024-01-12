@@ -82,7 +82,7 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     @Override
     public void tellOfferSent(){
-        showMessage("Votre offre a bien été envoyé");
+        showMessage("Votre offre a bien été envoyée");
     }
 
     @Override
@@ -97,7 +97,7 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     @Override
     public void tellWaitBidsPublicKeysAnnoncement() {
-        showMessage("Attente/Verification de reception des clés des enchères en cours...");
+        showMessage("Attente/Verification de réception des clés des enchères en cours...");
     }
 
     @Override
@@ -139,22 +139,22 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     @Override
     public void tellReceiptOfCurrentBids() {
-        showMessage("Reception des enchères actuelles");
+        showMessage("Réception des enchères actuelles");
     }
 
     @Override
     public void tellReceiptOfEncryptionKeysForCurrentBids() {
-        showMessage("Reception des clés de chiffrement des enchères actuelles");
+        showMessage("Réception des clés de chiffrement des enchères actuelles");
     }
 
     @Override
     public void tellReceiptOfBidResult(String id) {
-        showMessage("Reception des résultats de l'enchère "+id);
+        showMessage("Réception des résultats de l'enchère "+id);
     }
 
     @Override
     public void tellSendRequestOffers() {
-        showMessage("Envoie de la demande d'enchères actuelles au gestionnaire");
+        showMessage("Envoi de la demande d'enchères actuelles au gestionnaire");
     }
 
     @Override

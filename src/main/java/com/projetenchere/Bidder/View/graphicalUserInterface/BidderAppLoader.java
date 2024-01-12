@@ -19,7 +19,7 @@ public class BidderAppLoader extends Application {
         SellerGraphicalUserInterface.getInstance().setPrimaryStage(primaryStage);
 
         primaryStage.setScene(new Scene(root));
-        primaryStage.setTitle("Bidder");
+        primaryStage.setTitle("SecureWin Bidder");
         primaryStage.show();
 
         new Thread(() -> {

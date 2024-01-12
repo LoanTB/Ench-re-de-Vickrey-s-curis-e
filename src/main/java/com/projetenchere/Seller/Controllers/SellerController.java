@@ -76,6 +76,8 @@ public class SellerController extends Controller {
         while (auctionInProgress()) {
             waitSynchro(1000);
         }
+        ui.addLogMessage("Enchère finie !");
+        ui.addLogMessage("Envoie de la demande de résolution au gestionnaire.");
         server.addHandler(Headers.GET_WIN_STATUS, new ChecklistOkReplyer());
         seller.resultsAreReady();
         server.removeHandler(Headers.SEND_OFFER);
@@ -93,6 +95,8 @@ public class SellerController extends Controller {
         SignedEncryptedOfferSet offers = seller.getEncryptedOffersSignedBySeller();
         ui.displayEncryptedOffersSet();
         this.setWinner(client.sendEncryptedOffersSet(offers));
+        ui.addLogMessage("Le prix gagnant est "+winner.price()+"€");
+        ui.addLogMessage("Résultats envoyés aux enchérisseurs.");
     }
 
     public void displayHello() {

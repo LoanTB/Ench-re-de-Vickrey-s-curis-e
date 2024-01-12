@@ -154,7 +154,7 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void tellOfferSent() {
-        addLogMessage("Votre offre a bien été envoyé");
+        addLogMessage("Votre offre a bien été envoyée");
     }
 
     @Override
@@ -209,12 +209,12 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void tellReceivingInformationOf(String id, String type) {
-        addLogMessage("Reception d'information de "+type+" "+id);
+        addLogMessage("Réception d'information de "+type+" "+id);
     }
 
     @Override
     public void tellReceiptOfCurrentBids() {
-        addLogMessage("Reception des enchères actuelles");
+        addLogMessage("Réception des enchères actuelles");
     }
 
     @Override
