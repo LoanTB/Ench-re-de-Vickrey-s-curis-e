@@ -42,6 +42,15 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
         startDateColumn.setCellValueFactory(new PropertyValueFactory<>("debut"));
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("fin"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        for (TableColumn<?, ?> column : auctionsTableView.getColumns()) {
+            column.setPrefWidth(auctionsTableView.getWidth() / auctionsTableView.getColumns().size());
+        }
+        auctionsTableView.widthProperty().addListener((observable, oldValue, newValue) -> {
+            for (TableColumn<?, ?> column : auctionsTableView.getColumns()) {
+                column.setPrefWidth(auctionsTableView.getWidth() / auctionsTableView.getColumns().size());
+            }
+        });
     }
 
     @FXML

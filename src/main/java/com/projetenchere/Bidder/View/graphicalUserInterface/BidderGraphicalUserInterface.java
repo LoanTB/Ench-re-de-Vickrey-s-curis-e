@@ -55,6 +55,14 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
                 selectedBid = currentBids.getBid(auctionsTableView.getSelectionModel().getSelectedItem().getId());
             }
         });
+        for (TableColumn<?, ?> column : auctionsTableView.getColumns()) {
+            column.setPrefWidth(auctionsTableView.getWidth() / auctionsTableView.getColumns().size());
+        }
+        auctionsTableView.widthProperty().addListener((observable, oldValue, newValue) -> {
+            for (TableColumn<?, ?> column : auctionsTableView.getColumns()) {
+                column.setPrefWidth(auctionsTableView.getWidth() / auctionsTableView.getColumns().size());
+            }
+        });
     }
 
     @Override
