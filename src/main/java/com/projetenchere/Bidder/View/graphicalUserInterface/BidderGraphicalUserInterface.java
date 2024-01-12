@@ -1,5 +1,6 @@
 package com.projetenchere.Bidder.View.graphicalUserInterface;
 
+import com.projetenchere.Bidder.Controllers.BidderController;
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.common.Models.Bid;
@@ -20,8 +21,8 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     public Label checkCurrentBidsVBoxTitle;
     @FXML
     public Label labelVBoxTitle;
-    private Offer offer = null;
-
+    @FXML
+    public Button refreshButton;
     @FXML
     public Label textAskPrice;
     @FXML
@@ -34,17 +35,15 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     private TableColumn<ItemBidderTable, String> descriptionColumn;
     @FXML
     private TableColumn<ItemBidderTable, String> endDateColumn;
-
     @FXML
     private TextField offerAmountTextField;
     @FXML
     private Button submitOfferButton;
 
     private CurrentBids currentBids;
-
     private Bid selectedBid;
-
     private Bidder bidder = null;
+    private Offer offer = null;
 
     public void initialize() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
@@ -54,6 +53,9 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
             if (event.getClickCount() > 0 && auctionsTableView.getSelectionModel().getSelectedItem() != null) {
                 selectedBid = currentBids.getBid(auctionsTableView.getSelectionModel().getSelectedItem().getId());
             }
+        });
+        refreshButton.setOnAction(actionEvent -> {
+            BidderAppLoader.getControllerInstance().initWithManager();
         });
         for (TableColumn<?, ?> column : auctionsTableView.getColumns()) {
             column.setPrefWidth(auctionsTableView.getWidth() / auctionsTableView.getColumns().size());
@@ -195,7 +197,7 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void tellWaitManagerSecurityInformations() {
-        addLogMessage("Attente des informations de sécurité du gestionnaire...");
+        addLogMessage("Demande des informations de sécurité du gestionnaire");
     }
 
     @Override
