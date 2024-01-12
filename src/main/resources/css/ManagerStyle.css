@@ -1,5 +1,4 @@
 .vbox-main {
-    /* Styles pour le VBox principal */
     -fx-background-color: #f0f0f0;
     -fx-padding: 10;
     -fx-spacing: 10;
@@ -15,19 +14,16 @@
 }
 
 .scroll-pane {
-    /* Styles pour le ScrollPane */
     -fx-background: white;
     -fx-border-color: #cccccc;
     -fx-border-width: 1;
 }
 
 .vbox-content {
-    /* Styles pour le contenu de VBox à l'intérieur du ScrollPane */
     -fx-spacing: 8;
 }
 
 .table-view {
-    /* Styles pour TableView */
     -fx-font-size: 14px;
     -fx-border-color: #cccccc;
     -fx-border-width: 1;
@@ -38,14 +34,6 @@
 
     -fx-background-color: #e6e6e6;
 }
-
-/*.table-view .table-row-cell {
-
-    -fx-padding: 10px;
-    -fx-border-color: transparent;
-    -fx-border-width: 0 0 1 0;
-    -fx-border-style: solid;
-}*/
 
 .label {
     -fx-text-fill: #333333;

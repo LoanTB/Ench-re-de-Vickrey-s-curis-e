@@ -22,9 +22,12 @@
         <TextField fx:id="bidDescriptionTextField" promptText="Description de l'enchère" styleClass="text-field" />
         <HBox spacing="5" styleClass="hbox-date-time">
             <DatePicker fx:id="endDatePicker" editable="false" promptText="Date de fin" styleClass="date-picker" />
-            <ComboBox fx:id="hourComboBox" promptText="Heure" styleClass="combo-box, uniform-size" />
+            <ComboBox fx:id="hourComboBox" promptText="Heure" styleClass="combo-box" />
+            <Label text="h" styleClass="time-label" />
             <ComboBox fx:id="minuteComboBox" promptText="Minute" styleClass="combo-box" />
+            <Label text="m" styleClass="time-label" />
             <ComboBox fx:id="secondComboBox" promptText="Seconde" styleClass="combo-box" />
+            <Label text="s" styleClass="time-label" />
         </HBox>
         <Button fx:id="buttonCreate" onAction="#handleCreateBidButton" styleClass="button" text="Créer l'Enchère" />
     </VBox>
