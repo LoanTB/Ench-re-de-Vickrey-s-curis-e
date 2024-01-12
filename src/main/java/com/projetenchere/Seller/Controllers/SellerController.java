@@ -31,10 +31,6 @@ public class SellerController extends Controller {
         this.ui = ui;
     }
 
-    public Bid getMyBid() {
-        return seller.getMyBid();
-    }
-
     public void setWinner(Winner winner) {
         this.winner = winner;
         seller.setWinStatusMap(getBiddersWinStatus());
@@ -84,7 +80,6 @@ public class SellerController extends Controller {
             waitSynchro(1000);
         }
 
-        //server.removeHandler(Headers.GET_WIN_STATUS);
     }
 
     public void sendEncryptedOffersSet() throws Exception {
@@ -99,9 +94,6 @@ public class SellerController extends Controller {
         ui.displayHello();
     }
 
-    public void displayOfferReceived() {
-        ui.displayOfferReceived();
-    }
 
     public void displayWinner() {
         Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffersSet().getOffers();

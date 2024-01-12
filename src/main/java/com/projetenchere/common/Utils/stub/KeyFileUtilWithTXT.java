@@ -36,14 +36,12 @@ public class KeyFileUtilWithTXT implements I_KeyFileUtil {
         }
 
         File directoryConfig = new File(configPath);
-        if (!directoryConfig.exists()) {
-            if (directoryConfig.mkdirs()) {
-                System.out.println("Dossier de configuration créé avec succès : " + configPath);
-            } else {
-                System.err.println("Echec de la creation du dossier de config : " + configPath);
+        if(!directoryConfig.exists()){
+            if(directoryConfig.mkdirs()){
+
+            }else{
+                System.err.println("Echec de la creation du dossier de config : " +  configPath);
             }
-        } else {
-            System.out.println("Dossier de configuration déjà existant : " + configPath);
         }
     }
 
@@ -73,8 +71,6 @@ public class KeyFileUtilWithTXT implements I_KeyFileUtil {
             ObjectOutputStream clePriveeOut = new ObjectOutputStream(new FileOutputStream(privateKeyFile));
             clePriveeOut.writeObject(privateKey);
             clePriveeOut.close();
-
-            System.out.println("Clés stockées avec succès dans le répertoire config !");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {

@@ -31,7 +31,6 @@ public class SellerClient extends Client {
     }
 
     public Winner sendEncryptedOffersSet(SignedEncryptedOfferSet prices) {
-        System.out.println("sendEncryptedOfferSet");
         return fetchWithData(
                 toManager,
                 Headers.RESOLVE_BID,

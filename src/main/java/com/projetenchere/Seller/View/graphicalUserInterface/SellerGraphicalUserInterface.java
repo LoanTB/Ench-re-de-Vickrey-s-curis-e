@@ -134,38 +134,8 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
     }
 
     @Override
-    public void displayWinner(String winnerID, Double price) {
-        addLogMessage("Le grand gagnant est " + winnerID + " ! La mise à payer est de " + price + "€.");
-    }
-
-    @Override
-    public void displayOfferReceived() {
-        addLogMessage("Nouvelle offre reçue.");
-    }
-
-    @Override
     public void displayEncryptedOffersSet() {
 
-    }
-
-    public void displayEncryptedOffersSetent() {
-        addLogMessage("Prix chiffrés envoyés à l'autorité de gestion pour traitement...");
-    }
-
-    @Override
-    public void displayResultsSent() {
-        addLogMessage("Résultats envoyés aux enchérisseurs.");
-    }
-
-    @Override
-    public void displayBidReceived(String bid) {
-        addLogMessage("Enchère reçue :");
-        addLogMessage(bid + "\n");
-    }
-
-    @Override
-    public void waitOffers() {
-        addLogMessage("Attente d'offres...");
     }
 
     @Override
@@ -191,64 +161,9 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
     }
 
     @Override
-    public String readName() {
-        return null;
-    }
-
-    @Override
-    public String readSurname() {
-        return null;
-    }
-
-    @Override
-    public int readPort() {
-        return 0;
-    }
-
-    @Override
-    public void tellWaitManager() {
-        addLogMessage("Le gestionnaire des enchères semble indisponible, attente du gestionnaire...");
-    }
-
-    @Override
-    public void tellManagerFound() {
-        addLogMessage("Contact avec le gestionnaire établi !");
-    }
-
-    @Override
-    public void tellWaitManagerSecurityInformations() {
-        addLogMessage("Attente des informations de sécurité du gestionnaire...");
-    }
-
-    @Override
-    public void tellWaitWinnerDeclaration() {
-        addLogMessage("Attente des resultats de l'enchère...");
-    }
-
-    @Override
     public void displayBidCreated(Bid bid) {
         addLogMessage("Vous avez créé l'enchère : ");
         addLogMessage(bid.toString(false));
-    }
-
-    @Override
-    public void tellSuccessfulSecuringOfTheCommunicationChannelWithTheManager() {
-        addLogMessage("Sécurisation du canal de communication avec le gestionnaire réussie, demande des enchérisseurs potentiels actuels");
-    }
-
-    @Override
-    public void tellReceivingInformationOf(String id, String type) {
-        addLogMessage("Réception d'information de " + type + " " + id);
-    }
-
-    @Override
-    public void tellReceiptOfferByBidder(String id) {
-        addLogMessage("Réception d'une offre de l'enchérisseur " + id);
-    }
-
-    @Override
-    public void tellReceiptBidResult(String id) {
-        addLogMessage("Réception des résultats de l'enchère " + id);
     }
 
     @Override
@@ -256,8 +171,4 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
         addLogMessage("Envoie de l'enchère au gestionnaire...");
     }
 
-    @Override
-    public void tellManagerConfirmsReceipt() {
-        addLogMessage("Le gestionnaire confirme la recéption");
-    }
 }

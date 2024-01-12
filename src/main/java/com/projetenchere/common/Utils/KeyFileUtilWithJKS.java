@@ -20,9 +20,6 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     private static String KEYSTORE_FILEPATH;
     private static String CERT_FILEPATH;
 
-
-    //TODO : Penser à changer les Sysout et SysErr.
-
     public KeyFileUtilWithJKS() {
         String OS = System.getProperty("os.name").toLowerCase();
         String configPath = "";
@@ -43,12 +40,9 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
         File directoryConfig = new File(configPath);
         if (!directoryConfig.exists()) {
             if (directoryConfig.mkdirs()) {
-                //System.out.println("Dossier de configuration créé avec succès : " + configPath);
-            } else {
-                //System.err.println("Echec de la creation du dossier de config : " +  configPath);
+            }else{
+                System.err.println("Echec de la creation du dossier de config : " +  configPath);
             }
-        } else {
-            //System.out.println("Dossier de configuration déjà existant : " +  configPath);
         }
     }
 
@@ -62,24 +56,18 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     }
 
     @Override
-    public void generateAndSaveKeyPair() {
+    public void generateAndSaveKeyPair(){
         try {
             try {
                 // Commande pour générer une paire de clés dans .jks
-                String genKeyCommand = "keytool -genkeypair -alias " + KEYSTORE_ALIAS + " -keyalg " + KEY_ALGORITHM + " -keysize " + KEY_SIZE + " -keystore " + KEYSTORE_FILEPATH + " -validity " + VALIDITY_DAYS + " -dname \"CN=Secure, OU=Win, O=SecureWin, L=Montpellier, ST=Occitanie, C=FR\" -storepass " + KEYSTORE_PASSWORD + " -keypass " + KEYSTORE_PASSWORD;
-                //System.out.println("Generation du keystore en cours ...");
-                //System.out.println(genKeyCommand);
+                String genKeyCommand = "keytool -genkeypair -alias "+ KEYSTORE_ALIAS +" -keyalg "+KEY_ALGORITHM+" -keysize "+KEY_SIZE+" -keystore "+ KEYSTORE_FILEPATH +" -validity "+VALIDITY_DAYS+" -dname \"CN=Secure, OU=Win, O=SecureWin, L=Montpellier, ST=Occitanie, C=FR\" -storepass "+KEYSTORE_PASSWORD+" -keypass "+KEYSTORE_PASSWORD;
+
                 boolean result = executeCommand(genKeyCommand);
                 if (result) {
                     // Commande pour exporter le certificat associé au .jks
-                    String exportCertCommand = "keytool -export -alias " + KEYSTORE_ALIAS + " -file " + CERT_FILEPATH + " -keystore " + KEYSTORE_FILEPATH + " -storepass " + KEYSTORE_PASSWORD + " -keypass " + KEYSTORE_PASSWORD;
-                    //System.out.println("Exportation du certificat en cours ...");
-                    //System.out.println(exportCertCommand);
+                    String exportCertCommand = "keytool -export -alias "+ KEYSTORE_ALIAS +" -file "+CERT_FILEPATH+" -keystore "+KEYSTORE_FILEPATH+" -storepass "+KEYSTORE_PASSWORD+" -keypass "+KEYSTORE_PASSWORD;
 
-                    result = executeCommand(exportCertCommand);
-                    if (result) {
-                        System.out.println("Commande de generation de certificat reussie !"); //TODO : retourner true pour que l'UI affiche le message.
-                    }
+                    result= executeCommand(exportCertCommand);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

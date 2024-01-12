@@ -27,13 +27,11 @@ public class SSLSocketFactory implements ISocketFactory {
                 if (!f.exists()) {
                     // Créer le fichier et écrire l'adresse IP
                     if (!f.createNewFile()) throw new IOException();
-                    System.out.println("dansleif");
                     FileWriter writer = new FileWriter(f);
                     writer.write("127.0.0.1");
                     writer.close();
                 }
 
-                System.out.println("Fichier managerIp.txt créé avec succès à l'emplacement : " + destinationPath);
             } catch (IOException e) {
                 throw new RuntimeException("Une erreur s'est produite lors de la création du fichier managerIp.txt.", e);
             }
@@ -42,7 +40,6 @@ public class SSLSocketFactory implements ISocketFactory {
             String destinationPath = System.getProperty("user.home") + "/.config/securewin/ssl/keystore.jks";
             try {
                 copyJksFromInputStream(destinationPath);
-                System.out.println("Copie réussie de " + sourcePath + " vers " + destinationPath);
             } catch (Exception e) {
                 e.printStackTrace();
             }

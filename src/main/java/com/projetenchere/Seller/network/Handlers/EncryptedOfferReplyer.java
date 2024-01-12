@@ -26,9 +26,6 @@ public class EncryptedOfferReplyer implements IDataHandler {
                         wait(1000);
                     }
                     seller.reSignedEncryptedOffers();
-                    for (EncryptedOffer o : seller.getEncryptedOffersSignedBySeller().getSet().offers) {
-                        System.out.println("handler :" + o.getPrice());
-                    }
 
                     while (!seller.isResultsReady()) {
                         wait(1000);

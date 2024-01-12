@@ -43,7 +43,7 @@ public class ChecklistOkReplyer implements IDataHandler {
                 while (!seller.resultsAreIn()) {
                     wait(1000);
                 }
-                System.out.println("ResultsAregood!");
+
                 if (bidderPk == null) {
                     status = new WinStatus(seller.getMyBid().getId(), false, 0);
                 } else {
