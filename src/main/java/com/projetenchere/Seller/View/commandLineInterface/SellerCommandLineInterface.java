@@ -171,17 +171,17 @@ public class SellerCommandLineInterface implements ISellerUserInterface {
 
     @Override
     public void tellReceiptOfferByBidder(String id) {
-        showMessage("Reception d'une offre de l'enchérisseur "+id);
+        showMessage("Réception d'une offre de l'enchérisseur "+id);
     }
 
     @Override
     public void tellReceiptBidResult(String id) {
-        showMessage("Reception des résultats de l'enchère "+id);
+        showMessage("Réception des résultats de l'enchère "+id);
     }
 
     @Override
     public void tellSendBidToManager() {
-        showMessage("Envoie de l'enchère au manager...");
+        showMessage("Envoi de l'enchère au manager...");
     }
 
     @Override

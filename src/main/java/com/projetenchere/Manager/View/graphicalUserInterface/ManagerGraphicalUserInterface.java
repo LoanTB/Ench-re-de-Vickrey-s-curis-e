@@ -70,10 +70,10 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
     }
 
     public void diplayEndBid(String idBid){
-        addLogMessage("L'enchère "+ idBid +" à été résolu.");
+        addLogMessage("L'enchère "+ idBid +" a été résolue.");
         for (ItemManagerTable item:auctionsTableView.getItems()){
             if (item.getId().equals(idBid)){
-                item.statusProperty().set("Finie");
+                item.statusProperty().set("Fini");
                 break;
             }
         }

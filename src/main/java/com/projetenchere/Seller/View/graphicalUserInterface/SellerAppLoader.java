@@ -19,7 +19,7 @@ public class SellerAppLoader extends Application {
         SellerGraphicalUserInterface.getInstance().setPrimaryStage(primaryStage);
 
         primaryStage.setScene(new Scene(root));
-        primaryStage.setTitle("Seller");
+        primaryStage.setTitle("Seller Bidder");
         primaryStage.show();
 
         controllerInstance = new SellerController((SellerGraphicalUserInterface) SellerGraphicalUserInterface.getInstance());

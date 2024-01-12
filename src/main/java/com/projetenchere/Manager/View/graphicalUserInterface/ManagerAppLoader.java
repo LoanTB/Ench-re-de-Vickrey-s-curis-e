@@ -18,7 +18,7 @@ public class ManagerAppLoader extends Application {
         ManagerGraphicalUserInterface.setInstance(loader.getController());
 
         primaryStage.setScene(new Scene(root));
-        primaryStage.setTitle("Manager");
+        primaryStage.setTitle("SecureWin Manager");
         primaryStage.show();
 
         Platform.runLater(() -> {
