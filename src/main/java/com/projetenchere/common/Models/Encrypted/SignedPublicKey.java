@@ -8,11 +8,11 @@ import java.security.Signature;
 import java.security.SignatureException;
 
 public class SignedPublicKey implements Serializable {
-    private final byte[] publicKeySigned;
+    private final byte[] okSigned;
     private final PublicKey publicKey ;
 
     public SignedPublicKey(PublicKey publicKey, Signature signature) throws SignatureException {
-        this.publicKeySigned = SignatureUtil.signData(publicKey, signature);
+        this.okSigned = SignatureUtil.signData("ok".getBytes(), signature);
         this.publicKey = publicKey;
     }
 
@@ -20,7 +20,7 @@ public class SignedPublicKey implements Serializable {
         return publicKey;
     }
 
-    public byte[] getPublicKeySigned() {
-        return publicKeySigned;
+    public byte[] getOkSigned() {
+        return okSigned;
     }
 }

@@ -73,14 +73,19 @@ public class BidderController extends Controller {
         participatedBid.add(offer.getIdBid());
         client.connectToSeller(bid.getSellerSocketAddress());
         ui.tellOfferSent();
+        System.out.println("avant sendOfferReceiveList");
         SignedEncryptedOfferSet set = client.sendOfferReceiveList(encryptedOffer);
-        if(!set.getSet().getOffers().contains(encryptedOffer)) {
+        System.out.println("après sendOfferReceiveList");
+        /*if(!set.getSet().contains(encryptedOffer)) {
             client.stopEverything();
             throw new BidAbortedException("Offer was not present is set");
-        }
+        }*/
         client.stopManager();
         SignedPublicKey key = new SignedPublicKey(bidder.getKey(), bidder.getSignature());
+        System.out.println("Avant winstatus");
         WinStatus status = client.validateAndGetWinStatus(key);
+        System.out.println("après winstatus");
+
         this.results.put(bid.getId(), status);
         if (status.isWinner()) {
             ui.tellOfferWon(status.getPrice());

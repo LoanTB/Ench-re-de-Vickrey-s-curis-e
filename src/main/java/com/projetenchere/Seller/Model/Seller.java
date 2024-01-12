@@ -21,8 +21,19 @@ public class Seller extends User{
     private SignedEncryptedOfferSet encryptedOffersSignedBySeller;
     private Bid myBid;
     private boolean resultsAreIn = false;
+    private boolean resultsReady = false;
+
 
     private Seller(){}
+
+    public synchronized boolean isResultsReady() {
+        return resultsReady;
+    }
+
+    public synchronized void resultsAreReady() {
+        this.resultsReady = true;
+    }
+
 
     public synchronized boolean resultsAreIn() {
         return resultsAreIn;
@@ -69,9 +80,6 @@ public class Seller extends User{
         this.myBid = bid;
     }
 
-    public Set<EncryptedOffer> getEncryptedOffers() {
-        return this.encryptedOffersReceived.getOffers();
-    }
     public EncryptedOffersSet getEncryptedOffersSet() {
         return this.encryptedOffersReceived;
     }
@@ -84,15 +92,16 @@ public class Seller extends User{
     public void setEncryptedOffersSignedBySeller(SignedEncryptedOfferSet encryptedOffersSignedBySeller){
         this.encryptedOffersSignedBySeller = encryptedOffersSignedBySeller;
     }
-    public synchronized SignedEncryptedOfferSet getEncryptedOffersSignedBySeller(){
+    public synchronized SignedEncryptedOfferSet getEncryptedOffersSignedBySeller() {
         return this.encryptedOffersSignedBySeller;
     }
 
 
-    public synchronized void verifyAndAddOffer(EncryptedOffer offer) throws SignatureException {
+    public synchronized void verifyAndAddOffer(EncryptedOffer offer) throws Exception {
         if (SignatureUtil.verifyDataSignature(offer.getPrice(), offer.getPriceSigned(), offer.getSignaturePublicKey())) {
             addBidder(offer.getSignaturePublicKey(), offer.getPrice());
-            getEncryptedOffers().add(offer);
+            getEncryptedOffersSet().getOffers().add(offer);
+            reSignedEncryptedOffers();
         }
     }
 
@@ -109,9 +118,6 @@ public class Seller extends User{
         SignedEncryptedOfferSet offersSignedbl = new SignedEncryptedOfferSet(this.getSignature(), this.getKey(), list);
 
         this.setEncryptedOffersSignedBySeller(offersSignedbl);
-        for(EncryptedOffer o : getEncryptedOffersSignedBySeller().getSet().offers){
-            System.out.println(o.getPrice());
-        }
     }
 
     public synchronized Set<PublicKey> getbiddersOk(){
