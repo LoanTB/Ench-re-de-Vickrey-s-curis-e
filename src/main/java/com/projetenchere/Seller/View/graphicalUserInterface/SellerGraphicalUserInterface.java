@@ -52,8 +52,8 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
         endDatePicker.setValue(currentDate);
         LocalTime now = LocalTime.now();
         hourComboBox.getSelectionModel().select(Integer.valueOf(now.getHour()));
-        minuteComboBox.getSelectionModel().select(Integer.valueOf(now.getMinute() + 2));
-        secondComboBox.getSelectionModel().select(Integer.valueOf(now.getSecond()));
+        minuteComboBox.getSelectionModel().select(Integer.valueOf((now.getMinute()+1)%60));
+        secondComboBox.getSelectionModel().select(Integer.valueOf((now.getSecond()+30)%60));
     }
 
     @FXML
