@@ -13,6 +13,7 @@ public class CertificatSSLFile {
         Path destination = Path.of(destinationPath);
         InputStream inputStream = ClassLoader.getSystemResourceAsStream("ssl/keystore.jks");
 
+        // Vérifier si le répertoire de destination existe, sinon le créer
         File destinationDirectory = destination.toFile().getParentFile();
         if (!destinationDirectory.exists()) {
             if (destinationDirectory.mkdirs()) {

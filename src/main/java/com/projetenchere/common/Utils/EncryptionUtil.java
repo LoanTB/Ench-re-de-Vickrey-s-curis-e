@@ -35,18 +35,22 @@ public class EncryptionUtil {
     }
 
     public static byte[] encrypt(byte[] data, PublicKey publicKey) throws Exception {
+        // Générer une clé AES aléatoire
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
         keyGen.init(256); // AES-256
         SecretKey aesKey = keyGen.generateKey();
 
+        // Chiffrer les données avec la clé AES
         Cipher aesCipher = Cipher.getInstance("AES");
         aesCipher.init(Cipher.ENCRYPT_MODE, aesKey);
         byte[] encryptedData = aesCipher.doFinal(data);
 
+        // Chiffrer la clé AES avec RSA
         Cipher rsaCipher = Cipher.getInstance("RSA");
         rsaCipher.init(Cipher.ENCRYPT_MODE, publicKey);
         byte[] encryptedKey = rsaCipher.doFinal(aesKey.getEncoded());
 
+        // Combiner la clé chiffrée et les données chiffrées
         ByteBuffer byteBuffer = ByteBuffer.allocate(4 + encryptedKey.length + encryptedData.length);
         byteBuffer.putInt(encryptedKey.length);
         byteBuffer.put(encryptedKey);
@@ -62,14 +66,17 @@ public class EncryptionUtil {
         byte[] encryptedKey = new byte[keyLength];
         byteBuffer.get(encryptedKey);
 
+        // Extraire les données chiffrées
         byte[] cipherText = new byte[byteBuffer.remaining()];
         byteBuffer.get(cipherText);
 
+        // Déchiffrer la clé AES avec RSA
         Cipher rsaCipher = Cipher.getInstance("RSA");
         rsaCipher.init(Cipher.DECRYPT_MODE, privateKey);
         byte[] aesKeyBytes = rsaCipher.doFinal(encryptedKey);
         SecretKey aesKey = new SecretKeySpec(aesKeyBytes, "AES");
 
+        // Déchiffrer les données avec la clé AES
         Cipher aesCipher = Cipher.getInstance("AES");
         aesCipher.init(Cipher.DECRYPT_MODE, aesKey);
         return aesCipher.doFinal(cipherText);

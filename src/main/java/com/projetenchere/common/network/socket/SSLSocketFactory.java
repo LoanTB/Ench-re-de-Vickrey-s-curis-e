@@ -20,9 +20,11 @@ public class SSLSocketFactory implements ISocketFactory {
             KeyStore keyStore = KeyStore.getInstance("JKS");
 
             try {
+                // Définir le chemin du fichier de destination
                 String destinationPath = System.getProperty("user.home") + "/.config/securewin/managerIp.txt";
                 File f = new File(destinationPath);
                 if (!f.exists()) {
+                    // Créer le fichier et écrire l'adresse IP
                     if (!f.createNewFile()) throw new IOException();
                     FileWriter writer = new FileWriter(f);
                     writer.write("127.0.0.1");
