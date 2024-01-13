@@ -6,7 +6,6 @@ out/
 target/
 
 # Fichiers de paquet
-*.jar
 *.war
 *.ear
 *.zip
