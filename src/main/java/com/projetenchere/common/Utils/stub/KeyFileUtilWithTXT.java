@@ -13,41 +13,38 @@ public class KeyFileUtilWithTXT implements I_KeyFileUtil {
     private static String FILE_PUBLIC_KEY;
     private static String FILE_PRIVATE_KEY;
 
-    public KeyFileUtilWithTXT(){
+    public KeyFileUtilWithTXT() {
         String OS = System.getProperty("os.name").toLowerCase();
         String configPath = "";
         String userHome = System.getProperty("user.home");
 
-        if(OS.contains("win")){
+        if (OS.contains("win")) {
             configPath = "C:\\Users\\Utilisateur\\AppData\\Local\\securewin";
-            FILE_PUBLIC_KEY = configPath+"\\cle_publique.txt";
-            FILE_PRIVATE_KEY = configPath+"\\cle_privee.txt";
+            FILE_PUBLIC_KEY = configPath + "\\cle_publique.txt";
+            FILE_PRIVATE_KEY = configPath + "\\cle_privee.txt";
         } else if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) {
-            configPath = userHome+"/.config/securewin";
-            FILE_PUBLIC_KEY = configPath+"/cle_publique.txt\"";
-            FILE_PRIVATE_KEY = configPath+"/cle_privee.txt";
-        } else if (OS.contains("mac")){
+            configPath = userHome + "/.config/securewin";
+            FILE_PUBLIC_KEY = configPath + "/cle_publique.txt\"";
+            FILE_PRIVATE_KEY = configPath + "/cle_privee.txt";
+        } else if (OS.contains("mac")) {
             configPath = userHome + "/Library/Application Support/securewin";
-            FILE_PUBLIC_KEY = configPath+"/cle_publique.txt";
-            FILE_PRIVATE_KEY = configPath+"/cle_privee.txt";
+            FILE_PUBLIC_KEY = configPath + "/cle_publique.txt";
+            FILE_PRIVATE_KEY = configPath + "/cle_privee.txt";
 
-        }else {
+        } else {
             System.err.println("Système non prix en charge !");
         }
 
         File directoryConfig = new File(configPath);
-        if(!directoryConfig.exists()){
-            if(directoryConfig.mkdirs()){
-                System.out.println("Dossier de configuration créé avec succès : " + configPath);
-            }else{
-                System.err.println("Echec de la creation du dossier de config : " +  configPath);
+        if (!directoryConfig.exists()) {
+            if (directoryConfig.mkdirs()) {
+
+            } else {
+                System.err.println("Echec de la creation du dossier de config : " + configPath);
             }
-        }else{
-            System.out.println("Dossier de configuration déjà existant : " +  configPath);
         }
     }
 
-    //TODO : SI ON VEUT UTILISER LE STUB SUR UN AUTRE OS CHANGER LES CHEMINS !!!!
     public void generateAndSaveKeyPair() {
         try {
             KeyPair keyPair = EncryptionUtil.generateKeyPair();
@@ -57,15 +54,15 @@ public class KeyFileUtilWithTXT implements I_KeyFileUtil {
             File ressources = new File("");
             System.out.println(ressources.getAbsolutePath());
 
-            File publicKeyFile = new File(ressources.getAbsolutePath()+"/src/main/resources/config/"+FILE_PUBLIC_KEY);
+            File publicKeyFile = new File(ressources.getAbsolutePath() + "/src/main/resources/config/" + FILE_PUBLIC_KEY);
             if (!publicKeyFile.exists()) {
-                    publicKeyFile.createNewFile(); // Créer le fichier s'il n'existe pas
+                publicKeyFile.createNewFile(); // Créer le fichier s'il n'existe pas
             }
             ObjectOutputStream clePubliqueOut = new ObjectOutputStream(new FileOutputStream(publicKeyFile));
             clePubliqueOut.writeObject(publicKey);
             clePubliqueOut.close();
 
-            File privateKeyFile = new File(ressources.getAbsolutePath()+"/src/main/resources/config/"+FILE_PRIVATE_KEY);
+            File privateKeyFile = new File(ressources.getAbsolutePath() + "/src/main/resources/config/" + FILE_PRIVATE_KEY);
             if (!privateKeyFile.exists()) {
                 privateKeyFile.createNewFile(); // Créer le fichier s'il n'existe pas
             }
@@ -73,8 +70,6 @@ public class KeyFileUtilWithTXT implements I_KeyFileUtil {
             ObjectOutputStream clePriveeOut = new ObjectOutputStream(new FileOutputStream(privateKeyFile));
             clePriveeOut.writeObject(privateKey);
             clePriveeOut.close();
-
-            System.out.println("Clés stockées avec succès dans le répertoire config !");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -83,7 +78,7 @@ public class KeyFileUtilWithTXT implements I_KeyFileUtil {
     }
 
     @Override
-    public boolean isKeyPairSaved() { //A SUPPRIMER JE PENSE
+    public boolean isKeyPairSaved() {
         File publicKeyFile = new File(FILE_PUBLIC_KEY);
         File privateKeyFile = new File(FILE_PRIVATE_KEY);
         return publicKeyFile.exists() && privateKeyFile.exists();

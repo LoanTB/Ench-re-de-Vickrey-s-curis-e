@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="500" prefWidth="750" styleClass="vbox-main"
+      stylesheets="/css/BidderStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      fx:controller="com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface">
+    <Label fx:id="labelVBoxTitle" styleClass="title-label" text="Log Box"/>
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="270" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
+        <VBox fx:id="messagesVBox" spacing="10" styleClass="vbox-content">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10"/>
+            </padding>
+        </VBox>
+    </ScrollPane>
+    <HBox alignment="TOP_CENTER" prefHeight="80.0" prefWidth="750.0" style="-fx-spacing: 5px;">
+        <children>
+            <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                  HBox.hgrow="ALWAYS">
+                <children>
+                    <Label fx:id="checkCurrentBidsVBoxTitle" styleClass="title-label" text="Sélectionnez une enchère">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="20.0" top="5.0"/>
+                        </HBox.margin>
+                    </Label>
+                </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                  HBox.hgrow="ALWAYS">
+                <children>
+                    <Button mnemonicParsing="false" text="Rafraichir" fx:id="refreshButton">
+                        <HBox.margin>
+                            <Insets bottom="5.0" right="20.0" top="5.0"/>
+                        </HBox.margin>
+                    </Button>
+                </children>
+            </HBox>
+        </children>
+        <opaqueInsets>
+            <Insets/>
+        </opaqueInsets>
+    </HBox>
+    <VBox spacing="10" styleClass="vbox-content">
+        <TableView fx:id="auctionsTableView" prefHeight="201.0" prefWidth="730.0" styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="nameColumn" text="Nom"/>
+                <TableColumn fx:id="descriptionColumn" text="Description"/>
+                <TableColumn fx:id="endDateColumn" text="Fin"/>
+            </columns>
+        </TableView>
+        <HBox alignment="TOP_CENTER" spacing="10" style="-fx-alignment: center;" styleClass="hbox-container">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10"/>
+            </padding>
+            <Label fx:id="textAskPrice" styleClass="label" text="Quel est votre prix ?" textAlignment="CENTER"/>
+            <TextField fx:id="offerAmountTextField" prefWidth="200" styleClass="text-field"/>
+            <Button fx:id="buttonCreate" onAction="#handleCreateBidButton" styleClass="button" text="Soumettre Offre"
+                    textAlignment="CENTER"/>
+        </HBox>
+    </VBox>
+</VBox>

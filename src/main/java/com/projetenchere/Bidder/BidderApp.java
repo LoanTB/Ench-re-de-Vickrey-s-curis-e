@@ -1,14 +1,9 @@
 package com.projetenchere.Bidder;
 
-import com.projetenchere.Bidder.Controllers.BidderController;
+import com.projetenchere.Bidder.View.graphicalUserInterface.BidderAppLoader;
 
 public class BidderApp {
-    public static void main(String[] args) throws Exception {
-        BidderController controller = new BidderController();
-        controller.displayHello();
-        controller.setSignatureConfig();
-        controller.initWithManager();
-        controller.showBids();
-        controller.readAndSendOffer();
+    public static void main(String[] args) {
+        BidderAppLoader.launchApp();
     }
 }

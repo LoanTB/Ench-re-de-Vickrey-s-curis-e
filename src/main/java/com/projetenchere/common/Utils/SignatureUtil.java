@@ -1,11 +1,9 @@
 package com.projetenchere.common.Utils;
 
-import java.security.Signature;
-import java.security.PublicKey;
-import java.security.PrivateKey;
-import java.security.SignatureException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.security.*;
 
 public class SignatureUtil {
     private static final String SIGNATURE_ALGORITHM = "SHA256withRSA";
@@ -25,6 +23,24 @@ public class SignatureUtil {
         return signature.sign();
     }
 
+    public static byte[] signData(Object data, Signature signature) throws SignatureException {
+        return signData(objectToArrayByte(data), signature);
+    }
+
+    public static byte[] objectToArrayByte(Object objetSerializable) {
+        byte[] tab = new byte[0];
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(objetSerializable);
+            tab = baos.toByteArray();
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return tab;
+    }
+
     public static boolean verifyDataSignature(byte[] data, byte[] signatureBytes, PublicKey publicKey) throws SignatureException {
         try {
             Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
@@ -35,4 +51,5 @@ public class SignatureUtil {
             throw new SignatureException(e);
         }
     }
+
 }

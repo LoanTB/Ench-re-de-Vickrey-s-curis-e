@@ -9,12 +9,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Server extends Thread{
+public class Server extends Thread {
     private final int port;
-    Map<Headers, IDataHandler> handlers = new HashMap<>();
     private final Map<ClientAcceptor<?>, Socket> connectedClients = new HashMap<>();
+    Map<Headers, IDataHandler> handlers = new HashMap<>();
 
     public Server(int port) {
         this.port = port;

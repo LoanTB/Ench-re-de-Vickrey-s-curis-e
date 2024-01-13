@@ -5,8 +5,8 @@ import java.security.Signature;
 
 public class User {
 
-    public Signature signature;
-    public PublicKey key;
+    private Signature signature;
+    private PublicKey key;
 
     public Signature getSignature() {
         return signature;

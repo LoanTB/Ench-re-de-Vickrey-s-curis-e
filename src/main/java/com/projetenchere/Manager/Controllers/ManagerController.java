@@ -5,11 +5,8 @@ import com.projetenchere.Manager.Handlers.EncryptedOffersSetReplyer;
 import com.projetenchere.Manager.Handlers.NewBidReplyer;
 import com.projetenchere.Manager.Handlers.PubKeyReplyer;
 import com.projetenchere.Manager.Model.Manager;
-import com.projetenchere.Manager.View.IManagerUserInterface;
-import com.projetenchere.Manager.View.commandLineInterface.ManagerCommandLineInterface;
-import com.projetenchere.common.Models.Bid;
+import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.common.Controllers.Controller;
-import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.Server;
@@ -17,32 +14,15 @@ import com.projetenchere.common.network.Server;
 import java.security.KeyPair;
 
 public class ManagerController extends Controller {
-    public final IManagerUserInterface ui = new ManagerCommandLineInterface();
-
-    private final CurrentBids currentBids = new CurrentBids();
-
     private final Manager manager = Manager.getInstance();
+    ManagerGraphicalUserInterface ui;
 
-    public ManagerController() throws Exception {}
+    public ManagerController(ManagerGraphicalUserInterface ui) {
+        this.ui = ui;
+    }
 
     public void setSignatureConfig() throws Exception {
-        setSignatureConfig(ui,manager);
-    }
-
-    public CurrentBids getCurrentBids() {
-        return currentBids;
-    }
-
-    public void addBid(Bid bid) throws Exception {
-        currentBids.addCurrentBid(bid);
-    }
-
-    public void startAllBids(){
-        currentBids.startAllBids();
-    }
-
-    public void startBid(String idBid) {
-        currentBids.startBids(idBid);
+        setSignatureConfig(ui, manager);
     }
 
     public void init() {
@@ -59,18 +39,8 @@ public class ManagerController extends Controller {
         ui.tellManagerReadyToProcessBids();
     }
 
-    public void launchBids(){
-        ui.displayBidLaunch();
-        startAllBids();
-    }
-
-    public void launchBid(String idBid){
-        startBid(idBid);
-    }
-
-    public void displayHello(){
+    public void displayHello() {
         ui.displayHello();
     }
-
 
 }

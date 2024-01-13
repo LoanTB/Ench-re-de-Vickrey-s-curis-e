@@ -10,10 +10,12 @@ public class Bid implements Serializable {
     private final String id;
     private final String name;
     private final String description;
-    private LocalDateTime startDateTime = null;
     private final LocalDateTime endDateTime;
-    private final InetSocketAddress sellerInformations;
-    private final PublicKey pubKeySignatureSeller;
+    private LocalDateTime startDateTime = null;
+    private InetSocketAddress sellerInformations;
+    private PublicKey pubKeySignatureSeller;
+
+    private boolean canceled;
 
     public Bid(String id, String name, String description, LocalDateTime endDateTime, InetSocketAddress sellerInformations, PublicKey pubKeySignatureSeller) {
         this.id = id;
@@ -23,6 +25,17 @@ public class Bid implements Serializable {
         this.sellerInformations = sellerInformations;
         this.startDateTime = LocalDateTime.now();
         this.pubKeySignatureSeller = pubKeySignatureSeller;
+        this.canceled = false;
+    }
+
+    public Bid(String id, String name, String description, LocalDateTime endDateTime) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.endDateTime = endDateTime;
+        this.sellerInformations = null;
+        this.startDateTime = LocalDateTime.now();
+        this.pubKeySignatureSeller = null;
     }
 
     public String getId() {
@@ -49,11 +62,11 @@ public class Bid implements Serializable {
         return this.sellerInformations;
     }
 
-    public PublicKey getSellerSignaturePublicKey(){
+    public PublicKey getSellerSignaturePublicKey() {
         return pubKeySignatureSeller;
     }
 
-    public void startBid(){
+    public void startBid() {
         startDateTime = LocalDateTime.from(LocalDateTime.now());
     }
 
@@ -63,15 +76,19 @@ public class Bid implements Serializable {
     }
 
     public String toString(boolean withStartDate) {
-        return "Id : " + id +
-                "\nNom : " + name +
-                (withStartDate ? "\nDate de début : " + startDateTime.toString() : "") +
-                "\nDescription : " + description + "." +
-                "\nDate de fin : " + endDateTime.toString() + ".";
+        return "Id : " + id + "\nNom : " + name + (withStartDate ? "\nDate de début : " + startDateTime.toString() : "") + "\nDescription : " + description + "." + "\nDate de fin : " + endDateTime.toString() + ".";
     }
 
     public boolean isOver() {
         LocalDateTime now = LocalDateTime.now();
         return now.isAfter(endDateTime);
+    }
+
+    public void setSellerInformations(InetSocketAddress sellerInformations) {
+        this.sellerInformations = sellerInformations;
+    }
+
+    public void setPubKeySignatureSeller(PublicKey pubKeySignatureSeller) {
+        this.pubKeySignatureSeller = pubKeySignatureSeller;
     }
 }

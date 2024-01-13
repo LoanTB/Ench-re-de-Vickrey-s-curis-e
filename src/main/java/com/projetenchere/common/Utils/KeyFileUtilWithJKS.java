@@ -1,6 +1,11 @@
 package com.projetenchere.common.Utils;
-import java.io.*;
-import java.security.*;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
@@ -15,78 +20,54 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     private static String KEYSTORE_FILEPATH;
     private static String CERT_FILEPATH;
 
-
-    //TODO : Penser à changer les Sysout et SysErr.
-
     public KeyFileUtilWithJKS() {
         String OS = System.getProperty("os.name").toLowerCase();
         String configPath = "";
         String userHome = System.getProperty("user.home");
 
-
-        if(OS.contains("win")){
-            configPath = "C:\\Users\\Utilisateur\\AppData\\Local\\securewin";
-            KEYSTORE_FILEPATH = configPath+"\\config_signature_keypair.jks";
-            CERT_FILEPATH = configPath+"\\config_signature_certificat.cer";
-        } else if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) {
-            configPath = userHome+"/.config/securewin";
-            KEYSTORE_FILEPATH = configPath+"/config_signature_keypair.jks";
-            CERT_FILEPATH = configPath+"/config_signature_certificat.cer";
-        } else if (OS.contains("mac")){
-            configPath = userHome + "/Library/Application Support/securewin";
-            KEYSTORE_FILEPATH = configPath+"/config_signature_keypair.jks";
-            CERT_FILEPATH = configPath+"/config_signature_certificat.cer";
-
-        }else {
-            System.err.println("Système non prix en charge !");
+        if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) {
+            configPath = userHome + "/.config/securewin";
+            KEYSTORE_FILEPATH = configPath + "/config_signature_keypair.jks";
+            CERT_FILEPATH = configPath + "/config_signature_certificat.cer";
+        } else if (OS.contains("windows")) {
+            configPath = userHome + "/.config/securewin";
+            KEYSTORE_FILEPATH = configPath + "/config_signature_keypair.jks";
+            CERT_FILEPATH = configPath + "/config_signature_certificat.cer";
+        } else {
+            System.err.println("Système non prix en charge : " + OS);
         }
 
         File directoryConfig = new File(configPath);
-        if(!directoryConfig.exists()){
-            if(directoryConfig.mkdirs()){
-                System.out.println("Dossier de configuration créé avec succès : " + configPath);
-            }else{
-                System.err.println("Echec de la creation du dossier de config : " +  configPath);
+        if (!directoryConfig.exists()) {
+            if (directoryConfig.mkdirs()) {
+            } else {
+                System.err.println("Echec de la creation du dossier de config : " + configPath);
             }
-        }else{
-            System.out.println("Dossier de configuration déjà existant : " +  configPath);
         }
     }
 
 
     public static boolean executeCommand(String command) throws IOException, InterruptedException {
 
-        ProcessBuilder processBuilder = new ProcessBuilder("bash","-c",command);
+        ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", command);
         Process process = processBuilder.start();
         int exitCode = process.waitFor();
-        if(exitCode==0){
-            System.out.println("Le processus a réussie !");
-            return true;
-        }else{
-            System.err.println("Le processus a échoué");
-            return false;
-        }
+        return exitCode == 0;
     }
 
     @Override
-    public void generateAndSaveKeyPair(){
+    public void generateAndSaveKeyPair() {
         try {
             try {
                 // Commande pour générer une paire de clés dans .jks
-                String genKeyCommand = "keytool -genkeypair -alias "+ KEYSTORE_ALIAS +" -keyalg "+KEY_ALGORITHM+" -keysize "+KEY_SIZE+" -keystore "+ KEYSTORE_FILEPATH +" -validity "+VALIDITY_DAYS+" -dname \"CN=Secure, OU=Win, O=SecureWin, L=Montpellier, ST=Occitanie, C=FR\" -storepass "+KEYSTORE_PASSWORD+" -keypass "+KEYSTORE_PASSWORD;
-                System.out.println("Generation du keystore en cours ...");
-                System.out.println(genKeyCommand);
-                boolean result = executeCommand(genKeyCommand);
-                if(result){
-                    // Commande pour exporter le certificat associé au .jks
-                    String exportCertCommand = "keytool -export -alias "+ KEYSTORE_ALIAS +" -file "+CERT_FILEPATH+" -keystore "+KEYSTORE_FILEPATH+" -storepass "+KEYSTORE_PASSWORD+" -keypass "+KEYSTORE_PASSWORD;
-                    System.out.println("Exportation du certificat en cours ...");
-                    System.out.println(exportCertCommand);
+                String genKeyCommand = "keytool -genkeypair -alias " + KEYSTORE_ALIAS + " -keyalg " + KEY_ALGORITHM + " -keysize " + KEY_SIZE + " -keystore " + KEYSTORE_FILEPATH + " -validity " + VALIDITY_DAYS + " -dname \"CN=Secure, OU=Win, O=SecureWin, L=Montpellier, ST=Occitanie, C=FR\" -storepass " + KEYSTORE_PASSWORD + " -keypass " + KEYSTORE_PASSWORD;
 
-                    result= executeCommand(exportCertCommand);
-                    if(result){
-                        System.out.println("Commande de generation de certificat reussie !");
-                    }
+                boolean result = executeCommand(genKeyCommand);
+                if (result) {
+                    // Commande pour exporter le certificat associé au .jks
+                    String exportCertCommand = "keytool -export -alias " + KEYSTORE_ALIAS + " -file " + CERT_FILEPATH + " -keystore " + KEYSTORE_FILEPATH + " -storepass " + KEYSTORE_PASSWORD + " -keypass " + KEYSTORE_PASSWORD;
+
+                    result = executeCommand(exportCertCommand);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -97,14 +78,14 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     }
 
     @Override
-    public boolean isKeyPairSaved(){
+    public boolean isKeyPairSaved() {
         try {
             File keyStoreFile = new File(KEYSTORE_FILEPATH);
-            if(!keyStoreFile.exists()){
+            if (!keyStoreFile.exists()) {
                 return false;
             }
             File certificateFIle = new File(CERT_FILEPATH);
-            if(!certificateFIle.exists()){
+            if (!certificateFIle.exists()) {
                 return false;
             }
 

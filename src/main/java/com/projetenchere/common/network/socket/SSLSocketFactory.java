@@ -1,19 +1,48 @@
 package com.projetenchere.common.network.socket;
 
 import javax.net.ssl.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.security.KeyStore;
 
-public class SSLSocketFactory implements ISocketFactory{
-    //TODO: gérer les exceptions correctement
+import static com.projetenchere.common.Utils.CertificatSSLFile.copyJksFromInputStream;
+
+
+public class SSLSocketFactory implements ISocketFactory {
     protected SSLContext sslContext;
 
     public SSLSocketFactory() {
         try {
             char[] password = ";oW+~E8T65DKiZny{hAD?~kH-e;:{E)*n?U:lUv6MOPnEc/l[k5tQ')8O48YGsJI".toCharArray(); // Keystore password
             KeyStore keyStore = KeyStore.getInstance("JKS");
-            FileInputStream keyStoreFile = new FileInputStream(System.getProperty("user.home") + "/.config/securewin/ssl/keystore.jks");
+
+            try {
+                // Définir le chemin du fichier de destination
+                String destinationPath = System.getProperty("user.home") + "/.config/securewin/managerIp.txt";
+                File f = new File(destinationPath);
+                if (!f.exists()) {
+                    // Créer le fichier et écrire l'adresse IP
+                    if (!f.createNewFile()) throw new IOException();
+                    FileWriter writer = new FileWriter(f);
+                    writer.write("127.0.0.1");
+                    writer.close();
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException("Une erreur s'est produite lors de la création du fichier managerIp.txt.", e);
+            }
+
+            String destinationPath = System.getProperty("user.home") + "/.config/securewin/ssl/keystore.jks";
+            try {
+                copyJksFromInputStream(destinationPath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            FileInputStream keyStoreFile = new FileInputStream(destinationPath);
             keyStore.load(keyStoreFile, password);
             KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
             keyManagerFactory.init(keyStore, password);

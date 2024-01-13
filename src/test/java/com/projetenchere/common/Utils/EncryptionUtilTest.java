@@ -7,7 +7,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Base64;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EncryptionUtilTest {
     @Test
@@ -18,16 +18,16 @@ public class EncryptionUtilTest {
 
         String manager_privKey_str = Base64.getEncoder().encodeToString((manager_privateKey.getEncoded()));
         String manager_pubKey_str = Base64.getEncoder().encodeToString((manager_publicKey.getEncoded()));
-        System.out.println("Clé privée : "+ manager_privKey_str);
-        System.out.println("Clé publique : "+ manager_pubKey_str);
+        System.out.println("Clé privée : " + manager_privKey_str);
+        System.out.println("Clé publique : " + manager_pubKey_str);
 
         double price = 12.34;
-        System.out.println("Prix d'origine : "+price);
+        System.out.println("Prix d'origine : " + price);
         byte[] encryptedPrice = EncryptionUtil.encryptPrice(price, manager_publicKey);
         System.out.print("Message chiffré : ");
         System.out.println(new String(encryptedPrice, 0));
-        double decryptedPrice = EncryptionUtil.decryptPrice(encryptedPrice,manager_privateKey);
-        System.out.println("Prix déchiffré : "+decryptedPrice);
+        double decryptedPrice = EncryptionUtil.decryptPrice(encryptedPrice, manager_privateKey);
+        System.out.println("Prix déchiffré : " + decryptedPrice);
 
         assertEquals(price, decryptedPrice);
     }

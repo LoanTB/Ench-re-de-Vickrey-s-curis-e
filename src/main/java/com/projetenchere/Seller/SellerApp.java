@@ -1,17 +1,9 @@
 package com.projetenchere.Seller;
 
-import com.projetenchere.Seller.Controllers.SellerController;
+import com.projetenchere.Seller.View.graphicalUserInterface.SellerAppLoader;
 
 public class SellerApp {
-    public static void main(String[] args) throws Exception {
-        SellerController controller = new SellerController();
-        controller.displayHello();
-        controller.setSignatureConfig();
-        controller.createMyBid();
-        controller.sendMyBid();
-        controller.receiveOffersUntilBidEndAndSendResults();
-        controller.sendEncryptedOffersSet();
-        controller.displayWinner();
+    public static void main(String[] args) {
+        SellerAppLoader.launchApp();
     }
 }
-

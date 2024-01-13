@@ -1,14 +1,24 @@
 package com.projetenchere.common.network;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Map;
 
 public class ClientAcceptor<T extends Serializable> extends Thread {
     private final Map<Headers, IDataHandler> handlers;
-    private ObjectInputStream objectInput;
-    private ObjectOutputStream objectOutput;
-    private Server owner;
+    private final ObjectOutputStream objectOutput;
+    private final Server owner;
     boolean stop = false;
+    private ObjectInputStream objectInput;
+
+    public ClientAcceptor(Map<Headers, IDataHandler> handlers, ObjectInputStream objectInputStream, ObjectOutputStream objectOutputStream, Server owner) {
+        this.handlers = handlers;
+        this.objectInput = objectInputStream;
+        this.objectOutput = objectOutputStream;
+        this.owner = owner;
+    }
 
     public synchronized void addHandler(Headers header, IDataHandler replyer) {
         this.handlers.put(header, replyer);
@@ -18,7 +28,7 @@ public class ClientAcceptor<T extends Serializable> extends Thread {
         this.handlers.remove(header);
     }
 
-    private void cleanup(){
+    private void cleanup() {
         if (this.objectOutput != null) {
             try {
                 this.objectOutput.close();
@@ -36,18 +46,6 @@ public class ClientAcceptor<T extends Serializable> extends Thread {
         this.owner.stopConnection(this);
     }
 
-    public ClientAcceptor(
-            Map<Headers, IDataHandler> handlers,
-            ObjectInputStream objectInputStream,
-            ObjectOutputStream objectOutputStream,
-            Server owner) {
-        this.handlers = handlers;
-        this.objectInput = objectInputStream;
-        this.objectOutput = objectOutputStream;
-        this.owner = owner;
-    }
-
-
     @Override
     public void run() {
         try {
@@ -60,8 +58,7 @@ public class ClientAcceptor<T extends Serializable> extends Thread {
                 DataWrapper<? extends Serializable> dataOutput;
                 if (dataInput.checkHeader(Headers.GOODBYE_HAVE_A_NICE_DAY)) {
                     this.stop = true;
-                }
-                else if (handlers.containsKey(dataInput.getHeader())) {
+                } else if (handlers.containsKey(dataInput.getHeader())) {
                     dataOutput = handlers.get(dataInput.getHeader()).handle(object);
                     this.getObjectOutput().writeObject(dataOutput);
                 }
