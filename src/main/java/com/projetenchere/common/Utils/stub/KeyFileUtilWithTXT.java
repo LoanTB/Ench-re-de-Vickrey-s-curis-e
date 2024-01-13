@@ -45,7 +45,6 @@ public class KeyFileUtilWithTXT implements I_KeyFileUtil {
         }
     }
 
-    //TODO : SI ON VEUT UTILISER LE STUB SUR UN AUTRE OS CHANGER LES CHEMINS !!!!
     public void generateAndSaveKeyPair() {
         try {
             KeyPair keyPair = EncryptionUtil.generateKeyPair();
@@ -79,7 +78,7 @@ public class KeyFileUtilWithTXT implements I_KeyFileUtil {
     }
 
     @Override
-    public boolean isKeyPairSaved() { //A SUPPRIMER JE PENSE
+    public boolean isKeyPairSaved() {
         File publicKeyFile = new File(FILE_PUBLIC_KEY);
         File privateKeyFile = new File(FILE_PRIVATE_KEY);
         return publicKeyFile.exists() && privateKeyFile.exists();

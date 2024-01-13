@@ -11,10 +11,6 @@ import javafx.stage.Stage;
 public class ManagerAppLoader extends Application {
     private static ManagerController controllerInstance;
 
-    public static ManagerController getControllerInstance() {
-        return controllerInstance;
-    }
-
     public static void launchApp() {
         launch(ManagerAppLoader.class);
     }

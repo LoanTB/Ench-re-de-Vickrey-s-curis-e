@@ -16,8 +16,6 @@ import com.projetenchere.common.network.Server;
 import java.security.KeyPair;
 
 public class ManagerController extends Controller {
-
-    private final CurrentBids currentBids = new CurrentBids();
     private final Manager manager = Manager.getInstance();
     ManagerGraphicalUserInterface ui;
 
@@ -27,22 +25,6 @@ public class ManagerController extends Controller {
 
     public void setSignatureConfig() throws Exception {
         setSignatureConfig(ui, manager);
-    }
-
-    public CurrentBids getCurrentBids() {
-        return currentBids;
-    }
-
-    public void addBid(Bid bid) throws Exception {
-        currentBids.addCurrentBid(bid);
-    }
-
-    public void startAllBids() {
-        currentBids.startAllBids();
-    }
-
-    public void startBid(String idBid) {
-        currentBids.startBids(idBid);
     }
 
     public void init() {
@@ -57,15 +39,6 @@ public class ManagerController extends Controller {
         managerServer.addHandler(Headers.RESOLVE_BID, new EncryptedOffersSetReplyer());
         managerServer.start();
         ui.tellManagerReadyToProcessBids();
-    }
-
-    public void launchBids() {
-        ui.displayBidLaunch();
-        startAllBids();
-    }
-
-    public void launchBid(String idBid) {
-        startBid(idBid);
     }
 
     public void displayHello() {

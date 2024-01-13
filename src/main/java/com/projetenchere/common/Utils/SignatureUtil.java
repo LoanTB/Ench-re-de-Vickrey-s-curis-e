@@ -1,8 +1,8 @@
 package com.projetenchere.common.Utils;
 
-import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
-
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.security.*;
 
 public class SignatureUtil {
@@ -41,19 +41,6 @@ public class SignatureUtil {
         return tab;
     }
 
-    public static EncryptedOffersSet toObject(byte[] tab) {
-        EncryptedOffersSet objet = null;
-        try {
-            ByteArrayInputStream bais = new ByteArrayInputStream(tab);
-            ObjectInputStream ois = new ObjectInputStream(bais);
-            objet = (EncryptedOffersSet) ois.readObject();
-            ois.close();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return objet;
-    }
-
     public static boolean verifyDataSignature(byte[] data, byte[] signatureBytes, PublicKey publicKey) throws SignatureException {
         try {
             Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
@@ -65,14 +52,4 @@ public class SignatureUtil {
         }
     }
 
-    public static boolean verifyDataSignature(EncryptedOffersSet data, byte[] signatureBytes, PublicKey publicKey) throws SignatureException {
-        try {
-            Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
-            signature.initVerify(publicKey);
-            signature.update(objectToArrayByte(data));
-            return signature.verify(signatureBytes);
-        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new SignatureException(e);
-        }
-    }
 }

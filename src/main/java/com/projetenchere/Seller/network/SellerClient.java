@@ -20,22 +20,11 @@ public class SellerClient extends Client {
         toManager = new ClientSocketWrapper(factory.createSocket(NetworkUtil.MANAGER_SOCKET_ADDRESS));
     }
 
-    //Envoi de l'enchère aux enchérisseurs ?
     public void sendBid(Bid bid) {
-        fetchWithData(
-                toManager,
-                Headers.NEW_BID,
-                Headers.OK_NEW_BID,
-                bid
-        );
+        fetchWithData(toManager, Headers.NEW_BID, Headers.OK_NEW_BID, bid);
     }
 
     public Winner sendEncryptedOffersSet(SignedEncryptedOfferSet prices) {
-        return fetchWithData(
-                toManager,
-                Headers.RESOLVE_BID,
-                Headers.RESOLVE_BID_OK,
-                prices
-        );
+        return fetchWithData(toManager, Headers.RESOLVE_BID, Headers.RESOLVE_BID_OK, prices);
     }
 }

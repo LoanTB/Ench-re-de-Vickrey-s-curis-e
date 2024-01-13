@@ -76,11 +76,7 @@ public class Bid implements Serializable {
     }
 
     public String toString(boolean withStartDate) {
-        return "Id : " + id +
-                "\nNom : " + name +
-                (withStartDate ? "\nDate de début : " + startDateTime.toString() : "") +
-                "\nDescription : " + description + "." +
-                "\nDate de fin : " + endDateTime.toString() + ".";
+        return "Id : " + id + "\nNom : " + name + (withStartDate ? "\nDate de début : " + startDateTime.toString() : "") + "\nDescription : " + description + "." + "\nDate de fin : " + endDateTime.toString() + ".";
     }
 
     public boolean isOver() {

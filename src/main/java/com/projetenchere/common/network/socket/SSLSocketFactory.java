@@ -12,7 +12,6 @@ import static com.projetenchere.common.Utils.CertificatSSLFile.copyJksFromInputS
 
 
 public class SSLSocketFactory implements ISocketFactory {
-    //TODO: gérer les exceptions correctement
     protected SSLContext sslContext;
 
     public SSLSocketFactory() {
@@ -36,7 +35,6 @@ public class SSLSocketFactory implements ISocketFactory {
                 throw new RuntimeException("Une erreur s'est produite lors de la création du fichier managerIp.txt.", e);
             }
 
-            String sourcePath = "src/main/java/ressources/ssl/keystore.jks";
             String destinationPath = System.getProperty("user.home") + "/.config/securewin/ssl/keystore.jks";
             try {
                 copyJksFromInputStream(destinationPath);

@@ -26,10 +26,7 @@ public class ChecklistOkReplyer implements IDataHandler {
                 WinStatus status;
 
 
-                if (SignatureUtil.verifyDataSignature(
-                        "ok".getBytes(),
-                        signedPublicKey.getOkSigned(),
-                        signedPublicKey.getPublicKey())) {
+                if (SignatureUtil.verifyDataSignature("ok".getBytes(), signedPublicKey.getOkSigned(), signedPublicKey.getPublicKey())) {
                     Set<EncryptedOffer> offers = seller.getEncryptedOffersSet().getOffers();
 
                     for (EncryptedOffer offer : offers) {
@@ -61,4 +58,3 @@ public class ChecklistOkReplyer implements IDataHandler {
         }
     }
 }
-

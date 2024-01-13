@@ -30,11 +30,6 @@ public class ManagerCommandLineInterface extends AbstractUserInterface implement
     }
 
     @Override
-    public void displayBidLaunch() {
-        showMessage("Lancement de l'enchère...");
-    }
-
-    @Override
     public void tellManagerReadyToProcessBids() {
         showMessage("Gestionnaire prêt à traiter des enchères");
     }

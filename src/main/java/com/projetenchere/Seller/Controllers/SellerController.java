@@ -81,7 +81,7 @@ public class SellerController extends Controller {
 
     }
 
-    public void sendEncryptedOffersSet() throws Exception {
+    public void sendEncryptedOffersSet() {
         SignedEncryptedOfferSet offers = seller.getEncryptedOffersSignedBySeller();
         ui.displayEncryptedOffersSet();
         this.setWinner(client.sendEncryptedOffersSet(offers));

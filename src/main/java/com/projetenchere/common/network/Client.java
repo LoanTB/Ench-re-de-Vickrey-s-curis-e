@@ -9,11 +9,7 @@ public class Client {
         if (socket == null) throw new RuntimeException("Trying to send data to closed socket");
     }
 
-    protected <T extends Serializable> T fetch(
-            ClientSocketWrapper socket,
-            Headers headerToSend,
-            Headers headerToReceive
-    ) {
+    protected <T extends Serializable> T fetch(ClientSocketWrapper socket, Headers headerToSend, Headers headerToReceive) {
         checkConnection(socket);
         DataWrapper<?> request = new DataWrapper<>(headerToSend);
         DataWrapper<T> wrapped;
@@ -28,12 +24,7 @@ public class Client {
         return wrapped.unwrap();
     }
 
-    protected <T1 extends Serializable, T2 extends Serializable> T1 fetchWithData(
-            ClientSocketWrapper socket,
-            Headers headerToSend,
-            Headers headerToReceive,
-            T2 data
-    ) {
+    protected <T1 extends Serializable, T2 extends Serializable> T1 fetchWithData(ClientSocketWrapper socket, Headers headerToSend, Headers headerToReceive, T2 data) {
         checkConnection(socket);
         DataWrapper<T1> wrappedToReceive;
         DataWrapper<T2> wrappedToSend = new DataWrapper<>(data, headerToSend);

@@ -11,7 +11,5 @@ public interface IManagerUserInterface extends I_UserInterface {
 
     void tellSignatureConfigReady();
 
-    void displayBidLaunch();
-
     void tellManagerReadyToProcessBids();
 }

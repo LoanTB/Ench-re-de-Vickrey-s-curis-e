@@ -12,8 +12,8 @@ import java.security.Signature;
 public class EncryptedOffer implements Serializable {
     private final String bidId;
     private final byte[] price;
-    private byte[] priceSigned;
-    private PublicKey SignaturePubKey;
+    private final byte[] priceSigned;
+    private final PublicKey SignaturePubKey;
 
     public EncryptedOffer(Signature signature, Offer offer, PublicKey SignaturePubKey, PublicKey managerPubKey, String bidId) throws GeneralSecurityException {
         this.price = EncryptionUtil.encryptPrice(offer.getPrice(), managerPubKey);
@@ -31,11 +31,6 @@ public class EncryptedOffer implements Serializable {
 
     public byte[] getPriceSigned() {
         return this.priceSigned;
-    }
-
-    public void hidePriceSigned() {
-        this.priceSigned = null;
-        this.SignaturePubKey = null;
     }
 
     public String getBidId() {

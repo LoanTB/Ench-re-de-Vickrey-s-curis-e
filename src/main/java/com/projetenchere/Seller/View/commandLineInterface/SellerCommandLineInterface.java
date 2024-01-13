@@ -11,6 +11,15 @@ import java.util.UUID;
 
 public class SellerCommandLineInterface extends AbstractUserInterface implements ISellerUserInterface {
 
+    private static boolean isValidDateFormat(String value, DateTimeFormatter formatter) {
+        try {
+            LocalDateTime.parse(value, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
     public String readMessageWithMaxLen(int maxLength) {
         String input = "";
         boolean askinput = true;
@@ -33,7 +42,6 @@ public class SellerCommandLineInterface extends AbstractUserInterface implements
         showMessage("Prix chiffrés envoyés à l'autorité de gestion pour traitement...");
     }
 
-
     @Override
     public void displayHello() {
         showMessage("Bienvenue vendeur !");
@@ -52,16 +60,6 @@ public class SellerCommandLineInterface extends AbstractUserInterface implements
     @Override
     public void tellSignatureConfigReady() {
         showMessage("Configuration de la signature terminée.");
-    }
-
-
-    private static boolean isValidDateFormat(String value, DateTimeFormatter formatter) {
-        try {
-            LocalDateTime.parse(value, formatter);
-            return true;
-        } catch (DateTimeParseException e) {
-            return false;
-        }
     }
 
     public LocalDateTime askBidEndTime() {

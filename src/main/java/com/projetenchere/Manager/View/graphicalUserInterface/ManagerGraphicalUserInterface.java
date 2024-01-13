@@ -92,11 +92,6 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
     }
 
     @Override
-    public void displayBidLaunch() {
-        addLogMessage("Lancement de l'enchère...");
-    }
-
-    @Override
     public void tellManagerReadyToProcessBids() {
         addLogMessage("Gestionnaire prêt à traiter des enchères");
     }

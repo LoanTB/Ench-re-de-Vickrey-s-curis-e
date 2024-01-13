@@ -38,15 +38,6 @@ public class CurrentBids implements Serializable {
         }
     }
 
-    public boolean isOver(String id) {
-        for (Bid bid : currentBids) {
-            if (bid.getId().equals(id)) {
-                return bid.isOver();
-            }
-        }
-        return false;
-    }
-
     @Override
     public String toString() {
         String s = "";

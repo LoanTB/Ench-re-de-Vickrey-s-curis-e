@@ -13,11 +13,7 @@ public class ClientAcceptor<T extends Serializable> extends Thread {
     boolean stop = false;
     private ObjectInputStream objectInput;
 
-    public ClientAcceptor(
-            Map<Headers, IDataHandler> handlers,
-            ObjectInputStream objectInputStream,
-            ObjectOutputStream objectOutputStream,
-            Server owner) {
+    public ClientAcceptor(Map<Headers, IDataHandler> handlers, ObjectInputStream objectInputStream, ObjectOutputStream objectOutputStream, Server owner) {
         this.handlers = handlers;
         this.objectInput = objectInputStream;
         this.objectOutput = objectOutputStream;

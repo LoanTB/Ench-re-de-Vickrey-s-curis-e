@@ -16,8 +16,6 @@ import java.security.PublicKey;
 import java.util.HashSet;
 import java.util.Set;
 
-//Manager reçoit les prix de chiffrés du vendeur.
-
 public class EncryptedOffersSetReplyer implements IDataHandler {
     @Override
     public DataWrapper<Winner> handle(Serializable data) {

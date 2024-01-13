@@ -10,8 +10,6 @@ import com.projetenchere.common.network.IDataHandler;
 
 import java.io.Serializable;
 
-//Bidder envoient au seller leurs offres
-
 public class EncryptedOfferReplyer implements IDataHandler {
     @Override
     public DataWrapper<SignedEncryptedOfferSet> handle(Serializable data) {

@@ -32,8 +32,7 @@ public class EncryptedOffersSet implements Serializable {
 
     public boolean contains(EncryptedOffer a) {
         for (EncryptedOffer offer : offers) {
-            if (Arrays.equals(a.getPriceSigned(), offer.getPriceSigned())
-                    && a.getBidId().equals(offer.getBidId())) {
+            if (Arrays.equals(a.getPriceSigned(), offer.getPriceSigned()) && a.getBidId().equals(offer.getBidId())) {
                 return true;
             }
         }

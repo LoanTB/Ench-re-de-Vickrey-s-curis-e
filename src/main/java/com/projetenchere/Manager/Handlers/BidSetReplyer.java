@@ -8,14 +8,9 @@ import com.projetenchere.common.network.IDataHandler;
 
 import java.io.Serializable;
 
-//quand Bid demande les enchères en cours au manager.
-
 public class BidSetReplyer implements IDataHandler {
     @Override
     public DataWrapper<CurrentBids> handle(Serializable ignored) {
-        return new DataWrapper<>(
-                Manager.getInstance().getBids(),
-                Headers.OK_CURRENT_BIDS
-        );
+        return new DataWrapper<>(Manager.getInstance().getBids(), Headers.OK_CURRENT_BIDS);
     }
 }
