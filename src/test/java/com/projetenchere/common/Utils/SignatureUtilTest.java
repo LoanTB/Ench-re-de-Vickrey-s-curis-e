@@ -1,14 +1,5 @@
 package com.projetenchere.common.Utils;
 
-import com.projetenchere.common.network.DataWrapper;
-import org.junit.jupiter.api.Test;
-
-import java.security.KeyPair;
-import java.security.Signature;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public class SignatureUtilTest {
     /*
     @Test
