@@ -23,4 +23,11 @@ public class SignedEncryptedOfferSet implements Serializable {
         return set;
     }
 
+    public byte[] getSetSigned() {
+        return setSigned;
+    }
+
+    public PublicKey getSignaturePubKey() {
+        return signaturePubKey;
+    }
 }
