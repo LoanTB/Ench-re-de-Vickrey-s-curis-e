@@ -2,12 +2,14 @@ package com.projetenchere.Seller.Model;
 
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffersProductSigned;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
-import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.User;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Utils.SignatureUtil;
 
+import java.math.BigInteger;
+import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,7 +22,7 @@ public class Seller extends User {
     private final Set<PublicKey> biddersOk = new HashSet<>();
     private Map<PublicKey, WinStatus> winStatusMap;
     private EncryptedOffersSet encryptedOffersReceived;
-    private SignedEncryptedOfferSet encryptedOffersSignedBySeller;
+    private EncryptedOffersProductSigned offersProductSignedBySeller; //Réponse aux enchérisseurs.
     private Bid myBid;
     private boolean resultsAreIn = false;
     private boolean resultsReady = false;
@@ -91,35 +93,34 @@ public class Seller extends User {
         this.encryptedOffersReceived = offers;
     }
 
-    public synchronized SignedEncryptedOfferSet getEncryptedOffersSignedBySeller() {
-        return this.encryptedOffersSignedBySeller;
+
+    public EncryptedOffersProductSigned getOffersProductSignedBySeller() {
+        return offersProductSignedBySeller;
     }
 
-    public void setEncryptedOffersSignedBySeller(SignedEncryptedOfferSet encryptedOffersSignedBySeller) {
-        this.encryptedOffersSignedBySeller = encryptedOffersSignedBySeller;
+    public void setOffersProductSignedBySeller(EncryptedOffersProductSigned offersProductSignedBySeller) {
+        this.offersProductSignedBySeller = offersProductSignedBySeller;
     }
 
     public synchronized void verifyAndAddOffer(EncryptedOffer offer) throws Exception {
         if (SignatureUtil.verifyDataSignature(offer.getPrice(), offer.getPriceSigned(), offer.getSignaturePublicKey())) {
             addBidder(offer.getSignaturePublicKey(), offer.getPrice());
             getEncryptedOffersSet().getOffers().add(offer);
-            reSignedEncryptedOffers();
         }
     }
 
-    public synchronized void reSignedEncryptedOffers() throws Exception {
-        EncryptedOffersSet set = this.getEncryptedOffersSet();
-        Set<EncryptedOffer> offers = set.getOffers();
-        Set<EncryptedOffer> offersSigned = new HashSet<>();
-        for (EncryptedOffer o : offers) {
-            offersSigned.add(new EncryptedOffer(this.getSignature(), o.getPrice(), this.getKey(), o.getBidId()));
+    public synchronized void signedProductEncryptedOffers() throws GeneralSecurityException {
+
+        Set<EncryptedOffer> offers = getEncryptedOffersSet().getOffers();
+        BigInteger product = BigInteger.valueOf(0);
+        for(EncryptedOffer o : offers)
+        {
+            BigInteger x = new BigInteger(o.getPrice());
+            product = product.multiply(x);
         }
 
-        EncryptedOffersSet list = new EncryptedOffersSet(set.getBidId(), offersSigned);
-
-        SignedEncryptedOfferSet offersSignedbl = new SignedEncryptedOfferSet(this.getSignature(), this.getKey(), list);
-
-        this.setEncryptedOffersSignedBySeller(offersSignedbl);
+        EncryptedOffersProductSigned set = new EncryptedOffersProductSigned(this.getSignature(),this.getKey(),product.toByteArray(),getEncryptedOffersSet());
+        this.setOffersProductSignedBySeller(set);
     }
 
     public synchronized Set<PublicKey> getbiddersOk() {
