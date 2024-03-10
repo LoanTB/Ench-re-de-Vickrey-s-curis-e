@@ -7,6 +7,7 @@ import com.projetenchere.Seller.network.Handlers.EncryptedOfferReplyer;
 import com.projetenchere.Seller.network.SellerClient;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffersProductSigned;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.WinStatus;
@@ -81,13 +82,14 @@ public class SellerController extends Controller {
 
     }
 
-    public void sendEncryptedOffersSet() {
-        SignedEncryptedOfferSet offers = seller.getEncryptedOffersSignedBySeller();
+    public void sendEncryptedOffersSet() { //TODO : CHANGER !
+        EncryptedOffersProductSigned offers = seller.getOffersProductSignedBySeller();
         ui.displayEncryptedOffersSet();
         this.setWinner(client.sendEncryptedOffersSet(offers));
         ui.addLogMessage("Le prix gagnant est " + winner.price() + "€");
         ui.addLogMessage("Résultats envoyés aux enchérisseurs.");
     }
+
 
     public void displayHello() {
         ui.displayHello();
