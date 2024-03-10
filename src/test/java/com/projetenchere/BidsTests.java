@@ -1,4 +1,4 @@
 package com.projetenchere;
 
-public class networkTests {
+public class BidsTests {
 }
