@@ -26,7 +26,7 @@ public class SecurityTests {
         @Test
         @Timeout(value = 50, unit = TimeUnit.MILLISECONDS)
         void encryptionWork() throws Exception {
-            EncryptionUtil.decrypt(EncryptionUtil.encryptPrice(data, keys.getPublic()), keys.getPrivate());
+            EncryptionUtil.decryptPrice(EncryptionUtil.encryptPrice(data, keys.getPublic()), keys.getPrivate());
         }
 
         @Test
