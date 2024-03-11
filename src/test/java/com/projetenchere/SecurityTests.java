@@ -9,6 +9,7 @@ import java.security.*;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 public class SecurityTests {
     @Nested
     @DisplayName("Encryption")
@@ -23,7 +24,7 @@ public class SecurityTests {
         }
 
         @Test
-        @Timeout(value = 1, unit = TimeUnit.SECONDS)
+        @Timeout(value = 50, unit = TimeUnit.MILLISECONDS)
         void encryptionWork() throws Exception {
             EncryptionUtil.decrypt(EncryptionUtil.encryptPrice(data, keys.getPublic()), keys.getPrivate());
         }
