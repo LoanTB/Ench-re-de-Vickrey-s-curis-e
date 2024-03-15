@@ -51,7 +51,7 @@ public class NetworkTests {
 
         clientSocketWrapper = new ClientSocketWrapper(
                 (new SSLSocketFactory()).createSocket(
-                        new InetSocketAddress("127.0.0.100", 2048)
+                        new InetSocketAddress("127.0.0.1", 2048)
                 )
         );
         while(!clientSocketWrapper.isConnected()){sleep(10, 0);}
