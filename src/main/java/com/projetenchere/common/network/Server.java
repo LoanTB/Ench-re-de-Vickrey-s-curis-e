@@ -16,9 +16,15 @@ public class Server extends Thread {
     private final int port;
     private final Map<ClientAcceptor<?>, Socket> connectedClients = new HashMap<>();
     Map<Headers, IDataHandler> handlers = new HashMap<>();
+    private boolean ready;
 
     public Server(int port) {
         this.port = port;
+        this.ready = false;
+    }
+
+    public boolean isReady() {
+        return ready;
     }
 
     public synchronized void addHandler(Headers header, IDataHandler replyer) {
@@ -48,10 +54,24 @@ public class Server extends Thread {
         }
     }
 
+    public synchronized void stopAllConnections() {
+        for (ClientAcceptor clientAcceptor: this.connectedClients.keySet()) {
+            Socket s = this.connectedClients.get(clientAcceptor);
+            try {
+                s.close();
+                clientAcceptor.interrupt();
+                this.connectedClients.remove(clientAcceptor, s);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public void run() {
         while (true) {
             SSLSocketFactory context = new SSLSocketFactory();
             try (SSLServerSocket ss = context.createServerSocket(port)) {
+                this.ready = true;
                 SSLSocket s = (SSLSocket) ss.accept();
                 ClientAcceptor<? extends Serializable> t = new ClientAcceptor<>(
                         handlers,
