@@ -46,4 +46,8 @@ public class ClientSocketWrapper {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean isConnected(){
+        return s.isConnected();
+    }
 }
