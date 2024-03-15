@@ -54,6 +54,19 @@ public class Server extends Thread {
         }
     }
 
+    public synchronized void stopAllConnections() {
+        for (ClientAcceptor clientAcceptor: this.connectedClients.keySet()) {
+            Socket s = this.connectedClients.get(clientAcceptor);
+            try {
+                s.close();
+                clientAcceptor.interrupt();
+                this.connectedClients.remove(clientAcceptor, s);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public void run() {
         while (true) {
             SSLSocketFactory context = new SSLSocketFactory();
