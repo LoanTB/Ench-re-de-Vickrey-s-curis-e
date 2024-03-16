@@ -8,9 +8,10 @@ import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
-import com.projetenchere.common.Models.Encrypted.SignedPublicKey;
+import com.projetenchere.common.Models.Encrypted.SigPack_PublicKey;
 import com.projetenchere.common.Models.Offer;
 import com.projetenchere.common.Models.WinStatus;
+import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.exception.BidAbortedException;
 
 import java.security.GeneralSecurityException;
@@ -70,7 +71,10 @@ public class BidderController extends Controller {
             throw new BidAbortedException("Offer was not present is set");
         }
         client.stopManager();
-        SignedPublicKey key = new SignedPublicKey(bidder.getKey(), bidder.getSignature());
+
+        String msg = "ok";
+        byte[] msgSigned = SignatureUtil.signData(msg.getBytes(), bidder.getSignature());
+        SigPack_PublicKey key = new SigPack_PublicKey(msg,msgSigned,bidder.getKey());
         WinStatus status = client.validateAndGetWinStatus(key);
 
         this.results.put(bid.getId(), status);
