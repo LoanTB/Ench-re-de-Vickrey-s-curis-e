@@ -10,7 +10,6 @@ public abstract class AbstractSignedPack implements Serializable {
     protected final PublicKey signaturePubKey;
 
     /**
-     *
      * @param object
      * @param objectSigned
      * @param signaturePubKey
@@ -22,7 +21,6 @@ public abstract class AbstractSignedPack implements Serializable {
     }
 
     /**
-     *
      * @return
      */
     public Object getObject() {
@@ -30,7 +28,6 @@ public abstract class AbstractSignedPack implements Serializable {
     }
 
     /**
-     *
      * @return
      */
     public byte[] getObjectSigned() {
@@ -38,7 +35,6 @@ public abstract class AbstractSignedPack implements Serializable {
     }
 
     /**
-     *
      * @return
      */
     public PublicKey getSignaturePubKey() {

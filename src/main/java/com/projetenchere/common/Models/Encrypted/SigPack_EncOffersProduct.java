@@ -10,7 +10,6 @@ public class SigPack_EncOffersProduct extends AbstractSignedPack implements Seri
     private final EncryptedOffersSet setOffers;
 
     /**
-     *
      * @param setProductOffers
      * @param setProductOffersSigned
      * @param signaturePubKey
@@ -18,12 +17,11 @@ public class SigPack_EncOffersProduct extends AbstractSignedPack implements Seri
      * @throws GeneralSecurityException
      */
     public SigPack_EncOffersProduct(byte[] setProductOffers, byte[] setProductOffersSigned, PublicKey signaturePubKey, EncryptedOffersSet list) throws GeneralSecurityException {
-        super(setProductOffers,setProductOffersSigned,signaturePubKey);
+        super(setProductOffers, setProductOffersSigned, signaturePubKey);
         this.setOffers = list;
     }
 
     /**
-     *
      * @return
      */
     public EncryptedOffersSet getSetOffers() {
