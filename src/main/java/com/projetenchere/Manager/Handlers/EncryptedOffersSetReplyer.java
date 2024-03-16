@@ -27,7 +27,7 @@ public class EncryptedOffersSetReplyer implements IDataHandler {
 
             PublicKey sellerPubKey = manager.getBids().getBid(enc.getSet().getBidId()).getSellerSignaturePublicKey();
             for (EncryptedOffer o : offers) {
-                boolean verify = SignatureUtil.verifyDataSignature(o.getPrice(), o.getPriceSigned(), sellerPubKey);
+                boolean verify = SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(o.getObject()), o.getObjectSigned(), sellerPubKey);
                 if (!verify) {
                     offersToRemove.add(o);
                 }
