@@ -44,6 +44,8 @@ public class SellerAppLoader extends Application {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+            controllerInstance.receiveWinUntilPeriodEnd();
+
             Platform.runLater(() -> {
                 controllerInstance.displayWinner();
             });
