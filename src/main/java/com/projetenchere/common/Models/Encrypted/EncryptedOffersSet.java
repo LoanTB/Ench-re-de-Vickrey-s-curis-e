@@ -1,5 +1,7 @@
 package com.projetenchere.common.Models.Encrypted;
 
+import com.projetenchere.common.Utils.SignatureUtil;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,7 +23,7 @@ public class EncryptedOffersSet implements Serializable {
     public Set<byte[]> getPrices() {
         Set<byte[]> prices = new HashSet<>();
         for (EncryptedOffer offer : offers) {
-            prices.add(offer.getPrice());
+            prices.add(SignatureUtil.objectToArrayByte(offer.getObject()));
         }
         return prices;
     }
@@ -32,7 +34,7 @@ public class EncryptedOffersSet implements Serializable {
 
     public boolean contains(EncryptedOffer a) {
         for (EncryptedOffer offer : offers) {
-            if (Arrays.equals(a.getPriceSigned(), offer.getPriceSigned()) && a.getBidId().equals(offer.getBidId())) {
+            if (Arrays.equals(a.getObjectSigned(), offer.getObjectSigned()) && a.getBidId().equals(offer.getBidId())) {
                 return true;
             }
         }
