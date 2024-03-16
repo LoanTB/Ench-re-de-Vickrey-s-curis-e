@@ -32,8 +32,6 @@ public class SellerController extends Controller {
         this.ui = ui;
     }
 
-
-
     public void setSignatureConfig() throws Exception {
         setSignatureConfig(ui, seller);
     }
@@ -56,7 +54,6 @@ public class SellerController extends Controller {
     public boolean auctionInProgress() {
         return (!this.seller.getMyBid().isOver());
     }
-
 
     public void receiveOkUntilCheckEndAndSendResults() {
         server.start();
@@ -133,11 +130,12 @@ public class SellerController extends Controller {
         boolean haveAWinner = false;
         Map<PublicKey, WinStatus> winStatusMap = new HashMap<>();
         for (EncryptedOffer encryptedOffer : encryptedOffers) {
-            if (Arrays.equals(encryptedOffer.getPrice(), winner.encryptedPrice()) && !haveAWinner) {
-                winStatusMap.put(encryptedOffer.getSignaturePublicKey(), new WinStatus(winner.bidId(), true, winner.price()));
+            byte[] encPrice = SignatureUtil.objectToArrayByte(encryptedOffer.getObject());
+            if (Arrays.equals(encPrice, winner.encryptedPrice()) && !haveAWinner) {
+                winStatusMap.put(encryptedOffer.getSignaturePubKey(), new WinStatus(winner.bidId(), true, winner.price()));
                 haveAWinner = true;
             } else {
-                winStatusMap.put(encryptedOffer.getSignaturePublicKey(), new WinStatus(winner.bidId(), false, -1));
+                winStatusMap.put(encryptedOffer.getSignaturePubKey(), new WinStatus(winner.bidId(), false, -1));
             }
         }
         return winStatusMap;
