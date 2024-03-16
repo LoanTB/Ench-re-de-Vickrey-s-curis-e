@@ -11,6 +11,7 @@ import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.Encrypted.SigPack_PublicKey;
 import com.projetenchere.common.Models.Offer;
 import com.projetenchere.common.Models.WinStatus;
+import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.exception.BidAbortedException;
 
@@ -58,7 +59,9 @@ public class BidderController extends Controller {
         if (bid == null) throw new RuntimeException("");
         EncryptedOffer encryptedOffer;
         try {
-            encryptedOffer = new EncryptedOffer(bidder.getSignature(), offer, bidder.getKey(), managerPubKey, bid.getId());
+            byte[] price = EncryptionUtil.encryptPrice(offer.getPrice(), managerPubKey);
+            byte[] priceSigned = SignatureUtil.signData(price, bidder.getSignature());
+            encryptedOffer = new EncryptedOffer(price,priceSigned,bidder.getKey(),bid.getId());
         } catch (GeneralSecurityException e) {
             throw new RuntimeException("Could not encrypt offer");
         }
