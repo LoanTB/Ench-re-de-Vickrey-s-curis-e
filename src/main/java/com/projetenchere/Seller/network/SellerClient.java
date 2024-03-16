@@ -2,6 +2,7 @@ package com.projetenchere.Seller.network;
 
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersProductSigned;
+import com.projetenchere.common.Models.Encrypted.WinnerSignedAutority;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.NetworkUtil;
 import com.projetenchere.common.network.Client;
@@ -24,7 +25,7 @@ public class SellerClient extends Client {
         fetchWithData(toManager, Headers.NEW_BID, Headers.OK_NEW_BID, bid);
     }
 
-    public Winner sendEncryptedOffersSet(EncryptedOffersProductSigned prices) {
+    public WinnerSignedAutority sendEncryptedOffersSet(EncryptedOffersProductSigned prices) {
         return fetchWithData(toManager, Headers.RESOLVE_BID, Headers.RESOLVE_BID_OK, prices);
     }
 }
