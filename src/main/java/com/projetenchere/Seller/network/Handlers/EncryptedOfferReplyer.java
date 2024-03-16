@@ -3,8 +3,7 @@ package com.projetenchere.Seller.network.Handlers;
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffersProductSigned;
-import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
+import com.projetenchere.common.Models.Encrypted.SigPack_EncOffersProduct;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.IDataHandler;
@@ -13,7 +12,7 @@ import java.io.Serializable;
 
 public class EncryptedOfferReplyer implements IDataHandler {
     @Override
-    public DataWrapper<EncryptedOffersProductSigned> handle(Serializable data) {
+    public DataWrapper<SigPack_EncOffersProduct> handle(Serializable data) {
         Seller seller = Seller.getInstance();
         synchronized (this) {
             if (!seller.resultsAreIn()) {
