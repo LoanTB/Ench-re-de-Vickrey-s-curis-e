@@ -13,4 +13,8 @@ public abstract class DJKey implements Key {
     public byte[] getEncoded() {
         return key;
     }
+
+    public DJKey(byte[] key) {
+        this.key = key;
+    }
 }

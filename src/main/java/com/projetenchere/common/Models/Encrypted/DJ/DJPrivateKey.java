@@ -6,6 +6,11 @@ import java.util.Arrays;
 public class DJPrivateKey extends DJKey implements PrivateKey{
 
     private boolean isDestroyed = false;
+
+    public DJPrivateKey(byte[] key) {
+        super(key);
+    }
+
     @Override
     public String getFormat() {
         return "X.509";
