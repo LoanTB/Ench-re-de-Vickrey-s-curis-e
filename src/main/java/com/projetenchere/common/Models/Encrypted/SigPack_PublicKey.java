@@ -20,5 +20,4 @@ public class SigPack_PublicKey extends AbstractSignedPack implements Serializabl
     public SigPack_PublicKey(String ok, byte[] okSigned, PublicKey signaturePubKey){
         super(ok,okSigned,signaturePubKey);
     }
-    //"ok", SignatureUtil.signData("ok".getBytes(), signature),
 }
