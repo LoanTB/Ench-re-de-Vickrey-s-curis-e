@@ -2,7 +2,7 @@ package com.projetenchere.Seller.network.Handlers;
 
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Encrypted.SignedPublicKey;
+import com.projetenchere.common.Models.Encrypted.SigPack_PublicKey;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.DataWrapper;
@@ -21,17 +21,17 @@ public class ChecklistOkReplyer implements IDataHandler {
         synchronized (this) {
 
             try {
-                SignedPublicKey signedPublicKey = (SignedPublicKey) data;
+                SigPack_PublicKey signedPublicKey = (SigPack_PublicKey) data;
                 PublicKey bidderPk = null;
                 WinStatus status;
 
 
-                if (SignatureUtil.verifyDataSignature("ok".getBytes(), signedPublicKey.getOkSigned(), signedPublicKey.getPublicKey())) {
+                if (SignatureUtil.verifyDataSignature("ok".getBytes(), signedPublicKey.getObjectSigned(), signedPublicKey.getSignaturePubKey())) {
                     Set<EncryptedOffer> offers = seller.getEncryptedOffersSet().getOffers();
 
                     for (EncryptedOffer offer : offers) {
-                        if (offer.getSignaturePublicKey() == signedPublicKey.getPublicKey()) {
-                            bidderPk = signedPublicKey.getPublicKey();
+                        if (offer.getSignaturePublicKey() == signedPublicKey.getSignaturePubKey()) {
+                            bidderPk = signedPublicKey.getSignaturePubKey();
                             seller.getbiddersOk().add(bidderPk);
                         }
                     }
