@@ -18,7 +18,6 @@ import com.projetenchere.common.network.Server;
 import java.net.InetSocketAddress;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
-import java.security.SignatureException;
 import java.util.*;
 
 public class SellerController extends Controller {
@@ -27,7 +26,7 @@ public class SellerController extends Controller {
     private final Seller seller = Seller.getInstance();
     SellerGraphicalUserInterface ui;
     private Winner winner = null;
-    private FinalResults EndResults = null;
+    private SigPack_Results EndResults = null;
 
     public SellerController(SellerGraphicalUserInterface ui) {
         this.ui = ui;
@@ -87,19 +86,20 @@ public class SellerController extends Controller {
     }
 
     public void sendEncryptedOffersSet() throws GeneralSecurityException { //TODO : CHANGER !
-        EncryptedOffersProductSigned offers = seller.getOffersProductSignedBySeller();
+        SigPack_EncOffersProduct offers = seller.getOffersProductSignedBySeller();
         ui.displayEncryptedOffersSet();
 
-        WinnerSignedAutority results = client.sendEncryptedOffersSet(offers);
+        SigPack_PriceWin results = client.sendEncryptedOffersSet(offers);
 
-        byte[] price = SignatureUtil.objectToArrayByte(results.getPrice());
-        if(!SignatureUtil.verifyDataSignature(price, results.getWinnerPriceSigned(),results.getSignaturePubKey())){
+        byte[] price = SignatureUtil.objectToArrayByte(results.getObject());
+        if(!SignatureUtil.verifyDataSignature(price, results.getObjectSigned(),results.getSignaturePubKey())){
             ui.addLogMessage("Signature du gestionnaire invalide ! Enchères compromises !");
 
         }
         else{
-            this.EndResults = new FinalResults(seller.getSignature(), seller.getKey(), results.getSignaturePubKey(),
-                                                results.getWinnerPriceSigned(), results.getPrice());
+
+            byte[] signedPriceBySeller = SignatureUtil.signData(price, seller.getSignature());
+            this.EndResults = new SigPack_Results(results, signedPriceBySeller, this.seller.getKey());
 
             ui.addLogMessage("Le prix gagnant est " + winner.price() + "€");
             ui.addLogMessage("Résultats envoyés aux enchérisseurs."); //??? TODO : A déplacer.
