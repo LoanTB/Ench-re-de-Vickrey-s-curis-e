@@ -1,5 +1,7 @@
 package com.projetenchere.common.Utils;
 
+import com.projetenchere.common.Models.Encrypted.DJ.DJKeyPairGenerator;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -10,13 +12,8 @@ import java.security.*;
 public class EncryptionUtil {
 
     public static KeyPair generateKeyPair() {
-        try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-            keyPairGenerator.initialize(2048);
-            return keyPairGenerator.generateKeyPair();
-        } catch (NoSuchAlgorithmException ignored) {
-            throw new RuntimeException("");
-        }
+        DJKeyPairGenerator keyPairGenerator = new DJKeyPairGenerator(2048, new SecureRandom());
+        return keyPairGenerator.generateKeyPair();
     }
 
     public static byte[] encryptPrice(double number, PublicKey publicKey) throws GeneralSecurityException {

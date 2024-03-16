@@ -3,35 +3,36 @@ package com.projetenchere.common.Models.Encrypted.DJ;
 import com.sun.javafx.scene.paint.GradientUtils;
 
 import java.math.BigInteger;
-import java.security.KeyPair;
-import java.security.KeyPairGeneratorSpi;
-import java.security.PrivateKey;
-import java.security.SecureRandom;
+import java.security.*;
 
-public class DJKeyPairGenerator extends KeyPairGeneratorSpi {
+public class DJKeyPairGenerator{
     int size;
     SecureRandom random;
-    @Override
-    public void initialize(int keysize, SecureRandom random) {
+    BigInteger p, q, N;
+
+    public DJKeyPairGenerator(int keysize, SecureRandom random) {
         this.size = keysize;
         while (this.size % 8 != 0) this.size++;
         this.random = random;
+        p = BigInteger.probablePrime(size-1, random); // -1 is to get rid of the offset
+        q = BigInteger.probablePrime(size-1, random);
     }
 
-    @Override
     public KeyPair generateKeyPair() {
-        BigInteger p, q, N;
         int s = 4;
         SecureRandom random = new SecureRandom();
-        p = BigInteger.probablePrime(size, random);
-        q = BigInteger.probablePrime(size, random);
+
         N = p.multiply(q);
         DJPublicKey pk = new DJPublicKey(N.pow(s).toByteArray());
-        byte[] skBytes = new byte[p.toByteArray().length + q.toByteArray().length];
+        byte[] pByteArray = this.p.toByteArray();
+        byte[] qByteArray = q.toByteArray();
+        byte[] skBytes = new byte[pByteArray.length + qByteArray.length];
 
-        for (int i = 0; i < skBytes.length; i++) {
-            skBytes[i] = p.toByteArray()[i];
-            skBytes[i + p.toByteArray().length] = q.toByteArray()[i];
+
+
+        for (int i = 0; i < pByteArray.length; i++) {
+            skBytes[i] = pByteArray[i];
+            skBytes[i + pByteArray.length] = qByteArray[i];
         }
 
         DJPrivateKey sk = new DJPrivateKey(skBytes);
