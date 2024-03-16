@@ -1,9 +1,10 @@
 package com.projetenchere.common.Models.Encrypted;
 
+import java.io.Serializable;
 import java.security.PublicKey;
 
 //TODO : JavaDoc
-public abstract class AbstractSignedPack {
+public abstract class AbstractSignedPack implements Serializable {
     protected final Object object;
     protected final byte[] objectSigned;
     protected final PublicKey signaturePubKey;
