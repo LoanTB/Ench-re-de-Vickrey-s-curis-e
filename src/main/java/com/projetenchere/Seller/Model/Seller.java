@@ -1,7 +1,7 @@
 package com.projetenchere.Seller.Model;
 
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.SigPack_EncOffer;
 import com.projetenchere.common.Models.Encrypted.SigPack_EncOffersProduct;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.User;
@@ -102,7 +102,7 @@ public class Seller extends User {
         this.offersProductSignedBySeller = offersProductSignedBySeller;
     }
 
-    public synchronized void verifyAndAddOffer(EncryptedOffer offer) throws Exception {
+    public synchronized void verifyAndAddOffer(SigPack_EncOffer offer) throws Exception {
         if (SignatureUtil.verifyDataSignature(offer.getPrice(), offer.getPriceSigned(), offer.getSignaturePublicKey())) {
             addBidder(offer.getSignaturePublicKey(), offer.getPrice());
             getEncryptedOffersSet().getOffers().add(offer);
@@ -111,9 +111,9 @@ public class Seller extends User {
 
     public synchronized void signedProductEncryptedOffers() throws GeneralSecurityException {
 
-        Set<EncryptedOffer> offers = getEncryptedOffersSet().getOffers();
+        Set<SigPack_EncOffer> offers = getEncryptedOffersSet().getOffers();
         BigInteger product = BigInteger.valueOf(0);
-        for(EncryptedOffer o : offers)
+        for(SigPack_EncOffer o : offers)
         {
             BigInteger x = new BigInteger(o.getPrice());
             product = product.multiply(x);

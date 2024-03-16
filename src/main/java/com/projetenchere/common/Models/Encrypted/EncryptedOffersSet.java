@@ -9,9 +9,9 @@ import java.util.Set;
 
 public class EncryptedOffersSet implements Serializable {
     private final String bidId;
-    public Set<EncryptedOffer> offers;
+    public Set<SigPack_EncOffer> offers;
 
-    public EncryptedOffersSet(String bidId, Set<EncryptedOffer> offers) {
+    public EncryptedOffersSet(String bidId, Set<SigPack_EncOffer> offers) {
         this.bidId = bidId;
         this.offers = offers;
     }
@@ -22,18 +22,18 @@ public class EncryptedOffersSet implements Serializable {
 
     public Set<byte[]> getPrices() {
         Set<byte[]> prices = new HashSet<>();
-        for (EncryptedOffer offer : offers) {
+        for (SigPack_EncOffer offer : offers) {
             prices.add(SignatureUtil.objectToArrayByte(offer.getObject()));
         }
         return prices;
     }
 
-    public synchronized Set<EncryptedOffer> getOffers() {
+    public synchronized Set<SigPack_EncOffer> getOffers() {
         return offers;
     }
 
-    public boolean contains(EncryptedOffer a) {
-        for (EncryptedOffer offer : offers) {
+    public boolean contains(SigPack_EncOffer a) {
+        for (SigPack_EncOffer offer : offers) {
             if (Arrays.equals(a.getObjectSigned(), offer.getObjectSigned()) && a.getBidId().equals(offer.getBidId())) {
                 return true;
             }

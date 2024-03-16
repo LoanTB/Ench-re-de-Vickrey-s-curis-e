@@ -122,20 +122,20 @@ public class SellerController extends Controller {
 
 
     public void displayWinner() {
-        Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffersSet().getOffers();
+        Set<SigPack_EncOffer> sigPackEncOffers = seller.getEncryptedOffersSet().getOffers();
     }
 
     public Map<PublicKey, WinStatus> getBiddersWinStatus() {
-        Set<EncryptedOffer> encryptedOffers = seller.getEncryptedOffersSet().getOffers();
+        Set<SigPack_EncOffer> sigPackEncOffers = seller.getEncryptedOffersSet().getOffers();
         boolean haveAWinner = false;
         Map<PublicKey, WinStatus> winStatusMap = new HashMap<>();
-        for (EncryptedOffer encryptedOffer : encryptedOffers) {
-            byte[] encPrice = SignatureUtil.objectToArrayByte(encryptedOffer.getObject());
+        for (SigPack_EncOffer sigPackEncOffer : sigPackEncOffers) {
+            byte[] encPrice = SignatureUtil.objectToArrayByte(sigPackEncOffer.getObject());
             if (Arrays.equals(encPrice, winner.encryptedPrice()) && !haveAWinner) {
-                winStatusMap.put(encryptedOffer.getSignaturePubKey(), new WinStatus(winner.bidId(), true, winner.price()));
+                winStatusMap.put(sigPackEncOffer.getSignaturePubKey(), new WinStatus(winner.bidId(), true, winner.price()));
                 haveAWinner = true;
             } else {
-                winStatusMap.put(encryptedOffer.getSignaturePubKey(), new WinStatus(winner.bidId(), false, -1));
+                winStatusMap.put(sigPackEncOffer.getSignaturePubKey(), new WinStatus(winner.bidId(), false, -1));
             }
         }
         return winStatusMap;

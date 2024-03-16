@@ -6,7 +6,7 @@ import com.projetenchere.Bidder.network.BidderClient;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.SigPack_EncOffer;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.Encrypted.SigPack_PublicKey;
 import com.projetenchere.common.Models.Offer;
@@ -57,19 +57,19 @@ public class BidderController extends Controller {
         Offer offer = ui.readOffer(bidder, currentBids);
         Bid bid = currentBids.getBid(offer.getIdBid());
         if (bid == null) throw new RuntimeException("");
-        EncryptedOffer encryptedOffer;
+        SigPack_EncOffer sigPackEncOffer;
         try {
             byte[] price = EncryptionUtil.encryptPrice(offer.getPrice(), managerPubKey);
             byte[] priceSigned = SignatureUtil.signData(price, bidder.getSignature());
-            encryptedOffer = new EncryptedOffer(price,priceSigned,bidder.getKey(),bid.getId());
+            sigPackEncOffer = new SigPack_EncOffer(price,priceSigned,bidder.getKey(),bid.getId());
         } catch (GeneralSecurityException e) {
             throw new RuntimeException("Could not encrypt offer");
         }
         participatedBid.add(offer.getIdBid());
         client.connectToSeller(bid.getSellerSocketAddress());
         ui.tellOfferSent();
-        SignedEncryptedOfferSet set = client.sendOfferReceiveList(encryptedOffer);
-        if (!set.getSet().contains(encryptedOffer)) {
+        SignedEncryptedOfferSet set = client.sendOfferReceiveList(sigPackEncOffer);
+        if (!set.getSet().contains(sigPackEncOffer)) {
             client.stopEverything();
             throw new BidAbortedException("Offer was not present is set");
         }

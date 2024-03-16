@@ -2,7 +2,7 @@ package com.projetenchere.Seller.network.Handlers;
 
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.SigPack_EncOffer;
 import com.projetenchere.common.Models.Encrypted.SigPack_EncOffersProduct;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.Headers;
@@ -17,7 +17,7 @@ public class EncryptedOfferReplyer implements IDataHandler {
         synchronized (this) {
             if (!seller.resultsAreIn()) {
                 try {
-                    EncryptedOffer offer = (EncryptedOffer) data;
+                    SigPack_EncOffer offer = (SigPack_EncOffer) data;
                     seller.verifyAndAddOffer(offer);
 
                     SellerGraphicalUserInterface.getInstance().addLogMessage("Nouvelle offre reçue !");

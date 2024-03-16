@@ -2,7 +2,7 @@ package com.projetenchere.Manager.Handlers;
 
 import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.SigPack_EncOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.Winner;
@@ -22,18 +22,18 @@ public class EncryptedOffersSetReplyer implements IDataHandler {
         Manager manager = Manager.getInstance();
         try {
             SignedEncryptedOfferSet enc = (SignedEncryptedOfferSet) data;
-            Set<EncryptedOffer> offers = enc.getSet().getOffers();
-            Set<EncryptedOffer> offersToRemove = new HashSet<>();
+            Set<SigPack_EncOffer> offers = enc.getSet().getOffers();
+            Set<SigPack_EncOffer> offersToRemove = new HashSet<>();
 
             PublicKey sellerPubKey = manager.getBids().getBid(enc.getSet().getBidId()).getSellerSignaturePublicKey();
-            for (EncryptedOffer o : offers) {
+            for (SigPack_EncOffer o : offers) {
                 boolean verify = SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(o.getObject()), o.getObjectSigned(), sellerPubKey);
                 if (!verify) {
                     offersToRemove.add(o);
                 }
             }
             if (!offersToRemove.isEmpty()) {
-                for (EncryptedOffer o : offersToRemove) {
+                for (SigPack_EncOffer o : offersToRemove) {
                     offers.remove(o);
                 }
             }

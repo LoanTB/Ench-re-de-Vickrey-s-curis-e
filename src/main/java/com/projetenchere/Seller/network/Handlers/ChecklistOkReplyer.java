@@ -1,7 +1,7 @@
 package com.projetenchere.Seller.network.Handlers;
 
 import com.projetenchere.Seller.Model.Seller;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.SigPack_EncOffer;
 import com.projetenchere.common.Models.Encrypted.SigPack_PublicKey;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Utils.SignatureUtil;
@@ -27,9 +27,9 @@ public class ChecklistOkReplyer implements IDataHandler {
 
 
                 if (SignatureUtil.verifyDataSignature("ok".getBytes(), signedPublicKey.getObjectSigned(), signedPublicKey.getSignaturePubKey())) {
-                    Set<EncryptedOffer> offers = seller.getEncryptedOffersSet().getOffers();
+                    Set<SigPack_EncOffer> offers = seller.getEncryptedOffersSet().getOffers();
 
-                    for (EncryptedOffer offer : offers) {
+                    for (SigPack_EncOffer offer : offers) {
                         if (offer.getSignaturePublicKey() == signedPublicKey.getSignaturePubKey()) {
                             bidderPk = signedPublicKey.getSignaturePubKey();
                             seller.getbiddersOk().add(bidderPk);

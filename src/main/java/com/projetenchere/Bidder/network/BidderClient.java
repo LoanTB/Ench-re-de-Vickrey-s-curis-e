@@ -1,7 +1,7 @@
 package com.projetenchere.Bidder.network;
 
 import com.projetenchere.common.Models.CurrentBids;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.SigPack_EncOffer;
 import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.Encrypted.SigPack_PublicKey;
 import com.projetenchere.common.Models.WinStatus;
@@ -53,7 +53,7 @@ public class BidderClient extends Client {
         );
     }
 
-    public SignedEncryptedOfferSet sendOfferReceiveList(EncryptedOffer offer) {
+    public SignedEncryptedOfferSet sendOfferReceiveList(SigPack_EncOffer offer) {
         return fetchWithData(
                 toSeller,
                 Headers.SEND_OFFER,

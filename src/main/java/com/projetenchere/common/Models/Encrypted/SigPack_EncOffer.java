@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.security.PublicKey;
 
 //TODO : JavaDoc
-public class EncryptedOffer extends AbstractSignedPack implements Serializable {
+public class SigPack_EncOffer extends AbstractSignedPack implements Serializable {
     private final String bidId;
 
     /**
@@ -13,7 +13,7 @@ public class EncryptedOffer extends AbstractSignedPack implements Serializable {
      * @param bidderSignaturePubKey
      * @param bidId
      */
-    public EncryptedOffer(byte[] encPrice, byte[] encPriceSigned, PublicKey bidderSignaturePubKey, String bidId) {
+    public SigPack_EncOffer(byte[] encPrice, byte[] encPriceSigned, PublicKey bidderSignaturePubKey, String bidId) {
         super(encPrice, encPriceSigned, bidderSignaturePubKey);
         this.bidId = bidId;
     }
