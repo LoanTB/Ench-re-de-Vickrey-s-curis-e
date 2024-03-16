@@ -2,7 +2,7 @@ package com.projetenchere.Seller.Model;
 
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffersProductSigned;
+import com.projetenchere.common.Models.Encrypted.SigPack_EncOffersProduct;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
 import com.projetenchere.common.Models.User;
 import com.projetenchere.common.Models.WinStatus;
@@ -22,7 +22,7 @@ public class Seller extends User {
     private final Set<PublicKey> biddersOk = new HashSet<>();
     private Map<PublicKey, WinStatus> winStatusMap;
     private EncryptedOffersSet encryptedOffersReceived;
-    private EncryptedOffersProductSigned offersProductSignedBySeller; //Réponse aux enchérisseurs.
+    private SigPack_EncOffersProduct offersProductSignedBySeller; //Réponse aux enchérisseurs.
     private Bid myBid;
     private boolean resultsAreIn = false;
     private boolean resultsReady = false;
@@ -94,11 +94,11 @@ public class Seller extends User {
     }
 
 
-    public EncryptedOffersProductSigned getOffersProductSignedBySeller() {
+    public SigPack_EncOffersProduct getOffersProductSignedBySeller() {
         return offersProductSignedBySeller;
     }
 
-    public void setOffersProductSignedBySeller(EncryptedOffersProductSigned offersProductSignedBySeller) {
+    public void setOffersProductSignedBySeller(SigPack_EncOffersProduct offersProductSignedBySeller) {
         this.offersProductSignedBySeller = offersProductSignedBySeller;
     }
 
@@ -119,7 +119,8 @@ public class Seller extends User {
             product = product.multiply(x);
         }
 
-        EncryptedOffersProductSigned set = new EncryptedOffersProductSigned(this.getSignature(),this.getKey(),product.toByteArray(),getEncryptedOffersSet());
+        byte[] setProductOffersSigned = SignatureUtil.signData(product.toByteArray(), this.getSignature());
+        SigPack_EncOffersProduct set = new SigPack_EncOffersProduct(product.toByteArray(),setProductOffersSigned,this.getKey(),getEncryptedOffersSet());
         this.setOffersProductSignedBySeller(set);
     }
 
