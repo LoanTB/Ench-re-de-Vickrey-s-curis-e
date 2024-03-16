@@ -17,6 +17,7 @@ public enum Headers implements Serializable {
     OK_NEW_BID,
     RESOLVE_BID,
     RESOLVE_BID_OK,
+    GET_WIN_EXP,
     GOODBYE_HAVE_A_NICE_DAY,
     TEST,
     OK_TEST
