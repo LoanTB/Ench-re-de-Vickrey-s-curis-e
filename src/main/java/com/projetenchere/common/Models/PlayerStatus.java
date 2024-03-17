@@ -1,4 +1,4 @@
-package com.projetenchere.common.Models.PlayerStatus;
+package com.projetenchere.common.Models;
 
 import java.io.Serializable;
 
@@ -7,23 +7,16 @@ public class PlayerStatus implements Serializable {
     private boolean ejected = false;
     private boolean winner = false;
     private boolean unknown = false;
-    private final double price;
 
-    public PlayerStatus(String bidId, double price) {
+    public PlayerStatus(String bidId) {
         this.bidId = bidId;
-        this.price = price;
     }
-    public PlayerStatus(String bidId, double price, boolean win) {
+    public PlayerStatus(String bidId, boolean win) {
         this.bidId = bidId;
-        this.price = price;
         this.winner = win;
     }
     public String getBidId() {
         return bidId;
-    }
-
-    public double getPrice() {
-        return price;
     }
 
     //Ejected = L'enchérisseur a précisé que son chiffré n'était pas dans la liste, donc le signé n'était pas correct.
