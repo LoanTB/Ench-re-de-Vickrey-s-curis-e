@@ -1,4 +1,4 @@
-package com.projetenchere.common.Models.Encrypted;
+package com.projetenchere.common.Models.SignedPack;
 
 import com.projetenchere.common.Utils.SignatureUtil;
 

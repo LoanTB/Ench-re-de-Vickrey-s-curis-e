@@ -1,8 +1,8 @@
 package com.projetenchere.Seller.network;
 
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.Encrypted.SigPack_EncOffersProduct;
-import com.projetenchere.common.Models.Encrypted.SigPack_PriceWin;
+import com.projetenchere.common.Models.SignedPack.SigPack_EncOffersProduct;
+import com.projetenchere.common.Models.SignedPack.SigPack_PriceWin;
 import com.projetenchere.common.Utils.NetworkUtil;
 import com.projetenchere.common.network.Client;
 import com.projetenchere.common.network.ClientSocketWrapper;

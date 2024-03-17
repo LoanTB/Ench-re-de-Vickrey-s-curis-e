@@ -2,8 +2,8 @@ package com.projetenchere.Manager.Handlers;
 
 import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
-import com.projetenchere.common.Models.Encrypted.SigPack_EncOffer;
-import com.projetenchere.common.Models.Encrypted.Set_SigPackEncOffer;
+import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
+import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.DataWrapper;

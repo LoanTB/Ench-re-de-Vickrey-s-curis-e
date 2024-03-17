@@ -1,9 +1,9 @@
 package com.projetenchere.Bidder.network;
 
 import com.projetenchere.common.Models.CurrentBids;
-import com.projetenchere.common.Models.Encrypted.Set_SigPackEncOffer;
-import com.projetenchere.common.Models.Encrypted.SigPack_EncOffer;
-import com.projetenchere.common.Models.Encrypted.SigPack_PublicKey;
+import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
+import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
+import com.projetenchere.common.Models.SignedPack.SigPack_PublicKey;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Utils.NetworkUtil;
 import com.projetenchere.common.network.Client;

@@ -7,7 +7,7 @@ import com.projetenchere.Seller.network.Handlers.EncryptedOfferReplyer;
 import com.projetenchere.Seller.network.Handlers.WinnerReplyer;
 import com.projetenchere.Seller.network.SellerClient;
 import com.projetenchere.common.Controllers.Controller;
-import com.projetenchere.common.Models.Encrypted.*;
+import com.projetenchere.common.Models.SignedPack.*;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.NetworkUtil;

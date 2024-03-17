@@ -1,9 +1,9 @@
 package com.projetenchere.Seller.Model;
 
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.Encrypted.SigPack_EncOffer;
-import com.projetenchere.common.Models.Encrypted.SigPack_EncOffersProduct;
-import com.projetenchere.common.Models.Encrypted.Set_SigPackEncOffer;
+import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
+import com.projetenchere.common.Models.SignedPack.SigPack_EncOffersProduct;
+import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
 import com.projetenchere.common.Models.User;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Utils.SignatureUtil;

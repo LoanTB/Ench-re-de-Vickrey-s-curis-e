@@ -1,8 +1,8 @@
 package com.projetenchere.Seller.network.Handlers;
 
 import com.projetenchere.Seller.Model.Seller;
-import com.projetenchere.common.Models.Encrypted.SigPack_EncOffer;
-import com.projetenchere.common.Models.Encrypted.SigPack_PublicKey;
+import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
+import com.projetenchere.common.Models.SignedPack.SigPack_PublicKey;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.DataWrapper;

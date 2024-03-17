@@ -2,7 +2,7 @@ package com.projetenchere.Manager.Model;
 
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
-import com.projetenchere.common.Models.Encrypted.Set_SigPackEncOffer;
+import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
 import com.projetenchere.common.Models.User;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
