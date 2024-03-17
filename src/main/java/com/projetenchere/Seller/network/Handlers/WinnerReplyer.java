@@ -26,25 +26,19 @@ public class WinnerReplyer implements IDataHandler {
 
                 PlayerStatus status = new PlayerStatus(winExpression.getBidId());
 
-                if(SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(winExpression.getObject()),winExpression.getObjectSigned(), winExpression.getSignaturePubKey()))
+                if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(winExpression.getObject()),winExpression.getObjectSigned(), winExpression.getSignaturePubKey()))
                 {
-                    Set<SigPack_EncOffer> offers = seller.getEncryptedOffersSet().getOffers();
-                    for (SigPack_EncOffer offer : offers) {
-                        if (offer.getSignaturePubKey() == winExpression.getSignaturePubKey() && winExpression.getBidId().equals(seller.getMyBid().getId())) {
-                            //TODO : Vérifier si c'est bien lui le gagnant
-                        }
-                    }
+                    status.eject();
+                    return new DataWrapper<>(status, Headers.OK_WIN_EXP);
                 }
-
-                while (!seller.isWinnerExpressed()) {
-                    wait(1000);
+                status = seller.getSignatureWinStatus(winExpression.getSignaturePubKey());
+                if(status.isWinner()){
+                    seller.winnerExpressed();
                 }
 
                 return new DataWrapper<>(status, Headers.OK_WIN_EXP);
             } catch (ClassCastException e) {
                 throw new RuntimeException("Received unreadable data");
-            } catch (InterruptedException e) {
-                throw new RuntimeException("Timeout");
             } catch (SignatureException e) {
                 throw new RuntimeException("Signature falsify");
             }

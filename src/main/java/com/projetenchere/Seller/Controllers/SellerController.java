@@ -87,8 +87,6 @@ public class SellerController extends Controller {
             client.stopEverything();
         }
         else{
-
-
             byte[] signedPriceBySeller = SignatureUtil.signData(price, seller.getSignature());
             this.seller.setEndResults(new SigPack_Results(results, signedPriceBySeller, this.seller.getKey(),this.seller.getMyBid().getId()));
 
@@ -129,9 +127,14 @@ public class SellerController extends Controller {
 
     //TODO : Ajouter l'étape de réception de la manifestation de l'enchérisseur gagnant
     public void receiveWinUntilPeriodEnd(){
-//TODO : Recevoir manifestation.
+            //TODO : Recevoir manifestation.
             ui.addLogMessage("Attente qu'un gagnant se manifeste !");
             server.addHandler(Headers.SET_WIN_EXP,new WinnerReplyer());
+
+            while (!seller.isWinnerExpressed()) {
+                waitSynchro(1000);
+            }
+
 
 
     }

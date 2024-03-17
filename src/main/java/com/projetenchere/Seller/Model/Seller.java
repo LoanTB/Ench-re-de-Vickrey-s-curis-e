@@ -74,10 +74,9 @@ public class Seller extends User {
         return winnerExpressed;
     }
 
-    public void setWinnerExpressed(boolean winnerExpressed) {
-        this.winnerExpressed = winnerExpressed;
+    public void winnerExpressed() {
+        this.winnerExpressed = true;
     }
-
 
 
 
