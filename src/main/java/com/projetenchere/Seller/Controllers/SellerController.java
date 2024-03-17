@@ -25,7 +25,6 @@ public class SellerController extends Controller {
     private final Server server = new Server(24682);
     private final Seller seller = Seller.getInstance();
     SellerGraphicalUserInterface ui;
-    private Winner winner = null;
 
     public SellerController(SellerGraphicalUserInterface ui) {
         this.ui = ui;
@@ -96,12 +95,12 @@ public class SellerController extends Controller {
 
             this.setWinner(seller.getEndResults());
 
-            ui.addLogMessage("Le prix gagnant est " + winner.price() + "€");
+            SigPack_PriceWin p = (SigPack_PriceWin) seller.getEndResults().getObject();
+            ui.addLogMessage("Le prix gagnant est " + p.getObject() + "€");
             ui.addLogMessage("Résultats envoyés aux enchérisseurs.");
         }
 
     }
-
 
     public Map<PublicKey, PlayerStatus> getBiddersWinStatus(SigPack_Results results) {
         Set<SigPack_EncOffer> sigPackEncOffers = seller.getEncryptedOffersSet().getOffers();
@@ -123,6 +122,7 @@ public class SellerController extends Controller {
     }
 
     public void setWinner(SigPack_Results winner) {
+
         seller.setWinStatusMap(getBiddersWinStatus(winner));
         seller.setResultsAreIn(true);
     }
