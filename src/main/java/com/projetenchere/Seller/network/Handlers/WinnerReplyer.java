@@ -16,33 +16,15 @@ public class WinnerReplyer implements IDataHandler {
         synchronized (this) {
 
             try {
-                SignedPublicKey signedPublicKey = (SignedPublicKey) data;
-                PublicKey bidderPk = null;
-                WinStatus status;
 
-
-                if (SignatureUtil.verifyDataSignature("ok".getBytes(), signedPublicKey.getOkSigned(), signedPublicKey.getPublicKey())) {
-                    Set<EncryptedOffer> offers = seller.getEncryptedOffersSet().getOffers();
-
-                    for (EncryptedOffer offer : offers) {
-                        if (offer.getSignaturePublicKey() == signedPublicKey.getPublicKey()) {
-                            bidderPk = signedPublicKey.getPublicKey();
-                            seller.getbiddersOk().add(bidderPk);
-                        }
-                    }
-                }
 
                 while (!seller.resultsAreIn()) {
                     wait(1000);
                 }
 
-                if (bidderPk == null) {
-                    status = new WinStatus(seller.getMyBid().getId(), false, 0);
-                } else {
-                    status = seller.getSignatureWinStatus(bidderPk);
-                }
 
-                return new DataWrapper<>(status, Headers.OK_WIN_STATUS);
+
+                return new DataWrapper<>(status, Headers.OK_PLAYER_STATUS);
             } catch (ClassCastException e) {
                 throw new RuntimeException("Received unreadable data");
             } catch (InterruptedException e) {
