@@ -7,11 +7,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EncryptedOffersSet implements Serializable {
+public class Set_SigPackEncOffer implements Serializable {
     private final String bidId;
     public Set<SigPack_EncOffer> offers;
 
-    public EncryptedOffersSet(String bidId, Set<SigPack_EncOffer> offers) {
+    public Set_SigPackEncOffer(String bidId, Set<SigPack_EncOffer> offers) {
         this.bidId = bidId;
         this.offers = offers;
     }

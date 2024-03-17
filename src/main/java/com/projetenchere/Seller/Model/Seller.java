@@ -3,7 +3,7 @@ package com.projetenchere.Seller.Model;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.Encrypted.SigPack_EncOffer;
 import com.projetenchere.common.Models.Encrypted.SigPack_EncOffersProduct;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
+import com.projetenchere.common.Models.Encrypted.Set_SigPackEncOffer;
 import com.projetenchere.common.Models.User;
 import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Utils.SignatureUtil;
@@ -21,7 +21,7 @@ public class Seller extends User {
     private final Map<PublicKey, byte[]> bidders = new HashMap<>();
     private final Set<PublicKey> biddersOk = new HashSet<>();
     private Map<PublicKey, WinStatus> winStatusMap;
-    private EncryptedOffersSet encryptedOffersReceived;
+    private Set_SigPackEncOffer encryptedOffersReceived;
     private SigPack_EncOffersProduct offersProductSignedBySeller; //Réponse aux enchérisseurs.
     private Bid myBid;
     private boolean resultsAreIn = false;
@@ -85,11 +85,11 @@ public class Seller extends User {
         this.myBid = bid;
     }
 
-    public EncryptedOffersSet getEncryptedOffersSet() {
+    public Set_SigPackEncOffer getEncryptedOffersSet() {
         return this.encryptedOffersReceived;
     }
 
-    public void setEncryptedOffers(EncryptedOffersSet offers) {
+    public void setEncryptedOffers(Set_SigPackEncOffer offers) {
         this.encryptedOffersReceived = offers;
     }
 

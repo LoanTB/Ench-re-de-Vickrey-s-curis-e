@@ -40,7 +40,7 @@ public class SellerController extends Controller {
         seller.setMyBid(ui.askBid());
         seller.getMyBid().setSellerInformations(new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT));
         seller.getMyBid().setPubKeySignatureSeller(seller.getKey());
-        seller.setEncryptedOffers(new EncryptedOffersSet(seller.getMyBid().getId(), new HashSet<>()));
+        seller.setEncryptedOffers(new Set_SigPackEncOffer(seller.getMyBid().getId(), new HashSet<>()));
         ui.displayBidCreated(seller.getMyBid());
     }
 
@@ -83,6 +83,7 @@ public class SellerController extends Controller {
     }
 
     public void sendEncryptedOffersSet() throws GeneralSecurityException { //TODO : CHANGER !
+        //TODO : Rename la méthode
         SigPack_EncOffersProduct offers = seller.getOffersProductSignedBySeller();
         ui.displayEncryptedOffersSet();
 

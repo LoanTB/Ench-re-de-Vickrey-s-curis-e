@@ -3,8 +3,8 @@ package com.projetenchere.Manager.Handlers;
 import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.common.Models.Encrypted.SigPack_EncOffer;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
-import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
+import com.projetenchere.common.Models.Encrypted.Set_SigPackEncOffer;
+import com.projetenchere.common.Models.Encrypted.SigPack_EncryptedOffersSet;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.DataWrapper;
@@ -21,11 +21,11 @@ public class EncryptedOffersSetReplyer implements IDataHandler {
     public DataWrapper<Winner> handle(Serializable data) {
         Manager manager = Manager.getInstance();
         try {
-            SignedEncryptedOfferSet enc = (SignedEncryptedOfferSet) data;
-            Set<SigPack_EncOffer> offers = enc.getSet().getOffers();
+            Set_SigPackEncOffer enc = (Set_SigPackEncOffer) data;
+            Set<SigPack_EncOffer> offers = enc.getOffers();
             Set<SigPack_EncOffer> offersToRemove = new HashSet<>();
 
-            PublicKey sellerPubKey = manager.getBids().getBid(enc.getSet().getBidId()).getSellerSignaturePublicKey();
+            PublicKey sellerPubKey = manager.getBids().getBid(enc.getBidId()).getSellerSignaturePublicKey();
             for (SigPack_EncOffer o : offers) {
                 boolean verify = SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(o.getObject()), o.getObjectSigned(), sellerPubKey);
                 if (!verify) {
@@ -38,9 +38,9 @@ public class EncryptedOffersSetReplyer implements IDataHandler {
                 }
             }
 
-            EncryptedOffersSet results = new EncryptedOffersSet(enc.getSet().getBidId(), offers);
+            Set_SigPackEncOffer results = new Set_SigPackEncOffer(enc.getBidId(), offers);
             Winner win = manager.processPrices(results, manager.getPrivateKey());
-            ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).diplayEndBid(enc.getSet().getBidId());
+            ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).diplayEndBid(enc.getBidId());
             return new DataWrapper<>(win, Headers.RESOLVE_BID_OK);
         } catch (Exception e) {
             throw new RuntimeException(e);

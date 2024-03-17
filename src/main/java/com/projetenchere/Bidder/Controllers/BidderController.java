@@ -6,8 +6,8 @@ import com.projetenchere.Bidder.network.BidderClient;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
+import com.projetenchere.common.Models.Encrypted.Set_SigPackEncOffer;
 import com.projetenchere.common.Models.Encrypted.SigPack_EncOffer;
-import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.Models.Encrypted.SigPack_PublicKey;
 import com.projetenchere.common.Models.Offer;
 import com.projetenchere.common.Models.WinStatus;
@@ -68,8 +68,8 @@ public class BidderController extends Controller {
         participatedBid.add(offer.getIdBid());
         client.connectToSeller(bid.getSellerSocketAddress());
         ui.tellOfferSent();
-        SignedEncryptedOfferSet set = client.sendOfferReceiveList(sigPackEncOffer);
-        if (!set.getSet().contains(sigPackEncOffer)) {
+        Set_SigPackEncOffer set = client.sendOfferReceiveList(sigPackEncOffer);
+        if (!set.contains(sigPackEncOffer)) {
             client.stopEverything();
             throw new BidAbortedException("Offer was not present is set");
         }

@@ -7,7 +7,7 @@ import java.security.PublicKey;
 //TODO : JavaDoc
 public class SigPack_EncOffersProduct extends AbstractSignedPack implements Serializable {
 
-    private final EncryptedOffersSet setOffers;
+    private final Set_SigPackEncOffer setOffers;
 
     /**
      * @param setProductOffers
@@ -16,7 +16,7 @@ public class SigPack_EncOffersProduct extends AbstractSignedPack implements Seri
      * @param list
      * @throws GeneralSecurityException
      */
-    public SigPack_EncOffersProduct(byte[] setProductOffers, byte[] setProductOffersSigned, PublicKey signaturePubKey, EncryptedOffersSet list) throws GeneralSecurityException {
+    public SigPack_EncOffersProduct(byte[] setProductOffers, byte[] setProductOffersSigned, PublicKey signaturePubKey, Set_SigPackEncOffer list) throws GeneralSecurityException {
         super(setProductOffers, setProductOffersSigned, signaturePubKey);
         this.setOffers = list;
     }
@@ -24,7 +24,7 @@ public class SigPack_EncOffersProduct extends AbstractSignedPack implements Seri
     /**
      * @return
      */
-    public EncryptedOffersSet getSetOffers() {
+    public Set_SigPackEncOffer getSetOffers() {
         return setOffers;
     }
 }
