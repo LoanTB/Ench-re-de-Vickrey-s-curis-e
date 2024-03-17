@@ -4,6 +4,7 @@ import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
 import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
+import com.projetenchere.common.Models.SignedPack.SigPack_PriceWin;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.DataWrapper;
@@ -15,9 +16,9 @@ import java.security.PublicKey;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EncryptedOffersSetReplyer implements IDataHandler {
+public class EncOffersProductReplyer implements IDataHandler {
     @Override
-    public DataWrapper<Winner> handle(Serializable data) { //TODO : Changer Winner et ajouter à SigPack_Results les éléments nécessaires à l'identification du winner
+    public DataWrapper<SigPack_PriceWin> handle(Serializable data) {
         Manager manager = Manager.getInstance();
         try {
             Set_SigPackEncOffer enc = (Set_SigPackEncOffer) data;
@@ -38,7 +39,9 @@ public class EncryptedOffersSetReplyer implements IDataHandler {
             }
 
             Set_SigPackEncOffer results = new Set_SigPackEncOffer(enc.getBidId(), offers);
-            Winner win = manager.processPrices(results, manager.getPrivateKey());
+            SigPack_PriceWin win = manager.processPrices(results, manager.getPrivateKey());
+
+
             ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).diplayEndBid(enc.getBidId());
             return new DataWrapper<>(win, Headers.RESOLVE_BID_OK);
         } catch (Exception e) {
