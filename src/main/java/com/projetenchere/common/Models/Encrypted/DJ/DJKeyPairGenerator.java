@@ -20,10 +20,9 @@ public class DJKeyPairGenerator{
 
     public KeyPair generateKeyPair() {
         int s = 4;
-        SecureRandom random = new SecureRandom();
 
         N = p.multiply(q);
-        DJPublicKey pk = new DJPublicKey(N.pow(s).toByteArray());
+        DJPublicKey pk = new DJPublicKey(N.toByteArray());
         byte[] pByteArray = this.p.toByteArray();
         byte[] qByteArray = q.toByteArray();
         byte[] skBytes = new byte[pByteArray.length + qByteArray.length];

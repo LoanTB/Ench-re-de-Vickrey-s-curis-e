@@ -6,6 +6,7 @@ import javax.crypto.*;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.AlgorithmParameterSpec;
+import java.util.Random;
 
 public class DJCipher {
 
@@ -16,7 +17,7 @@ public class DJCipher {
 
     private Modes opMode;
     private AlgorithmParameters params;
-    private SecureRandom random;
+    private final Random random;
     private BigInteger phiN, N, p, q;
     public static final int s = 4;
     private BigInteger d;
@@ -25,14 +26,12 @@ public class DJCipher {
         return b.subtract(BigInteger.ONE).divide(N);
     }
 
-
-    public void init(Modes opMode, PublicKey pk) {
-        this.opMode = opMode;
-        //TODO
+    public DJCipher(Random random) {
+        this.random = random;
     }
 
-    public void init(Modes opMode, PrivateKey sk) {
-        this.opMode = opMode;
+    public void init(PrivateKey sk) {
+
         byte[] pBytes = new byte[256];
         byte[] qBytes = new byte[256];
         for (int i=0; i < pBytes.length; i++) {
@@ -48,6 +47,19 @@ public class DJCipher {
                         q.subtract(BigInteger.ONE)
                 );
         this.d = phiN.modInverse(N.pow(s));
+    }
+
+    public void init(PublicKey pk) {
+        this.N = new BigInteger(pk.getEncoded());
+    }
+
+    public BigInteger encrypt(BigInteger plaintext) {
+        BigInteger r = new BigInteger(N.bitLength(), random);
+        return (BigInteger.ONE.add(N))
+                .modPow(plaintext, N.pow(s+1))
+                .multiply(
+                        r.modPow(N.pow(s), N.pow(s+1))
+                );
     }
     public BigInteger decrypt(BigInteger ciphertext) {
         BigInteger M = ciphertext.modPow(phiN, N.pow(s + 1));

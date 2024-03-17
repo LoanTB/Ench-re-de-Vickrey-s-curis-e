@@ -42,6 +42,6 @@ public class DJKeyPairGeneratorTest {
         BigInteger p = new BigInteger(pBytes);
         BigInteger q = new BigInteger(qBytes);
         BigInteger N = p.multiply(q);
-        assertEquals(new BigInteger(pk.getEncoded()), N.pow(4));
+        assertEquals(new BigInteger(pk.getEncoded()).pow(4), N.pow(4));
     }
 }

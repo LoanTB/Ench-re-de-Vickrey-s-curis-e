@@ -2,6 +2,7 @@ package com.projetenchere.common.Models.Encrypted;
 
 import com.projetenchere.common.Models.Encrypted.DJ.DJCipher;
 import com.projetenchere.common.Models.Encrypted.DJ.DJKeyPairGenerator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +13,9 @@ import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Random;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DJCipherTest {
     DJKeyPairGenerator keyPairGenerator;
@@ -26,10 +30,12 @@ public class DJCipherTest {
     }
 
     @Test
-    void decryptTest() {
-        BigInteger data = BigInteger.valueOf(5555);
-        DJCipher cp = new DJCipher();
-        cp.init(DJCipher.Modes.DECRYPT_MODE, sk);
-        cp.decrypt(data);
+    void encryptDecryptTest() {
+        DJCipher cp = new DJCipher(new SecureRandom());
+        cp.init(pk);
+        BigInteger plain = new BigInteger(2048, new SecureRandom());
+        BigInteger encrypted = cp.encrypt(plain);
+        cp.init(sk);
+        assertEquals(plain, cp.decrypt(encrypted));
     }
 }
