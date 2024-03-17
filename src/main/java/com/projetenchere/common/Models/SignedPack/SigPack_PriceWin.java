@@ -2,11 +2,11 @@ package com.projetenchere.common.Models.SignedPack;
 
 import java.io.Serializable;
 import java.security.PublicKey;
-//TODO : Refactor en ajoutant bidId dans abstractSignedPack OU Un nouveau Abstract.
+//TODO S2 : Refactor en ajoutant bidId dans abstractSignedPack OU Un nouveau Abstract.
 public class SigPack_PriceWin extends AbstractSignedPack implements Serializable {
     private final byte[] encrypedPriceOrigin;
     private final String bidId;
-    //TODO : JavaDoc
+    //TODO S2 : JavaDoc
     /**
      * Signed by Manager received by Seller
      *

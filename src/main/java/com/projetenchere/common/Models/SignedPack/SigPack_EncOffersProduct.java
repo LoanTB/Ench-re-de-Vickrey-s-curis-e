@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 
-//TODO : JavaDoc
+//TODO S2 : JavaDoc
 public class SigPack_EncOffersProduct extends AbstractSignedPack implements Serializable {
 
     private final Set_SigPackEncOffer setOffers;

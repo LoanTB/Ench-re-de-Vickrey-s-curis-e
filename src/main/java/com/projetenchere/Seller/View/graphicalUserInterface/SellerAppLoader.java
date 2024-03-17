@@ -40,12 +40,11 @@ public class SellerAppLoader extends Application {
             controllerInstance.sendMyBid();
             controllerInstance.receiveOkUntilCheckEndAndSendResults();
             try {
-                controllerInstance.sendEncryptedOffersSet();
+                controllerInstance.sendEncryptedOffersProduct();
+                controllerInstance.receiveWinUntilPeriodEnd();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            controllerInstance.receiveWinUntilPeriodEnd();
-
             Platform.runLater(() -> {
                 controllerInstance.displayWinner();
             });

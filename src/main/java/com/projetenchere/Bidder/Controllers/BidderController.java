@@ -102,7 +102,7 @@ public class BidderController extends Controller {
         byte[] msgSigned = SignatureUtil.signData(msg, bidder.getSignature());
         SigPack_Confirm key = new SigPack_Confirm(msg,msgSigned,bidder.getKey(), sigPackEncOffer.getBidId());
 
-        //TODO S2 : Ajouté le fait que le vendeur signe le EndPack.
+        //TODO S2 : Ajouter le fait que le vendeur signe le EndPack.
         EndPack pack = client.validateAndGetResults(key);
 
         if(!pack.isResultsInside()){

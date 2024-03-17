@@ -5,7 +5,7 @@ import java.security.PublicKey;
 
 public class SigPack_Confirm extends AbstractSignedPack implements Serializable {
 
-    //TODO : JavaDoc
+    //TODO S2 : JavaDoc
     private final String bidId;
     /**
      * @param ok

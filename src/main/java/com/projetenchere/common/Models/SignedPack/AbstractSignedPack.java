@@ -3,7 +3,7 @@ package com.projetenchere.common.Models.SignedPack;
 import java.io.Serializable;
 import java.security.PublicKey;
 
-//TODO : JavaDoc
+//TODO S2 : JavaDoc
 public abstract class AbstractSignedPack implements Serializable {
     protected final Object object;
     protected final byte[] objectSigned;

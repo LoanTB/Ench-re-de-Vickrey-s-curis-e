@@ -73,8 +73,8 @@ public class SellerController extends Controller {
 
     }
 
-    public void sendEncryptedOffersSet() throws GeneralSecurityException { //TODO : CHANGER !
-        //TODO : Rename la méthode
+    public void sendEncryptedOffersProduct() throws GeneralSecurityException {
+
         SigPack_EncOffersProduct offers = seller.getOffersProductSignedBySeller();
         ui.displayEncryptedOffersSet();
 
@@ -83,7 +83,7 @@ public class SellerController extends Controller {
         byte[] price = SignatureUtil.objectToArrayByte(results.getObject());
         if(!SignatureUtil.verifyDataSignature(price, results.getObjectSigned(),results.getSignaturePubKey())){
             ui.addLogMessage("Signature du gestionnaire invalide ! Enchères compromises !");
-            //TODO : Envoyer erreur aux B ?
+            //TODO S2 : Envoyer erreur aux B ?
             client.stopEverything();
         }
         else{
@@ -124,19 +124,15 @@ public class SellerController extends Controller {
         seller.setResultsAreIn(true);
     }
 
-
-    //TODO : Ajouter l'étape de réception de la manifestation de l'enchérisseur gagnant
     public void receiveWinUntilPeriodEnd(){
-            //TODO : Recevoir manifestation.
-            ui.addLogMessage("Attente qu'un gagnant se manifeste !");
-            server.addHandler(Headers.SET_WIN_EXP,new WinnerReplyer());
+        ui.addLogMessage("Attente qu'un gagnant se manifeste !");
+        server.addHandler(Headers.SET_WIN_EXP,new WinnerReplyer());
 
-            while (!seller.isWinnerExpressed()) {
-                waitSynchro(1000);
-            }
+        while (!seller.isWinnerExpressed()) {
+            waitSynchro(1000);
+        }
 
-
-
+        ui.addLogMessage("Fin de l'enchère.");
     }
 
     public void displayHello() {
@@ -144,7 +140,7 @@ public class SellerController extends Controller {
     }
 
 
-    public void displayWinner() { //TODO : ???
+    public void displayWinner() {
         Set<SigPack_EncOffer> sigPackEncOffers = seller.getEncryptedOffersSet().getOffers();
     }
 
