@@ -1,10 +1,10 @@
 package com.projetenchere.Bidder.network;
 
 import com.projetenchere.common.Models.CurrentBids;
-import com.projetenchere.common.Models.PlayerStatus.PlayerStatus;
+import com.projetenchere.common.Models.EndPack;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffersProduct;
-import com.projetenchere.common.Models.SignedPack.SigPack_PublicKey;
+import com.projetenchere.common.Models.SignedPack.SigPack_Confirm;
 import com.projetenchere.common.Utils.NetworkUtil;
 import com.projetenchere.common.network.Client;
 import com.projetenchere.common.network.ClientSocketWrapper;
@@ -62,14 +62,26 @@ public class BidderClient extends Client {
         );
     }
 
-    public PlayerStatus validateAndGetWinStatus(SigPack_PublicKey key) { //TODO : Rename
+    public EndPack validateAndGetResults(SigPack_Confirm key) { //TODO : Rename
         return fetchWithData(
                 toSeller,
-                Headers.GET_PLAYER_STATUS,
-                Headers.OK_PLAYER_STATUS,
+                Headers.GET_RESULTS,
+                Headers.OK_RESULTS,
                 key
         );
     }
+
+    //TODO : méthode
+    /*
+    public ??? expressLoseOrWin(SigPack_ expression){
+        return fetchWithData(
+                toSeller,
+                Headers.SET_WIN_EXP,
+                Headers.OK_WIN_EXP,
+                expression
+        );
+    }
+    */
 
     public void stopEverything() {
         stopSeller();

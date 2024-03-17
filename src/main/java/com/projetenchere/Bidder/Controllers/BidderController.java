@@ -6,10 +6,9 @@ import com.projetenchere.Bidder.network.BidderClient;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
-import com.projetenchere.common.Models.PlayerStatus.PlayerStatus;
-import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
-import com.projetenchere.common.Models.SignedPack.SigPack_EncOffersProduct;
-import com.projetenchere.common.Models.SignedPack.SigPack_PublicKey;
+import com.projetenchere.common.Models.PlayerStatus;
+import com.projetenchere.common.Models.EndPack;
+import com.projetenchere.common.Models.SignedPack.*;
 import com.projetenchere.common.Models.Offer;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.SignatureUtil;
@@ -25,7 +24,9 @@ import java.util.Map;
 
 public class BidderController extends Controller {
     private final List<String> participatedBid = new ArrayList<>();
-    private final Map<String, PlayerStatus> results = new HashMap<>();
+
+    private final Map<String, SigPack_Results> results = new HashMap<>();
+
     private final Bidder bidder = new Bidder();
     BidderGraphicalUserInterface ui;
     BidderClient client = new BidderClient();
@@ -46,6 +47,8 @@ public class BidderController extends Controller {
         ui.tellReceiptOfCurrentBids();
         ui.displayBid(this.currentBids);
     }
+
+
 
     public void initWithManager() {
         client.connectToManager();
@@ -87,23 +90,48 @@ public class BidderController extends Controller {
         client.stopManager();
 
         byte[] msgSigned = SignatureUtil.signData(msg, bidder.getSignature());
-        SigPack_PublicKey key = new SigPack_PublicKey(msg,msgSigned,bidder.getKey());
+        SigPack_Confirm key = new SigPack_Confirm(msg,msgSigned,bidder.getKey(), sigPackEncOffer.getBidId());
 
-        PlayerStatus status = client.validateAndGetWinStatus(key);
+        //TODO S2 : Ajouté le fait que le vendeur signe le EndPack.
+        EndPack pack = client.validateAndGetResults(key);
 
-        if(status.isEjected()){
-            client.stopEverything();
-            throw new BidAbortedException("Bidder's offer was not present in set of offers.");
+        if(!pack.isResultsInside()){
+            if(pack.getStatus().isEjected()){
+                client.stopEverything();
+                throw new BidAbortedException("Bidder's offer was not present in set of offers.");
+            }
+            if(pack.getStatus().isUnknown()){
+                client.stopEverything();
+                throw new BidAbortedException("Bidder's key was not present in bidders keys initialization.");
+            }
         }
-        if(status.isUnknown()){
-            client.stopEverything();
-            throw new BidAbortedException("Bidder's key was not present in bidders keys initialization.");
-        }
+
 
         //TODO : Changer le comportement.
-        this.results.put(bid.getId(), status);
-        if (status.isWinner()) {
-            ui.tellOfferWon(status.getPrice());
+
+        SigPack_Results sellerResults = pack.getResults();
+
+        SigPack_PriceWin autorityResults = (SigPack_PriceWin) sellerResults.getObject();
+
+        if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(sellerResults.getObject()),sellerResults.getObjectSigned(),sellerResults.getSignaturePubKey()))
+        {
+            client.stopEverything();
+            throw new BidAbortedException("Results compromised : Seller's key falsified.");
+        }
+        if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(autorityResults.getObject()),autorityResults.getObjectSigned(),autorityResults.getSignaturePubKey()))
+        {
+            client.stopEverything();
+            throw new BidAbortedException("Results compromised : Manager's key falsified.");
+        }
+
+        double priceWin = (double) autorityResults.getObject();
+
+
+        this.results.put(bid.getId(),sellerResults);
+        if (offer.getPrice() == priceWin) {
+
+
+            ui.tellOfferWon(offer.getPrice());
         } else {
             ui.tellOfferLost();
         }
