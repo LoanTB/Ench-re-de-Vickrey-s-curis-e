@@ -2,7 +2,7 @@
 package com.projetenchere.Seller.network.Handlers;
 
 import com.projetenchere.Seller.Model.Seller;
-import com.projetenchere.common.Models.Encrypted.AbstractSignedPack;
+import com.projetenchere.common.Models.SignedPack.AbstractSignedPack;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.IDataHandler;
@@ -14,7 +14,7 @@ public class WinnerReplyer implements IDataHandler {
     public DataWrapper<AbstractSignedPack> handle(Serializable data) {
         Seller seller = Seller.getInstance();
         synchronized (this) {
-/*
+
             try {
                 SignedPublicKey signedPublicKey = (SignedPublicKey) data;
                 PublicKey bidderPk = null;
@@ -41,7 +41,7 @@ public class WinnerReplyer implements IDataHandler {
                 } else {
                     status = seller.getSignatureWinStatus(bidderPk);
                 }
- */
+
                 return new DataWrapper<>(status, Headers.OK_WIN_STATUS);
             } catch (ClassCastException e) {
                 throw new RuntimeException("Received unreadable data");
