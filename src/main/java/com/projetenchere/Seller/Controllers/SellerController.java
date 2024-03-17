@@ -78,7 +78,7 @@ public class SellerController extends Controller {
         SigPack_EncOffersProduct offers = seller.getOffersProductSignedBySeller();
         ui.displayEncryptedOffersSet();
 
-        SigPack_PriceWin results = client.sendEncryptedOffersSet(offers);
+        SigPack_PriceWin results = client.sendEncryptedOffersProduct(offers);
 
         byte[] price = SignatureUtil.objectToArrayByte(results.getObject());
         if(!SignatureUtil.verifyDataSignature(price, results.getObjectSigned(),results.getSignaturePubKey())){

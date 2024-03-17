@@ -63,7 +63,7 @@ public class BidderClient extends Client {
         );
     }
 
-    public EndPack validateAndGetResults(SigPack_Confirm key) { //TODO : Rename
+    public EndPack validateAndGetResults(SigPack_Confirm key) {
         return fetchWithData(
                 toSeller,
                 Headers.GET_RESULTS,

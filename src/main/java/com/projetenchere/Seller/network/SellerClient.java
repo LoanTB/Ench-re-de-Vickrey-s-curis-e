@@ -24,11 +24,11 @@ public class SellerClient extends Client {
         fetchWithData(toManager, Headers.NEW_BID, Headers.OK_NEW_BID, bid);
     }
 
-    public SigPack_PriceWin sendEncryptedOffersSet(SigPack_EncOffersProduct prices) { //TODO : Rename la méthode.
+    public SigPack_PriceWin sendEncryptedOffersProduct(SigPack_EncOffersProduct prices) {
         return fetchWithData(toManager, Headers.RESOLVE_BID, Headers.RESOLVE_BID_OK, prices);
     }
 
-    public void stopEverything() { //TODO : Il manque quelque chose
+    public void stopEverything() { //TODO S2 : Il manque quelque chose
         abort(toManager);
     }
 
