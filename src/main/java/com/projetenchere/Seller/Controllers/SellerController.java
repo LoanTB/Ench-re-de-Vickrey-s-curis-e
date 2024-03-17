@@ -9,7 +9,6 @@ import com.projetenchere.Seller.network.SellerClient;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.PlayerStatus;
 import com.projetenchere.common.Models.SignedPack.*;
-import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.NetworkUtil;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.Headers;

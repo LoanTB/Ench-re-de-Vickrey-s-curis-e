@@ -5,7 +5,6 @@ import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_PriceWin;
 import com.projetenchere.common.Models.User;
-import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.SignatureUtil;
 

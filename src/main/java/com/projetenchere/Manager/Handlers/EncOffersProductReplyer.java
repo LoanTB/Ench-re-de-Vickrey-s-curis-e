@@ -5,7 +5,6 @@ import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUse
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
 import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_PriceWin;
-import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.Headers;
