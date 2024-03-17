@@ -27,4 +27,9 @@ public class SellerClient extends Client {
     public SigPack_PriceWin sendEncryptedOffersSet(SigPack_EncOffersProduct prices) { //TODO : Rename la méthode.
         return fetchWithData(toManager, Headers.RESOLVE_BID, Headers.RESOLVE_BID_OK, prices);
     }
+
+    public void stopEverything() { //TODO : Il manque quelque chose
+        abort(toManager);
+    }
+
 }
