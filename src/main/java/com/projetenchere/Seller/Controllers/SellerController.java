@@ -7,7 +7,7 @@ import com.projetenchere.Seller.network.Handlers.EncryptedOfferReplyer;
 import com.projetenchere.Seller.network.Handlers.WinnerReplyer;
 import com.projetenchere.Seller.network.SellerClient;
 import com.projetenchere.common.Controllers.Controller;
-import com.projetenchere.common.Models.PlayerStatus.PlayerStatus;
+import com.projetenchere.common.Models.PlayerStatus;
 import com.projetenchere.common.Models.SignedPack.*;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.NetworkUtil;
@@ -26,7 +26,6 @@ public class SellerController extends Controller {
     private final Seller seller = Seller.getInstance();
     SellerGraphicalUserInterface ui;
     private Winner winner = null;
-    private SigPack_Results EndResults = null;
 
     public SellerController(SellerGraphicalUserInterface ui) {
         this.ui = ui;
@@ -64,7 +63,7 @@ public class SellerController extends Controller {
         }
         ui.addLogMessage("Enchère finie !");
         ui.addLogMessage("Envoie de la demande de résolution au gestionnaire.");
-        server.addHandler(Headers.GET_PLAYER_STATUS, new ChecklistOkReplyer());
+        server.addHandler(Headers.GET_RESULTS, new ChecklistOkReplyer());
         seller.resultsAreReady();
         server.removeHandler(Headers.SEND_OFFER);
 
@@ -74,12 +73,6 @@ public class SellerController extends Controller {
             waitSynchro(1000);
         }
 
-    }
-
-    public void setWinner(Winner winner) {
-        this.winner = winner;
-        seller.setWinStatusMap(getBiddersWinStatus());
-        seller.setResultsAreIn(true);
     }
 
     public void sendEncryptedOffersSet() throws GeneralSecurityException { //TODO : CHANGER !
@@ -97,24 +90,58 @@ public class SellerController extends Controller {
         }
         else{
 
+
             byte[] signedPriceBySeller = SignatureUtil.signData(price, seller.getSignature());
-            this.EndResults = new SigPack_Results(results, signedPriceBySeller, this.seller.getKey());
+            this.seller.setEndResults(new SigPack_Results(results, signedPriceBySeller, this.seller.getKey(),this.seller.getMyBid().getId()));
+
+            this.setWinner(seller.getEndResults());
 
             ui.addLogMessage("Le prix gagnant est " + winner.price() + "€");
-            ui.addLogMessage("Résultats envoyés aux enchérisseurs."); //??? TODO : A déplacer.
+            ui.addLogMessage("Résultats envoyés aux enchérisseurs.");
         }
 
     }
 
+/*
+    public void sendEncryptedOffersSet() {
+        SignedEncryptedOfferSet offers = seller.getEncryptedOffersSignedBySeller();
+        ui.displayEncryptedOffersSet();
+        this.setWinner(client.sendEncryptedOffersSet(offers));
+        ui.addLogMessage("Le prix gagnant est " + winner.price() + "€");
+        ui.addLogMessage("Résultats envoyés aux enchérisseurs.");
+    }
+*/
+public Map<PublicKey, PlayerStatus> getBiddersWinStatus() {
+    Set<SigPack_EncOffer> sigPackEncOffers = seller.getEncryptedOffersSet().getOffers();
+    boolean haveAWinner = false;
+    Map<PublicKey, PlayerStatus> winStatusMap = new HashMap<>();
+    for (SigPack_EncOffer sigPackEncOffer : sigPackEncOffers) {
+        byte[] encPrice = SignatureUtil.objectToArrayByte(sigPackEncOffer.getObject());
 
-    //Ajouter l'étape de réception de la manifestation de l'enchérisseur gagnant.
-    //DataWrapper pour recevoir le "IWIN"
+        this.seller.getEndResults()
+
+        if (Arrays.equals(encPrice,) && !haveAWinner) {
+            winStatusMap.put(sigPackEncOffer.getSignaturePubKey(), new PlayerStatus(winner.bidId(), true));
+            haveAWinner = true;
+        } else {
+            winStatusMap.put(sigPackEncOffer.getSignaturePubKey(), new PlayerStatus(winner.bidId()));
+        }
+    }
+    return winStatusMap;
+}
+    public void setWinner(SigPack_Results winner) {
+
+        seller.setWinStatusMap(getBiddersWinStatus());
+        seller.setResultsAreIn(true);
+    }
+
+
+    //TODO : Ajouter l'étape de réception de la manifestation de l'enchérisseur gagnant
     public void receiveWinUntilPeriodEnd(){
 //TODO : Recevoir manifestation.
             ui.addLogMessage("Attente qu'un gagnant se manifeste !");
-            server.addHandler(Headers.GET_WIN_EXP,new WinnerReplyer());
+            server.addHandler(Headers.SET_WIN_EXP,new WinnerReplyer());
 
-         //   this.setWinner();
 
     }
 
@@ -123,26 +150,8 @@ public class SellerController extends Controller {
     }
 
 
-    public void displayWinner() {
+    public void displayWinner() { //TODO : ???
         Set<SigPack_EncOffer> sigPackEncOffers = seller.getEncryptedOffersSet().getOffers();
     }
-
-    public Map<PublicKey, PlayerStatus> getBiddersWinStatus() { //TODO :
-        Set<SigPack_EncOffer> sigPackEncOffers = seller.getEncryptedOffersSet().getOffers();
-        boolean haveAWinner = false;
-        Map<PublicKey, PlayerStatus> winStatusMap = new HashMap<>();
-        for (SigPack_EncOffer sigPackEncOffer : sigPackEncOffers) {
-            byte[] encPrice = SignatureUtil.objectToArrayByte(sigPackEncOffer.getObject());
-
-            if (Arrays.equals(encPrice, winner.encryptedPrice()) && !haveAWinner) {
-                winStatusMap.put(sigPackEncOffer.getSignaturePubKey(), new PlayerStatus(winner.bidId(), winner.price(), true));
-                haveAWinner = true;
-            } else {
-                winStatusMap.put(sigPackEncOffer.getSignaturePubKey(), new PlayerStatus(winner.bidId(), -1));
-            }
-        }
-        return winStatusMap;
-    }
-
 
 }

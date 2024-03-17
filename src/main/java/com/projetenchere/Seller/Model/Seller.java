@@ -1,10 +1,11 @@
 package com.projetenchere.Seller.Model;
 
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.PlayerStatus.PlayerStatus;
+import com.projetenchere.common.Models.PlayerStatus;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffersProduct;
 import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
+import com.projetenchere.common.Models.SignedPack.SigPack_Results;
 import com.projetenchere.common.Models.User;
 import com.projetenchere.common.Utils.SignatureUtil;
 
@@ -18,19 +19,21 @@ import java.util.Set;
 
 public class Seller extends User {
     private static Seller INSTANCE;
+
     private final Map<PublicKey, byte[]> bidders = new HashMap<>();
     private final Set<PublicKey> biddersOk = new HashSet<>();
-
-
-
     private final Set<PublicKey> biddersNoOk = new HashSet<>();
 
     private Map<PublicKey, PlayerStatus> winStatusMap;
+
+    private SigPack_Results EndResults = null;
     private Set_SigPackEncOffer encryptedOffersReceived;
     private SigPack_EncOffersProduct offersProductSignedBySeller; //Réponse aux enchérisseurs.
     private Bid myBid;
+
     private boolean resultsAreIn = false;
     private boolean resultsReady = false;
+    private boolean winnerExpressed = false;
 
 
     private Seller() {
@@ -39,6 +42,16 @@ public class Seller extends User {
     public synchronized static Seller getInstance() {
         if (INSTANCE == null) INSTANCE = new Seller();
         return INSTANCE;
+    }
+
+
+
+    public SigPack_Results getEndResults() {
+        return EndResults;
+    }
+
+    public void setEndResults(SigPack_Results endResults) {
+        EndResults = endResults;
     }
 
     public synchronized boolean isResultsReady() {
@@ -57,29 +70,39 @@ public class Seller extends User {
         this.resultsAreIn = resultsAreIn;
     }
 
-    public synchronized void addBidder(PublicKey key, byte[] price) {
-        this.bidders.put(key, price);
+    public boolean isWinnerExpressed() {
+        return winnerExpressed;
     }
 
-    public synchronized PlayerStatus getSignatureWinStatus(PublicKey key) {
-        return winStatusMap.get(key);
+    public void setWinnerExpressed(boolean winnerExpressed) {
+        this.winnerExpressed = winnerExpressed;
+    }
+
+
+
+
+    public synchronized void addBidder(PublicKey key, byte[] price) {
+        this.bidders.put(key, price);
     }
 
     public synchronized Map<PublicKey, byte[]> getBidders() {
         return this.bidders;
     }
 
+
+
+    public synchronized PlayerStatus getSignatureWinStatus(PublicKey key) {
+        return winStatusMap.get(key);
+    }
+
     public Map<PublicKey, PlayerStatus> getWinStatusMap() {
         return winStatusMap;
-    } //TODO : Rename méthode + variable
+    }
 
     public void setWinStatusMap(Map<PublicKey, PlayerStatus> winStatusMap) {
         this.winStatusMap = winStatusMap;
-    } //TODO : Rename méthode + variable
-
-    public synchronized void finish() {
-        this.resultsAreIn = true;
     }
+
 
 
     public Bid getMyBid() {
@@ -135,4 +158,7 @@ public class Seller extends User {
     public synchronized Set<PublicKey> getBiddersNoOk() {
         return biddersNoOk;
     }
+
+
+
 }

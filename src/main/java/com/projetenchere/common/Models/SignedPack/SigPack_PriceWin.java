@@ -6,7 +6,7 @@ import java.security.PublicKey;
 public class SigPack_PriceWin extends AbstractSignedPack implements Serializable {
 
     //TODO : JavaDoc
-
+//TODO : Ajouter ce qu'il faut pour l'identification du gagnant. Servira à attester que le gagnant ne triche pas.
     /**
      * Signed by Manager received by Seller
      *

@@ -17,7 +17,7 @@ import java.util.Set;
 
 public class EncryptedOffersSetReplyer implements IDataHandler {
     @Override
-    public DataWrapper<Winner> handle(Serializable data) {
+    public DataWrapper<Winner> handle(Serializable data) { //TODO : Changer Winner et ajouter à SigPack_Results les éléments nécessaires à l'identification du winner
         Manager manager = Manager.getInstance();
         try {
             Set_SigPackEncOffer enc = (Set_SigPackEncOffer) data;
