@@ -11,13 +11,14 @@ public enum Headers implements Serializable {
     SEND_OFFER,
     CHECK_LIST,
     ABORT,
-    GET_PLAYER_STATUS, //Anciennement WIN_STATUS
-    OK_PLAYER_STATUS, //Anciennement WIN_STATUS
+    GET_RESULTS,
+    OK_RESULTS,
+    SET_WIN_EXP,
+    OK_WIN_EXP,
     NEW_BID,
     OK_NEW_BID,
     RESOLVE_BID,
     RESOLVE_BID_OK,
-    GET_WIN_EXP,
     GOODBYE_HAVE_A_NICE_DAY,
     TEST,
     OK_TEST
