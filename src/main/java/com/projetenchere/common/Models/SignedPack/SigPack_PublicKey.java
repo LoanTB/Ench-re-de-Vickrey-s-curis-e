@@ -12,7 +12,7 @@ public class SigPack_PublicKey extends AbstractSignedPack implements Serializabl
      * @param okSigned
      * @param signaturePubKey
      */
-    public SigPack_PublicKey(String ok, byte[] okSigned, PublicKey signaturePubKey) {
+    public SigPack_PublicKey(int ok, byte[] okSigned, PublicKey signaturePubKey) {
         super(ok, okSigned, signaturePubKey);
     }
 }
