@@ -1,11 +1,11 @@
 package com.projetenchere.Seller.Model;
 
 import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.Models.PlayerStatus.PlayerStatus;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffersProduct;
 import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
 import com.projetenchere.common.Models.User;
-import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Utils.SignatureUtil;
 
 import java.math.BigInteger;
@@ -20,7 +20,12 @@ public class Seller extends User {
     private static Seller INSTANCE;
     private final Map<PublicKey, byte[]> bidders = new HashMap<>();
     private final Set<PublicKey> biddersOk = new HashSet<>();
-    private Map<PublicKey, WinStatus> winStatusMap;
+
+
+
+    private final Set<PublicKey> biddersNoOk = new HashSet<>();
+
+    private Map<PublicKey, PlayerStatus> winStatusMap;
     private Set_SigPackEncOffer encryptedOffersReceived;
     private SigPack_EncOffersProduct offersProductSignedBySeller; //Réponse aux enchérisseurs.
     private Bid myBid;
@@ -56,7 +61,7 @@ public class Seller extends User {
         this.bidders.put(key, price);
     }
 
-    public synchronized WinStatus getSignatureWinStatus(PublicKey key) {
+    public synchronized PlayerStatus getSignatureWinStatus(PublicKey key) {
         return winStatusMap.get(key);
     }
 
@@ -64,13 +69,13 @@ public class Seller extends User {
         return this.bidders;
     }
 
-    public Map<PublicKey, WinStatus> getWinStatusMap() {
+    public Map<PublicKey, PlayerStatus> getWinStatusMap() {
         return winStatusMap;
-    }
+    } //TODO : Rename méthode + variable
 
-    public void setWinStatusMap(Map<PublicKey, WinStatus> winStatusMap) {
+    public void setWinStatusMap(Map<PublicKey, PlayerStatus> winStatusMap) {
         this.winStatusMap = winStatusMap;
-    }
+    } //TODO : Rename méthode + variable
 
     public synchronized void finish() {
         this.resultsAreIn = true;
@@ -127,5 +132,7 @@ public class Seller extends User {
     public synchronized Set<PublicKey> getbiddersOk() {
         return this.biddersOk;
     }
-
+    public synchronized Set<PublicKey> getBiddersNoOk() {
+        return biddersNoOk;
+    }
 }

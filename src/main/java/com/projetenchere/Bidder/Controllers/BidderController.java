@@ -6,11 +6,11 @@ import com.projetenchere.Bidder.network.BidderClient;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
-import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
+import com.projetenchere.common.Models.PlayerStatus.PlayerStatus;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
+import com.projetenchere.common.Models.SignedPack.SigPack_EncOffersProduct;
 import com.projetenchere.common.Models.SignedPack.SigPack_PublicKey;
 import com.projetenchere.common.Models.Offer;
-import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.exception.BidAbortedException;
@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class BidderController extends Controller {
     private final List<String> participatedBid = new ArrayList<>();
-    private final Map<String, WinStatus> results = new HashMap<>();
+    private final Map<String, PlayerStatus> results = new HashMap<>();
     private final Bidder bidder = new Bidder();
     BidderGraphicalUserInterface ui;
     BidderClient client = new BidderClient();
@@ -68,24 +68,46 @@ public class BidderController extends Controller {
         participatedBid.add(offer.getIdBid());
         client.connectToSeller(bid.getSellerSocketAddress());
         ui.tellOfferSent();
-        Set_SigPackEncOffer set = client.sendOfferReceiveList(sigPackEncOffer);
-        if (!set.contains(sigPackEncOffer)) {
+        SigPack_EncOffersProduct set = client.sendOfferReceiveList(sigPackEncOffer);
+
+        //On vérifier la signature du vendeur
+        if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(set.getObject()),set.getObjectSigned(),set.getSignaturePubKey()))
+        {
             client.stopEverything();
-            throw new BidAbortedException("Offer was not present is set");
+            throw new SignatureException("Seller's signature has been compromised.");
+        }
+
+//Faire remarquer l'absence du chiffré.
+        int msg;
+        if (!set.getSetOffers().contains(sigPackEncOffer)) {
+            msg = 0;
+        }else{
+            msg = 1;
         }
         client.stopManager();
 
-        String msg = "ok";
-        byte[] msgSigned = SignatureUtil.signData(msg.getBytes(), bidder.getSignature());
+        byte[] msgSigned = SignatureUtil.signData(msg, bidder.getSignature());
         SigPack_PublicKey key = new SigPack_PublicKey(msg,msgSigned,bidder.getKey());
-        WinStatus status = client.validateAndGetWinStatus(key);
 
+        PlayerStatus status = client.validateAndGetWinStatus(key);
+
+        if(status.isEjected()){
+            client.stopEverything();
+            throw new BidAbortedException("Bidder's offer was not present in set of offers.");
+        }
+        if(status.isUnknown()){
+            client.stopEverything();
+            throw new BidAbortedException("Bidder's key was not present in bidders keys initialization.");
+        }
+
+        //TODO : Changer le comportement.
         this.results.put(bid.getId(), status);
         if (status.isWinner()) {
             ui.tellOfferWon(status.getPrice());
         } else {
             ui.tellOfferLost();
         }
+
         client.stopSeller();
     }
 

@@ -1,9 +1,9 @@
 package com.projetenchere.Seller.network.Handlers;
 
 import com.projetenchere.Seller.Model.Seller;
+import com.projetenchere.common.Models.PlayerStatus.PlayerStatus;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_PublicKey;
-import com.projetenchere.common.Models.WinStatus;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.Headers;
@@ -16,38 +16,59 @@ import java.util.Set;
 
 public class ChecklistOkReplyer implements IDataHandler {
     @Override
-    public DataWrapper<WinStatus> handle(Serializable data) {
+    public DataWrapper<PlayerStatus> handle(Serializable data) {
         Seller seller = Seller.getInstance();
         synchronized (this) {
 
             try {
                 SigPack_PublicKey signedPublicKey = (SigPack_PublicKey) data;
                 PublicKey bidderPk = null;
-                WinStatus status;
+                PlayerStatus status;
 
+//TODO : Garder une liste d'enchèrisseurs non Ok.
 
-                if (SignatureUtil.verifyDataSignature("ok".getBytes(), signedPublicKey.getObjectSigned(), signedPublicKey.getSignaturePubKey())) {
-                    Set<SigPack_EncOffer> offers = seller.getEncryptedOffersSet().getOffers();
+                byte[] noPresent = SignatureUtil.objectToArrayByte(0);
+                byte[] present = SignatureUtil.objectToArrayByte(1);
 
-                    for (SigPack_EncOffer offer : offers) {
-                        if (offer.getSignaturePublicKey() == signedPublicKey.getSignaturePubKey()) {
-                            bidderPk = signedPublicKey.getSignaturePubKey();
+                boolean ok = false;
+                Set<SigPack_EncOffer> offers = seller.getEncryptedOffersSet().getOffers();
+                for (SigPack_EncOffer offer : offers) {
+                    if (offer.getSignaturePubKey() == signedPublicKey.getSignaturePubKey()) {
+                        bidderPk = signedPublicKey.getSignaturePubKey();
+                        if (SignatureUtil.verifyDataSignature(present, signedPublicKey.getObjectSigned(), signedPublicKey.getSignaturePubKey())) {
+                            ok = true;
                             seller.getbiddersOk().add(bidderPk);
+                        }
+                        if (SignatureUtil.verifyDataSignature(noPresent, signedPublicKey.getObjectSigned(), signedPublicKey.getSignaturePubKey())) {
+                            ok = false;
+                            seller.getBiddersNoOk().add(bidderPk);
                         }
                     }
                 }
 
+
+
+
+                if(!ok){
+                    status = new PlayerStatus(seller.getMyBid().getId(), 0);
+                    status.eject();    //Si l'enchérisseur précise qu'il n'y a pas son chiffré dans la liste
+                    return new DataWrapper<>(status, Headers.OK_PLAYER_STATUS);
+                }
+                if(bidderPk == null)
+                {
+                    status = new PlayerStatus(seller.getMyBid().getId(), 0);
+                    status.unknown();
+                        // qu'un enchérisseur répond sans qu'on ai sa clé publique parmi
+                        // les clé des enchérisseur ayant participé lorsque l'enchère était en cours.
+                    return new DataWrapper<>(status, Headers.OK_PLAYER_STATUS);
+                }
+
+
                 while (!seller.resultsAreIn()) {
                     wait(1000);
                 }
-
-                if (bidderPk == null) {
-                    status = new WinStatus(seller.getMyBid().getId(), false, 0);
-                } else {
-                    status = seller.getSignatureWinStatus(bidderPk);
-                }
-
-                return new DataWrapper<>(status, Headers.OK_WIN_STATUS);
+                status = seller.getSignatureWinStatus(bidderPk);
+                return new DataWrapper<>(status, Headers.OK_PLAYER_STATUS);
             } catch (ClassCastException e) {
                 throw new RuntimeException("Received unreadable data");
             } catch (InterruptedException e) {
