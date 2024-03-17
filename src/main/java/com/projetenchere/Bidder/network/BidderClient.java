@@ -2,6 +2,7 @@ package com.projetenchere.Bidder.network;
 
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.EndPack;
+import com.projetenchere.common.Models.PlayerStatus;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffersProduct;
 import com.projetenchere.common.Models.SignedPack.SigPack_Confirm;
@@ -71,9 +72,7 @@ public class BidderClient extends Client {
         );
     }
 
-    //TODO : méthode
-    /*
-    public ??? expressLoseOrWin(SigPack_ expression){
+    public PlayerStatus sendExpressWin(SigPack_Confirm expression){
         return fetchWithData(
                 toSeller,
                 Headers.SET_WIN_EXP,
@@ -81,7 +80,6 @@ public class BidderClient extends Client {
                 expression
         );
     }
-    */
 
     public void stopEverything() {
         stopSeller();

@@ -4,12 +4,8 @@ import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface;
 import com.projetenchere.Bidder.network.BidderClient;
 import com.projetenchere.common.Controllers.Controller;
-import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.Models.CurrentBids;
-import com.projetenchere.common.Models.PlayerStatus;
-import com.projetenchere.common.Models.EndPack;
+import com.projetenchere.common.Models.*;
 import com.projetenchere.common.Models.SignedPack.*;
-import com.projetenchere.common.Models.Offer;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.exception.BidAbortedException;
@@ -56,6 +52,20 @@ public class BidderController extends Controller {
         askForManagerPubKey();
     }
 
+
+    public void verifyIfEjectOrUnknownPlayerStatus(PlayerStatus status) throws BidAbortedException {
+        if(status.isEjected()){
+            client.stopEverything();
+            throw new BidAbortedException("Bidder's offer was not present in set of offers.");
+        }
+        if(status.isUnknown()){
+            client.stopEverything();
+            throw new BidAbortedException("Bidder's key was not present in bidders keys initialization.");
+        }
+    }
+
+
+
     public void readAndSendOffer() throws BidAbortedException, SignatureException {
         Offer offer = ui.readOffer(bidder, currentBids);
         Bid bid = currentBids.getBid(offer.getIdBid());
@@ -96,22 +106,14 @@ public class BidderController extends Controller {
         EndPack pack = client.validateAndGetResults(key);
 
         if(!pack.isResultsInside()){
-            if(pack.getStatus().isEjected()){
-                client.stopEverything();
-                throw new BidAbortedException("Bidder's offer was not present in set of offers.");
-            }
-            if(pack.getStatus().isUnknown()){
-                client.stopEverything();
-                throw new BidAbortedException("Bidder's key was not present in bidders keys initialization.");
-            }
+            this.verifyIfEjectOrUnknownPlayerStatus(pack.getStatus());
         }
-
-
-        //TODO : Changer le comportement.
 
         SigPack_Results sellerResults = pack.getResults();
 
         SigPack_PriceWin autorityResults = (SigPack_PriceWin) sellerResults.getObject();
+
+        //TODO S2 : Refactor le code avec des nouvelles méthodes pour couvrir les situations où une clé est falsifiée et éviter la duplication de code.
 
         if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(sellerResults.getObject()),sellerResults.getObjectSigned(),sellerResults.getSignaturePubKey()))
         {
@@ -128,10 +130,25 @@ public class BidderController extends Controller {
 
 
         this.results.put(bid.getId(),sellerResults);
+
+        //TODO S2 : Refactor le code. + Vérifier la signature du PlayerStatus.
+
         if (offer.getPrice() == priceWin) {
 
+            int exp = 1;
+            byte[] expByte = SignatureUtil.objectToArrayByte(exp);
+            byte[] expSigned = SignatureUtil.signData(expByte,this.bidder.getSignature());
+            SigPack_Confirm expression = new SigPack_Confirm(exp,expSigned, this.bidder.getKey(),bid.getId());
 
-            ui.tellOfferWon(offer.getPrice());
+            PlayerStatus status = client.sendExpressWin(expression);
+
+            verifyIfEjectOrUnknownPlayerStatus(status);
+            if(status.isWinner()){
+                ui.tellOfferWon(offer.getPrice());
+            }
+            else {
+                ui.tellOfferLost();
+            }
         } else {
             ui.tellOfferLost();
         }
@@ -146,5 +163,7 @@ public class BidderController extends Controller {
     public void displayHello() {
         ui.displayHello();
     }
+
+
 
 }
