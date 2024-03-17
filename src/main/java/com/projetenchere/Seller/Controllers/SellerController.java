@@ -102,36 +102,28 @@ public class SellerController extends Controller {
 
     }
 
-/*
-    public void sendEncryptedOffersSet() {
-        SignedEncryptedOfferSet offers = seller.getEncryptedOffersSignedBySeller();
-        ui.displayEncryptedOffersSet();
-        this.setWinner(client.sendEncryptedOffersSet(offers));
-        ui.addLogMessage("Le prix gagnant est " + winner.price() + "€");
-        ui.addLogMessage("Résultats envoyés aux enchérisseurs.");
-    }
-*/
-public Map<PublicKey, PlayerStatus> getBiddersWinStatus() {
-    Set<SigPack_EncOffer> sigPackEncOffers = seller.getEncryptedOffersSet().getOffers();
-    boolean haveAWinner = false;
-    Map<PublicKey, PlayerStatus> winStatusMap = new HashMap<>();
-    for (SigPack_EncOffer sigPackEncOffer : sigPackEncOffers) {
-        byte[] encPrice = SignatureUtil.objectToArrayByte(sigPackEncOffer.getObject());
 
-        this.seller.getEndResults()
+    public Map<PublicKey, PlayerStatus> getBiddersWinStatus(SigPack_Results results) {
+        Set<SigPack_EncOffer> sigPackEncOffers = seller.getEncryptedOffersSet().getOffers();
+        SigPack_PriceWin priceWin = (SigPack_PriceWin) results.getObject();
 
-        if (Arrays.equals(encPrice,) && !haveAWinner) {
-            winStatusMap.put(sigPackEncOffer.getSignaturePubKey(), new PlayerStatus(winner.bidId(), true));
-            haveAWinner = true;
-        } else {
-            winStatusMap.put(sigPackEncOffer.getSignaturePubKey(), new PlayerStatus(winner.bidId()));
+        boolean haveAWinner = false;
+        Map<PublicKey, PlayerStatus> winStatusMap = new HashMap<>();
+        for (SigPack_EncOffer sigPackEncOffer : sigPackEncOffers) {
+            byte[] encPrice = SignatureUtil.objectToArrayByte(sigPackEncOffer.getObject());
+
+            if (Arrays.equals(encPrice,priceWin.getEncrypedPriceOrigin()) && !haveAWinner) {
+                winStatusMap.put(sigPackEncOffer.getSignaturePubKey(), new PlayerStatus(results.getBidId(), true));
+                haveAWinner = true;
+            } else {
+                winStatusMap.put(sigPackEncOffer.getSignaturePubKey(), new PlayerStatus(results.getBidId()));
+            }
         }
+        return winStatusMap;
     }
-    return winStatusMap;
-}
-    public void setWinner(SigPack_Results winner) {
 
-        seller.setWinStatusMap(getBiddersWinStatus());
+    public void setWinner(SigPack_Results winner) {
+        seller.setWinStatusMap(getBiddersWinStatus(winner));
         seller.setResultsAreIn(true);
     }
 

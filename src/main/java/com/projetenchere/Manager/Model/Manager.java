@@ -3,9 +3,11 @@ package com.projetenchere.Manager.Model;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
+import com.projetenchere.common.Models.SignedPack.SigPack_PriceWin;
 import com.projetenchere.common.Models.User;
 import com.projetenchere.common.Models.Winner;
 import com.projetenchere.common.Utils.EncryptionUtil;
+import com.projetenchere.common.Utils.SignatureUtil;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -49,7 +51,7 @@ public class Manager extends User {
         return bids;
     }
 
-    public Winner processPrices(Set_SigPackEncOffer setSigPackEncOffer, PrivateKey privateKey) throws Exception {
+    public SigPack_PriceWin processPrices(Set_SigPackEncOffer setSigPackEncOffer, PrivateKey privateKey) throws Exception {
         double price1 = 0;
         byte[] encrypted1 = null;
         double decrypted;
@@ -70,8 +72,10 @@ public class Manager extends User {
         if (price2 == -1) {
             price2 = price1;
         }
-        Winner winner = new Winner(setSigPackEncOffer.getBidId(), encrypted1, price2);
-        return winner;
+
+        byte[] price2Signed = SignatureUtil.signData(SignatureUtil.objectToArrayByte(price1),this.getSignature());
+        SigPack_PriceWin priceWin = new SigPack_PriceWin(price2, price2Signed, this.getKey(), encrypted1,setSigPackEncOffer.getBidId());
+        return priceWin;
     }
 
 }
