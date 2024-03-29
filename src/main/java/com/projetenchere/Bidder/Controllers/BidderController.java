@@ -84,7 +84,7 @@ public class BidderController extends Controller {
         SigPack_EncOffersProduct set = client.sendOfferReceiveList(sigPackEncOffer);
 
         //On vérifier la signature du vendeur
-        if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(set.getObject()),set.getObjectSigned(),set.getSignaturePubKey()))
+        if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(set.getObject()),set.getObjectSigned(),set.getSignaturePubKey())) //TODO : Fix !
         {
             client.stopEverything();
             throw new SignatureException("Seller's signature has been compromised.");
