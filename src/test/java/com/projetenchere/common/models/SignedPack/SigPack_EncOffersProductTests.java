@@ -4,7 +4,7 @@ import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffersProduct;
 import com.projetenchere.common.Utils.EncryptionUtil;
-import com.projetenchere.common.Utils.KeyFileUtilWithJKS;
+import com.projetenchere.common.Utils.KeyFile.KeyFileUtilWithJKS;
 import com.projetenchere.common.Utils.SignatureUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,7 +1,7 @@
-package com.projetenchere.common.Utils.stub;
+package com.projetenchere.common.Utils.KeyFile.stub;
 
 import com.projetenchere.common.Utils.EncryptionUtil;
-import com.projetenchere.common.Utils.I_KeyFileUtil;
+import com.projetenchere.common.Utils.KeyFile.I_KeyFileUtil;
 
 import java.io.*;
 import java.security.KeyPair;

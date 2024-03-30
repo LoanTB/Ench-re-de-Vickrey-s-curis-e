@@ -1,7 +1,7 @@
 package com.projetenchere.common.utils;
 
 import com.projetenchere.common.Utils.EncryptionUtil;
-import com.projetenchere.common.Utils.KeyFileUtilWithJKS;
+import com.projetenchere.common.Utils.KeyFile.KeyFileUtilWithJKS;
 import com.projetenchere.common.Utils.SignatureUtil;
 import org.junit.jupiter.api.Test;
 

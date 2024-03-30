@@ -1,4 +1,4 @@
-package com.projetenchere.common.Utils;
+package com.projetenchere.common.Utils.KeyFile;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;

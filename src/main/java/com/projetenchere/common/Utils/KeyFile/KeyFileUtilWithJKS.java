@@ -1,4 +1,4 @@
-package com.projetenchere.common.Utils;
+package com.projetenchere.common.Utils.KeyFile;
 
 import java.io.File;
 import java.io.FileInputStream;

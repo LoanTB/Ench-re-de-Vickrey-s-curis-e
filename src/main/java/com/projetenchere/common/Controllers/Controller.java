@@ -1,8 +1,8 @@
 package com.projetenchere.common.Controllers;
 
 import com.projetenchere.common.Models.User;
-import com.projetenchere.common.Utils.I_KeyFileUtil;
-import com.projetenchere.common.Utils.KeyFileUtilWithJKS;
+import com.projetenchere.common.Utils.KeyFile.I_KeyFileUtil;
+import com.projetenchere.common.Utils.KeyFile.KeyFileUtilWithJKS;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.View.I_UserInterface;
 
