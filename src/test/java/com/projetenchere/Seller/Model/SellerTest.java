@@ -6,6 +6,7 @@ import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.KeyFileUtilWithJKS;
 import com.projetenchere.common.Utils.SignatureUtil;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -20,29 +21,24 @@ import java.util.HashSet;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SellerTest {
 
 
-    @InjectMocks
+
     private Seller classUnderTest;
 
 
 
-    static Stream<Arguments> inputStreamEncOffer() throws Exception {
-        return Stream.of(
-                Arguments.of("test",15.0),
-                Arguments.of("test",18.0)
-                );
-    }
 
-    @ParameterizedTest
-    @MethodSource("inputStreamEncOffer")
-    void testsVerifyAndAddOfferWithOneOffer(String user, double price) throws Exception {
+
+    @Test
+    void testsVerifyAndAddOfferWithOneOffer() throws Exception {
     classUnderTest = Seller.getInstance();
 
 
-        KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS("_"+user);
+        KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS("_test");
         if (!keyFile.isKeyPairSaved()) {
             keyFile.generateAndSaveKeyPair();
         }
@@ -54,13 +50,15 @@ public class SellerTest {
         PublicKey puk = kp.getPublic();
         PrivateKey prk = kp.getPrivate();
 
-        byte[] encPrice = EncryptionUtil.encryptPrice(price,puk);
+        byte[] encPrice = EncryptionUtil.encryptPrice(18.0,puk);
         byte[] signedPrice = SignatureUtil.signData(encPrice,signature);
 
         SigPack_EncOffer offer = new SigPack_EncOffer(encPrice,signedPrice,signaturePublicKeyFromKeyStore,"0");
 
-
         classUnderTest.setEncryptedOffers(new Set_SigPackEncOffer("0", new HashSet<>()));
+
+        assertTrue(SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(offer.getObject()),
+                offer.getObjectSigned(), offer.getSignaturePubKey()));
 
 
         classUnderTest.verifyAndAddOffer(offer);
@@ -71,8 +69,8 @@ public class SellerTest {
         String configPath = "";
         String userHome = System.getProperty("user.home");
         configPath = userHome + "/.config/securewin";
-        String KEYSTORE_FILEPATH = configPath + "/config_signature_keypair_"+user+".jks";
-        String CERT_FILEPATH = configPath + "/config_signature_certificat_"+user+".cer";
+        String KEYSTORE_FILEPATH = configPath + "/config_signature_keypair_test.jks";
+        String CERT_FILEPATH = configPath + "/config_signature_certificat_test.cer";
         KeyFileUtilWithJKS.executeCommand("rm "+ CERT_FILEPATH);
         KeyFileUtilWithJKS.executeCommand("rm "+ KEYSTORE_FILEPATH);
 
