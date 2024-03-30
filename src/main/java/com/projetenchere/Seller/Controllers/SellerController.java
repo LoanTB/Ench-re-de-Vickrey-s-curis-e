@@ -80,7 +80,7 @@ public class SellerController extends Controller {
 
         SigPack_PriceWin results = client.sendEncryptedOffersProduct(offers);
 
-        byte[] price = SignatureUtil.objectToArrayByte(results.getObject());
+        byte[] price = SignatureUtil.objectToArrayByte((double) results.getObject());
         if(!SignatureUtil.verifyDataSignature(price, results.getObjectSigned(),results.getSignaturePubKey())){
             ui.addLogMessage("Signature du gestionnaire invalide ! Enchères compromises !");
             //TODO S2 : Envoyer erreur aux B ?
@@ -93,7 +93,7 @@ public class SellerController extends Controller {
             this.setWinner(seller.getEndResults());
 
             SigPack_PriceWin p = (SigPack_PriceWin) seller.getEndResults().getObject();
-            ui.addLogMessage("Le prix gagnant est " + p.getObject() + "€");
+            ui.addLogMessage("Le prix gagnant est " + (double) p.getObject() + "€");
             ui.addLogMessage("Résultats envoyés aux enchérisseurs.");
         }
 
@@ -106,7 +106,7 @@ public class SellerController extends Controller {
         boolean haveAWinner = false;
         Map<PublicKey, PlayerStatus> winStatusMap = new HashMap<>();
         for (SigPack_EncOffer sigPackEncOffer : sigPackEncOffers) {
-            byte[] encPrice = SignatureUtil.objectToArrayByte(sigPackEncOffer.getObject());
+            byte[] encPrice = (byte[]) sigPackEncOffer.getObject();
 
             if (Arrays.equals(encPrice,priceWin.getEncrypedPriceOrigin()) && !haveAWinner) {
                 winStatusMap.put(sigPackEncOffer.getSignaturePubKey(), new PlayerStatus(results.getBidId(), true));

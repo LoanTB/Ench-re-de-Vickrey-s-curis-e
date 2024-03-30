@@ -13,7 +13,6 @@ import java.security.Signature;
 
 public class SellerClient extends Client {
     ClientSocketWrapper toManager;
-    Signature sellerSignature;
 
     public void connectToManager() {
         SSLSocketFactory factory = new SSLSocketFactory();

@@ -12,6 +12,7 @@ import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.IDataHandler;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.security.PublicKey;
 import java.security.SignatureException;
 import java.util.HashSet;
@@ -24,7 +25,7 @@ public class EncOffersProductReplyer implements IDataHandler {
         try {
             SigPack_EncOffersProduct enc = (SigPack_EncOffersProduct) data;
 
-            if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(enc.getObject()), enc.getObjectSigned(), enc.getSignaturePubKey()))
+            if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte((BigInteger) enc.getObject()), enc.getObjectSigned(), enc.getSignaturePubKey()))
             {
                 throw new SignatureException("Seller's key falsified.");
             }

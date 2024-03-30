@@ -23,7 +23,7 @@ public class Set_SigPackEncOffer implements Serializable {
     public Set<byte[]> getPrices() {
         Set<byte[]> prices = new HashSet<>();
         for (SigPack_EncOffer offer : offers) {
-            prices.add(SignatureUtil.objectToArrayByte(offer.getObject()));
+            prices.add((byte[]) offer.getObject());
         }
         return prices;
     }

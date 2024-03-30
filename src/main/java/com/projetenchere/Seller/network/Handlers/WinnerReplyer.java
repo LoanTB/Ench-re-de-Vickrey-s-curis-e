@@ -26,7 +26,7 @@ public class WinnerReplyer implements IDataHandler {
 
                 PlayerStatus status = new PlayerStatus(winExpression.getBidId());
 
-                if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(winExpression.getObject()),winExpression.getObjectSigned(), winExpression.getSignaturePubKey()))
+                if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte((int) winExpression.getObject()),winExpression.getObjectSigned(), winExpression.getSignaturePubKey()))
                 {
                     status.eject();
                     return new DataWrapper<>(status, Headers.OK_WIN_EXP);

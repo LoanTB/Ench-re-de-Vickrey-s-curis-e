@@ -130,9 +130,10 @@ public class Seller extends User {
     }
 
     public synchronized void verifyAndAddOffer(SigPack_EncOffer offer) throws Exception {
-        if (SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(offer.getObject()), offer.getObjectSigned(), offer.getSignaturePubKey())) {
-            addBidder(offer.getSignaturePubKey(), SignatureUtil.objectToArrayByte(offer.getObject()));
-            getEncryptedOffersSet().getOffers().add(offer);
+        if (SignatureUtil.verifyDataSignature((byte[]) offer.getObject(),
+                offer.getObjectSigned(), offer.getSignaturePubKey())) {
+            addBidder(offer.getSignaturePubKey(), (byte[]) offer.getObject());
+            getEncryptedOffersSet().getOffers().add(offer); //TODO - Fix : Il n'ajoute même pas le prix.
         }
     }
 
@@ -142,7 +143,7 @@ public class Seller extends User {
         BigInteger product = BigInteger.valueOf(1);
         for(SigPack_EncOffer o : offers)
         {
-            BigInteger x = new BigInteger(SignatureUtil.objectToArrayByte(o.getObject()));
+            BigInteger x = new BigInteger((byte[]) o.getObject());
             product = product.multiply(x); //Vaut 1 tout le temps.
         }
 

@@ -1,6 +1,7 @@
 package com.projetenchere.common.Models.SignedPack;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 
@@ -16,7 +17,7 @@ public class SigPack_EncOffersProduct extends AbstractSignedPack implements Seri
      * @param list
      * @throws GeneralSecurityException
      */
-    public SigPack_EncOffersProduct(Object setProductOffers, byte[] setProductOffersSigned, PublicKey signaturePubKey, Set_SigPackEncOffer list) throws GeneralSecurityException {
+    public SigPack_EncOffersProduct(BigInteger setProductOffers, byte[] setProductOffersSigned, PublicKey signaturePubKey, Set_SigPackEncOffer list) throws GeneralSecurityException {
         super(setProductOffers, setProductOffersSigned, signaturePubKey);
         this.setOffers = list;
     }
