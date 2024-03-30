@@ -86,7 +86,9 @@ public class SigPack_PriceResultsTests {
 
         assertAll(
                 () -> assertTrue(SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(sigPackPriceWin.getObject()),resultsSigned,signaturePublicKeyFromKeyStore2)),
-                () -> assertTrue(SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(((SigPack_PriceWin)classUnderTest.getObject()).getObject()),classUnderTest.getObjectSigned(),classUnderTest.getSignaturePubKey()))
+                () -> assertTrue(SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(((SigPack_PriceWin)classUnderTest.getObject()).getObject()),
+                        classUnderTest.getObjectSigned(),classUnderTest.getSignaturePubKey())),
+                () -> assertFalse(SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(classUnderTest.getObject()),classUnderTest.getObjectSigned(),classUnderTest.getSignaturePubKey()))
         );
     }
 
