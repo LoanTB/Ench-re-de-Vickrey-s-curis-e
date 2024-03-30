@@ -30,7 +30,7 @@ public class SellerController extends Controller {
     }
 
     public void setSignatureConfig() throws Exception {
-        setSignatureConfig(ui, seller);
+        setSignatureConfig(ui, seller,"manager");
     }
 
     public void createMyBid() {

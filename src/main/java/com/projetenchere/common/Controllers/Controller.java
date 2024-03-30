@@ -12,9 +12,9 @@ import java.security.Signature;
 
 public abstract class Controller {
 
-    public void setSignatureConfig(I_UserInterface ui, User user) throws Exception {
+    public void setSignatureConfig(I_UserInterface ui, User user, String name) throws Exception { //TODO : name A retirer  à la fin du projet.
         ui.tellSignatureConfigSetup();
-        I_KeyFileUtil keyFile = new KeyFileUtilWithJKS();
+        I_KeyFileUtil keyFile = new KeyFileUtilWithJKS("_"+name);
 
         if (!keyFile.isKeyPairSaved()) {
             ui.tellSignatureConfigGeneration();
@@ -29,6 +29,7 @@ public abstract class Controller {
         user.setKey(publicKey);
         ui.tellSignatureConfigReady();
     }
+
 
     public void waitSynchro(int ms) {
         synchronized (this) {

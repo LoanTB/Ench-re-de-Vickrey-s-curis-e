@@ -22,7 +22,7 @@ public class ManagerController extends Controller {
     }
 
     public void setSignatureConfig() throws Exception {
-        setSignatureConfig(ui, manager);
+        setSignatureConfig(ui, manager,"manager"); //TODO : A retirer à la fin du projet.
     }
 
     public void init() {

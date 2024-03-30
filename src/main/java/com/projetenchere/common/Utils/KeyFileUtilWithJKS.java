@@ -20,19 +20,21 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     private static String KEYSTORE_FILEPATH;
     private static String CERT_FILEPATH;
 
-    public KeyFileUtilWithJKS() {
+    public KeyFileUtilWithJKS(String user) { //TODO : Retirer user à la fin du projet.
         String OS = System.getProperty("os.name").toLowerCase();
         String configPath = "";
         String userHome = System.getProperty("user.home");
+        String keypairFileName  = "/config_signature_keypair"+user+".jks";
+        String certificatFileName ="/config_signature_certificat"+user+".cer";
 
         if (OS.contains("nix") || OS.contains("nux") || OS.contains("aix")) {
             configPath = userHome + "/.config/securewin";
-            KEYSTORE_FILEPATH = configPath + "/config_signature_keypair.jks";
-            CERT_FILEPATH = configPath + "/config_signature_certificat.cer";
+            KEYSTORE_FILEPATH = configPath + keypairFileName;
+            CERT_FILEPATH = configPath + certificatFileName;
         } else if (OS.contains("windows")) {
-            configPath = userHome + "/.config/securewin";
-            KEYSTORE_FILEPATH = configPath + "/config_signature_keypair.jks";
-            CERT_FILEPATH = configPath + "/config_signature_certificat.cer";
+            configPath = userHome + "/.config/securewin"; //TODO : La condition ne sert à rien puisque c'est le même chemin,.
+            KEYSTORE_FILEPATH = configPath + keypairFileName;
+            CERT_FILEPATH = configPath + certificatFileName;
         } else {
             System.err.println("Système non prix en charge : " + OS);
         }

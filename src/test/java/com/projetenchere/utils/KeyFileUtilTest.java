@@ -16,7 +16,7 @@ public class KeyFileUtilTest {
     @Test
     public void testSaveAndGetKeyPairWithJKS() {
         try {
-            KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS();
+            KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS("_tests");
 
             if (!keyFile.isKeyPairSaved()) {
                 assertFalse(keyFile.isKeyPairSaved());
@@ -38,7 +38,7 @@ public class KeyFileUtilTest {
 
     @Test
     public void testGetPrivateKeyWithJKSIsAlwaysTheSame() throws Exception {
-        KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS();
+        KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS("_tests");
 
         if (!keyFile.isKeyPairSaved()) {
             assertFalse(keyFile.isKeyPairSaved());
@@ -64,8 +64,8 @@ public class KeyFileUtilTest {
         String configPath = "";
         String userHome = System.getProperty("user.home");
         configPath = userHome + "/.config/securewin";
-        String KEYSTORE_FILEPATH = configPath + "/config_signature_keypair2.jks";
-        String CERT_FILEPATH = configPath + "/config_signature_certificat2.cer";
+        String KEYSTORE_FILEPATH = configPath + "/config_signature_keypair_tests2.jks";
+        String CERT_FILEPATH = configPath + "/config_signature_certificat_tests2.cer";
 
         String genKeyCommand = "keytool -genkeypair -alias SecureWin2 -keyalg RSA -keysize 2048 -keystore "+KEYSTORE_FILEPATH+" -validity 365 -dname \"CN=Secure, OU=Win, O=SecureWin, L=Montpellier, ST=Occitanie, C=FR\" -storepass SecureWinPaulLoanYukiRemiKatia -keypass SecureWinPaulLoanYukiRemiKatia";
         String exportCertCommand = "keytool -export -alias SecureWin2 -file "+CERT_FILEPATH+" -keystore "+KEYSTORE_FILEPATH+" -storepass SecureWinPaulLoanYukiRemiKatia -keypass SecureWinPaulLoanYukiRemiKatia";
@@ -90,8 +90,8 @@ public class KeyFileUtilTest {
 
         KeyFileUtilWithJKS.executeCommand("rm "+ CERT_FILEPATH);
         KeyFileUtilWithJKS.executeCommand("rm "+ KEYSTORE_FILEPATH);
-        KEYSTORE_FILEPATH = configPath + "/config_signature_keypair.jks";
-        CERT_FILEPATH = configPath + "/config_signature_certificat.cer";
+        KEYSTORE_FILEPATH = configPath + "/config_signature_keypair_tests.jks";
+        CERT_FILEPATH = configPath + "/config_signature_certificat_tests.cer";
         KeyFileUtilWithJKS.executeCommand("rm "+ CERT_FILEPATH);
         KeyFileUtilWithJKS.executeCommand("rm "+ KEYSTORE_FILEPATH);
 
@@ -99,7 +99,7 @@ public class KeyFileUtilTest {
 
     @Test
     public void testSignWithKeyPairGetWithJKS() throws Exception {
-        KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS();
+        KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS("_tests");
         if (!keyFile.isKeyPairSaved()) {
             keyFile.generateAndSaveKeyPair();
         }
