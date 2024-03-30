@@ -16,7 +16,7 @@ public class SigPack_EncOffersProduct extends AbstractSignedPack implements Seri
      * @param list
      * @throws GeneralSecurityException
      */
-    public SigPack_EncOffersProduct(byte[] setProductOffers, byte[] setProductOffersSigned, PublicKey signaturePubKey, Set_SigPackEncOffer list) throws GeneralSecurityException {
+    public SigPack_EncOffersProduct(Object setProductOffers, byte[] setProductOffersSigned, PublicKey signaturePubKey, Set_SigPackEncOffer list) throws GeneralSecurityException {
         super(setProductOffers, setProductOffersSigned, signaturePubKey);
         this.setOffers = list;
     }

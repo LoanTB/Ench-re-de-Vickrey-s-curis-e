@@ -139,15 +139,15 @@ public class Seller extends User {
     public synchronized void signedProductEncryptedOffers() throws GeneralSecurityException {
 
         Set<SigPack_EncOffer> offers = getEncryptedOffersSet().getOffers();
-        BigInteger product = BigInteger.valueOf(0);
+        BigInteger product = BigInteger.valueOf(1);
         for(SigPack_EncOffer o : offers)
         {
             BigInteger x = new BigInteger(SignatureUtil.objectToArrayByte(o.getObject()));
-            product = product.multiply(x);
+            product = product.multiply(x); //Vaut 1 tout le temps.
         }
 
         byte[] setProductOffersSigned = SignatureUtil.signData(product.toByteArray(), this.getSignature());
-        SigPack_EncOffersProduct set = new SigPack_EncOffersProduct(product.toByteArray(),setProductOffersSigned,this.getKey(),getEncryptedOffersSet());
+        SigPack_EncOffersProduct set = new SigPack_EncOffersProduct(product,setProductOffersSigned,this.getKey(),getEncryptedOffersSet());
         this.setOffersProductSignedBySeller(set);
     }
 

@@ -10,6 +10,7 @@ import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.exception.BidAbortedException;
 
+import java.math.BigInteger;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.security.SignatureException;
@@ -84,7 +85,7 @@ public class BidderController extends Controller {
         SigPack_EncOffersProduct set = client.sendOfferReceiveList(sigPackEncOffer);
 
         //On vérifier la signature du vendeur
-        if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(set.getObject()),set.getObjectSigned(),set.getSignaturePubKey())) //TODO : Fix !
+        if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte((BigInteger) set.getObject()),set.getObjectSigned(),set.getSignaturePubKey()))
         {
             client.stopEverything();
             throw new SignatureException("Seller's signature has been compromised.");
