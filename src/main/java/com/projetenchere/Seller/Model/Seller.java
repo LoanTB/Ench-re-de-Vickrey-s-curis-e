@@ -46,7 +46,7 @@ public class Seller extends User {
 
 
 
-    public SigPack_Results getEndResults() {
+    public synchronized SigPack_Results getEndResults() {
         return EndResults;
     }
 
@@ -104,7 +104,7 @@ public class Seller extends User {
 
 
 
-    public Bid getMyBid() {
+    public synchronized Bid getMyBid() {
         return myBid;
     }
 
@@ -121,7 +121,7 @@ public class Seller extends User {
     }
 
 
-    public SigPack_EncOffersProduct getOffersProductSignedBySeller() {
+    public synchronized SigPack_EncOffersProduct getOffersProductSignedBySeller() {
         return offersProductSignedBySeller;
     }
 
@@ -147,7 +147,7 @@ public class Seller extends User {
             product = product.multiply(x); //Vaut 1 tout le temps.
         }
 
-        byte[] setProductOffersSigned = SignatureUtil.signData(product.toByteArray(), this.getSignature());
+        byte[] setProductOffersSigned = SignatureUtil.signData(product, this.getSignature());
         SigPack_EncOffersProduct set = new SigPack_EncOffersProduct(product,setProductOffersSigned,this.getKey(),getEncryptedOffersSet());
         this.setOffersProductSignedBySeller(set);
     }

@@ -21,7 +21,7 @@ public class Manager extends User {
     private Manager() {
     }
 
-    public static Manager getInstance() {
+    public synchronized static Manager getInstance() {
         if (INSTANCE == null) INSTANCE = new Manager();
         return INSTANCE;
     }
@@ -50,7 +50,7 @@ public class Manager extends User {
         return bids;
     }
 
-    public SigPack_PriceWin processPrices(Set_SigPackEncOffer setSigPackEncOffer, PrivateKey privateKey) throws Exception {
+    public synchronized SigPack_PriceWin processPrices(Set_SigPackEncOffer setSigPackEncOffer, PrivateKey privateKey) throws Exception { //TODO S2 : Faire une nouvelle méthode pour utiliser C .
         double price1 = 0;
         byte[] encrypted1 = null;
         double decrypted;

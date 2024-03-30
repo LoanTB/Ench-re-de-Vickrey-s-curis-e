@@ -23,21 +23,21 @@ public abstract class AbstractSignedPack implements Serializable {
     /**
      * @return
      */
-    public Object getObject() {
+    public synchronized Object getObject() {
         return object;
     }
 
     /**
      * @return
      */
-    public byte[] getObjectSigned() {
+    public synchronized byte[] getObjectSigned() {
         return objectSigned;
     }
 
     /**
      * @return
      */
-    public PublicKey getSignaturePubKey() {
+    public synchronized PublicKey getSignaturePubKey() {
         return signaturePubKey;
     }
 }

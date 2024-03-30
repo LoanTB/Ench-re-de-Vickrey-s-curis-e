@@ -23,12 +23,12 @@ public class PlayerStatus implements Serializable {
     public boolean isEjected() {
         return ejected;
     }
-    public void eject(){
+    public synchronized void eject(){
         ejected = true;
     }
 
     //Unknwon = Le seller n'a pas la clé publique de l'enchérisseur dans sa liste.
-    public void unknown(){
+    public synchronized void unknown(){
         this.unknown = true;
     }
     public boolean isUnknown(){

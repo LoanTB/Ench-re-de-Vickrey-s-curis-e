@@ -38,7 +38,7 @@ public class Bid implements Serializable {
         this.pubKeySignatureSeller = null;
     }
 
-    public String getId() {
+    public synchronized String getId() {
         return id;
     }
 
@@ -79,7 +79,7 @@ public class Bid implements Serializable {
         return "Id : " + id + "\nNom : " + name + (withStartDate ? "\nDate de début : " + startDateTime.toString() : "") + "\nDescription : " + description + "." + "\nDate de fin : " + endDateTime.toString() + ".";
     }
 
-    public boolean isOver() {
+    public synchronized boolean isOver() {
         LocalDateTime now = LocalDateTime.now();
         return now.isAfter(endDateTime);
     }

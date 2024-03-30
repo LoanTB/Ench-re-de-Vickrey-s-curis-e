@@ -84,9 +84,9 @@ public class BidderController extends Controller {
         ui.tellOfferSent();
         SigPack_EncOffersProduct set = client.sendOfferReceiveList(sigPackEncOffer);
 
-        //On vérifier la signature du vendeur
+        //On vérifie la signature du vendeur
 
-        if(!SignatureUtil.verifyDataSignature((byte[]) set.getObject(),set.getObjectSigned(),set.getSignaturePubKey()))
+        if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(set.getObject()),set.getObjectSigned(),set.getSignaturePubKey()))
         {
             client.stopEverything();
             throw new SignatureException("Seller's signature has been compromised.");
@@ -118,14 +118,14 @@ public class BidderController extends Controller {
 
         //TODO S2 : Refactor le code avec des nouvelles méthodes pour couvrir les situations où une clé est falsifiée et éviter la duplication de code.
 
-        if(!SignatureUtil.verifyDataSignature( SignatureUtil.objectToArrayByte((SigPack_PriceWin)sellerResults.getObject()),sellerResults.getObjectSigned(),sellerResults.getSignaturePubKey()))
+        if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(((SigPack_PriceWin)sellerResults.getObject()).getObject()),sellerResults.getObjectSigned(),sellerResults.getSignaturePubKey()))
         {
-            client.stopEverything();
+            //client.stopEverything();
             throw new BidAbortedException("Results compromised : Seller's key falsified.");
         }
-        if(!SignatureUtil.verifyDataSignature( SignatureUtil.objectToArrayByte((double) autorityResults.getObject()),autorityResults.getObjectSigned(),autorityResults.getSignaturePubKey()))
+        if(!SignatureUtil.verifyDataSignature( SignatureUtil.objectToArrayByte(autorityResults.getObject()),autorityResults.getObjectSigned(),autorityResults.getSignaturePubKey()))
         {
-            client.stopEverything();
+            //client.stopEverything();
             throw new BidAbortedException("Results compromised : Manager's key falsified.");
         }
 

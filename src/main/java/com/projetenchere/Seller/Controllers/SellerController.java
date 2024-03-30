@@ -60,7 +60,7 @@ public class SellerController extends Controller {
             waitSynchro(1000);
         }
         ui.addLogMessage("Enchère finie !");
-        ui.addLogMessage("Envoie de la demande de résolution au gestionnaire.");
+        ui.addLogMessage("Envoie de la vérification auprès des enchérisseurs.");
         server.addHandler(Headers.GET_RESULTS, new ChecklistOkReplyer());
         seller.resultsAreReady();
         server.removeHandler(Headers.SEND_OFFER);
@@ -76,11 +76,14 @@ public class SellerController extends Controller {
     public void sendEncryptedOffersProduct() throws GeneralSecurityException {
 
         SigPack_EncOffersProduct offers = seller.getOffersProductSignedBySeller();
-        ui.displayEncryptedOffersSet();
+
+        ui.addLogMessage("Envoie de la demande de résolution au gestionnaire.");
 
         SigPack_PriceWin results = client.sendEncryptedOffersProduct(offers);
 
-        byte[] price = SignatureUtil.objectToArrayByte((double) results.getObject());
+        byte[] price = SignatureUtil.objectToArrayByte(results.getObject());
+
+
         if(!SignatureUtil.verifyDataSignature(price, results.getObjectSigned(),results.getSignaturePubKey())){
             ui.addLogMessage("Signature du gestionnaire invalide ! Enchères compromises !");
             //TODO S2 : Envoyer erreur aux B ?
@@ -89,6 +92,8 @@ public class SellerController extends Controller {
         else{
             byte[] signedPriceBySeller = SignatureUtil.signData(price, seller.getSignature());
             this.seller.setEndResults(new SigPack_Results(results, signedPriceBySeller, this.seller.getKey(),this.seller.getMyBid().getId()));
+
+            boolean t = SignatureUtil.verifyDataSignature(price,signedPriceBySeller,this.seller.getKey());
 
             this.setWinner(seller.getEndResults());
 

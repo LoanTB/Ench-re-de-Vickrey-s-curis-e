@@ -16,7 +16,7 @@ public class SigPack_Confirm extends AbstractSignedPack implements Serializable 
         super(ok, okSigned, signaturePubKey);
         this.bidId = bidId;
     }
-    public String getBidId() {
+    public synchronized String getBidId() {
         return bidId;
     }
 }

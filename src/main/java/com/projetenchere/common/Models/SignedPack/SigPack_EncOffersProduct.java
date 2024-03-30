@@ -25,7 +25,7 @@ public class SigPack_EncOffersProduct extends AbstractSignedPack implements Seri
     /**
      * @return
      */
-    public Set_SigPackEncOffer getSetOffers() {
+    public synchronized Set_SigPackEncOffer getSetOffers() {
         return setOffers;
     }
 }

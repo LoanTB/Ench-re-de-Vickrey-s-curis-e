@@ -25,7 +25,7 @@ public class EncOffersProductReplyer implements IDataHandler {
         try {
             SigPack_EncOffersProduct enc = (SigPack_EncOffersProduct) data;
 
-            if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte((BigInteger) enc.getObject()), enc.getObjectSigned(), enc.getSignaturePubKey()))
+            if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(enc.getObject()), enc.getObjectSigned(), enc.getSignaturePubKey())) //TODO : Fix l'erreur de enc is null qui apparait parfois.
             {
                 throw new SignatureException("Seller's key falsified.");
             }

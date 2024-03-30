@@ -27,7 +27,7 @@ public class SignatureUtil {
         return signData(objectToArrayByte(data), signature);
     }
 
-    public static byte[] objectToArrayByte(Object objetSerializable) {
+    public synchronized static byte[] objectToArrayByte(Object objetSerializable) {
         byte[] tab = new byte[0];
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -41,7 +41,7 @@ public class SignatureUtil {
         return tab;
     }
 
-    public static boolean verifyDataSignature(byte[] data, byte[] signatureBytes, PublicKey publicKey) throws SignatureException {
+    public synchronized static boolean verifyDataSignature(byte[] data, byte[] signatureBytes, PublicKey publicKey) throws SignatureException {
         try {
             Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
             signature.initVerify(publicKey);
