@@ -1,4 +1,4 @@
-package com.projetenchere;
+package com.projetenchere.common.utils;
 
 import com.projetenchere.common.network.*;
 import com.projetenchere.common.network.socket.SSLSocketFactory;

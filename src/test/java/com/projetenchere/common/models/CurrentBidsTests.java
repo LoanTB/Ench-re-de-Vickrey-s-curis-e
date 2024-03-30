@@ -1,4 +1,4 @@
-package com.projetenchere.models;
+package com.projetenchere.common.models;
 
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;

@@ -1,4 +1,4 @@
-package com.projetenchere.utils;
+package com.projetenchere.common.utils;
 
 import com.projetenchere.common.Utils.EncryptionUtil;
 import org.junit.jupiter.api.*;
