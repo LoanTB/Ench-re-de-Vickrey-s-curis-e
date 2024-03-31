@@ -52,10 +52,10 @@ public class ChecklistOkReplyer implements IDataHandler {
                     }
                 }
 
-                if(!ok){
+                if(ok){
                     msg = "et a été authentifié.";
                 }
-                if(ok){
+                else {
                     msg = "mais a été falsifié.";
                 }
                 (SellerGraphicalUserInterface.getInstance()).addLogMessage("Un participant a confirmé la présence de son chiffré "+msg);

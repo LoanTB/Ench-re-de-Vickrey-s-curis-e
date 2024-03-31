@@ -71,12 +71,12 @@ public class SellerController extends Controller {
 
         server.addHandler(Headers.SEND_OFFER, new EncryptedOfferReplyer());
 
-        waitSynchro(3000); //TODO : Trouver une solution pour attendre proprement
-        /*
+       // waitSynchro(3000);
+
         while (waitAllOffers()) {
-            waitSynchro(2000);
+            waitSynchro(2000); //TODO : Trouver une solution pour attendre proprement
         }
-        */
+
 
         ui.addLogMessage("Enchère finie !");  //TODO Créer une méthode.
         ui.addLogMessage("Envoie de la vérification auprès des enchérisseurs.");  //TODO Créer une méthode.

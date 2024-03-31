@@ -21,17 +21,17 @@ public class EncryptedOfferReplyer implements IDataHandler {
 
                     seller.verifyAndAddOffer(offer);
 
-                    ((SellerGraphicalUserInterface) SellerGraphicalUserInterface.getInstance()).addLogMessage("Nouvelle offre reçue !");
+                    SellerGraphicalUserInterface.getInstance().addLogMessage("Nouvelle offre reçue !");
 
                     seller.signedProductEncryptedOffers(); //Dans cette méthode on fait le produit des chiffrés,
                                                 // on signe ce produit et on créer le EncryptedOffersProductSigned.
                                                 // Il contient l'ensemble des chiffrés de l'enchère.
 
 
-                    wait(3000); //TODO : Trouver une solution pour attendre proprement
-                    /*while (seller.getBidderParticipant().size() != seller.getEncryptedOffersSet().getOffers().size()) {
-                        wait(2000);
-                    }*/
+                    //wait(3000);
+                    while (seller.getBidderParticipant().size() != seller.getEncryptedOffersSet().getOffers().size()) {
+                        wait(2000); //TODO : Trouver une solution pour attendre proprement
+                    }
 
                     return new DataWrapper<>(seller.getOffersProductSignedBySeller(), Headers.CHECK_LIST);
                 } catch (ClassCastException e) {
