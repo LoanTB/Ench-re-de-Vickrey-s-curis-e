@@ -38,7 +38,7 @@ public class UserGraphicalUserInterface {
         this.primaryStage = primaryStage;
     }
 
-    public void addLogMessage(String message) {
+    public synchronized void addLogMessage(String message) {
         Platform.runLater(() -> {
             Label messageLabel = new Label(message);
             messagesVBox.getChildren().add(messageLabel);

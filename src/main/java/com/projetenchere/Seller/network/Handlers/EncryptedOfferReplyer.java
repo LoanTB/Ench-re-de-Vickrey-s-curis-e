@@ -18,20 +18,21 @@ public class EncryptedOfferReplyer implements IDataHandler {
             if (!seller.resultsAreIn()) {
                 try {
                     SigPack_EncOffer offer = (SigPack_EncOffer) data;
+
                     seller.verifyAndAddOffer(offer);
 
-                    SellerGraphicalUserInterface.getInstance().addLogMessage("Nouvelle offre reçue !");
-                    while (!seller.getMyBid().isOver()) {
-                        wait(1000);
-                    }
+                    ((SellerGraphicalUserInterface) SellerGraphicalUserInterface.getInstance()).addLogMessage("Nouvelle offre reçue !");
 
                     seller.signedProductEncryptedOffers(); //Dans cette méthode on fait le produit des chiffrés,
                                                 // on signe ce produit et on créer le EncryptedOffersProductSigned.
                                                 // Il contient l'ensemble des chiffrés de l'enchère.
 
-                    while (!seller.isResultsReady()) {
-                        wait(1000);
-                    }
+
+                    wait(3000); //TODO : Trouver une solution pour attendre proprement
+                    /*while (seller.getBidderParticipant().size() != seller.getEncryptedOffersSet().getOffers().size()) {
+                        wait(2000);
+                    }*/
+
                     return new DataWrapper<>(seller.getOffersProductSignedBySeller(), Headers.CHECK_LIST);
                 } catch (ClassCastException e) {
                     throw new RuntimeException("Received unreadable data");

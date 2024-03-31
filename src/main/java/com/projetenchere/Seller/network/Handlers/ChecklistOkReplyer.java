@@ -1,6 +1,7 @@
 package com.projetenchere.Seller.network.Handlers;
 
 import com.projetenchere.Seller.Model.Seller;
+import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import com.projetenchere.common.Models.PlayerStatus;
 import com.projetenchere.common.Models.EndPack;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
@@ -26,15 +27,19 @@ public class ChecklistOkReplyer implements IDataHandler {
                 PublicKey bidderPk = null;
                 PlayerStatus status;
 
+                (SellerGraphicalUserInterface.getInstance()).addLogMessage("Confirmation reçue...");
+
 //TODO : S2 Garder une liste d'enchèrisseurs non Ok ??
 
                 byte[] noPresent = SignatureUtil.objectToArrayByte(0);
                 byte[] present = SignatureUtil.objectToArrayByte(1);
 
                 boolean ok = false;
-                Set<SigPack_EncOffer> offers = seller.getEncryptedOffersSet().getOffers();
-                for (SigPack_EncOffer offer : offers) {
-                    if (offer.getSignaturePubKey() == signedPublicKey.getSignaturePubKey() && signedPublicKey.getBidId().equals(seller.getMyBid().getId())) {
+                Set<PublicKey> participants = seller.getBidderParticipant();
+
+                String msg = "";
+                for (PublicKey participant : participants) {
+                    if (participant == signedPublicKey.getSignaturePubKey() && signedPublicKey.getBidId().equals(seller.getMyBid().getId())) {
                         bidderPk = signedPublicKey.getSignaturePubKey();
                         if (SignatureUtil.verifyDataSignature(present, signedPublicKey.getObjectSigned(), signedPublicKey.getSignaturePubKey())) {
                             ok = true;
@@ -46,6 +51,15 @@ public class ChecklistOkReplyer implements IDataHandler {
                         }
                     }
                 }
+
+                if(!ok){
+                    msg = "et a été authentifié.";
+                }
+                if(ok){
+                    msg = "mais a été falsifié.";
+                }
+                (SellerGraphicalUserInterface.getInstance()).addLogMessage("Un participant a confirmé la présence de son chiffré "+msg);
+
 
                 if(!ok){
                     status = new PlayerStatus(seller.getMyBid().getId());

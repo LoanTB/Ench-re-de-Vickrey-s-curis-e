@@ -4,6 +4,7 @@ import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import com.projetenchere.Seller.network.Handlers.ChecklistOkReplyer;
 import com.projetenchere.Seller.network.Handlers.EncryptedOfferReplyer;
+import com.projetenchere.Seller.network.Handlers.ParticipationReplyer;
 import com.projetenchere.Seller.network.Handlers.WinnerReplyer;
 import com.projetenchere.Seller.network.SellerClient;
 import com.projetenchere.common.Controllers.Controller;
@@ -52,17 +53,38 @@ public class SellerController extends Controller {
         return (!this.seller.getMyBid().isOver());
     }
 
+    public synchronized boolean waitAllOffers(){
+        return seller.getBidderParticipant().size() != seller.getEncryptedOffersSet().getOffers().size();
+    }
+
     public void receiveOkUntilCheckEndAndSendResults() {
         server.start();
-        server.addHandler(Headers.SEND_OFFER, new EncryptedOfferReplyer());
 
+        //TODO : Ajout du nouveau replyer.
+
+        server.addHandler(Headers.GET_PARTICIPATION, new ParticipationReplyer());
         while (auctionInProgress()) {
             waitSynchro(1000);
         }
-        ui.addLogMessage("Enchère finie !");
-        ui.addLogMessage("Envoie de la vérification auprès des enchérisseurs.");
+
+        server.removeHandler(Headers.GET_PARTICIPATION);
+
+        server.addHandler(Headers.SEND_OFFER, new EncryptedOfferReplyer());
+
+        waitSynchro(3000); //TODO : Trouver une solution pour attendre proprement
+        /*
+        while (waitAllOffers()) {
+            waitSynchro(2000);
+        }
+        */
+
+        ui.addLogMessage("Enchère finie !");  //TODO Créer une méthode.
+        ui.addLogMessage("Envoie de la vérification auprès des enchérisseurs.");  //TODO Créer une méthode.
+
         server.addHandler(Headers.GET_RESULTS, new ChecklistOkReplyer());
+
         seller.resultsAreReady();
+
         server.removeHandler(Headers.SEND_OFFER);
 
         Map<PublicKey, byte[]> map = seller.getBidders();
@@ -77,7 +99,7 @@ public class SellerController extends Controller {
 
         SigPack_EncOffersProduct offers = seller.getOffersProductSignedBySeller();
 
-        ui.addLogMessage("Envoie de la demande de résolution au gestionnaire.");
+        ui.addLogMessage("Envoie de la demande de résolution au gestionnaire."); //TODO Créer une méthode.
 
         SigPack_PriceWin results = client.sendEncryptedOffersProduct(offers);
 
@@ -85,11 +107,12 @@ public class SellerController extends Controller {
 
 
         if(!SignatureUtil.verifyDataSignature(price, results.getObjectSigned(),results.getSignaturePubKey())){
-            ui.addLogMessage("Signature du gestionnaire invalide ! Enchères compromises !");
-
+            ui.addLogMessage("Signature du gestionnaire invalide ! Enchères compromises !");  //TODO Créer une méthode.
             client.stopError();
+            //TODO Ajouter l'envoie d'un Header erreur aux enchérisseurs.
         }
-        else{
+        else
+        {
             byte[] signedPriceBySeller = SignatureUtil.signData(price, seller.getSignature());
             this.seller.setEndResults(new SigPack_Results(results, signedPriceBySeller, this.seller.getKey(),this.seller.getMyBid().getId()));
 
@@ -98,8 +121,8 @@ public class SellerController extends Controller {
             this.setWinner(seller.getEndResults());
 
             SigPack_PriceWin p = (SigPack_PriceWin) seller.getEndResults().getObject();
-            ui.addLogMessage("Le prix gagnant est " + (double) p.getObject() + "€");
-            ui.addLogMessage("Résultats envoyés aux enchérisseurs.");
+            ui.addLogMessage("Le prix gagnant est " + (double) p.getObject() + "€");  //TODO Créer une méthode.
+            ui.addLogMessage("Résultats envoyés aux enchérisseurs."); //TODO Créer une méthode.
         }
 
     }
@@ -130,14 +153,14 @@ public class SellerController extends Controller {
     }
 
     public void receiveWinUntilPeriodEnd(){
-        ui.addLogMessage("Attente qu'un gagnant se manifeste !");
+        ui.addLogMessage("Attente qu'un gagnant se manifeste !");  //TODO Créer une méthode.
         server.addHandler(Headers.SET_WIN_EXP,new WinnerReplyer());
 
         while (!seller.isWinnerExpressed()) {
             waitSynchro(1000);
         }
 
-        ui.addLogMessage("Fin de l'enchère.");
+        ui.addLogMessage("Fin de l'enchère.");  //TODO Créer une méthode.
     }
 
     public void displayHello() {

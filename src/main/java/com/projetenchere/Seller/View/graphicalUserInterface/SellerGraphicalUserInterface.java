@@ -171,4 +171,18 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
         addLogMessage("Envoie de l'enchère au gestionnaire...");
     }
 
+
+    //TODO refactor : Mettre ces methodes dans l'interface et commandLine
+    public void tellWaitForParticipation(){
+        addLogMessage("Attente de participants.");
+    }
+    public void tellNewParticipant(){
+        addLogMessage("Nouvelle participation !");
+    }
+    public void tellParticipationRejected(){
+        addLogMessage("Une participation a été rejetée.");
+    }
+    public void tellEndOfParticipation(){
+        addLogMessage("Fin de la participation.");
+    }
 }

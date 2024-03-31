@@ -72,8 +72,40 @@ public class BidderController extends Controller {
         Offer offer = ui.readOffer(bidder, currentBids);
         Bid bid = currentBids.getBid(offer.getIdBid());
         if (bid == null) throw new RuntimeException("");
+
+        client.stopManager();
+
+        client.connectToSeller(bid.getSellerSocketAddress());
+
+
+        int participation = 1;
+        byte[] participationSigned = SignatureUtil.signData(participation,bidder.getSignature());
+
+        SigPack_Confirm participationPack = new SigPack_Confirm(participation,participationSigned,bidder.getKey(),bid.getId());
+
+        SigPack_Confirm participationConfirmation = client.sendParticipationReceiveConfirm(participationPack);
+
+        if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(participationConfirmation.getObject()),participationConfirmation.getObjectSigned(),participationConfirmation.getSignaturePubKey()))
+        {
+            client.stopSeller();
+            throw new SignatureException("Seller's signature has been compromised.");
+        }
+
+        int participationState = (int) participationConfirmation.getObject();
+        if(participationState == 0){
+            ui.addLogMessage("Confirmation de participation rejetée.");
+            client.stopSeller();
+            throw new BidAbortedException("Participation rejected.");
+        }else {
+            ui.addLogMessage("Confirmation de participation reçue.");
+        }
+
+
+        int nbParticipant = (int) participationConfirmation.getObject();
         SigPack_EncOffer sigPackEncOffer;
         try {
+            //TODO Utiliser le nb de participant pour encoder le prix en base nbParticipant
+
             byte[] price = EncryptionUtil.encryptPrice(offer.getPrice(), managerPubKey);
             byte[] priceSigned = SignatureUtil.signData(price, bidder.getSignature());
             sigPackEncOffer = new SigPack_EncOffer(price,priceSigned,bidder.getKey(),bid.getId());
@@ -81,16 +113,14 @@ public class BidderController extends Controller {
             throw new RuntimeException("Could not encrypt offer");
         }
         participatedBid.add(offer.getIdBid());
-        client.connectToSeller(bid.getSellerSocketAddress());
-        ui.tellOfferSent();
-        SigPack_EncOffersProduct set = client.sendOfferReceiveList(sigPackEncOffer);
 
-        //On vérifie la signature du vendeur
+
+        SigPack_EncOffersProduct set = client.sendOfferReceiveList(sigPackEncOffer);
+        ui.tellOfferSent();
 
         if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(set.getObject()),set.getObjectSigned(),set.getSignaturePubKey()))
         {
             client.stopSeller();
-            client.stopManager();
             throw new SignatureException("Seller's signature has been compromised.");
         }
 
@@ -102,7 +132,6 @@ public class BidderController extends Controller {
         }else{
             msg = 1;
         }
-        client.stopManager();
 
         byte[] msgSigned = SignatureUtil.signData(msg, bidder.getSignature());
         SigPack_Confirm key = new SigPack_Confirm(msg,msgSigned,bidder.getKey(), sigPackEncOffer.getBidId());
@@ -122,12 +151,12 @@ public class BidderController extends Controller {
 
         if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(((SigPack_PriceWin)sellerResults.getObject()).getObject()),sellerResults.getObjectSigned(),sellerResults.getSignaturePubKey()))
         {
-            //client.stopEverything();
+            client.stopSeller();
             throw new BidAbortedException("Results compromised : Seller's key falsified.");
         }
         if(!SignatureUtil.verifyDataSignature( SignatureUtil.objectToArrayByte(autorityResults.getObject()),autorityResults.getObjectSigned(),autorityResults.getSignaturePubKey()))
         {
-            //client.stopEverything();
+            client.stopSeller();
             throw new BidAbortedException("Results compromised : Manager's key falsified.");
         }
 

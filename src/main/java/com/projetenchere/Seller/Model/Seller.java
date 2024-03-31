@@ -5,6 +5,7 @@ import com.projetenchere.common.Models.PlayerStatus;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffersProduct;
 import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
+import com.projetenchere.common.Models.SignedPack.SigPack_Confirm;
 import com.projetenchere.common.Models.SignedPack.SigPack_Results;
 import com.projetenchere.common.Models.User;
 import com.projetenchere.common.Utils.SignatureUtil;
@@ -20,6 +21,7 @@ import java.util.Set;
 public class Seller extends User {
     private static Seller INSTANCE;
 
+    private Set<PublicKey> bidderParticipant = new HashSet<>();
     private final Map<PublicKey, byte[]> bidders = new HashMap<>();
     private final Set<PublicKey> biddersOk = new HashSet<>();
     private final Set<PublicKey> biddersNoOk = new HashSet<>();
@@ -78,14 +80,15 @@ public class Seller extends User {
         this.winnerExpressed = true;
     }
 
-
-
     public synchronized void addBidder(PublicKey key, byte[] price) {
         this.bidders.put(key, price);
     }
 
     public synchronized Map<PublicKey, byte[]> getBidders() {
         return this.bidders;
+    }
+    public Set<PublicKey> getBidderParticipant() {
+        return bidderParticipant;
     }
 
 
@@ -101,8 +104,6 @@ public class Seller extends User {
     public void setWinStatusMap(Map<PublicKey, PlayerStatus> winStatusMap) {
         this.winStatusMap = winStatusMap;
     }
-
-
 
     public synchronized Bid getMyBid() {
         return myBid;
@@ -129,12 +130,25 @@ public class Seller extends User {
         this.offersProductSignedBySeller = offersProductSignedBySeller;
     }
 
-    public synchronized void verifyAndAddOffer(SigPack_EncOffer offer) throws Exception {
-        if (SignatureUtil.verifyDataSignature((byte[]) offer.getObject(),
-                offer.getObjectSigned(), offer.getSignaturePubKey())) {
-            addBidder(offer.getSignaturePubKey(), (byte[]) offer.getObject());
-            getEncryptedOffersSet().getOffers().add(offer); //TODO - Fix : Il n'ajoute même pas le prix.
+
+    public synchronized boolean verifyAndAddParticipant(SigPack_Confirm participation) throws Exception {
+        if (SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(participation.getObject()),
+                participation.getObjectSigned(), participation.getSignaturePubKey())) {
+            getBidderParticipant().add(participation.getSignaturePubKey());
+            return true;
         }
+        return false;
+    }
+    public synchronized boolean verifyAndAddOffer(SigPack_EncOffer offer) throws Exception {
+        if (SignatureUtil.verifyDataSignature((byte[]) offer.getObject(), offer.getObjectSigned(), offer.getSignaturePubKey())
+                && getBidderParticipant().contains(offer.getSignaturePubKey())
+            )
+        {
+            addBidder(offer.getSignaturePubKey(), (byte[]) offer.getObject());
+            getEncryptedOffersSet().getOffers().add(offer);
+            return true;
+        }
+        return false;
     }
 
     public synchronized void signedProductEncryptedOffers() throws GeneralSecurityException {

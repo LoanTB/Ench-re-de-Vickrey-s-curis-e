@@ -8,8 +8,10 @@ public enum Headers implements Serializable {
     ERROR,
     GET_CURRENT_BIDS,
     OK_CURRENT_BIDS,
-    SEND_OFFER,
-    CHECK_LIST,
+    GET_PARTICIPATION, //Demander à participer
+    OK_PARTICIPATION, //Confirmer la participation.
+    SEND_OFFER, //Envoyer l'offre.
+    CHECK_LIST, //Vérifier la présence du chiffré.
     ABORT,
     GET_RESULTS,
     OK_RESULTS,

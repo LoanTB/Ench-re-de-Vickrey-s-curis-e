@@ -54,6 +54,15 @@ public class BidderClient extends Client {
         );
     }
 
+    public SigPack_Confirm sendParticipationReceiveConfirm(SigPack_Confirm participation) {
+        return fetchWithData(
+                toSeller,
+                Headers.GET_PARTICIPATION,
+                Headers.OK_PARTICIPATION,
+                participation
+        );
+    }
+
     public SigPack_EncOffersProduct sendOfferReceiveList(SigPack_EncOffer offer) {
         return fetchWithData(
                 toSeller,
