@@ -76,6 +76,17 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
 
     }
 
+    public void displayBidderAskBids(){
+        addLogMessage("Un enchérisseur a demandé les enchères actuelles.");
+    }
+    public void displaySendBidderPubKey(){
+        addLogMessage("Envoi des informations de sécurité.");
+    }
+
+    public void displayErrorSignatureFalsified(String user){
+        addLogMessage("Un "+user+" a tenté de falsifier les enchères."); //TODO : Utiliser d'autres messages du genre lors des vérifications de signature.
+    }
+
     @Override
     public void tellSignatureConfigSetup() {
         addLogMessage("Mise en place de la configuration de la signature...");

@@ -25,7 +25,6 @@ public class WinnerReplyer implements IDataHandler {
                 SigPack_Confirm winExpression = (SigPack_Confirm) data;
 
                 PlayerStatus status = new PlayerStatus(winExpression.getBidId());
-
                 if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte((int) winExpression.getObject()),winExpression.getObjectSigned(), winExpression.getSignaturePubKey()))
                 {
                     status.eject();
@@ -35,6 +34,8 @@ public class WinnerReplyer implements IDataHandler {
                 if(status.isWinner()){
                     seller.winnerExpressed();
                 }
+
+//TODO : AJouter la demande de résolution au gestionnaire
 
                 return new DataWrapper<>(status, Headers.OK_WIN_EXP);
             } catch (ClassCastException e) {
