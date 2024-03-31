@@ -92,6 +92,8 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
         addLogMessage("Mise en place de la configuration de la signature...");
     }
 
+    //TODO Ajout d'un message pour dire que la clé d'enchère est terminé;
+
     @Override
     public void tellSignatureConfigGeneration() {
         addLogMessage("Génération de la configuration de la signature ...");
