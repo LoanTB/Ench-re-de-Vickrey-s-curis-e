@@ -11,6 +11,6 @@ import java.io.Serializable;
 public class BidSetReplyer implements IDataHandler {
     @Override
     public DataWrapper<CurrentBids> handle(Serializable ignored) {
-        return new DataWrapper<>(Manager.getInstance().getBids(), Headers.OK_CURRENT_BIDS);
+        return new DataWrapper<>(Manager.getInstance().getBids(), Headers.OK_CURRENT_BIDS); //Todo : Ajouter signature du Manager et vérification de l'enchérisseur.
     }
 }

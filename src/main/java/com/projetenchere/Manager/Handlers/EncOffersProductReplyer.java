@@ -29,7 +29,7 @@ public class EncOffersProductReplyer implements IDataHandler {
             {
                 throw new SignatureException("Seller's key falsified.");
             }
-//TODO S2 : Utiliser le produit des chiffrés ?
+//TODO  : Utiliser le produit des chiffrés.
             Set_SigPackEncOffer results = enc.getSetOffers();
             SigPack_PriceWin win = manager.processPrices(results, manager.getPrivateKey());
 

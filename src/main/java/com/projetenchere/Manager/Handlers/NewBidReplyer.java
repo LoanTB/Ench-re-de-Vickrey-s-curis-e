@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class NewBidReplyer implements IDataHandler {
     @Override
     public <T extends Serializable> DataWrapper<T> handle(Serializable data) {
-        Manager.getInstance().addBid((Bid) data);
+        Manager.getInstance().addBid((Bid) data); //TODO : Vérifier la signature de l'enchérisseur avant de l'enregitrer + Prévoir le comportement du vendeur si enchère reffusé.
         ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).displayNewBid((Bid) data);
         return new DataWrapper<>(Headers.OK_NEW_BID);
     }

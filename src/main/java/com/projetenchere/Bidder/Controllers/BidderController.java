@@ -10,7 +10,6 @@ import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.exception.BidAbortedException;
 
-import java.math.BigInteger;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
 import java.security.SignatureException;
@@ -56,11 +55,13 @@ public class BidderController extends Controller {
 
     public void verifyIfEjectOrUnknownPlayerStatus(PlayerStatus status) throws BidAbortedException {
         if(status.isEjected()){
-            client.stopEverything();
+            client.stopSeller();
+            client.stopManager();
             throw new BidAbortedException("Bidder's offer was not present in set of offers.");
         }
         if(status.isUnknown()){
-            client.stopEverything();
+            client.stopSeller();
+            client.stopManager();
             throw new BidAbortedException("Bidder's key was not present in bidders keys initialization.");
         }
     }
@@ -88,7 +89,8 @@ public class BidderController extends Controller {
 
         if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(set.getObject()),set.getObjectSigned(),set.getSignaturePubKey()))
         {
-            client.stopEverything();
+            client.stopSeller();
+            client.stopManager();
             throw new SignatureException("Seller's signature has been compromised.");
         }
 

@@ -86,8 +86,8 @@ public class SellerController extends Controller {
 
         if(!SignatureUtil.verifyDataSignature(price, results.getObjectSigned(),results.getSignaturePubKey())){
             ui.addLogMessage("Signature du gestionnaire invalide ! Enchères compromises !");
-            //TODO S2 : Envoyer erreur aux B ?
-            client.stopEverything();
+
+            client.stopError();
         }
         else{
             byte[] signedPriceBySeller = SignatureUtil.signData(price, seller.getSignature());

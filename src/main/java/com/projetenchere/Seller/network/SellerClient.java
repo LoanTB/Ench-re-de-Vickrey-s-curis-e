@@ -9,8 +9,6 @@ import com.projetenchere.common.network.ClientSocketWrapper;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.socket.SSLSocketFactory;
 
-import java.security.Signature;
-
 public class SellerClient extends Client {
     ClientSocketWrapper toManager;
 
@@ -27,8 +25,9 @@ public class SellerClient extends Client {
         return fetchWithData(toManager, Headers.RESOLVE_BID, Headers.RESOLVE_BID_OK, prices);
     }
 
-    public void stopEverything() { //TODO S2 : Il manque quelque chose
+    public void stopError() {
         abort(toManager);
     }
+
 
 }

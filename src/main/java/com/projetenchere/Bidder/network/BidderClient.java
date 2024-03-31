@@ -81,11 +81,4 @@ public class BidderClient extends Client {
         );
     }
 
-    public void stopEverything() {
-        stopSeller();
-        abort(toManager);
-        //abort(toSeller);
-    }
-
-
 }

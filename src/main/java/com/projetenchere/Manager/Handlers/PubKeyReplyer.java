@@ -13,7 +13,7 @@ public class PubKeyReplyer implements IDataHandler {
 
     @Override
     public DataWrapper<PublicKey> handle(Serializable ignored) {
-        ManagerGraphicalUserInterface.getInstance().addLogMessage("Un enchérisseur a demandé les enchères actuelles.");
+        ManagerGraphicalUserInterface.getInstance().addLogMessage("Un enchérisseur a demandé les enchères actuelles."); //TODO : Ajouter vérification de signature de l'enchérisseur + Réaciton en cas de mauvaise signature
         return new DataWrapper<>(Manager.getInstance().getPublicKey(), Headers.OK_PUB_KEY);
     }
 }

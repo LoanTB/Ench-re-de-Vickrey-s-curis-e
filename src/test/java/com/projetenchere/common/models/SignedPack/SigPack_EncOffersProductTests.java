@@ -37,9 +37,13 @@ public class SigPack_EncOffersProductTests {
     private PublicKey signaturePublicKeyFromKeyStore3;
 
 
+    private KeyPair kp, kp2;
 
     @BeforeEach
     void initKeys() throws Exception {
+        kp = EncryptionUtil.generateKeyPair();
+        PublicKey puk = kp.getPublic();
+
 
         KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS("_test");
         if (!keyFile.isKeyPairSaved()) {
@@ -49,8 +53,7 @@ public class SigPack_EncOffersProductTests {
         PrivateKey signaturePrivateKeyFromKeyStore = keyFile.getPrivateKeyFromFile();
         Signature signature = SignatureUtil.initSignatureForSigning(signaturePrivateKeyFromKeyStore);
 
-        KeyPair kp = EncryptionUtil.generateKeyPair();
-        PublicKey puk = kp.getPublic();
+
 
         encPrice = EncryptionUtil.encryptPrice(18.0,puk);
         signedPrice = SignatureUtil.signData(encPrice,signature);
@@ -66,10 +69,7 @@ public class SigPack_EncOffersProductTests {
         PrivateKey signaturePrivateKeyFromKeyStore2 = keyFile2.getPrivateKeyFromFile();
         Signature signature2 = SignatureUtil.initSignatureForSigning(signaturePrivateKeyFromKeyStore2);
 
-        KeyPair kp2 = EncryptionUtil.generateKeyPair();
-        PublicKey puk2 = kp2.getPublic();
-
-        encPrice2 = EncryptionUtil.encryptPrice(19.0,puk2);
+        encPrice2 = EncryptionUtil.encryptPrice(19.0,puk);
         signedPrice2 = SignatureUtil.signData(encPrice2,signature2);
 
         SigPack_EncOffer sigPackEncOffer2 = new SigPack_EncOffer(encPrice2,signedPrice2,signaturePublicKeyFromKeyStore2,"0");
@@ -84,8 +84,7 @@ public class SigPack_EncOffersProductTests {
     //------------------------------------
 
         b = new BigInteger(encPrice);
-        b.multiply(new BigInteger(encPrice2));
-
+        b = b.multiply(new BigInteger(encPrice2));
 
 
         KeyFileUtilWithJKS keyFile3 = new KeyFileUtilWithJKS("_test3");
@@ -120,6 +119,12 @@ public class SigPack_EncOffersProductTests {
         KeyFileUtilWithJKS.executeCommand("rm "+ KEYSTORE_FILEPATH);
     }
 
+    @Test
+    void testProduct() throws Exception { //TODO : Lancer les tests une fois le chiffrement implémenté.
+
+        assertEquals(18.0+19.0,EncryptionUtil.decryptPrice(b.toByteArray(),kp.getPrivate()));
+
+    }
 
     @Test
     void testsVerifySignatureWithOneOffer() throws Exception {
