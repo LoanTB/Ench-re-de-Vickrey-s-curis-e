@@ -49,11 +49,11 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
         });
     }
 
-
+    @Override
     public void displayHello() {
         addLogMessage("Bienvenue Manager");
     }
-
+    @Override
     public void displayNewBid(Bid bid) {
         if (!auctionsTableView.isVisible() || !auctionsTableView.isManaged()) {
             auctionsTableView.setVisible(true);
@@ -64,7 +64,7 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
         addLogMessage("Nouvelle enchère reçue : " + bid.getName() + " (" + bid.getId() + ") Date:" + bid.getStartDateTime().toString());
         auctionsTableView.getItems().add(new ItemManagerTable(bid.getId(), bid.getName(), bid.getDescription(), bid.getStartDateTime().toString(), bid.getEndDateTime().toString(), "En cours..."));
     }
-
+    @Override
     public void diplayEndBid(String idBid) {
         addLogMessage("L'enchère " + idBid + " a été résolue.");
         for (ItemManagerTable item : auctionsTableView.getItems()) {
@@ -75,10 +75,11 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
         }
 
     }
-
+    @Override
     public void displayBidderAskBids(){
         addLogMessage("Un enchérisseur a demandé les enchères actuelles.");
     }
+    @Override
     public void displaySendBidderPubKey(){
         addLogMessage("Envoi des informations de sécurité.");
     }
@@ -111,6 +112,16 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
     @Override
     public void tellManagerReadyToProcessBids() {
         addLogMessage("Gestionnaire prêt à traiter des enchères");
+    }
+
+    @Override
+    public void tellFalsifiedSignatureBidder() {
+        addLogMessage("Signature de l'enchérisseur usurpée.");
+    }
+
+    @Override
+    public void tellFalsifiedSignatureSeller() {
+        addLogMessage("Signature du vendeur usurpée.");
     }
 
 

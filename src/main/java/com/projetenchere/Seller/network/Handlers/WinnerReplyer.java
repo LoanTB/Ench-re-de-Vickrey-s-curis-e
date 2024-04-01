@@ -28,6 +28,7 @@ public class WinnerReplyer implements IDataHandler {
                 if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte((int) winExpression.getObject()),winExpression.getObjectSigned(), winExpression.getSignaturePubKey()))
                 {
                     status.eject();
+                    //TODO : Ajout message ui
                     return new DataWrapper<>(status, Headers.OK_WIN_EXP);
                 }
                 status = seller.getSignatureWinStatus(winExpression.getSignaturePubKey());

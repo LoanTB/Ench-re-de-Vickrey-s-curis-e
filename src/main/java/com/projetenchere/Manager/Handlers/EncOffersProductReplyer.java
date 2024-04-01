@@ -27,7 +27,8 @@ public class EncOffersProductReplyer implements IDataHandler {
 
             if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(enc.getObject()), enc.getObjectSigned(), enc.getSignaturePubKey()))
             {
-                throw new SignatureException("Seller's key falsified.");
+                ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).tellFalsifiedSignatureSeller();
+                throw new SignatureException("Seller's signature falsified.");
             }
 //TODO  : Utiliser le produit des chiffrés.
             Set_SigPackEncOffer results = enc.getSetOffers();

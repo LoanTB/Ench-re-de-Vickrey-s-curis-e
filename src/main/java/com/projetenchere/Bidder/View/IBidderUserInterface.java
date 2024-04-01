@@ -28,4 +28,7 @@ public interface IBidderUserInterface extends I_UserInterface {
 
     void tellReceiptOfCurrentBids();
 
+    void tellFalsifiedSignatureManager();
+    void tellFalsifiedSignatureSeller();
+
 }

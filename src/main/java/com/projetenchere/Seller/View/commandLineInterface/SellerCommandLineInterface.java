@@ -142,6 +142,11 @@ public class SellerCommandLineInterface extends AbstractUserInterface implements
     }
 
     @Override
+    public void tellFalsifiedSignatureBidder() {
+
+    }
+
+    @Override
     public void tellWinnerBid(double prix) {
 
     }

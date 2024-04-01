@@ -37,7 +37,8 @@ public class BidderController extends Controller {
         ui.tellWaitManagerSecurityInformations();
         SigPack_PubKey pubSigned = client.getManagerPubKey();
         if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(pubSigned.getObject()),pubSigned.getObjectSigned(),pubSigned.getSignaturePubKey())){
-            throw new SignatureException("Manager's key falsified.");
+            ui.tellFalsifiedSignatureManager();
+            throw new SignatureException("Manager's signature falsified.");
         }
         managerPubKey = (PublicKey) pubSigned.getObject();
     }
@@ -47,7 +48,8 @@ public class BidderController extends Controller {
 
         if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(currBids.getObject()),currBids.getObjectSigned(),currBids.getSignaturePubKey()))
         {
-            throw new SignatureException("Manager's key falsified.");
+            ui.tellFalsifiedSignatureManager();
+            throw new SignatureException("Manager's signature falsified.");
         }
 
         currentBids = (CurrentBids) currBids.getObject();
@@ -99,6 +101,7 @@ public class BidderController extends Controller {
         if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(participationConfirmation.getObject()),participationConfirmation.getObjectSigned(),participationConfirmation.getSignaturePubKey()))
         {
             client.stopSeller();
+            ui.tellFalsifiedSignatureSeller();
             throw new SignatureException("Seller's signature has been compromised.");
         }
 
@@ -132,6 +135,7 @@ public class BidderController extends Controller {
         if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(set.getObject()),set.getObjectSigned(),set.getSignaturePubKey()))
         {
             client.stopSeller();
+            ui.tellFalsifiedSignatureSeller();
             throw new SignatureException("Seller's signature has been compromised.");
         }
 
@@ -161,12 +165,14 @@ public class BidderController extends Controller {
         if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(((SigPack_PriceWin)sellerResults.getObject()).getObject()),sellerResults.getObjectSigned(),sellerResults.getSignaturePubKey()))
         {
             client.stopSeller();
-            throw new BidAbortedException("Results compromised : Seller's key falsified.");
+            ui.tellFalsifiedSignatureSeller();
+            throw new BidAbortedException("Results compromised : Seller's signature falsified.");
         }
         if(!SignatureUtil.verifyDataSignature( SignatureUtil.objectToArrayByte(autorityResults.getObject()),autorityResults.getObjectSigned(),autorityResults.getSignaturePubKey()))
         {
             client.stopSeller();
-            throw new BidAbortedException("Results compromised : Manager's key falsified.");
+            ui.tellFalsifiedSignatureManager();
+            throw new BidAbortedException("Results compromised : Manager's signature falsified.");
         }
 
         double priceWin = (double) autorityResults.getObject();

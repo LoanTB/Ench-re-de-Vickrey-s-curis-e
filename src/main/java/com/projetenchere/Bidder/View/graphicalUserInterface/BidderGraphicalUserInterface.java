@@ -209,4 +209,13 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
         addLogMessage("Réception des enchères actuelles");
     }
 
+    @Override
+    public void tellFalsifiedSignatureManager() {
+        addLogMessage("Signature du gestionnaire falsifiée !");
+    }
+    @Override
+    public void tellFalsifiedSignatureSeller() {
+        addLogMessage("Signature du vendeur falsifiée !");
+    }
+
 }

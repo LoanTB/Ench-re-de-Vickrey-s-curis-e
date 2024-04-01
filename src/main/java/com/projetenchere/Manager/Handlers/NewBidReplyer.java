@@ -21,7 +21,8 @@ public class NewBidReplyer implements IDataHandler {
             if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(sigPackBid.getObject()),
                     sigPackBid.getObjectSigned(),sigPackBid.getSignaturePubKey()))
             {
-                throw new SignatureException("Seller's key falsified.");
+                ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).tellFalsifiedSignatureSeller();
+                throw new SignatureException("Seller's signature falsified.");
             }
             Bid bid = (Bid) sigPackBid.getObject();
 

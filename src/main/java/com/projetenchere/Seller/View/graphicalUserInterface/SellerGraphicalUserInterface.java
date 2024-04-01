@@ -210,7 +210,12 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
     @Override
     public void tellFalsifiedSignatureManager()
     {
-        addLogMessage("Signature du gestionnaire invalide ! Enchères compromises !");
+        addLogMessage("Signature du gestionnaire usurpée ! Enchères compromises !");
+    }
+
+    @Override
+    public void tellFalsifiedSignatureBidder() {
+        addLogMessage("Signature de l'enchérisseur usurpée !");
     }
 
     @Override

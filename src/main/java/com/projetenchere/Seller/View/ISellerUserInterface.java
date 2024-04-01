@@ -31,6 +31,7 @@ public interface ISellerUserInterface extends I_UserInterface {
     void tellSendBiddersVerification();
     void tellSendResolutionToManager();
     void tellFalsifiedSignatureManager();
+    void tellFalsifiedSignatureBidder();
     void tellWinnerBid(double prix);
     void tellResultsSend();
     void tellWaitWinnerManifestation();
