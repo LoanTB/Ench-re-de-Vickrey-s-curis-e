@@ -46,6 +46,6 @@ public class DJCipherTest {
         BigInteger plain = new BigInteger(2048, new SecureRandom());
         BigInteger encrypted = cp.encrypt(plain).multiply(BigInteger.TWO);
         cp.init(sk);
-        assertEquals(plain.multiply(BigInteger.TWO), cp.decrypt(encrypted));
+        assertEquals(plain.add(BigInteger.TWO), cp.decrypt(encrypted));
     }
 }
