@@ -20,7 +20,7 @@ public class KeyFileUtilWithJKS implements I_KeyFileUtil {
     private static String KEYSTORE_FILEPATH;
     private static String CERT_FILEPATH;
 
-    public KeyFileUtilWithJKS(String user) { //TODO : Retirer user à la fin du projet.
+    public KeyFileUtilWithJKS(String user) {
         String OS = System.getProperty("os.name").toLowerCase();
         String configPath = "";
         String userHome = System.getProperty("user.home");
