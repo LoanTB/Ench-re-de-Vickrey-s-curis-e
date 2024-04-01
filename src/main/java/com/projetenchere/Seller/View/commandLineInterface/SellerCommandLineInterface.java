@@ -107,6 +107,61 @@ public class SellerCommandLineInterface extends AbstractUserInterface implements
     }
 
     @Override
+    public void tellWaitForParticipation() {
+
+    }
+
+    @Override
+    public void tellNewParticipant() {
+
+    }
+
+    @Override
+    public void tellParticipationRejected() {
+
+    }
+
+    @Override
+    public void tellEndOfParticipation() {
+
+    }
+
+    @Override
+    public void tellSendBiddersVerification() {
+
+    }
+
+    @Override
+    public void tellSendResolutionToManager() {
+
+    }
+
+    @Override
+    public void tellFalsifiedSignatureManager() {
+
+    }
+
+    @Override
+    public void tellWinnerBid(double prix) {
+
+    }
+
+    @Override
+    public void tellResultsSend() {
+
+    }
+
+    @Override
+    public void tellWaitWinnerManifestation() {
+
+    }
+
+    @Override
+    public void displayEndBid(String idBid) {
+
+    }
+
+    @Override
     public String askBidDescription() {
         showMessage("Veuillez saisir la description de l'enchère : ");
         return readMessage();

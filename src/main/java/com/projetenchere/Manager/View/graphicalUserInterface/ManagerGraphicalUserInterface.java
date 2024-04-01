@@ -83,16 +83,20 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
         addLogMessage("Envoi des informations de sécurité.");
     }
 
-    public void displayErrorSignatureFalsified(String user){
-        addLogMessage("Un "+user+" a tenté de falsifier les enchères."); //TODO : Utiliser d'autres messages du genre lors des vérifications de signature.
+    @Override
+    public void tellKeysGeneration(){
+        addLogMessage("Génération des clés...");
+    }
+
+    @Override
+    public void tellKeysReady(){
+        addLogMessage("Paire de clés prêtes.");
     }
 
     @Override
     public void tellSignatureConfigSetup() {
         addLogMessage("Mise en place de la configuration de la signature...");
     }
-
-    //TODO Ajout d'un message pour dire que la clé d'enchère est terminé;
 
     @Override
     public void tellSignatureConfigGeneration() {

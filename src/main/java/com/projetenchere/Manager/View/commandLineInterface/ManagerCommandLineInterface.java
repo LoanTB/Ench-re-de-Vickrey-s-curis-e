@@ -30,6 +30,16 @@ public class ManagerCommandLineInterface extends AbstractUserInterface implement
     }
 
     @Override
+    public void tellKeysGeneration() {
+
+    }
+
+    @Override
+    public void tellKeysReady() {
+
+    }
+
+    @Override
     public void tellManagerReadyToProcessBids() {
         showMessage("Gestionnaire prêt à traiter des enchères");
     }

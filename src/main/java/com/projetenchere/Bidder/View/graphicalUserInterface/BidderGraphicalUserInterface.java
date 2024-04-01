@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,11 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
             }
         });
         refreshButton.setOnAction(actionEvent -> {
-            BidderAppLoader.getControllerInstance().initWithManager();
+            try {
+                BidderAppLoader.getControllerInstance().initWithManager();
+            } catch (SignatureException e) {
+                throw new RuntimeException(e);
+            }
         });
         for (TableColumn<?, ?> column : auctionsTableView.getColumns()) {
             column.setPrefWidth(auctionsTableView.getWidth() / auctionsTableView.getColumns().size());

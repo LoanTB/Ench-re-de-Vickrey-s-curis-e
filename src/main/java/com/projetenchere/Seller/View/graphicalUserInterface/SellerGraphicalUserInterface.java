@@ -172,17 +172,61 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
     }
 
 
-    //TODO refactor : Mettre ces methodes dans l'interface et commandLine
+    @Override
     public void tellWaitForParticipation(){
         addLogMessage("Attente de participants.");
     }
+
+    @Override
     public void tellNewParticipant(){
         addLogMessage("Nouvelle participation !");
     }
+
+    @Override
     public void tellParticipationRejected(){
         addLogMessage("Une participation a été rejetée.");
     }
+
+    @Override
     public void tellEndOfParticipation(){
         addLogMessage("Fin de la participation.");
     }
+
+    @Override
+    public void tellSendBiddersVerification(){
+        addLogMessage("Envoie de la vérification auprès des enchérisseurs.");
+    }
+
+    @Override
+    public void displayEndBid(String idBid){
+        addLogMessage("L'enchère " + idBid + " est terminée.");
+    }
+
+    @Override
+    public void tellSendResolutionToManager(){
+        addLogMessage("Envoie de la demande de résolution au gestionnaire.");
+    }
+
+    @Override
+    public void tellFalsifiedSignatureManager()
+    {
+        addLogMessage("Signature du gestionnaire invalide ! Enchères compromises !");
+    }
+
+    @Override
+    public void tellWaitWinnerManifestation(){
+        addLogMessage("Attente qu'un gagnant se manifeste !");
+    }
+
+    @Override
+    public void tellWinnerBid(double prix){
+        addLogMessage("Le prix gagnant est " +prix+ "€");
+    }
+
+    @Override
+    public void tellResultsSend(){
+        addLogMessage("Résultats envoyés aux enchérisseurs.");
+    }
+
+
 }

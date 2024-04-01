@@ -24,4 +24,16 @@ public interface ISellerUserInterface extends I_UserInterface {
 
     void tellSendBidToManager();
 
+    void tellWaitForParticipation();
+    void tellNewParticipant();
+    void tellParticipationRejected();
+    void tellEndOfParticipation();
+    void tellSendBiddersVerification();
+    void tellSendResolutionToManager();
+    void tellFalsifiedSignatureManager();
+    void tellWinnerBid(double prix);
+    void tellResultsSend();
+    void tellWaitWinnerManifestation();
+    void displayEndBid(String idBid);
+
 }
