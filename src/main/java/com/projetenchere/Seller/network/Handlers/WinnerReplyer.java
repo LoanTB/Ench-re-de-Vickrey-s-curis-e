@@ -35,7 +35,6 @@ public class WinnerReplyer implements IDataHandler {
                     seller.winnerExpressed();
                 }
 
-//TODO : AJouter la demande de résolution au gestionnaire
 
                 return new DataWrapper<>(status, Headers.OK_WIN_EXP);
             } catch (ClassCastException e) {

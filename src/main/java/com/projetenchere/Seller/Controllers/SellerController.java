@@ -18,6 +18,7 @@ import com.projetenchere.common.network.Server;
 import java.net.InetSocketAddress;
 import java.security.GeneralSecurityException;
 import java.security.PublicKey;
+import java.security.SignatureException;
 import java.util.*;
 
 public class SellerController extends Controller {
@@ -42,11 +43,14 @@ public class SellerController extends Controller {
         ui.displayBidCreated(seller.getMyBid());
     }
 
-    public void sendMyBid() {
+    public void sendMyBid() throws SignatureException {
         client.connectToManager();
         if (seller.getMyBid() == null) throw new RuntimeException("No bid was registered");
         ui.tellSendBidToManager();
-        client.sendBid(seller.getMyBid());
+
+        byte[] bidSigned = SignatureUtil.signData(SignatureUtil.objectToArrayByte(seller.getMyBid()),seller.getSignature());
+        SigPack_Bid sigBid = new SigPack_Bid(seller.getMyBid(),bidSigned,seller.getKey());
+        client.sendBid(sigBid);
     }
 
     public boolean auctionInProgress() {
@@ -59,27 +63,21 @@ public class SellerController extends Controller {
 
     public void receiveOkUntilCheckEndAndSendResults() {
         server.start();
-
-        //TODO : Ajout du nouveau replyer.
-
         server.addHandler(Headers.GET_PARTICIPATION, new ParticipationReplyer());
+        ui.tellWaitForParticipation();
         while (auctionInProgress()) {
             waitSynchro(1000);
         }
 
         server.removeHandler(Headers.GET_PARTICIPATION);
-
         server.addHandler(Headers.SEND_OFFER, new EncryptedOfferReplyer());
-
-       // waitSynchro(3000);
 
         while (waitAllOffers()) {
             waitSynchro(2000); //TODO : Trouver une solution pour attendre proprement
         }
 
-
-        ui.addLogMessage("Enchère finie !");  //TODO Créer une méthode.
-        ui.addLogMessage("Envoie de la vérification auprès des enchérisseurs.");  //TODO Créer une méthode.
+        ui.tellEndOfParticipation();
+        ui.tellSendBiddersVerification();
 
         server.addHandler(Headers.GET_RESULTS, new ChecklistOkReplyer());
 
@@ -99,7 +97,7 @@ public class SellerController extends Controller {
 
         SigPack_EncOffersProduct offers = seller.getOffersProductSignedBySeller();
 
-        ui.addLogMessage("Envoie de la demande de résolution au gestionnaire."); //TODO Créer une méthode.
+        ui.tellSendResolutionToManager();
 
         SigPack_PriceWin results = client.sendEncryptedOffersProduct(offers);
 
@@ -107,9 +105,8 @@ public class SellerController extends Controller {
 
 
         if(!SignatureUtil.verifyDataSignature(price, results.getObjectSigned(),results.getSignaturePubKey())){
-            ui.addLogMessage("Signature du gestionnaire invalide ! Enchères compromises !");  //TODO Créer une méthode.
+            ui.tellFalsifiedSignatureManager();
             client.stopError();
-            //TODO Ajouter l'envoie d'un Header erreur aux enchérisseurs.
         }
         else
         {
@@ -121,8 +118,8 @@ public class SellerController extends Controller {
             this.setWinner(seller.getEndResults());
 
             SigPack_PriceWin p = (SigPack_PriceWin) seller.getEndResults().getObject();
-            ui.addLogMessage("Le prix gagnant est " + (double) p.getObject() + "€");  //TODO Créer une méthode.
-            ui.addLogMessage("Résultats envoyés aux enchérisseurs."); //TODO Créer une méthode.
+            ui.tellWinnerBid( (double) p.getObject() );
+            ui.tellResultsSend();
         }
 
     }
@@ -153,14 +150,14 @@ public class SellerController extends Controller {
     }
 
     public void receiveWinUntilPeriodEnd(){
-        ui.addLogMessage("Attente qu'un gagnant se manifeste !");  //TODO Créer une méthode.
+        ui.tellWaitWinnerManifestation();
         server.addHandler(Headers.SET_WIN_EXP,new WinnerReplyer());
 
         while (!seller.isWinnerExpressed()) {
             waitSynchro(1000);
         }
 
-        ui.addLogMessage("Fin de l'enchère.");  //TODO Créer une méthode.
+        ui.displayEndBid(seller.getMyBid().getId());
     }
 
     public void displayHello() {

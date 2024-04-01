@@ -3,7 +3,6 @@ package com.projetenchere.common.Models.SignedPack;
 import java.io.Serializable;
 import java.security.PublicKey;
 
-//TODO S2 : JavaDoc
 public class SigPack_EncOffer extends AbstractSignedPack implements Serializable {
     private final String bidId;
 

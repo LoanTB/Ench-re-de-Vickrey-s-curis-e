@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.security.SignatureException;
+
 public class BidderAppLoader extends Application {
     private static BidderController controllerInstance;
 
@@ -38,7 +40,11 @@ public class BidderAppLoader extends Application {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            controllerInstance.initWithManager();
+            try {
+                controllerInstance.initWithManager();
+            } catch (SignatureException e) {
+                throw new RuntimeException(e);
+            }
             try {
                 controllerInstance.readAndSendOffer();
             } catch (Exception e) {

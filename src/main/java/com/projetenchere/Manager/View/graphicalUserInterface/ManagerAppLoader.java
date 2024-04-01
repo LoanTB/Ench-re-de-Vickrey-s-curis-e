@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.security.SignatureException;
+
 public class ManagerAppLoader extends Application {
     private static ManagerController controllerInstance;
 
@@ -33,7 +35,11 @@ public class ManagerAppLoader extends Application {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            controllerInstance.init();
+            try {
+                controllerInstance.init();
+            } catch (SignatureException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 }

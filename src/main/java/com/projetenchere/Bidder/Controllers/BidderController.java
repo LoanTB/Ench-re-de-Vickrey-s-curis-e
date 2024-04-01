@@ -33,20 +33,31 @@ public class BidderController extends Controller {
         this.ui = ui;
     }
 
-    public void askForManagerPubKey() {
+    public void askForManagerPubKey() throws SignatureException {
         ui.tellWaitManagerSecurityInformations();
-        managerPubKey = client.getManagerPubKey();
+        SigPack_PubKey pubSigned = client.getManagerPubKey();
+        if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(pubSigned.getObject()),pubSigned.getObjectSigned(),pubSigned.getSignaturePubKey())){
+            throw new SignatureException("Manager's key falsified.");
+        }
+        managerPubKey = (PublicKey) pubSigned.getObject();
     }
 
-    public void askForCurrentBids() {
-        currentBids = client.getCurrentBids();
+    public void askForCurrentBids() throws SignatureException {
+        SigPack_CurrentBids currBids =  client.getCurrentBids();
+
+        if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(currBids.getObject()),currBids.getObjectSigned(),currBids.getSignaturePubKey()))
+        {
+            throw new SignatureException("Manager's key falsified.");
+        }
+
+        currentBids = (CurrentBids) currBids.getObject();
         ui.tellReceiptOfCurrentBids();
         ui.displayBid(this.currentBids);
     }
 
 
 
-    public void initWithManager() {
+    public void initWithManager() throws SignatureException {
         client.connectToManager();
         askForCurrentBids();
         askForManagerPubKey();
@@ -136,7 +147,7 @@ public class BidderController extends Controller {
         byte[] msgSigned = SignatureUtil.signData(msg, bidder.getSignature());
         SigPack_Confirm key = new SigPack_Confirm(msg,msgSigned,bidder.getKey(), sigPackEncOffer.getBidId());
 
-        //TODO S2 : Ajouter le fait que le vendeur signe le EndPack.
+
         EndPack pack = client.validateAndGetResults(key);
 
         if(!pack.isResultsInside()){
@@ -146,8 +157,6 @@ public class BidderController extends Controller {
         SigPack_Results sellerResults = pack.getResults();
 
         SigPack_PriceWin autorityResults = (SigPack_PriceWin) sellerResults.getObject();
-
-        //TODO S2 : Refactor le code avec des nouvelles méthodes pour couvrir les situations où une clé est falsifiée et éviter la duplication de code.
 
         if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(((SigPack_PriceWin)sellerResults.getObject()).getObject()),sellerResults.getObjectSigned(),sellerResults.getSignaturePubKey()))
         {
@@ -162,10 +171,8 @@ public class BidderController extends Controller {
 
         double priceWin = (double) autorityResults.getObject();
 
-
         this.results.put(bid.getId(),sellerResults);
 
-        //TODO S2 : Refactor le code. + Vérifier la signature du PlayerStatus.
 
         if (offer.getPrice() == priceWin) {
 

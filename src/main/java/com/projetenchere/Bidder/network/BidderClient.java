@@ -3,9 +3,7 @@ package com.projetenchere.Bidder.network;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.EndPack;
 import com.projetenchere.common.Models.PlayerStatus;
-import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
-import com.projetenchere.common.Models.SignedPack.SigPack_EncOffersProduct;
-import com.projetenchere.common.Models.SignedPack.SigPack_Confirm;
+import com.projetenchere.common.Models.SignedPack.*;
 import com.projetenchere.common.Utils.NetworkUtil;
 import com.projetenchere.common.network.Client;
 import com.projetenchere.common.network.ClientSocketWrapper;
@@ -38,7 +36,7 @@ public class BidderClient extends Client {
         stop(toSeller);
     }
 
-    public PublicKey getManagerPubKey() {
+    public SigPack_PubKey getManagerPubKey() {
         return fetch(
                 toManager,
                 Headers.GET_PUB_KEY,
@@ -46,7 +44,7 @@ public class BidderClient extends Client {
         );
     }
 
-    public CurrentBids getCurrentBids() {
+    public SigPack_CurrentBids getCurrentBids() {
         return fetch(
                 toManager,
                 Headers.GET_CURRENT_BIDS,

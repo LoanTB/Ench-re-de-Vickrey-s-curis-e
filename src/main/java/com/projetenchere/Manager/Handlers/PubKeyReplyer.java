@@ -2,6 +2,7 @@ package com.projetenchere.Manager.Handlers;
 
 import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
+import com.projetenchere.common.Models.SignedPack.SigPack_PubKey;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.IDataHandler;
@@ -12,8 +13,8 @@ import java.security.PublicKey;
 public class PubKeyReplyer implements IDataHandler {
 
     @Override
-    public DataWrapper<PublicKey> handle(Serializable ignored) {
-        ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).displaySendBidderPubKey();//TODO : Ajouter vérification de signature de l'enchérisseur + Réaciton en cas de mauvaise signature
-        return new DataWrapper<>(Manager.getInstance().getPublicKey(), Headers.OK_PUB_KEY);
+    public DataWrapper<SigPack_PubKey> handle(Serializable ignored) {
+        ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).displaySendBidderPubKey();
+        return new DataWrapper<>(Manager.getInstance().getPublicKeySigned(), Headers.OK_PUB_KEY);
     }
 }

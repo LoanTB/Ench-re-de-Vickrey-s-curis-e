@@ -29,7 +29,7 @@ public class ChecklistOkReplyer implements IDataHandler {
 
                 (SellerGraphicalUserInterface.getInstance()).addLogMessage("Confirmation reçue...");
 
-//TODO : S2 Garder une liste d'enchèrisseurs non Ok ??
+
 
                 byte[] noPresent = SignatureUtil.objectToArrayByte(0);
                 byte[] present = SignatureUtil.objectToArrayByte(1);

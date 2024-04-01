@@ -24,7 +24,7 @@ public class ParticipationReplyer implements IDataHandler {
                         ((SellerGraphicalUserInterface) SellerGraphicalUserInterface.getInstance()).tellParticipationRejected();
                         int nbParticipant = 0;
                         byte[] nbSigned = SignatureUtil.signData(nbParticipant,seller.getSignature());
-                        return new DataWrapper<>(new SigPack_Confirm(nbParticipant, nbSigned,seller.getKey(), seller.getMyBid().getId()), Headers.OK_PARTICIPATION); //TODO Bidder vérifier qu'on a pas 0 participations.
+                        return new DataWrapper<>(new SigPack_Confirm(nbParticipant, nbSigned,seller.getKey(), seller.getMyBid().getId()), Headers.OK_PARTICIPATION);
                     }
 
                     while (!seller.getMyBid().isOver()) {

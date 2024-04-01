@@ -4,6 +4,7 @@ import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.SignedPack.Set_SigPackEncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_PriceWin;
+import com.projetenchere.common.Models.SignedPack.SigPack_PubKey;
 import com.projetenchere.common.Models.User;
 import com.projetenchere.common.Utils.EncryptionUtil;
 import com.projetenchere.common.Utils.SignatureUtil;
@@ -17,6 +18,7 @@ public class Manager extends User {
     private final CurrentBids bids = new CurrentBids();
     private PrivateKey privateKey;
     private PublicKey publicKey;
+    private SigPack_PubKey publicKeySigned;
 
     private Manager() {
     }
@@ -24,6 +26,14 @@ public class Manager extends User {
     public synchronized static Manager getInstance() {
         if (INSTANCE == null) INSTANCE = new Manager();
         return INSTANCE;
+    }
+
+    public SigPack_PubKey getPublicKeySigned() {
+        return publicKeySigned;
+    }
+
+    public void setPublicKeySigned(SigPack_PubKey publicKeySigned) {
+        this.publicKeySigned = publicKeySigned;
     }
 
     public synchronized void addBid(Bid bid) {

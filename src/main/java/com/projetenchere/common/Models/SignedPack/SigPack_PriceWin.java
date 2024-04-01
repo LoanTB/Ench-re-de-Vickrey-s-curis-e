@@ -6,7 +6,6 @@ import java.security.PublicKey;
 public class SigPack_PriceWin extends AbstractSignedPack implements Serializable {
     private final byte[] encrypedPriceOrigin;
     private final String bidId;
-    //TODO S2 : JavaDoc
     /**
      * Signed by Manager received by Seller
      *

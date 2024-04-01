@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.security.SignatureException;
+
 public class SellerAppLoader extends Application {
     private static SellerController controllerInstance;
 
@@ -37,7 +39,11 @@ public class SellerAppLoader extends Application {
 
         new Thread(() -> {
             controllerInstance.createMyBid();
-            controllerInstance.sendMyBid();
+            try {
+                controllerInstance.sendMyBid();
+            } catch (SignatureException e) {
+                throw new RuntimeException(e);
+            }
             controllerInstance.receiveOkUntilCheckEndAndSendResults();
             try {
                 controllerInstance.sendEncryptedOffersProduct();
