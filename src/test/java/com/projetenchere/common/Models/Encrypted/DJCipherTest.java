@@ -21,21 +21,31 @@ public class DJCipherTest {
     DJKeyPairGenerator keyPairGenerator;
     PrivateKey sk;
     PublicKey pk;
+    DJCipher cp;
     @BeforeEach
     void setup() {
         keyPairGenerator = new DJKeyPairGenerator(2048, new SecureRandom());
         KeyPair kp = keyPairGenerator.generateKeyPair();
         sk = kp.getPrivate();
         pk = kp.getPublic();
+        this.cp = new DJCipher(new SecureRandom());
     }
 
     @Test
     void encryptDecryptTest() {
-        DJCipher cp = new DJCipher(new SecureRandom());
         cp.init(pk);
         BigInteger plain = new BigInteger(2048, new SecureRandom());
         BigInteger encrypted = cp.encrypt(plain);
         cp.init(sk);
         assertEquals(plain, cp.decrypt(encrypted));
+    }
+
+    @Test
+    void mustBeLinearlyHomomorphous() {
+        cp.init(pk);
+        BigInteger plain = new BigInteger(2048, new SecureRandom());
+        BigInteger encrypted = cp.encrypt(plain).multiply(BigInteger.TWO);
+        cp.init(sk);
+        assertEquals(plain.multiply(BigInteger.TWO), cp.decrypt(encrypted));
     }
 }

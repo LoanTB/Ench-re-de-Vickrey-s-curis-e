@@ -19,7 +19,7 @@ public class DJCipher {
     private AlgorithmParameters params;
     private final Random random;
     private BigInteger phiN, N, p, q;
-    public static final int s = 4;
+    public static final int s = 2;
     private BigInteger d;
 
     private BigInteger L(BigInteger b) {
@@ -62,7 +62,7 @@ public class DJCipher {
                 );
     }
     public BigInteger decrypt(BigInteger ciphertext) {
-        BigInteger M = ciphertext.modPow(phiN, N.pow(s + 1));
+        BigInteger M = ciphertext.modPow(this.phiN, N.pow(s + 1));
         BigInteger i = BigInteger.ZERO;
         for (int j = 1; j <= s; j++) {
             BigInteger t1 = L(M.mod(N.pow(j + 1)));
@@ -71,15 +71,18 @@ public class DJCipher {
                 i = i.subtract(BigInteger.ONE);
                 t2 = t2.multiply(i).mod(N.pow(j));
                 BigInteger t3 = t2.multiply(N.pow(k - 1));
-                t1 = t1.subtract(t3.divide(factorial(BigInteger.valueOf(k)))).mod(N.pow(j));
+                t1 = t1.subtract(t3.divide(factorial(k))).mod(N.pow(j));
             }
             i = t1;
         }
         return i.multiply(d).mod(N.pow(s));
     }
 
-    private BigInteger factorial(BigInteger n) {
-        if (n.equals(BigInteger.ONE) || n.equals(BigInteger.ZERO)) return BigInteger.ONE;
-        return n.multiply(factorial(n.subtract(BigInteger.ONE)));
+    private BigInteger factorial(int n) {
+        BigInteger result = BigInteger.ONE;
+        for (int i = 2; i <= n; i++) {
+            result = result.multiply(BigInteger.valueOf(i));
+        }
+        return result;
     }
 }
