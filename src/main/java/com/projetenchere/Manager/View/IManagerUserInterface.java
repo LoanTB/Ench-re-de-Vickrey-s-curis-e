@@ -1,8 +1,8 @@
 package com.projetenchere.Manager.View;
 
-import com.projetenchere.common.View.I_UserInterface;
+import com.projetenchere.common.View.IUserInterface;
 
-public interface IManagerUserInterface extends I_UserInterface {
+public interface IManagerUserInterface extends IUserInterface {
     void displayHello();
 
     void tellSignatureConfigSetup();
@@ -12,4 +12,8 @@ public interface IManagerUserInterface extends I_UserInterface {
     void tellSignatureConfigReady();
 
     void tellManagerReadyToProcessBids();
+
+    void tellBidRequest();
+
+    void showNewOfferAlert();
 }

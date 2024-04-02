@@ -1,6 +1,7 @@
 package com.projetenchere.Bidder.View.graphicalUserInterface;
 
 import com.projetenchere.Bidder.Controllers.BidderController;
+import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -24,14 +25,14 @@ public class BidderAppLoader extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BidderGraphicalUserInterface.fxml"));
         Parent root = loader.load();
         BidderGraphicalUserInterface.setInstance(loader.getController());
-        SellerGraphicalUserInterface.getInstance().setPrimaryStage(primaryStage);
+        SellerGraphicalUserInterface.getInstanceGraphicalUserInterface().setPrimaryStage(primaryStage);
 
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("SecureWin Bidder");
         primaryStage.show();
 
         new Thread(() -> {
-            controllerInstance = new BidderController((BidderGraphicalUserInterface) BidderGraphicalUserInterface.getInstance());
+            controllerInstance = new BidderController((IBidderUserInterface) BidderGraphicalUserInterface.getInstance());
             controllerInstance.displayHello();
             try {
                 controllerInstance.setSignatureConfig();

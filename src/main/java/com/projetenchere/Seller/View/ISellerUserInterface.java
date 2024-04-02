@@ -1,9 +1,9 @@
 package com.projetenchere.Seller.View;
 
 import com.projetenchere.common.Models.Bid;
-import com.projetenchere.common.View.I_UserInterface;
+import com.projetenchere.common.View.IUserInterface;
 
-public interface ISellerUserInterface extends I_UserInterface {
+public interface ISellerUserInterface extends IUserInterface {
     void displayHello();
 
     void tellSignatureConfigSetup();

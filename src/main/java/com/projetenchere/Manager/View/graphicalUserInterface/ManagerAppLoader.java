@@ -1,6 +1,7 @@
 package com.projetenchere.Manager.View.graphicalUserInterface;
 
 import com.projetenchere.Manager.Controllers.ManagerController;
+import com.projetenchere.Manager.View.IManagerUserInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +27,7 @@ public class ManagerAppLoader extends Application {
         primaryStage.show();
 
         Platform.runLater(() -> {
-            controllerInstance = new ManagerController((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance());
+            controllerInstance = new ManagerController((IManagerUserInterface) ManagerGraphicalUserInterface.getInstance());
             controllerInstance.displayHello();
             try {
                 controllerInstance.setSignatureConfig();

@@ -3,9 +3,9 @@ package com.projetenchere.Bidder.View;
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
-import com.projetenchere.common.View.I_UserInterface;
+import com.projetenchere.common.View.IUserInterface;
 
-public interface IBidderUserInterface extends I_UserInterface {
+public interface IBidderUserInterface extends IUserInterface {
     void displayBid(CurrentBids currentBids);
 
     Offer readOffer(Bidder bidder, CurrentBids currentBids);

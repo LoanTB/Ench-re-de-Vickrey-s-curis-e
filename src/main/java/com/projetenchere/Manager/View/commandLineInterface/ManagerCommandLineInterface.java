@@ -34,4 +34,10 @@ public class ManagerCommandLineInterface extends AbstractUserInterface implement
         showMessage("Gestionnaire prêt à traiter des enchères");
     }
 
+    @Override
+    public void tellBidRequest(){showMessage("Un enchérisseur a demandé les enchères actuelles.");}
+
+    @Override
+    public void showNewOfferAlert(){showMessage("Nouvelle offre reçue !");}
+
 }

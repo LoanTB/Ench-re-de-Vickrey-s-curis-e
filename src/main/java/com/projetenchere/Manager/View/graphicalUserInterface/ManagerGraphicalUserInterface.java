@@ -96,5 +96,10 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
         addLogMessage("Gestionnaire prêt à traiter des enchères");
     }
 
+    @Override
+    public void tellBidRequest(){addLogMessage("Un enchérisseur a demandé les enchères actuelles.");}
+
+    @Override
+    public void showNewOfferAlert(){addLogMessage("Nouvelle offre reçue !");}
 
 }
