@@ -10,9 +10,6 @@ import java.util.Scanner;
 public class BidderCommandLineInterface implements IBidderUserInterface {
     public static final Scanner scanner = new Scanner(System.in);
 
-    public BidderCommandLineInterface() {
-    }
-
     public void showMessage(String message) {
         System.out.println(message);
     }

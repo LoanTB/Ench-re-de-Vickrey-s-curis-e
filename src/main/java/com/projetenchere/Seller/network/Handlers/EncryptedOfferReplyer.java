@@ -19,7 +19,7 @@ public class EncryptedOfferReplyer implements IDataHandler {
                 try {
                     EncryptedOffer offer = (EncryptedOffer) data;
                     seller.verifyAndAddOffer(offer);
-                    SellerGraphicalUserInterface.getInstance().addLogMessage("Nouvelle offre reçue !");
+                    SellerGraphicalUserInterface.getInstance().showNewOfferAlert();
                     while (!seller.getMyBid().isOver()) {
                         wait(1000);
                     }

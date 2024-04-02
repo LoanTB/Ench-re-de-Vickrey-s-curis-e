@@ -1,6 +1,8 @@
 package com.projetenchere.Manager.View.graphicalUserInterface;
 
 import com.projetenchere.Manager.Controllers.ManagerController;
+import com.projetenchere.Manager.View.IManagerUserInterface;
+import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -20,13 +22,14 @@ public class ManagerAppLoader extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ManagerGraphicalUserInterface.fxml"));
         Parent root = loader.load();
         ManagerGraphicalUserInterface.setInstance(loader.getController());
+        ManagerGraphicalUserInterface.getInstance().setPrimaryStage(primaryStage);
 
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("SecureWin Manager");
         primaryStage.show();
 
         Platform.runLater(() -> {
-            controllerInstance = new ManagerController((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance());
+            controllerInstance = new ManagerController((IManagerUserInterface) ManagerGraphicalUserInterface.getInstance());
             controllerInstance.displayHello();
             try {
                 controllerInstance.setSignatureConfig();

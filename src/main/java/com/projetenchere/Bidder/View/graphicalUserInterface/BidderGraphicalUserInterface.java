@@ -47,6 +47,19 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     private Bidder bidder = null;
     private Offer offer = null;
 
+    private static BidderGraphicalUserInterface instance = null;
+
+    public static BidderGraphicalUserInterface getInstance() {
+        if (instance == null) {
+            throw new NullPointerException("Instance non initialisée");
+        }
+        return instance;
+    }
+
+    public static void setInstance(BidderGraphicalUserInterface instance) {
+        BidderGraphicalUserInterface.instance = instance;
+    }
+
     public void initialize() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));

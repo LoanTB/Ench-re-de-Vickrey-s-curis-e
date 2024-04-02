@@ -1,6 +1,7 @@
 package com.projetenchere.Bidder.Controllers;
 
 import com.projetenchere.Bidder.Model.Bidder;
+import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface;
 import com.projetenchere.Bidder.network.BidderClient;
 import com.projetenchere.common.Controllers.Controller;
@@ -25,12 +26,12 @@ public class BidderController extends Controller {
     private final List<String> participatedBid = new ArrayList<>();
     private final Map<String, WinStatus> results = new HashMap<>();
     private final Bidder bidder = new Bidder();
-    BidderGraphicalUserInterface ui;
+    IBidderUserInterface ui;
     BidderClient client = new BidderClient();
     private CurrentBids currentBids;
     private PublicKey managerPubKey;
 
-    public BidderController(BidderGraphicalUserInterface ui) {
+    public BidderController(IBidderUserInterface ui) {
         this.ui = ui;
     }
 

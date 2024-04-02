@@ -4,7 +4,7 @@ import com.projetenchere.common.Models.User;
 import com.projetenchere.common.Utils.I_KeyFileUtil;
 import com.projetenchere.common.Utils.KeyFileUtilWithJKS;
 import com.projetenchere.common.Utils.SignatureUtil;
-import com.projetenchere.common.View.I_UserInterface;
+import com.projetenchere.common.View.IUserInterface;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -12,7 +12,7 @@ import java.security.Signature;
 
 public abstract class Controller {
 
-    public void setSignatureConfig(I_UserInterface ui, User user) throws Exception {
+    public void setSignatureConfig(IUserInterface ui, User user) throws Exception {
         ui.tellSignatureConfigSetup();
         I_KeyFileUtil keyFile = new KeyFileUtilWithJKS();
 

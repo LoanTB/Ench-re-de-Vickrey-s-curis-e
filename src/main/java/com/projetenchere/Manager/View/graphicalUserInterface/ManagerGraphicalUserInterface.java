@@ -2,6 +2,7 @@ package com.projetenchere.Manager.View.graphicalUserInterface;
 
 import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.View.IUserInterface;
 import com.projetenchere.common.View.UserGraphicalUserInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -10,7 +11,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface implements IManagerUserInterface {
-
     @FXML
     public Label checkCurrentBidsVBoxTitle;
     @FXML
@@ -27,6 +27,19 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
     private TableColumn<ItemManagerTable, String> endDateColumn;
     @FXML
     private TableColumn<ItemManagerTable, String> statusColumn;
+
+    private static ManagerGraphicalUserInterface instance = null;
+
+    public static ManagerGraphicalUserInterface getInstance() {
+        if (instance == null) {
+            throw new NullPointerException("Instance non initialisée");
+        }
+        return instance;
+    }
+
+    public static void setInstance(ManagerGraphicalUserInterface instance) {
+        ManagerGraphicalUserInterface.instance = instance;
+    }
 
     public void initialize() {
         checkCurrentBidsVBoxTitle.setVisible(false);
@@ -96,5 +109,6 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
         addLogMessage("Gestionnaire prêt à traiter des enchères");
     }
 
-
+    @Override
+    public void tellBidRequest(){addLogMessage("Un enchérisseur a demandé les enchères actuelles.");}
 }

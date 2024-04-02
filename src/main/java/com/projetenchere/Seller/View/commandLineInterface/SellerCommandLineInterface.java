@@ -107,6 +107,11 @@ public class SellerCommandLineInterface extends AbstractUserInterface implements
     }
 
     @Override
+    public void showNewOfferAlert() {
+        showMessage("Nouvelle offre reçue !");
+    }
+
+    @Override
     public String askBidDescription() {
         showMessage("Veuillez saisir la description de l'enchère : ");
         return readMessage();
