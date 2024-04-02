@@ -30,5 +30,8 @@ public class SellerClient extends Client {
         abort(toManager);
     }
 
-
+    public void stopManager()
+    {
+        stop(toManager);
+    }
 }

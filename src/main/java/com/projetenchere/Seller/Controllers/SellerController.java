@@ -61,7 +61,7 @@ public class SellerController extends Controller {
         return seller.getBidderParticipant().size() != seller.getEncryptedOffersSet().getOffers().size();
     }
 
-    public void receiveOkUntilCheckEndAndSendResults() {
+    public boolean receiveOkUntilCheckEndAndSendResults() {
         server.start();
         server.addHandler(Headers.GET_PARTICIPATION, new ParticipationReplyer());
         ui.tellWaitForParticipation();
@@ -77,20 +77,28 @@ public class SellerController extends Controller {
         }
 
         ui.tellEndOfParticipation();
-        ui.tellSendBiddersVerification();
+        if(seller.getMyBid().getNbParticipant() == 0){
+            client.stopManager();
+            server.stopAllConnections();
+            //TODO : Ajouter un message pour prévenir qu'on a 0 participants
+            //TODO : Ajouter une méthode pour prévenir de la fin de l'enchère non résolue.
+            return false;
+        } else {
+            ui.tellSendBiddersVerification();
 
-        server.addHandler(Headers.GET_RESULTS, new ChecklistOkReplyer());
+            server.addHandler(Headers.GET_RESULTS, new ChecklistOkReplyer());
 
-        seller.resultsAreReady();
+            seller.resultsAreReady();
 
-        server.removeHandler(Headers.SEND_OFFER);
+            server.removeHandler(Headers.SEND_OFFER);
 
-        Map<PublicKey, byte[]> map = seller.getBidders();
+            Map<PublicKey, byte[]> map = seller.getBidders();
 
-        while (seller.getbiddersOk().containsAll(map.keySet())) {
-            waitSynchro(1000);
+            while (seller.getbiddersOk().containsAll(map.keySet())) {
+                waitSynchro(1000);
+            }
+            return true;
         }
-
     }
 
     public void sendEncryptedOffersProduct() throws GeneralSecurityException {
@@ -107,6 +115,7 @@ public class SellerController extends Controller {
         if(!SignatureUtil.verifyDataSignature(price, results.getObjectSigned(),results.getSignaturePubKey())){
             ui.tellFalsifiedSignatureManager();
             client.stopError();
+            server.stopAllConnections();
         }
         else
         {

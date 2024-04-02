@@ -14,7 +14,7 @@ public class Bid implements Serializable {
     private LocalDateTime startDateTime = null;
     private InetSocketAddress sellerInformations;
     private PublicKey pubKeySignatureSeller;
-
+    private int nbParticipant;
     private boolean canceled;
 
     public Bid(String id, String name, String description, LocalDateTime endDateTime, InetSocketAddress sellerInformations, PublicKey pubKeySignatureSeller) {
@@ -91,4 +91,13 @@ public class Bid implements Serializable {
     public void setPubKeySignatureSeller(PublicKey pubKeySignatureSeller) {
         this.pubKeySignatureSeller = pubKeySignatureSeller;
     }
+
+    public int getNbParticipant() {
+        return nbParticipant;
+    }
+
+    public void setNbParticipant(int nbParticipant) {
+        this.nbParticipant = nbParticipant;
+    }
+
 }

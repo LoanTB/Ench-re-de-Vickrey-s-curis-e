@@ -32,6 +32,7 @@ public class ParticipationReplyer implements IDataHandler {
                     }
 
                     int nbParticipant = seller.getBidderParticipant().size();
+                    seller.getMyBid().setNbParticipant(nbParticipant);
                     byte[] nbSigned = SignatureUtil.signData(nbParticipant,seller.getSignature());
                     return new DataWrapper<>(new SigPack_Confirm(nbParticipant, nbSigned,seller.getKey(), seller.getMyBid().getId()), Headers.OK_PARTICIPATION);
                 } catch (ClassCastException e) {

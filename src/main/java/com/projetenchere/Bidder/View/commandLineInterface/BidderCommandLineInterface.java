@@ -97,5 +97,15 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
         showMessage("Réception des enchères actuelles");
     }
 
+    @Override
+    public void tellFalsifiedSignatureManager() {
+        showMessage("Signature du gestionnaire falsifiée !");
+    }
+
+    @Override
+    public void tellFalsifiedSignatureSeller() {
+        showMessage("Signature du vendeur falsifiée !");
+    }
+
 
 }

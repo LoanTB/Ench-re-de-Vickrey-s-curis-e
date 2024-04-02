@@ -44,16 +44,17 @@ public class SellerAppLoader extends Application {
             } catch (SignatureException e) {
                 throw new RuntimeException(e);
             }
-            controllerInstance.receiveOkUntilCheckEndAndSendResults();
-            try {
-                controllerInstance.sendEncryptedOffersProduct();
-                controllerInstance.receiveWinUntilPeriodEnd();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            if(controllerInstance.receiveOkUntilCheckEndAndSendResults()){//TODO : Trouver une solution pour tout arrêter.
+                try {
+                    controllerInstance.sendEncryptedOffersProduct();
+                    controllerInstance.receiveWinUntilPeriodEnd();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                Platform.runLater(() -> {
+                    controllerInstance.displayWinner();
+                });
             }
-            Platform.runLater(() -> {
-                controllerInstance.displayWinner();
-            });
         }).start();
     }
 }
