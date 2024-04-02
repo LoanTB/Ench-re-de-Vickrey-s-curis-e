@@ -27,14 +27,14 @@ public class EncryptionUtil {
         return ByteBuffer.wrap(bytes).getDouble();
     }
 
-    public static byte[] encryptPrice(double number, PublicKey publicKey) throws GeneralSecurityException {
+    public static byte[] encryptPrice(double number, PublicKey publicKey) {
         DJCipher cp = new DJCipher(new SecureRandom());
         cp.init(publicKey);
         byte[] bytes = toByteArray(number);
         return cp.encrypt(new BigInteger(bytes)).toByteArray();
     }
 
-    public static double decryptPrice(byte[] encryptedNumber, PrivateKey privateKey) throws Exception {
+    public static double decryptPrice(byte[] encryptedNumber, PrivateKey privateKey) {
         DJCipher cp = new DJCipher(new SecureRandom());
         cp.init(privateKey);
         return toDouble(cp.decrypt(new BigInteger(encryptedNumber)).toByteArray());
