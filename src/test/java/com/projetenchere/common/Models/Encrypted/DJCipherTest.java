@@ -44,8 +44,9 @@ public class DJCipherTest {
     void mustBeLinearlyHomomorphous() {
         cp.init(pk);
         BigInteger plain = new BigInteger(2048, new SecureRandom());
-        BigInteger encrypted = cp.encrypt(plain).multiply(cp.encrypt(BigInteger.TWO));
+        BigInteger offset = new BigInteger(2048, new SecureRandom());
+        BigInteger encrypted = cp.encrypt(plain).multiply(cp.encrypt(offset));
         cp.init(sk);
-        assertEquals(plain.add(BigInteger.TWO), cp.decrypt(encrypted));
+        assertEquals(plain.add(offset), cp.decrypt(encrypted));
     }
 }
