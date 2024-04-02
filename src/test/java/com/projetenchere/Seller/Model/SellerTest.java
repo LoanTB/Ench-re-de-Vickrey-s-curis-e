@@ -48,7 +48,7 @@ public class SellerTest {
 
         SigPack_EncOffer offer = new SigPack_EncOffer(encPrice,signedPrice,signaturePublicKeyFromKeyStore,"0");
 
-        classUnderTest.setEncryptedOffers(new Set_SigPackEncOffer("0", new HashSet<>()));
+        classUnderTest.setEncryptedOffers(new Set_SigPackEncOffer("0", new HashSet<>(),1));
 
         assertTrue(SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(offer.getObject()),
                 offer.getObjectSigned(), offer.getSignaturePubKey()));

@@ -60,7 +60,7 @@ public class Manager extends User {
         return bids;
     }
 
-    public synchronized SigPack_PriceWin processPrices(Set_SigPackEncOffer setSigPackEncOffer, PrivateKey privateKey) throws Exception { //TODO S2 : Faire une nouvelle méthode pour utiliser C .
+    public synchronized SigPack_PriceWin processPrices(Set_SigPackEncOffer setSigPackEncOffer, PrivateKey privateKey) throws Exception {
         double price1 = 0;
         byte[] encrypted1 = null;
         double decrypted;
@@ -87,4 +87,12 @@ public class Manager extends User {
         return priceWin;
     }
 
+    //TODO S2 : Faire une nouvelle méthode pour utiliser C .
+    /*
+    public synchronized SigPack_PriceWin processPricesWithC(Set_SigPackEncOffer setSigPackEncOffer, PrivateKey privateKey) throws Exception{
+        setSigPackEncOffer.getNbParticipant();
+
+    }
+
+     */
 }

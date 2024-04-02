@@ -30,6 +30,7 @@ public class WinnerReplyer implements IDataHandler {
                     status.eject();
                     //TODO : Ajout message ui
                     return new DataWrapper<>(status, Headers.OK_WIN_EXP);
+                    //TODO : Trouver une meilleure fin d'enchères compromises pour les cas où la signature est usurpée.
                 }
                 status = seller.getSignatureWinStatus(winExpression.getSignaturePubKey());
                 if(status.isWinner()){

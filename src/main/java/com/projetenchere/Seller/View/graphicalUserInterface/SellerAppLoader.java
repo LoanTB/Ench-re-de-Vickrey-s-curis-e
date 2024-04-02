@@ -44,7 +44,7 @@ public class SellerAppLoader extends Application {
             } catch (SignatureException e) {
                 throw new RuntimeException(e);
             }
-            if(controllerInstance.receiveOkUntilCheckEndAndSendResults()){//TODO : Trouver une solution pour tout arrêter.
+            controllerInstance.receiveOkUntilCheckEndAndSendResults();
                 try {
                     controllerInstance.sendEncryptedOffersProduct();
                     controllerInstance.receiveWinUntilPeriodEnd();
@@ -54,7 +54,7 @@ public class SellerAppLoader extends Application {
                 Platform.runLater(() -> {
                     controllerInstance.displayWinner();
                 });
-            }
+
         }).start();
     }
 }

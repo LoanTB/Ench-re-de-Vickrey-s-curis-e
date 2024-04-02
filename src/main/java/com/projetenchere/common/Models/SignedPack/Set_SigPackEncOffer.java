@@ -9,11 +9,13 @@ import java.util.Set;
 
 public class Set_SigPackEncOffer implements Serializable {
     private final String bidId;
-    public Set<SigPack_EncOffer> offers;
+    private Set<SigPack_EncOffer> offers;
+    private int nbParticipant;
 
-    public Set_SigPackEncOffer(String bidId, Set<SigPack_EncOffer> offers) {
+    public Set_SigPackEncOffer(String bidId, Set<SigPack_EncOffer> offers, int nbParticipant) {
         this.bidId = bidId;
         this.offers = offers;
+        this.nbParticipant = nbParticipant;
     }
 
     public synchronized String getBidId() {
@@ -31,7 +33,12 @@ public class Set_SigPackEncOffer implements Serializable {
     public synchronized Set<SigPack_EncOffer> getOffers() {
         return offers;
     }
-
+    public synchronized int getNbParticipant() {
+        return nbParticipant;
+    }
+    public void setNbParticipant(int nbParticipant) {
+        this.nbParticipant = nbParticipant;
+    }
     public boolean contains(SigPack_EncOffer a) {
         for (SigPack_EncOffer offer : offers) {
             if (Arrays.equals(a.getObjectSigned(), offer.getObjectSigned()) && a.getBidId().equals(offer.getBidId())) {

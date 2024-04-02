@@ -39,6 +39,7 @@ public class BidderController extends Controller {
         if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(pubSigned.getObject()),pubSigned.getObjectSigned(),pubSigned.getSignaturePubKey())){
             ui.tellFalsifiedSignatureManager();
             throw new SignatureException("Manager's signature falsified.");
+            //TODO : Trouver une meilleure fin d'enchères compromises pour les cas où la signature est usurpée.
         }
         managerPubKey = (PublicKey) pubSigned.getObject();
     }
@@ -50,6 +51,7 @@ public class BidderController extends Controller {
         {
             ui.tellFalsifiedSignatureManager();
             throw new SignatureException("Manager's signature falsified.");
+            //TODO : Trouver une meilleure fin d'enchères compromises pour les cas où la signature est usurpée.
         }
 
         currentBids = (CurrentBids) currBids.getObject();
@@ -103,6 +105,7 @@ public class BidderController extends Controller {
             client.stopSeller();
             ui.tellFalsifiedSignatureSeller();
             throw new SignatureException("Seller's signature has been compromised.");
+            //TODO : Trouver une meilleure fin d'enchères compromises pour les cas où la signature est usurpée.
         }
 
         int participationState = (int) participationConfirmation.getObject();
@@ -137,6 +140,7 @@ public class BidderController extends Controller {
             client.stopSeller();
             ui.tellFalsifiedSignatureSeller();
             throw new SignatureException("Seller's signature has been compromised.");
+            //TODO : Trouver une meilleure fin d'enchères compromises pour les cas où la signature est usurpée.
         }
 
 
@@ -167,12 +171,14 @@ public class BidderController extends Controller {
             client.stopSeller();
             ui.tellFalsifiedSignatureSeller();
             throw new BidAbortedException("Results compromised : Seller's signature falsified.");
+            //TODO : Trouver une meilleure fin d'enchères compromises pour les cas où la signature est usurpée.
         }
         if(!SignatureUtil.verifyDataSignature( SignatureUtil.objectToArrayByte(autorityResults.getObject()),autorityResults.getObjectSigned(),autorityResults.getSignaturePubKey()))
         {
             client.stopSeller();
             ui.tellFalsifiedSignatureManager();
             throw new BidAbortedException("Results compromised : Manager's signature falsified.");
+            //TODO : Trouver une meilleure fin d'enchères compromises pour les cas où la signature est usurpée.
         }
 
         double priceWin = (double) autorityResults.getObject();

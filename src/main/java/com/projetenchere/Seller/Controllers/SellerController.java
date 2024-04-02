@@ -39,7 +39,7 @@ public class SellerController extends Controller {
         seller.setMyBid(ui.askBid());
         seller.getMyBid().setSellerInformations(new InetSocketAddress(NetworkUtil.getMyIP(), NetworkUtil.SELLER_PORT));
         seller.getMyBid().setPubKeySignatureSeller(seller.getKey());
-        seller.setEncryptedOffers(new Set_SigPackEncOffer(seller.getMyBid().getId(), new HashSet<>()));
+        seller.setEncryptedOffers(new Set_SigPackEncOffer(seller.getMyBid().getId(), new HashSet<>(),0));
         ui.displayBidCreated(seller.getMyBid());
     }
 
@@ -61,7 +61,7 @@ public class SellerController extends Controller {
         return seller.getBidderParticipant().size() != seller.getEncryptedOffersSet().getOffers().size();
     }
 
-    public boolean receiveOkUntilCheckEndAndSendResults() {
+    public void receiveOkUntilCheckEndAndSendResults() {
         server.start();
         server.addHandler(Headers.GET_PARTICIPATION, new ParticipationReplyer());
         ui.tellWaitForParticipation();
@@ -77,13 +77,7 @@ public class SellerController extends Controller {
         }
 
         ui.tellEndOfParticipation();
-        if(seller.getMyBid().getNbParticipant() == 0){
-            client.stopManager();
-            server.stopAllConnections();
-            //TODO : Ajouter un message pour prévenir qu'on a 0 participants
-            //TODO : Ajouter une méthode pour prévenir de la fin de l'enchère non résolue.
-            return false;
-        } else {
+
             ui.tellSendBiddersVerification();
 
             server.addHandler(Headers.GET_RESULTS, new ChecklistOkReplyer());
@@ -97,8 +91,7 @@ public class SellerController extends Controller {
             while (seller.getbiddersOk().containsAll(map.keySet())) {
                 waitSynchro(1000);
             }
-            return true;
-        }
+
     }
 
     public void sendEncryptedOffersProduct() throws GeneralSecurityException {
@@ -109,20 +102,21 @@ public class SellerController extends Controller {
 
         SigPack_PriceWin results = client.sendEncryptedOffersProduct(offers);
 
-        byte[] price = SignatureUtil.objectToArrayByte(results.getObject());
+        if(results==null){
 
+        }
+
+        byte[] price = SignatureUtil.objectToArrayByte(results.getObject());
 
         if(!SignatureUtil.verifyDataSignature(price, results.getObjectSigned(),results.getSignaturePubKey())){
             ui.tellFalsifiedSignatureManager();
             client.stopError();
-            server.stopAllConnections();
+            server.stopAllConnections(); //TODO : Trouver une meilleure fin d'enchères compromises pour les cas où la signature est usurpée.
         }
         else
         {
             byte[] signedPriceBySeller = SignatureUtil.signData(price, seller.getSignature());
             this.seller.setEndResults(new SigPack_Results(results, signedPriceBySeller, this.seller.getKey(),this.seller.getMyBid().getId()));
-
-            boolean t = SignatureUtil.verifyDataSignature(price,signedPriceBySeller,this.seller.getKey());
 
             this.setWinner(seller.getEndResults());
 
@@ -172,7 +166,6 @@ public class SellerController extends Controller {
     public void displayHello() {
         ui.displayHello();
     }
-
 
     public void displayWinner() {
         Set<SigPack_EncOffer> sigPackEncOffers = seller.getEncryptedOffersSet().getOffers();

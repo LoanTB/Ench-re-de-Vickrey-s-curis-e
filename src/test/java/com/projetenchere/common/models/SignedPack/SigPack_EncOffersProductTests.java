@@ -79,7 +79,7 @@ public class SigPack_EncOffersProductTests {
         Set<SigPack_EncOffer> offers = new HashSet<>();
         offers.add(sigPackEncOffer2);
         offers.add(sigPackEncOffer);
-        setSigPackEncOffer = new Set_SigPackEncOffer("0",offers);
+        setSigPackEncOffer = new Set_SigPackEncOffer("0",offers,1);
 
     //------------------------------------
 

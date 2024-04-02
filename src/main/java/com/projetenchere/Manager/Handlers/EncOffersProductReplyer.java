@@ -29,12 +29,15 @@ public class EncOffersProductReplyer implements IDataHandler {
             {
                 ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).tellFalsifiedSignatureSeller();
                 throw new SignatureException("Seller's signature falsified.");
-
-
+                //TODO : Trouver une meilleure fin d'enchères compromises pour les cas où la signature est usurpée.
             }
 //TODO  : Utiliser le produit des chiffrés.
+            if(enc.getSetOffers().getNbParticipant() == 0) {
+                return new DataWrapper<>(null, Headers.RESOLVE_BID_OK); //TODO :Trouver une meilleure solution
+            }
             Set_SigPackEncOffer results = enc.getSetOffers();
             SigPack_PriceWin win = manager.processPrices(results, manager.getPrivateKey());
+
 
             ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).diplayEndBid(results.getBidId());
             return new DataWrapper<>(win, Headers.RESOLVE_BID_OK);

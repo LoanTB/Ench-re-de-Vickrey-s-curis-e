@@ -23,6 +23,7 @@ public class NewBidReplyer implements IDataHandler {
             {
                 ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).tellFalsifiedSignatureSeller();
                 throw new SignatureException("Seller's signature falsified.");
+                //TODO : Trouver une meilleure fin d'enchères compromises pour les cas où la signature est usurpée.
             }
             Bid bid = (Bid) sigPackBid.getObject();
 
