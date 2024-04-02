@@ -18,12 +18,12 @@ public class SignatureUtil {
         }
     }
 
-    public static byte[] signData(byte[] data, Signature signature) throws SignatureException {
+    public synchronized static byte[] signData(byte[] data, Signature signature) throws SignatureException {
         signature.update(data);
         return signature.sign();
     }
 
-    public static byte[] signData(Object data, Signature signature) throws SignatureException {
+    public synchronized static byte[] signData(Object data, Signature signature) throws SignatureException {
         return signData(objectToArrayByte(data), signature);
     }
 

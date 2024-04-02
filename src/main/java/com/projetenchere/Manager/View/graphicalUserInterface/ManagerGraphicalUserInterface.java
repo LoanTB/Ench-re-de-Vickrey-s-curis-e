@@ -76,7 +76,7 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
 
     }
     @Override
-    public void displayBidderAskBids(){
+    public synchronized void displayBidderAskBids(){
         addLogMessage("Un enchérisseur a demandé les enchères actuelles.");
     }
     @Override

@@ -43,6 +43,7 @@ public class WinnerReplyer implements IDataHandler {
             } catch (SignatureException e) {
                 throw new RuntimeException("Signature falsify");
             }
+            //TODO / ajout de if et else return new DataWrapper<>(null, Headers.ERROR);
         }
     }
 }

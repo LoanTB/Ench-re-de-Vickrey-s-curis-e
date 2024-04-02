@@ -27,10 +27,10 @@ public class ChecklistOkReplyer implements IDataHandler {
                 PublicKey bidderPk = null;
                 PlayerStatus status;
 
-                (SellerGraphicalUserInterface.getInstance()).addLogMessage("Confirmation reçue...");
+                (SellerGraphicalUserInterface.getInstance()).addLogMessage("Confirmation reçue..."); //TODO : Ajouter une méthode dans SellerGraphical.
 
 
-
+//TODO : FIX la désynchro
                 byte[] noPresent = SignatureUtil.objectToArrayByte(0);
                 byte[] present = SignatureUtil.objectToArrayByte(1);
 
@@ -89,6 +89,8 @@ public class ChecklistOkReplyer implements IDataHandler {
             } catch (SignatureException e) {
                 throw new RuntimeException("Signature falsify");
             }
+            //TODO / ajout de if et else return new DataWrapper<>(null, Headers.ERROR);
+
         }
     }
 }

@@ -96,7 +96,7 @@ public class Bid implements Serializable {
         return nbParticipant;
     }
 
-    public void setNbParticipant(int nbParticipant) {
+    public synchronized void setNbParticipant(int nbParticipant) {
         this.nbParticipant = nbParticipant;
     }
 

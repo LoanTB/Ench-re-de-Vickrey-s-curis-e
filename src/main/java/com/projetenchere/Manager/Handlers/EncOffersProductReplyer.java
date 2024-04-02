@@ -29,6 +29,8 @@ public class EncOffersProductReplyer implements IDataHandler {
             {
                 ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).tellFalsifiedSignatureSeller();
                 throw new SignatureException("Seller's signature falsified.");
+
+
             }
 //TODO  : Utiliser le produit des chiffrés.
             Set_SigPackEncOffer results = enc.getSetOffers();
@@ -39,5 +41,7 @@ public class EncOffersProductReplyer implements IDataHandler {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        //TODO / ajout de else return new DataWrapper<>(null, Headers.ERROR);
+
     }
 }

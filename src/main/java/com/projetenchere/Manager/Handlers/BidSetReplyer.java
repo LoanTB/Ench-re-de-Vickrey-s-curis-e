@@ -26,5 +26,7 @@ public class BidSetReplyer implements IDataHandler {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        //TODO / ajout de else return new DataWrapper<>(null, Headers.ERROR);
+
     }
 }

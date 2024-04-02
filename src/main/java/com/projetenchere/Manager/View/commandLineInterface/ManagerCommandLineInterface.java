@@ -46,17 +46,17 @@ public class ManagerCommandLineInterface extends AbstractUserInterface implement
     }
 
     @Override
-    public void tellFalsifiedSignatureBidder() {
+    public synchronized void tellFalsifiedSignatureBidder() {
         showMessage("Signature de l'enchérisseur usurpée.");
     }
 
     @Override
-    public void tellFalsifiedSignatureSeller() {
+    public synchronized void tellFalsifiedSignatureSeller() {
         showMessage("Signature du vendeur usurpée.");
     }
 
     @Override
-    public void displayBidderAskBids() {
+    public synchronized void displayBidderAskBids() {
         showMessage("Un enchérisseur a demandé les enchères actuelles.");
     }
 

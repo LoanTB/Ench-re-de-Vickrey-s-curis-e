@@ -178,12 +178,12 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
     }
 
     @Override
-    public void tellNewParticipant(){
+    public synchronized void tellNewParticipant(){
         addLogMessage("Nouvelle participation !");
     }
 
     @Override
-    public void tellParticipationRejected(){
+    public synchronized void tellParticipationRejected(){
         addLogMessage("Une participation a été rejetée.");
     }
 

@@ -8,7 +8,7 @@ public class User {
     private Signature signature;
     private PublicKey key;
 
-    public Signature getSignature() {
+    public synchronized Signature getSignature() {
         return signature;
     }
 
@@ -16,7 +16,7 @@ public class User {
         this.signature = signature;
     }
 
-    public PublicKey getKey() {
+    public synchronized PublicKey getKey() {
         return key;
     }
 

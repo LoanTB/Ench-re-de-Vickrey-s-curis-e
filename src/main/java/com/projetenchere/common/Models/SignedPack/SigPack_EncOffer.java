@@ -17,7 +17,7 @@ public class SigPack_EncOffer extends AbstractSignedPack implements Serializable
         this.bidId = bidId;
     }
 
-    public String getBidId() {
+    public synchronized String getBidId() {
         return bidId;
     }
 }

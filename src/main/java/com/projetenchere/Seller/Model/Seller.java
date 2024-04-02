@@ -87,7 +87,7 @@ public class Seller extends User {
     public synchronized Map<PublicKey, byte[]> getBidders() {
         return this.bidders;
     }
-    public Set<PublicKey> getBidderParticipant() {
+    public synchronized Set<PublicKey> getBidderParticipant() {
         return bidderParticipant;
     }
 
@@ -113,7 +113,7 @@ public class Seller extends User {
         this.myBid = bid;
     }
 
-    public Set_SigPackEncOffer getEncryptedOffersSet() {
+    public synchronized Set_SigPackEncOffer getEncryptedOffersSet() {
         return this.encryptedOffersReceived;
     }
 
@@ -126,7 +126,7 @@ public class Seller extends User {
         return offersProductSignedBySeller;
     }
 
-    public void setOffersProductSignedBySeller(SigPack_EncOffersProduct offersProductSignedBySeller) {
+    public synchronized void setOffersProductSignedBySeller(SigPack_EncOffersProduct offersProductSignedBySeller) {
         this.offersProductSignedBySeller = offersProductSignedBySeller;
     }
 
