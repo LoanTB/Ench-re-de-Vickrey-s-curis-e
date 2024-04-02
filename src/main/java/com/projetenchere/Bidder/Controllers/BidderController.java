@@ -83,7 +83,7 @@ public class BidderController extends Controller {
 
 
 
-    public void readAndSendOffer() throws BidAbortedException, SignatureException {
+    public synchronized void readAndSendOffer() throws BidAbortedException, SignatureException {
         Offer offer = ui.readOffer(bidder, currentBids);
         Bid bid = currentBids.getBid(offer.getIdBid());
         if (bid == null) throw new RuntimeException("");
@@ -156,7 +156,7 @@ public class BidderController extends Controller {
         SigPack_Confirm key = new SigPack_Confirm(msg,msgSigned,bidder.getKey(), sigPackEncOffer.getBidId());
 
 
-        EndPack pack = client.validateAndGetResults(key);
+        EndPack pack = client.validateAndGetResults(key); //TODO FIX : Bloque ici.
 
         if(!pack.isResultsInside()){
             this.verifyIfEjectOrUnknownPlayerStatus(pack.getStatus());

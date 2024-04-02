@@ -179,7 +179,7 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     }
 
     @Override
-    public void tellOfferWon(double priceToPay) {
+    public synchronized void tellOfferWon(double priceToPay) {
         addLogMessage("Votre offre a gagné, vous devez payer " + priceToPay + "€");
     }
 

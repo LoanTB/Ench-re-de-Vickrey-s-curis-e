@@ -70,7 +70,7 @@ public class BidderClient extends Client {
         );
     }
 
-    public EndPack validateAndGetResults(SigPack_Confirm key) {
+    public synchronized EndPack validateAndGetResults(SigPack_Confirm key) {
         return fetchWithData(
                 toSeller,
                 Headers.GET_RESULTS,
