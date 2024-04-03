@@ -1,24 +1,15 @@
 package com.projetenchere.Bidder.Loader;
 
+import com.projetenchere.Bidder.BidderApp;
 import com.projetenchere.Bidder.Controllers.BidderController;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.commandLineInterface.BidderCommandLineInterface;
+import com.projetenchere.Manager.ManagerApp;
 
 public class BidderCommandLineApp {
 
     public static void launchApp() {
-        BidderController controllerInstance = new BidderController((IBidderUserInterface) new BidderCommandLineInterface());
-        controllerInstance.displayHello();
-        try {
-            controllerInstance.setSignatureConfig();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        controllerInstance.initWithManager();
-        try {
-            controllerInstance.readAndSendOffer();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        BidderApp.setViewInstance(new BidderCommandLineInterface());
+        (new BidderMain()).start();
     }
 }

@@ -1,8 +1,11 @@
 package com.projetenchere.Bidder.Loader;
 
+import com.projetenchere.Bidder.BidderApp;
 import com.projetenchere.Bidder.Controllers.BidderController;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface;
+import com.projetenchere.Manager.ManagerApp;
+import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,6 +19,10 @@ public class BidderGraphicalApp extends Application {
         return controllerInstance;
     }
 
+    public static void setControllerInstance(BidderController bidderController) {
+        controllerInstance = bidderController;
+    }
+
     public static void launchApp() {
         launch(BidderGraphicalApp.class);
     }
@@ -24,28 +31,14 @@ public class BidderGraphicalApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BidderGraphicalUserInterface.fxml"));
         Parent root = loader.load();
-        BidderGraphicalUserInterface.setInstance(loader.getController());
-        BidderGraphicalUserInterface.getInstance().setPrimaryStage(primaryStage);
+        BidderApp.setViewInstance(loader.getController());
+        ((BidderGraphicalUserInterface) BidderApp.getViewInstance()).setPrimaryStage(primaryStage);
 
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("SecureWin Bidder");
         primaryStage.show();
 
-        new Thread(() -> {
-            controllerInstance = new BidderController((IBidderUserInterface) BidderGraphicalUserInterface.getInstance());
-            controllerInstance.displayHello();
-            try {
-                controllerInstance.setSignatureConfig();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            controllerInstance.initWithManager();
-            try {
-                controllerInstance.readAndSendOffer();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
+        (new BidderMain()).start();
     }
 }
 

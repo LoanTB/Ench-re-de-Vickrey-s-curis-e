@@ -2,6 +2,7 @@ package com.projetenchere.Bidder.View.commandLineInterface;
 
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
+import com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
 
@@ -16,6 +17,15 @@ public class BidderCommandLineInterface implements IBidderUserInterface {
 
     private String readMessage() {
         return scanner.nextLine();
+    }
+
+    private static BidderCommandLineInterface instance = null;
+
+    public static BidderCommandLineInterface getInstance() {
+        if (instance == null) {
+            instance = new BidderCommandLineInterface();
+        }
+        return instance;
     }
 
     @Override

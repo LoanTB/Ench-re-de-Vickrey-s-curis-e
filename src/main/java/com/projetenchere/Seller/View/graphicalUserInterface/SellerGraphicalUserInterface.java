@@ -43,19 +43,6 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     private Bid bid = null;
 
-    private static SellerGraphicalUserInterface instance = null;
-
-    public static SellerGraphicalUserInterface getInstance() {
-        if (instance == null) {
-            throw new NullPointerException("Instance non initialisée");
-        }
-        return instance;
-    }
-
-    public static void setInstance(SellerGraphicalUserInterface instance) {
-        SellerGraphicalUserInterface.instance = instance;
-    }
-
     @FXML
     public void initialize() {
         for (int i = 0; i < 24; i++) {

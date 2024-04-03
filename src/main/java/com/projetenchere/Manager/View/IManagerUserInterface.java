@@ -1,9 +1,12 @@
 package com.projetenchere.Manager.View;
 
+import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.View.IUserInterface;
 
 public interface IManagerUserInterface extends IUserInterface {
     void displayHello();
+
+    void diplayEndBid(String idBid);
 
     void tellSignatureConfigSetup();
 
@@ -14,4 +17,6 @@ public interface IManagerUserInterface extends IUserInterface {
     void tellManagerReadyToProcessBids();
 
     void tellBidRequest();
+
+    void displayNewBid(Bid bid);
 }

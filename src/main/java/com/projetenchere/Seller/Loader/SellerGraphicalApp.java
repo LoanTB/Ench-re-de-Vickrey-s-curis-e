@@ -1,6 +1,11 @@
 package com.projetenchere.Seller.Loader;
 
+import com.projetenchere.Bidder.BidderApp;
+import com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface;
+import com.projetenchere.Manager.ManagerApp;
+import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.Seller.Controllers.SellerController;
+import com.projetenchere.Seller.SellerApp;
 import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -15,6 +20,9 @@ public class SellerGraphicalApp extends Application {
     public static SellerController getControllerInstance() {
         return controllerInstance;
     }
+    public static void setControllerInstance(SellerController sellerController) {
+        controllerInstance = sellerController;
+    }
 
     public static void launchApp() {
         launch(SellerGraphicalApp.class);
@@ -24,30 +32,13 @@ public class SellerGraphicalApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SellerGraphicalUserInterface.fxml"));
         Parent root = loader.load();
-        SellerGraphicalUserInterface.setInstance(loader.getController());
-        SellerGraphicalUserInterface.getInstance().setPrimaryStage(primaryStage);
+        SellerApp.setViewInstance(loader.getController());
+        ((SellerGraphicalUserInterface) SellerApp.getViewInstance()).setPrimaryStage(primaryStage);
 
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("SecureWin Seller");
         primaryStage.show();
 
-        controllerInstance = new SellerController((SellerGraphicalUserInterface) SellerGraphicalUserInterface.getInstance());
-
-        controllerInstance.displayHello();
-        controllerInstance.setSignatureConfig();
-
-        new Thread(() -> {
-            controllerInstance.createMyBid();
-            controllerInstance.sendMyBid();
-            controllerInstance.receiveOkUntilCheckEndAndSendResults();
-            try {
-                controllerInstance.sendEncryptedOffersSet();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            Platform.runLater(() -> {
-                controllerInstance.displayWinner();
-            });
-        }).start();
+        (new SellerMain()).start();
     }
 }

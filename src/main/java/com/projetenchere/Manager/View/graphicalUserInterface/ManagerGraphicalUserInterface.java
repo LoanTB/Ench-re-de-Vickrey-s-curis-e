@@ -28,19 +28,6 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
     @FXML
     private TableColumn<ManagerTable, String> statusColumn;
 
-    private static ManagerGraphicalUserInterface instance = null;
-
-    public static ManagerGraphicalUserInterface getInstance() {
-        if (instance == null) {
-            throw new NullPointerException("Instance non initialisée");
-        }
-        return instance;
-    }
-
-    public static void setInstance(ManagerGraphicalUserInterface instance) {
-        ManagerGraphicalUserInterface.instance = instance;
-    }
-
     public void initialize() {
         checkCurrentBidsVBoxTitle.setVisible(false);
         checkCurrentBidsVBoxTitle.setManaged(false);
@@ -67,6 +54,7 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
         addLogMessage("Bienvenue Manager");
     }
 
+    @Override
     public void displayNewBid(Bid bid) {
         if (!auctionsTableView.isVisible() || !auctionsTableView.isManaged()) {
             auctionsTableView.setVisible(true);
@@ -78,6 +66,7 @@ public class ManagerGraphicalUserInterface extends UserGraphicalUserInterface im
         auctionsTableView.getItems().add(new ManagerTable(bid.getId(), bid.getName(), bid.getDescription(), bid.getStartDateTime().toString(), bid.getEndDateTime().toString(), "En cours..."));
     }
 
+    @Override
     public void diplayEndBid(String idBid) {
         addLogMessage("L'enchère " + idBid + " a été résolue.");
         for (ManagerTable item : auctionsTableView.getItems()) {

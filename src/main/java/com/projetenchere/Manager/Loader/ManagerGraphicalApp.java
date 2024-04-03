@@ -1,7 +1,7 @@
 package com.projetenchere.Manager.Loader;
 
 import com.projetenchere.Manager.Controllers.ManagerController;
-import com.projetenchere.Manager.View.IManagerUserInterface;
+import com.projetenchere.Manager.ManagerApp;
 import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ManagerGraphicalApp extends Application {
-    private static ManagerController controllerInstance;
 
     public static void launchApp() {
         launch(ManagerGraphicalApp.class);
@@ -21,22 +20,15 @@ public class ManagerGraphicalApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ManagerGraphicalUserInterface.fxml"));
         Parent root = loader.load();
-        ManagerGraphicalUserInterface.setInstance(loader.getController());
-        ManagerGraphicalUserInterface.getInstance().setPrimaryStage(primaryStage);
+        ManagerApp.setViewInstance(loader.getController());
+        ((ManagerGraphicalUserInterface) ManagerApp.getViewInstance()).setPrimaryStage(primaryStage);
 
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("SecureWin Manager");
         primaryStage.show();
 
         Platform.runLater(() -> {
-            controllerInstance = new ManagerController((IManagerUserInterface) ManagerGraphicalUserInterface.getInstance());
-            controllerInstance.displayHello();
-            try {
-                controllerInstance.setSignatureConfig();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            controllerInstance.init();
+            (new ManagerMain()).start();
         });
     }
 }
