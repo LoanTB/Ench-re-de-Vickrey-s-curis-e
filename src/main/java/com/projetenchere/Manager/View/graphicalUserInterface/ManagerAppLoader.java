@@ -2,7 +2,6 @@ package com.projetenchere.Manager.View.graphicalUserInterface;
 
 import com.projetenchere.Manager.Controllers.ManagerController;
 import com.projetenchere.Manager.View.IManagerUserInterface;
-import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
