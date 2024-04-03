@@ -19,6 +19,6 @@ public class BidderApp {
         viewInstance = instance;
     }
     public static void main(String[] args) {
-        BidderCommandLineApp.launchApp();
+        BidderGraphicalApp.launchApp();
     }
 }
