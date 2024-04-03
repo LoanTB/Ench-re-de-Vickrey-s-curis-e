@@ -2,10 +2,7 @@ package com.projetenchere.Bidder.Loader;
 
 import com.projetenchere.Bidder.BidderApp;
 import com.projetenchere.Bidder.Controllers.BidderController;
-import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface;
-import com.projetenchere.Manager.ManagerApp;
-import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -1,6 +1,7 @@
 package com.projetenchere.Manager;
 
 import com.projetenchere.Manager.Loader.ManagerCommandLineApp;
+import com.projetenchere.Manager.Loader.ManagerGraphicalApp;
 import com.projetenchere.Manager.View.IManagerUserInterface;
 
 public class ManagerApp {

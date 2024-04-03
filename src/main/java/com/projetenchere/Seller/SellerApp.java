@@ -1,7 +1,5 @@
 package com.projetenchere.Seller;
 
-import com.projetenchere.Bidder.BidderApp;
-import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Seller.Loader.SellerCommandLineApp;
 import com.projetenchere.Seller.Loader.SellerGraphicalApp;
 import com.projetenchere.Seller.View.ISellerUserInterface;

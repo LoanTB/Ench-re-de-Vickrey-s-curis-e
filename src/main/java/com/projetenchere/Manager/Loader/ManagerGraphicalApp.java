@@ -12,6 +12,16 @@ import javafx.stage.Stage;
 
 public class ManagerGraphicalApp extends Application {
 
+    private static ManagerController controllerInstance;
+
+    public static ManagerController getControllerInstance() {
+        return controllerInstance;
+    }
+
+    public static void setControllerInstance(ManagerController managerController) {
+        controllerInstance = managerController;
+    }
+
     public static void launchApp() {
         launch(ManagerGraphicalApp.class);
     }

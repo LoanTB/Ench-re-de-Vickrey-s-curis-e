@@ -1,14 +1,9 @@
 package com.projetenchere.Seller.Loader;
 
-import com.projetenchere.Bidder.BidderApp;
-import com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface;
-import com.projetenchere.Manager.ManagerApp;
-import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.Seller.Controllers.SellerController;
 import com.projetenchere.Seller.SellerApp;
 import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

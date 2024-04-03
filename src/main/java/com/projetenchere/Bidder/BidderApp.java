@@ -3,8 +3,6 @@ package com.projetenchere.Bidder;
 import com.projetenchere.Bidder.Loader.BidderCommandLineApp;
 import com.projetenchere.Bidder.Loader.BidderGraphicalApp;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
-import com.projetenchere.Manager.ManagerApp;
-import com.projetenchere.Manager.View.IManagerUserInterface;
 
 public class BidderApp {
 

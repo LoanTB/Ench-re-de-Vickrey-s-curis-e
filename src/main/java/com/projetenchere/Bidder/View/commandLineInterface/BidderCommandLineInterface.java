@@ -2,7 +2,6 @@ package com.projetenchere.Bidder.View.commandLineInterface;
 
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
-import com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
 

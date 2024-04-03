@@ -1,13 +1,11 @@
 package com.projetenchere.Seller.Loader;
 
 import com.projetenchere.Seller.Controllers.SellerController;
-import com.projetenchere.Seller.View.ISellerUserInterface;
-import com.projetenchere.Seller.View.commandLineInterface.SellerCommandLineInterface;
-import javafx.application.Platform;
+import com.projetenchere.Seller.SellerApp;
 
 public class SellerMain extends Thread {
     public void run() {
-        SellerController sellerController = new SellerController((ISellerUserInterface) new SellerCommandLineInterface());
+        SellerController sellerController = new SellerController(SellerApp.getViewInstance());
         SellerGraphicalApp.setControllerInstance(sellerController);
         sellerController.displayHello();
         try {
