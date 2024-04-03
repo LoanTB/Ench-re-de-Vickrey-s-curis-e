@@ -60,6 +60,7 @@ public class ClientAcceptor<T extends Serializable> extends Thread {
                     this.stop = true;
                 } else if (handlers.containsKey(dataInput.getHeader())) {
                     dataOutput = handlers.get(dataInput.getHeader()).handle(object);
+                    System.out.println("Sent " + dataOutput.getHeader());
                     this.getObjectOutput().writeObject(dataOutput);
                 }
             }

@@ -14,8 +14,10 @@ public class Client {
         DataWrapper<?> request = new DataWrapper<>(headerToSend);
         DataWrapper<T> wrapped;
         try {
+            System.out.println("Sending " + headerToSend);
             socket.getObjectOutputStream().writeObject(request);
             wrapped = (DataWrapper<T>) socket.getObjectInputStream().readObject();
+            System.out.println("Sending " + wrapped.getHeader());
             if (!wrapped.checkHeader(headerToReceive))
                 throw new RuntimeException("Wrong header received: " + headerToReceive);
         } catch (IOException | ClassCastException | ClassNotFoundException e) {
@@ -29,8 +31,10 @@ public class Client {
         DataWrapper<T1> wrappedToReceive;
         DataWrapper<T2> wrappedToSend = new DataWrapper<>(data, headerToSend);
         try {
+            System.out.println("Sending " + wrappedToSend.getHeader());
             socket.getObjectOutputStream().writeObject(wrappedToSend);
             wrappedToReceive = (DataWrapper<T1>) socket.getObjectInputStream().readObject();
+            System.out.println("Received " + wrappedToReceive.getHeader());
             if (!wrappedToReceive.checkHeader(headerToReceive))
                 throw new RuntimeException("Wrong header | wanted " + headerToReceive + " received " + wrappedToReceive.getHeader());
         } catch (IOException | ClassCastException | ClassNotFoundException e) {
