@@ -1,7 +1,8 @@
-package com.projetenchere.Manager.View.graphicalUserInterface;
+package com.projetenchere.Manager.Loader;
 
 import com.projetenchere.Manager.Controllers.ManagerController;
 import com.projetenchere.Manager.View.IManagerUserInterface;
+import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -9,11 +10,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ManagerAppLoader extends Application {
+public class ManagerGraphicalApp extends Application {
     private static ManagerController controllerInstance;
 
     public static void launchApp() {
-        launch(ManagerAppLoader.class);
+        launch(ManagerGraphicalApp.class);
     }
 
     @Override

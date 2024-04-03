@@ -1,6 +1,7 @@
-package com.projetenchere.Seller.View.graphicalUserInterface;
+package com.projetenchere.Seller.Loader;
 
 import com.projetenchere.Seller.Controllers.SellerController;
+import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class SellerAppLoader extends Application {
+public class SellerGraphicalApp extends Application {
     private static SellerController controllerInstance;
 
     public static SellerController getControllerInstance() {
@@ -16,7 +17,7 @@ public class SellerAppLoader extends Application {
     }
 
     public static void launchApp() {
-        launch(SellerAppLoader.class);
+        launch(SellerGraphicalApp.class);
     }
 
     @Override

@@ -1,14 +1,15 @@
-package com.projetenchere.Bidder.View.graphicalUserInterface;
+package com.projetenchere.Bidder.Loader;
 
 import com.projetenchere.Bidder.Controllers.BidderController;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
+import com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class BidderAppLoader extends Application {
+public class BidderGraphicalApp extends Application {
     private static BidderController controllerInstance;
 
     public static BidderController getControllerInstance() {
@@ -16,7 +17,7 @@ public class BidderAppLoader extends Application {
     }
 
     public static void launchApp() {
-        launch(BidderAppLoader.class);
+        launch(BidderGraphicalApp.class);
     }
 
     @Override

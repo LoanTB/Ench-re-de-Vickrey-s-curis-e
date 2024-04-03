@@ -1,5 +1,6 @@
 package com.projetenchere.Bidder.View.graphicalUserInterface;
 
+import com.projetenchere.Bidder.Loader.BidderGraphicalApp;
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 import com.projetenchere.Bidder.View.graphicalUserInterface.Item.BidderTable;
@@ -71,7 +72,7 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
             }
         });
         refreshButton.setOnAction(actionEvent -> {
-            BidderAppLoader.getControllerInstance().initWithManager();
+            BidderGraphicalApp.getControllerInstance().initWithManager();
         });
         for (TableColumn<?, ?> column : auctionsTableView.getColumns()) {
             column.setPrefWidth(auctionsTableView.getWidth() / auctionsTableView.getColumns().size());

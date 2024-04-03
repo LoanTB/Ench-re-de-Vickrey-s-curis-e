@@ -1,9 +1,9 @@
 package com.projetenchere.Seller;
 
-import com.projetenchere.Seller.View.graphicalUserInterface.SellerAppLoader;
+import com.projetenchere.Seller.Loader.SellerGraphicalApp;
 
 public class SellerApp {
     public static void main(String[] args) {
-        SellerAppLoader.launchApp();
+        SellerGraphicalApp.launchApp();
     }
 }
