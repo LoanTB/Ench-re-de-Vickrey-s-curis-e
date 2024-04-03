@@ -2,6 +2,7 @@ package com.projetenchere.Bidder.View.graphicalUserInterface;
 
 import com.projetenchere.Bidder.Model.Bidder;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
+import com.projetenchere.Bidder.View.graphicalUserInterface.Item.BidderTable;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.CurrentBids;
 import com.projetenchere.common.Models.Offer;
@@ -30,13 +31,13 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     @FXML
     public Button buttonCreate;
     @FXML
-    private TableView<ItemBidderTable> auctionsTableView;
+    private TableView<BidderTable> auctionsTableView;
     @FXML
-    private TableColumn<ItemBidderTable, String> nameColumn;
+    private TableColumn<BidderTable, String> nameColumn;
     @FXML
-    private TableColumn<ItemBidderTable, String> descriptionColumn;
+    private TableColumn<BidderTable, String> descriptionColumn;
     @FXML
-    private TableColumn<ItemBidderTable, String> endDateColumn;
+    private TableColumn<BidderTable, String> endDateColumn;
     @FXML
     private TextField offerAmountTextField;
     @FXML
@@ -101,10 +102,10 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     public void displayBid(CurrentBids currentBids) {
         boolean ok = true;
         this.currentBids = currentBids;
-        List<ItemBidderTable> itemBidderTables = new ArrayList<>();
+        List<BidderTable> bidderTables = new ArrayList<>();
         for (Bid bid : currentBids.getCurrentBids()) {
             if (auctionsTableView.getItems() != null) {
-                for (ItemBidderTable item : auctionsTableView.getItems()) {
+                for (BidderTable item : auctionsTableView.getItems()) {
                     if (item.getId().equals(bid.getId())) {
                         ok = false;
                         break;
@@ -112,11 +113,11 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
                 }
             }
             if (ok) {
-                itemBidderTables.add(new ItemBidderTable(bid.getId(), bid.getName(), bid.getDescription(), bid.getEndDateTime().toString()));
+                bidderTables.add(new BidderTable(bid.getId(), bid.getName(), bid.getDescription(), bid.getEndDateTime().toString()));
             }
 
         }
-        auctionsTableView.getItems().addAll(itemBidderTables);
+        auctionsTableView.getItems().addAll(bidderTables);
     }
 
     @FXML
