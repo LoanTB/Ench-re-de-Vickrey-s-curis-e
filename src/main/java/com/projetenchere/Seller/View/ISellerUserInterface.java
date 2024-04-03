@@ -25,4 +25,12 @@ public interface ISellerUserInterface extends IUserInterface {
     void tellSendBidToManager();
 
     void showNewOfferAlert();
+
+    void tellBidEnd();
+
+    void tellSendOffersToManager();
+
+    void displayWinnerPrice(double price);
+
+    void tellResultsSend();
 }

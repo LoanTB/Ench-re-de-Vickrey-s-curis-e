@@ -1,7 +1,7 @@
 package com.projetenchere.Seller.Controllers;
 
 import com.projetenchere.Seller.Model.Seller;
-import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
+import com.projetenchere.Seller.View.ISellerUserInterface;
 import com.projetenchere.Seller.network.Handlers.ChecklistOkReplyer;
 import com.projetenchere.Seller.network.Handlers.EncryptedOfferReplyer;
 import com.projetenchere.Seller.network.SellerClient;
@@ -23,10 +23,10 @@ public class SellerController extends Controller {
     private final SellerClient client = new SellerClient();
     private final Server server = new Server(24682);
     private final Seller seller = Seller.getInstance();
-    SellerGraphicalUserInterface ui;
+    ISellerUserInterface ui;
     private Winner winner = null;
 
-    public SellerController(SellerGraphicalUserInterface ui) {
+    public SellerController(ISellerUserInterface ui) {
         this.ui = ui;
     }
 
@@ -67,8 +67,8 @@ public class SellerController extends Controller {
         while (auctionInProgress()) {
             waitSynchro(1000);
         }
-        ui.addLogMessage("Enchère finie !");
-        ui.addLogMessage("Envoie de la demande de résolution au gestionnaire.");
+        ui.tellBidEnd();
+        ui.tellSendOffersToManager();
         server.addHandler(Headers.GET_WIN_STATUS, new ChecklistOkReplyer());
         seller.resultsAreReady();
         server.removeHandler(Headers.SEND_OFFER);
@@ -85,8 +85,8 @@ public class SellerController extends Controller {
         SignedEncryptedOfferSet offers = seller.getEncryptedOffersSignedBySeller();
         ui.displayEncryptedOffersSet();
         this.setWinner(client.sendEncryptedOffersSet(offers));
-        ui.addLogMessage("Le prix gagnant est " + winner.price() + "€");
-        ui.addLogMessage("Résultats envoyés aux enchérisseurs.");
+        ui.displayWinnerPrice(winner.price());
+        ui.tellResultsSend();
     }
 
     public void displayHello() {

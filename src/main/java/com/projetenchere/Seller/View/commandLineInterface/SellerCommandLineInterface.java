@@ -112,6 +112,26 @@ public class SellerCommandLineInterface extends AbstractUserInterface implements
     }
 
     @Override
+    public void tellBidEnd() {
+        showMessage("Enchère finie !");
+    }
+
+    @Override
+    public void tellSendOffersToManager() {
+        showMessage("Envoie de la demande de résolution au gestionnaire.");
+    }
+
+    @Override
+    public void displayWinnerPrice(double price) {
+        showMessage("Le prix gagnant est " + price + "€");
+    }
+
+    @Override
+    public void tellResultsSend() {
+        showMessage("Résultats envoyés aux enchérisseurs.");
+    }
+
+    @Override
     public String askBidDescription() {
         showMessage("Veuillez saisir la description de l'enchère : ");
         return readMessage();
