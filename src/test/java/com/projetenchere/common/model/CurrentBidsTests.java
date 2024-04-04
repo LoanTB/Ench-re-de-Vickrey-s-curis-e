@@ -1,7 +1,5 @@
-package com.projetenchere.common.models;
+package com.projetenchere.common.model;
 
-import com.projetenchere.common.model.Bid;
-import com.projetenchere.common.model.CurrentBids;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

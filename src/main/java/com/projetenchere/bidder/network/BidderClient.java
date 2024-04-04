@@ -3,11 +3,11 @@ package com.projetenchere.bidder.network;
 import com.projetenchere.common.model.EndPack;
 import com.projetenchere.common.model.PlayerStatus;
 import com.projetenchere.common.model.signedPack.*;
-import com.projetenchere.common.util.NetworkUtil;
 import com.projetenchere.common.network.Client;
 import com.projetenchere.common.network.ClientSocketWrapper;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.socket.SSLSocketFactory;
+import com.projetenchere.common.util.NetworkUtil;
 
 import java.net.InetSocketAddress;
 

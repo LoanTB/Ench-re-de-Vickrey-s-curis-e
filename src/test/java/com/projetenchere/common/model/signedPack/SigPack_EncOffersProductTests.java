@@ -1,11 +1,8 @@
-package com.projetenchere.common.models.SignedPack;
+package com.projetenchere.common.model.signedPack;
 
-import com.projetenchere.common.model.signedPack.Set_SigPackEncOffer;
-import com.projetenchere.common.model.signedPack.SigPack_EncOffer;
-import com.projetenchere.common.model.signedPack.SigPack_EncOffersProduct;
 import com.projetenchere.common.util.EncryptionUtil;
-import com.projetenchere.common.util.keyFile.KeyFileUtilWithJKS;
 import com.projetenchere.common.util.SignatureUtil;
+import com.projetenchere.common.util.keyFile.KeyFileUtilWithJKS;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +14,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SigPack_EncOffersProductTests {
 
@@ -120,7 +116,7 @@ public class SigPack_EncOffersProductTests {
     }
 
     @Test
-    void testProduct() throws Exception { //TODO : Lancer les tests une fois le chiffrement implémenté.
+    void testProduct() { //TODO : Lancer les tests une fois le chiffrement implémenté.
 
         assertEquals(18.0+19.0,EncryptionUtil.decryptPrice(b.toByteArray(),kp.getPrivate()));
 

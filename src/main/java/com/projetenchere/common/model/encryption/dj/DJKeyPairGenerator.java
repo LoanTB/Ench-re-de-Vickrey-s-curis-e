@@ -1,7 +1,8 @@
 package com.projetenchere.common.model.encryption.dj;
 
 import java.math.BigInteger;
-import java.security.*;
+import java.security.KeyPair;
+import java.security.SecureRandom;
 
 public class DJKeyPairGenerator{
     int size;

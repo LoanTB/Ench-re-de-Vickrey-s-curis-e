@@ -2,12 +2,13 @@ package com.projetenchere.common.util;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 import java.security.*;
 
 public class SignatureUtilTests {
 
     @Test
-    public void testInitSignatureForSigning() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+    public void testInitSignatureForSigning() throws NoSuchAlgorithmException, SignatureException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
@@ -20,7 +21,7 @@ public class SignatureUtilTests {
     }
 
     @Test
-    public void testSignData() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+    public void testSignData() throws NoSuchAlgorithmException, SignatureException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
@@ -35,7 +36,7 @@ public class SignatureUtilTests {
     }
 
     @Test
-    public void testSignDataObject() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+    public void testSignDataObject() throws NoSuchAlgorithmException, SignatureException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
@@ -59,7 +60,7 @@ public class SignatureUtilTests {
     }
 
     @Test
-    public void testVerifyDataSignature() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+    public void testVerifyDataSignature() throws NoSuchAlgorithmException, SignatureException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
         KeyPair keyPair = keyPairGenerator.generateKeyPair();

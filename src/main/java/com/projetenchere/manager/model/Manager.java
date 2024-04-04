@@ -2,10 +2,10 @@ package com.projetenchere.manager.model;
 
 import com.projetenchere.common.model.Bid;
 import com.projetenchere.common.model.CurrentBids;
+import com.projetenchere.common.model.User;
 import com.projetenchere.common.model.signedPack.Set_SigPackEncOffer;
 import com.projetenchere.common.model.signedPack.SigPack_PriceWin;
 import com.projetenchere.common.model.signedPack.SigPack_PubKey;
-import com.projetenchere.common.model.User;
 import com.projetenchere.common.util.EncryptionUtil;
 import com.projetenchere.common.util.SignatureUtil;
 

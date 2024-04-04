@@ -1,19 +1,19 @@
 package com.projetenchere.seller.controller;
 
+import com.projetenchere.common.controller.Controller;
+import com.projetenchere.common.model.PlayerStatus;
+import com.projetenchere.common.model.signedPack.*;
+import com.projetenchere.common.network.Headers;
+import com.projetenchere.common.network.Server;
+import com.projetenchere.common.util.NetworkUtil;
+import com.projetenchere.common.util.SignatureUtil;
 import com.projetenchere.seller.model.Seller;
-import com.projetenchere.seller.view.ISellerUserInterface;
+import com.projetenchere.seller.network.SellerClient;
 import com.projetenchere.seller.network.handler.ChecklistOkReplyer;
 import com.projetenchere.seller.network.handler.EncryptedOfferReplyer;
 import com.projetenchere.seller.network.handler.ParticipationReplyer;
 import com.projetenchere.seller.network.handler.WinnerReplyer;
-import com.projetenchere.seller.network.SellerClient;
-import com.projetenchere.common.controller.Controller;
-import com.projetenchere.common.model.PlayerStatus;
-import com.projetenchere.common.model.signedPack.*;
-import com.projetenchere.common.util.NetworkUtil;
-import com.projetenchere.common.util.SignatureUtil;
-import com.projetenchere.common.network.Headers;
-import com.projetenchere.common.network.Server;
+import com.projetenchere.seller.view.ISellerUserInterface;
 
 import java.net.InetSocketAddress;
 import java.security.GeneralSecurityException;

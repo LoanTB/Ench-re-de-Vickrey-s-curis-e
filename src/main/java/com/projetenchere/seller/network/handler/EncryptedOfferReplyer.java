@@ -1,12 +1,12 @@
 package com.projetenchere.seller.network.handler;
 
-import com.projetenchere.seller.loader.SellerMain;
-import com.projetenchere.seller.model.Seller;
 import com.projetenchere.common.model.signedPack.SigPack_EncOffer;
 import com.projetenchere.common.model.signedPack.SigPack_EncOffersProduct;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.IDataHandler;
+import com.projetenchere.seller.loader.SellerMain;
+import com.projetenchere.seller.model.Seller;
 
 import java.io.Serializable;
 

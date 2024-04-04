@@ -1,11 +1,16 @@
 package com.projetenchere;
 
+import com.projetenchere.bidder.controller.BidderController;
 import com.projetenchere.common.model.Bid;
 import com.projetenchere.common.model.CurrentBids;
 import com.projetenchere.common.network.Client;
 import com.projetenchere.common.network.ClientSocketWrapper;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.socket.SSLSocketFactory;
+import com.projetenchere.manager.controller.ManagerController;
+import com.projetenchere.manager.loader.ManagerMain;
+import com.projetenchere.manager.model.Manager;
+import com.projetenchere.seller.controller.SellerController;
 import org.jetbrains.annotations.Blocking;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
@@ -16,18 +21,12 @@ import java.security.SignatureException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-import com.projetenchere.manager.controller.ManagerController;
-import com.projetenchere.manager.loader.ManagerMain;
-import com.projetenchere.manager.model.Manager;
-import com.projetenchere.seller.controller.SellerController;
-import com.projetenchere.bidder.controller.BidderController;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 public class BidsTests {
     @Nested
-    @DisplayName("Manager")
+    @DisplayName("manager")
     public class TestManager {
         private static ManagerController manager;
 
@@ -121,7 +120,7 @@ public class BidsTests {
     }
 
     @Nested
-    @DisplayName("Seller")
+    @DisplayName("seller")
     @Disabled
     public class TestSeller {
         private static SellerController seller;
@@ -145,7 +144,7 @@ public class BidsTests {
     }
 
     @Nested
-    @DisplayName("Bidder")
+    @DisplayName("bidder")
     @Disabled
     public class TestBidder {
         private static BidderController bidder;

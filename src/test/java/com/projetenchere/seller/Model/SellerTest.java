@@ -3,8 +3,9 @@ package com.projetenchere.seller.Model;
 import com.projetenchere.common.model.signedPack.Set_SigPackEncOffer;
 import com.projetenchere.common.model.signedPack.SigPack_EncOffer;
 import com.projetenchere.common.util.EncryptionUtil;
-import com.projetenchere.common.util.keyFile.KeyFileUtilWithJKS;
 import com.projetenchere.common.util.SignatureUtil;
+import com.projetenchere.common.util.keyFile.KeyFileUtilWithJKS;
+import com.projetenchere.seller.model.Seller;
 import org.junit.jupiter.api.Test;
 
 import java.security.KeyPair;
@@ -12,8 +13,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.util.HashSet;
-
-import com.projetenchere.seller.model.Seller;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

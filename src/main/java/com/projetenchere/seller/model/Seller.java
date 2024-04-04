@@ -2,12 +2,8 @@ package com.projetenchere.seller.model;
 
 import com.projetenchere.common.model.Bid;
 import com.projetenchere.common.model.PlayerStatus;
-import com.projetenchere.common.model.signedPack.SigPack_EncOffer;
-import com.projetenchere.common.model.signedPack.SigPack_EncOffersProduct;
-import com.projetenchere.common.model.signedPack.Set_SigPackEncOffer;
-import com.projetenchere.common.model.signedPack.SigPack_Confirm;
-import com.projetenchere.common.model.signedPack.SigPack_Results;
 import com.projetenchere.common.model.User;
+import com.projetenchere.common.model.signedPack.*;
 import com.projetenchere.common.util.SignatureUtil;
 
 import java.math.BigInteger;

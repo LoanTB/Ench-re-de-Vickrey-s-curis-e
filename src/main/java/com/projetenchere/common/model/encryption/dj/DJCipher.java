@@ -1,7 +1,9 @@
 package com.projetenchere.common.model.encryption.dj;
 
 import java.math.BigInteger;
-import java.security.*;
+import java.security.AlgorithmParameters;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.Random;
 
 public class DJCipher {
@@ -9,7 +11,7 @@ public class DJCipher {
     public enum Modes {
         ENCRYPT_MODE,
         DECRYPT_MODE,
-    };
+    }
 
     private Modes opMode;
     private AlgorithmParameters params;

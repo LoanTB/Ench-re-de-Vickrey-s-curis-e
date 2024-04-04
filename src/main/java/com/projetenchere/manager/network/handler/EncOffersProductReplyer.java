@@ -1,14 +1,14 @@
 package com.projetenchere.manager.network.handler;
 
-import com.projetenchere.manager.loader.ManagerMain;
-import com.projetenchere.manager.model.Manager;
 import com.projetenchere.common.model.signedPack.Set_SigPackEncOffer;
 import com.projetenchere.common.model.signedPack.SigPack_EncOffersProduct;
 import com.projetenchere.common.model.signedPack.SigPack_PriceWin;
-import com.projetenchere.common.util.SignatureUtil;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.IDataHandler;
+import com.projetenchere.common.util.SignatureUtil;
+import com.projetenchere.manager.loader.ManagerMain;
+import com.projetenchere.manager.model.Manager;
 
 import java.io.Serializable;
 import java.security.SignatureException;

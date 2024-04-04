@@ -3,11 +3,11 @@ package com.projetenchere.seller.network;
 import com.projetenchere.common.model.signedPack.SigPack_Bid;
 import com.projetenchere.common.model.signedPack.SigPack_EncOffersProduct;
 import com.projetenchere.common.model.signedPack.SigPack_PriceWin;
-import com.projetenchere.common.util.NetworkUtil;
 import com.projetenchere.common.network.Client;
 import com.projetenchere.common.network.ClientSocketWrapper;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.socket.SSLSocketFactory;
+import com.projetenchere.common.util.NetworkUtil;
 
 public class SellerClient extends Client {
     ClientSocketWrapper toManager;

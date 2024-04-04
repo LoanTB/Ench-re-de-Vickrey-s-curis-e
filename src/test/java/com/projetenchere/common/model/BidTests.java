@@ -1,8 +1,7 @@
-package com.projetenchere.common.models;
+package com.projetenchere.common.model;
 
-import com.projetenchere.common.model.Bid;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.net.InetSocketAddress;
 import java.security.PublicKey;

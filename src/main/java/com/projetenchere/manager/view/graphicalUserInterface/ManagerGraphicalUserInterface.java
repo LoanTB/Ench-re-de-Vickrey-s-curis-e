@@ -1,9 +1,9 @@
 package com.projetenchere.manager.view.graphicalUserInterface;
 
-import com.projetenchere.manager.view.IManagerUserInterface;
-import com.projetenchere.manager.view.graphicalUserInterface.item.ManagerTable;
 import com.projetenchere.common.model.Bid;
 import com.projetenchere.common.view.UserGraphicalUserInterface;
+import com.projetenchere.manager.view.IManagerUserInterface;
+import com.projetenchere.manager.view.graphicalUserInterface.item.ManagerTable;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;

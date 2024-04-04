@@ -1,8 +1,8 @@
 package com.projetenchere.manager.view.commandLineInterface;
 
-import com.projetenchere.manager.view.IManagerUserInterface;
 import com.projetenchere.common.model.AbstractUserInterface;
 import com.projetenchere.common.model.Bid;
+import com.projetenchere.manager.view.IManagerUserInterface;
 
 
 public class ManagerCommandLineInterface extends AbstractUserInterface implements IManagerUserInterface {

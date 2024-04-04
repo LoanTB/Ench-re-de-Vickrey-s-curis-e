@@ -1,8 +1,8 @@
 package com.projetenchere.bidder.controller;
 
 import com.projetenchere.bidder.model.Bidder;
-import com.projetenchere.bidder.view.IBidderUserInterface;
 import com.projetenchere.bidder.network.BidderClient;
+import com.projetenchere.bidder.view.IBidderUserInterface;
 import com.projetenchere.common.controller.Controller;
 import com.projetenchere.common.model.*;
 import com.projetenchere.common.model.signedPack.*;

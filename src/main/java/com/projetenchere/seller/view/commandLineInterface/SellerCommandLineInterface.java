@@ -1,8 +1,8 @@
 package com.projetenchere.seller.view.commandLineInterface;
 
-import com.projetenchere.seller.view.ISellerUserInterface;
 import com.projetenchere.common.model.AbstractUserInterface;
 import com.projetenchere.common.model.Bid;
+import com.projetenchere.seller.view.ISellerUserInterface;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

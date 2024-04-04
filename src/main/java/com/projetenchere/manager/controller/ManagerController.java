@@ -1,17 +1,17 @@
 package com.projetenchere.manager.controller;
 
+import com.projetenchere.common.controller.Controller;
+import com.projetenchere.common.model.signedPack.SigPack_PubKey;
+import com.projetenchere.common.network.Headers;
+import com.projetenchere.common.network.Server;
+import com.projetenchere.common.util.EncryptionUtil;
+import com.projetenchere.common.util.SignatureUtil;
+import com.projetenchere.manager.model.Manager;
 import com.projetenchere.manager.network.handler.BidSetReplyer;
 import com.projetenchere.manager.network.handler.EncOffersProductReplyer;
 import com.projetenchere.manager.network.handler.NewBidReplyer;
 import com.projetenchere.manager.network.handler.PubKeyReplyer;
-import com.projetenchere.manager.model.Manager;
 import com.projetenchere.manager.view.IManagerUserInterface;
-import com.projetenchere.common.controller.Controller;
-import com.projetenchere.common.model.signedPack.SigPack_PubKey;
-import com.projetenchere.common.util.EncryptionUtil;
-import com.projetenchere.common.util.SignatureUtil;
-import com.projetenchere.common.network.Headers;
-import com.projetenchere.common.network.Server;
 
 import java.security.KeyPair;
 import java.security.SignatureException;

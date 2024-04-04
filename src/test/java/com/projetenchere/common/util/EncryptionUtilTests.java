@@ -1,12 +1,15 @@
 package com.projetenchere.common.util;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import java.nio.ByteBuffer;
 import java.security.KeyPair;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class EncryptionUtilTests {
 
@@ -23,13 +26,13 @@ public class EncryptionUtilTests {
 
     @Test
     @Timeout(value = 50, unit = TimeUnit.MILLISECONDS)
-    void testEncryptDecryptPrice() throws Exception {
+    void testEncryptDecryptPrice() {
         double decryptedData = EncryptionUtil.decryptPrice(EncryptionUtil.encryptPrice(data, keys.getPublic()), keys.getPrivate());
         assertEquals(data, decryptedData);
     }
 
     @Test
-    void testEncryptPriceAltersData() throws Exception {
+    void testEncryptPriceAltersData() {
         byte[] encryptedData = EncryptionUtil.encryptPrice(data, keys.getPublic());
         assertNotEquals(data, bytesToDouble(encryptedData));
     }

@@ -1,8 +1,8 @@
 package com.projetenchere.seller.view.graphicalUserInterface;
 
-import com.projetenchere.seller.view.ISellerUserInterface;
 import com.projetenchere.common.model.Bid;
 import com.projetenchere.common.view.UserGraphicalUserInterface;
+import com.projetenchere.seller.view.ISellerUserInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 

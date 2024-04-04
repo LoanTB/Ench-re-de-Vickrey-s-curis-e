@@ -1,13 +1,13 @@
 
 package com.projetenchere.seller.network.handler;
 
-import com.projetenchere.seller.model.Seller;
 import com.projetenchere.common.model.PlayerStatus;
 import com.projetenchere.common.model.signedPack.SigPack_Confirm;
-import com.projetenchere.common.util.SignatureUtil;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.IDataHandler;
+import com.projetenchere.common.util.SignatureUtil;
+import com.projetenchere.seller.model.Seller;
 
 import java.io.Serializable;
 import java.security.SignatureException;

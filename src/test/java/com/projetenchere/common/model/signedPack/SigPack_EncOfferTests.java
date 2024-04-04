@@ -1,10 +1,8 @@
-package com.projetenchere.common.models.SignedPack;
+package com.projetenchere.common.model.signedPack;
 
-import com.projetenchere.common.model.signedPack.SigPack_EncOffer;
 import com.projetenchere.common.util.EncryptionUtil;
-import com.projetenchere.common.util.keyFile.KeyFileUtilWithJKS;
 import com.projetenchere.common.util.SignatureUtil;
-
+import com.projetenchere.common.util.keyFile.KeyFileUtilWithJKS;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,12 +58,12 @@ public class SigPack_EncOfferTests {
 
 
     @Test
-    void testsVerifySignatureWithOneOffer() throws Exception {
+    void testsVerifySignatureWithOneOffer() {
 
         classUnderTest = new SigPack_EncOffer(encPrice,signedPrice,signaturePublicKeyFromKeyStore,"0");
         assertAll(
             () -> assertTrue(SignatureUtil.verifyDataSignature(encPrice,signedPrice,signaturePublicKeyFromKeyStore)),
-            () -> assertFalse(SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte((Object) encPrice),signedPrice,signaturePublicKeyFromKeyStore)),
+            () -> assertFalse(SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(encPrice),signedPrice,signaturePublicKeyFromKeyStore)),
             () -> assertTrue(SignatureUtil.verifyDataSignature((byte[]) classUnderTest.getObject(),classUnderTest.getObjectSigned(), classUnderTest.getSignaturePubKey())),
             () -> assertFalse(SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(classUnderTest.getObject()),classUnderTest.getObjectSigned(), classUnderTest.getSignaturePubKey()))
         );

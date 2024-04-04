@@ -1,10 +1,8 @@
-package com.projetenchere.common.models.SignedPack;
+package com.projetenchere.common.model.signedPack;
 
-import com.projetenchere.common.model.signedPack.SigPack_PriceWin;
-import com.projetenchere.common.model.signedPack.SigPack_Results;
 import com.projetenchere.common.util.EncryptionUtil;
-import com.projetenchere.common.util.keyFile.KeyFileUtilWithJKS;
 import com.projetenchere.common.util.SignatureUtil;
+import com.projetenchere.common.util.keyFile.KeyFileUtilWithJKS;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +11,6 @@ import java.io.IOException;
 import java.security.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SigPack_PriceResultsTests {
 

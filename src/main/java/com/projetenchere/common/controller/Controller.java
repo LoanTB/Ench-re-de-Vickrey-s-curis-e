@@ -1,9 +1,9 @@
 package com.projetenchere.common.controller;
 
 import com.projetenchere.common.model.User;
+import com.projetenchere.common.util.SignatureUtil;
 import com.projetenchere.common.util.keyFile.I_KeyFileUtil;
 import com.projetenchere.common.util.keyFile.KeyFileUtilWithJKS;
-import com.projetenchere.common.util.SignatureUtil;
 import com.projetenchere.common.view.IUserInterface;
 
 import java.security.PrivateKey;
