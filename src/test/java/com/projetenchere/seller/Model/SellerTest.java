@@ -1,4 +1,4 @@
-package com.projetenchere.seller.model;
+package com.projetenchere.seller.Model;
 
 import com.projetenchere.common.model.signedPack.Set_SigPackEncOffer;
 import com.projetenchere.common.model.signedPack.SigPack_EncOffer;
@@ -13,23 +13,18 @@ import java.security.PublicKey;
 import java.security.Signature;
 import java.util.HashSet;
 
+import com.projetenchere.seller.model.Seller;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SellerTest {
 
-
-
     private Seller classUnderTest;
-
-
-
-
 
     @Test
     void testsVerifyAndAddOfferWithOneOffer() throws Exception {
     classUnderTest = Seller.getInstance();
-
 
         KeyFileUtilWithJKS keyFile = new KeyFileUtilWithJKS("_test");
         if (!keyFile.isKeyPairSaved()) {
@@ -53,11 +48,9 @@ public class SellerTest {
         assertTrue(SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(offer.getObject()),
                 offer.getObjectSigned(), offer.getSignaturePubKey()));
 
-
         classUnderTest.verifyAndAddOffer(offer);
 
         assertFalse(classUnderTest.getEncryptedOffersSet().getOffers().isEmpty());
-
 
         String configPath = "";
         String userHome = System.getProperty("user.home");
@@ -66,11 +59,5 @@ public class SellerTest {
         String CERT_FILEPATH = configPath + "/config_signature_certificat_test.cer";
         KeyFileUtilWithJKS.executeCommand("rm "+ CERT_FILEPATH);
         KeyFileUtilWithJKS.executeCommand("rm "+ KEYSTORE_FILEPATH);
-
     }
-
-
-
-
-
 }

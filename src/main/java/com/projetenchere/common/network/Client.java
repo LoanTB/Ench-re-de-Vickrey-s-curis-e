@@ -26,7 +26,7 @@ public class Client {
         return wrapped.unwrap();
     }
 
-    protected <T1 extends Serializable, T2 extends Serializable> T1 fetchWithData(ClientSocketWrapper socket, Headers headerToSend, Headers headerToReceive, T2 data) {
+    public <T1 extends Serializable, T2 extends Serializable> T1 fetchWithData(ClientSocketWrapper socket, Headers headerToSend, Headers headerToReceive, T2 data) {
         checkConnection(socket);
         DataWrapper<T1> wrappedToReceive;
         DataWrapper<T2> wrappedToSend = new DataWrapper<>(data, headerToSend);
