@@ -34,7 +34,7 @@ public class Seller extends User {
     private Bid myBid;
 
     private boolean resultsAreIn = false;
-    private boolean resultsReady = false;
+    private boolean bidResolved = false;
     private boolean winnerExpressed = false;
 
 
@@ -56,12 +56,12 @@ public class Seller extends User {
         EndResults = endResults;
     }
 
-    public synchronized boolean isResultsReady() {
-        return resultsReady;
+    public synchronized boolean isBidResolved() {
+        return bidResolved;
     }
 
-    public synchronized void resultsAreReady() {
-        this.resultsReady = true;
+    public synchronized void setBidResolved() {
+        this.bidResolved = true;
     }
 
     public synchronized boolean resultsAreIn() {

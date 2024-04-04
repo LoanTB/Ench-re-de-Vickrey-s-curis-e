@@ -1,11 +1,8 @@
 package com.projetenchere.Seller.network.Handlers;
 
-import com.projetenchere.Seller.Loader.SellerMain;
 import com.projetenchere.Seller.Model.Seller;
-import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import com.projetenchere.common.Models.PlayerStatus;
 import com.projetenchere.common.Models.EndPack;
-import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_Confirm;
 import com.projetenchere.common.Utils.SignatureUtil;
 import com.projetenchere.common.network.DataWrapper;
@@ -72,7 +69,7 @@ public class ChecklistOkReplyer implements IDataHandler {
                 }
 
                 System.out.println("a");
-                while (!seller.isResultsReady()) {
+                while (!seller.isBidResolved()) {
                     wait(1000);
                 }
                 System.out.println("b");

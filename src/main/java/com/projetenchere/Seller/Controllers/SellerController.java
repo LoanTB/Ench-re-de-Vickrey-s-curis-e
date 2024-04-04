@@ -77,15 +77,17 @@ public class SellerController extends Controller {
             waitSynchro(2000); //TODO : Trouver une solution pour attendre proprement
         }
 
+        System.out.println("eauinretsaueiu");
+
         ui.tellEndOfParticipation();
         ui.tellSendBiddersVerification();
 
-        seller.resultsAreReady();
         //server.removeHandler(Headers.SEND_OFFER);
         Map<PublicKey, byte[]> map = seller.getBidders();
         while (seller.getbiddersOk().containsAll(map.keySet())) {
                waitSynchro(1000);
         }
+        System.out.println("bjoud");
     }
 
     public void sendEncryptedOffersProduct() throws GeneralSecurityException {
@@ -94,6 +96,7 @@ public class SellerController extends Controller {
 
         ui.tellSendResolutionToManager();
 
+        System.out.println("nld,tiuednr,uiejlc,.uievdr");
         SigPack_PriceWin results = client.sendEncryptedOffersProduct(offers);
 
         if(results==null){
@@ -117,6 +120,7 @@ public class SellerController extends Controller {
             SigPack_PriceWin p = (SigPack_PriceWin) seller.getEndResults().getObject();
             ui.tellWinnerBid( (double) p.getObject() );
             ui.tellResultsSend();
+            seller.setBidResolved();
         }
 
     }
