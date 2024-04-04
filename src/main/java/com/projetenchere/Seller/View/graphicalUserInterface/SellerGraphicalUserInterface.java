@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 import static java.lang.Thread.sleep;
@@ -54,10 +55,10 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
         }
         LocalDate currentDate = LocalDate.now();
         endDatePicker.setValue(currentDate);
-        LocalTime now = LocalTime.now();
+        LocalTime now = LocalTime.now().plusSeconds(30);//.plusMinutes(1);//.plusSeconds(30);
         hourComboBox.getSelectionModel().select(Integer.valueOf(now.getHour()));
-        minuteComboBox.getSelectionModel().select(Integer.valueOf((now.getMinute() + 1) % 60));
-        secondComboBox.getSelectionModel().select(Integer.valueOf((now.getSecond() + 30) % 60));
+        minuteComboBox.getSelectionModel().select(Integer.valueOf(now.getMinute()));
+        secondComboBox.getSelectionModel().select(Integer.valueOf(now.getSecond()));
     }
 
     @FXML
