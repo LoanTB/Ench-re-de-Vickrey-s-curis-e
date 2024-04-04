@@ -77,21 +77,15 @@ public class SellerController extends Controller {
         }
 
         ui.tellEndOfParticipation();
-
-            ui.tellSendBiddersVerification();
-
-            server.addHandler(Headers.GET_RESULTS, new ChecklistOkReplyer());
-
-            seller.resultsAreReady();
-
-            server.removeHandler(Headers.SEND_OFFER);
-
-            Map<PublicKey, byte[]> map = seller.getBidders();
-
-            while (seller.getbiddersOk().containsAll(map.keySet())) {
-                waitSynchro(1000);
-            }
-
+        ui.tellSendBiddersVerification();
+        server.addHandler(Headers.GET_RESULTS, new ChecklistOkReplyer());
+        server.listHandlers();
+        seller.resultsAreReady();
+        server.removeHandler(Headers.SEND_OFFER);
+        Map<PublicKey, byte[]> map = seller.getBidders();
+        while (seller.getbiddersOk().containsAll(map.keySet())) {
+               waitSynchro(1000);
+        }
     }
 
     public void sendEncryptedOffersProduct() throws GeneralSecurityException {

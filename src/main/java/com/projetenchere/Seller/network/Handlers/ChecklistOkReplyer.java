@@ -19,6 +19,7 @@ import java.util.Set;
 public class ChecklistOkReplyer implements IDataHandler {
     @Override
     public DataWrapper<EndPack> handle(Serializable data) {
+        System.out.println("test1");
         Seller seller = Seller.getInstance();
         synchronized (this) {
 
@@ -28,6 +29,7 @@ public class ChecklistOkReplyer implements IDataHandler {
                 PlayerStatus status;
 
                 (SellerGraphicalUserInterface.getInstance()).addLogMessage("Confirmation reçue..."); //TODO : Ajouter une méthode dans SellerGraphical.
+                System.out.println("test");
 
 
 //TODO : FIX la désynchro

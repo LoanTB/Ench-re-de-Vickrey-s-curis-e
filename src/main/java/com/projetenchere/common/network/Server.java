@@ -34,6 +34,10 @@ public class Server extends Thread {
         this.handlers.put(header, replyer);
     }
 
+    public synchronized void listHandlers() {
+        System.out.println(this.handlers);
+    }
+
     public synchronized void removeHandler(Headers header) {
         for (ClientAcceptor<?> client : connectedClients.keySet()) {
             client.removeHandler(header);
