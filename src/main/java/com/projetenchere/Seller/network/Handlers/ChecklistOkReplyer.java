@@ -23,7 +23,6 @@ public class ChecklistOkReplyer implements IDataHandler {
         System.out.println("test1");
         Seller seller = Seller.getInstance();
         synchronized (this) {
-
             try {
                 SigPack_Confirm signedPublicKey = (SigPack_Confirm) data;
                 PublicKey bidderPk = null;
@@ -55,15 +54,7 @@ public class ChecklistOkReplyer implements IDataHandler {
                     }
                 }
 
-                if(ok){
-                    msg = "et a été authentifié.";
-                }
-                else {
-                    msg = "mais a été falsifié.";
-                }
                 //SellerMain.getViewInstance().addLogMessage("Confirmation reçue..."); //TODO : Ajouter une méthode dans SellerGraphical.
-
-
                 if(!ok){
                     status = new PlayerStatus(seller.getMyBid().getId());
                     status.eject();    //Si l'enchérisseur précise qu'il n'y a pas son chiffré dans la liste
@@ -80,9 +71,11 @@ public class ChecklistOkReplyer implements IDataHandler {
                     return new DataWrapper<>(end, Headers.OK_RESULTS);
                 }
 
-                while (!seller.resultsAreIn()) {
+                System.out.println("a");
+                while (!seller.isResultsReady()) {
                     wait(1000);
                 }
+                System.out.println("b");
                 EndPack end = new EndPack(seller.getEndResults());
                 return new DataWrapper<>(end, Headers.OK_RESULTS);
             } catch (ClassCastException e) {

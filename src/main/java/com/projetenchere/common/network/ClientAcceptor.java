@@ -53,12 +53,13 @@ public class ClientAcceptor<T extends Serializable> extends Thread {
                 checkStreams();
                 Object rawRequest = this.getObjectInput().readObject();
                 DataWrapper<T> dataInput = (DataWrapper<T>) rawRequest;
-                System.out.println("Received " + dataInput.getHeader());
                 T object = dataInput.unwrap();
                 DataWrapper<? extends Serializable> dataOutput;
                 if (dataInput.checkHeader(Headers.GOODBYE_HAVE_A_NICE_DAY)) {
                     this.stop = true;
                 } else if (handlers.containsKey(dataInput.getHeader())) {
+                    System.out.println("Received " + dataInput.getHeader());
+                    System.out.println(handlers);
                     dataOutput = handlers.get(dataInput.getHeader()).handle(object);
                     System.out.println("Sent " + dataOutput.getHeader());
                     this.getObjectOutput().writeObject(dataOutput);
@@ -83,9 +84,4 @@ public class ClientAcceptor<T extends Serializable> extends Thread {
     public void checkStreams() {
         if (objectOutput == null || objectInput == null) throw new RuntimeException("No streams for IO");
     }
-
-    public void setInputStream(ObjectInputStream inputStream) {
-        this.objectInput = inputStream;
-    }
-
 }

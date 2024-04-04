@@ -71,6 +71,7 @@ public class SellerController extends Controller {
 
         server.removeHandler(Headers.GET_PARTICIPATION);
         server.addHandler(Headers.SEND_OFFER, new EncryptedOfferReplyer());
+        server.addHandler(Headers.GET_RESULTS, new ChecklistOkReplyer());
 
         while (waitAllOffers()) {
             waitSynchro(2000); //TODO : Trouver une solution pour attendre proprement
@@ -78,10 +79,9 @@ public class SellerController extends Controller {
 
         ui.tellEndOfParticipation();
         ui.tellSendBiddersVerification();
-        server.addHandler(Headers.GET_RESULTS, new ChecklistOkReplyer());
-        server.listHandlers();
+
         seller.resultsAreReady();
-        server.removeHandler(Headers.SEND_OFFER);
+        //server.removeHandler(Headers.SEND_OFFER);
         Map<PublicKey, byte[]> map = seller.getBidders();
         while (seller.getbiddersOk().containsAll(map.keySet())) {
                waitSynchro(1000);
