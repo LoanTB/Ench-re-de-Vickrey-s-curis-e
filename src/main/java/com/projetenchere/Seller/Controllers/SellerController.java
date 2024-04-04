@@ -74,17 +74,17 @@ public class SellerController extends Controller {
         server.addHandler(Headers.GET_RESULTS, new ChecklistOkReplyer());
 
         while (waitAllOffers()) {
-            waitSynchro(2000); //TODO : Trouver une solution pour attendre proprement
+            waitSynchro(1000); //TODO : Trouver une solution pour attendre proprement
         }
 
-        System.out.println("eauinretsaueiu");
+//        System.out.println("eauinretsaueiu");
 
         ui.tellEndOfParticipation();
         ui.tellSendBiddersVerification();
 
         //server.removeHandler(Headers.SEND_OFFER);
         Map<PublicKey, byte[]> map = seller.getBidders();
-        System.out.println("bjoud");
+//        System.out.println("bjoud");
     }
 
     public void askManagerToResolveBid() throws GeneralSecurityException {
@@ -93,7 +93,7 @@ public class SellerController extends Controller {
 
         ui.tellSendResolutionToManager();
 
-        System.out.println("nld,tiuednr,uiejlc,.uievdr");
+//        System.out.println("nld,tiuednr,uiejlc,.uievdr");
         SigPack_PriceWin results = client.sendEncryptedOffersProduct(offers);
 
         if(results==null){

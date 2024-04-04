@@ -17,7 +17,7 @@ import java.util.Set;
 public class ChecklistOkReplyer implements IDataHandler {
     @Override
     public DataWrapper<EndPack> handle(Serializable data) {
-        System.out.println("test1");
+//        System.out.println("test1");
         Seller seller = Seller.getInstance();
         synchronized (this) {
             try {
@@ -26,7 +26,7 @@ public class ChecklistOkReplyer implements IDataHandler {
                 PlayerStatus status;
 
                 //SellerMain.getViewInstance().addLogMessage("Confirmation reçue..."); //TODO : Ajouter une méthode dans SellerGraphical.
-                System.out.println("test");
+//                System.out.println("test");
 
 
 //TODO : FIX la désynchro
@@ -68,11 +68,11 @@ public class ChecklistOkReplyer implements IDataHandler {
                     return new DataWrapper<>(end, Headers.OK_RESULTS);
                 }
 
-                System.out.println("a");
+//                System.out.println("a");
                 while (!seller.isBidResolved()) {
                     wait(1000);
                 }
-                System.out.println("b");
+//                System.out.println("b");
                 EndPack end = new EndPack(seller.getEndResults());
                 return new DataWrapper<>(end, Headers.OK_RESULTS);
             } catch (ClassCastException e) {
