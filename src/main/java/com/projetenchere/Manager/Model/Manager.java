@@ -20,9 +20,6 @@ public class Manager extends User {
     private PublicKey publicKey;
     private SigPack_PubKey publicKeySigned;
 
-    private Manager() {
-    }
-
     public synchronized static Manager getInstance() {
         if (INSTANCE == null) INSTANCE = new Manager();
         return INSTANCE;
@@ -58,6 +55,10 @@ public class Manager extends User {
 
     public synchronized CurrentBids getBids() {
         return bids;
+    }
+
+    public synchronized CurrentBids getBidsUnfinished() {
+        return bids.currentBidsUnfinished();
     }
 
     public synchronized SigPack_PriceWin processPrices(Set_SigPackEncOffer setSigPackEncOffer, PrivateKey privateKey) throws Exception {

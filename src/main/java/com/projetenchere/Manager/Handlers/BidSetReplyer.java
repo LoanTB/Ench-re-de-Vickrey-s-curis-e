@@ -20,8 +20,8 @@ public class BidSetReplyer implements IDataHandler {
         try {
             ManagerMain.getViewInstance().displayBidderAskBids();
 
-            byte[] signedBids = SignatureUtil.signData(Manager.getInstance().getBids(),manager.getSignature());
-            SigPack_CurrentBids bids = new SigPack_CurrentBids(manager.getBids(),signedBids,manager.getKey());
+            byte[] signedBids = SignatureUtil.signData(manager.getBidsUnfinished(),manager.getSignature());
+            SigPack_CurrentBids bids = new SigPack_CurrentBids(manager.getBidsUnfinished(),signedBids,manager.getKey());
 
             return new DataWrapper<>(bids, Headers.OK_CURRENT_BIDS);
         } catch (Exception e) {

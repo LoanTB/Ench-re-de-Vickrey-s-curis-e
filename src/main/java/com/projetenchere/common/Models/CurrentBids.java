@@ -7,6 +7,16 @@ import java.util.List;
 public class CurrentBids implements Serializable {
     private final List<Bid> currentBids = new ArrayList<>();
 
+    public CurrentBids currentBidsUnfinished(){
+        CurrentBids currentBidsReturn = new CurrentBids();
+        for (Bid bid:currentBids){
+            if (!bid.isOver()){
+                currentBidsReturn.addCurrentBid(bid);
+            }
+        }
+        return currentBidsReturn;
+    }
+
     public List<Bid> getCurrentBids() {
         return currentBids;
     }
