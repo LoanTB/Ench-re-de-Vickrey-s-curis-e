@@ -1,5 +1,6 @@
 package com.projetenchere.Manager.Handlers;
 
+import com.projetenchere.Manager.Loader.ManagerMain;
 import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.common.Models.SignedPack.SigPack_PubKey;
@@ -14,7 +15,7 @@ public class PubKeyReplyer implements IDataHandler {
 
     @Override
     public DataWrapper<SigPack_PubKey> handle(Serializable ignored) {
-        ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).displaySendBidderPubKey();
+        ManagerMain.getViewInstance().displaySendBidderPubKey();
         return new DataWrapper<>(Manager.getInstance().getPublicKeySigned(), Headers.OK_PUB_KEY);
     }
 }

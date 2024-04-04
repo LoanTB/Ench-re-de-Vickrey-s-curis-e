@@ -5,7 +5,7 @@ import com.projetenchere.Manager.Handlers.EncOffersProductReplyer;
 import com.projetenchere.Manager.Handlers.NewBidReplyer;
 import com.projetenchere.Manager.Handlers.PubKeyReplyer;
 import com.projetenchere.Manager.Model.Manager;
-import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
+import com.projetenchere.Manager.View.IManagerUserInterface;
 import com.projetenchere.common.Controllers.Controller;
 import com.projetenchere.common.Models.SignedPack.SigPack_PubKey;
 import com.projetenchere.common.Utils.EncryptionUtil;
@@ -18,9 +18,9 @@ import java.security.SignatureException;
 
 public class ManagerController extends Controller {
     private final Manager manager = Manager.getInstance();
-    ManagerGraphicalUserInterface ui;
+    IManagerUserInterface ui;
 
-    public ManagerController(ManagerGraphicalUserInterface ui) {
+    public ManagerController(IManagerUserInterface ui) {
         this.ui = ui;
     }
 

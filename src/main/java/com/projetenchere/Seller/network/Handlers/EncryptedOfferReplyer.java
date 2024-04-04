@@ -1,9 +1,12 @@
 package com.projetenchere.Seller.network.Handlers;
 
+import com.projetenchere.Seller.Loader.SellerMain;
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffersProduct;
+import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
+import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.IDataHandler;
@@ -21,8 +24,7 @@ public class EncryptedOfferReplyer implements IDataHandler {
 
                     seller.verifyAndAddOffer(offer);
 
-                    SellerGraphicalUserInterface.getInstance().addLogMessage("Nouvelle offre reçue !");
-
+                    SellerMain.getViewInstance().showNewOfferAlert();
                     seller.signedProductEncryptedOffers(); //Dans cette méthode on fait le produit des chiffrés,
                                                 // on signe ce produit et on créer le EncryptedOffersProductSigned.
                                                 // Il contient l'ensemble des chiffrés de l'enchère.
@@ -32,7 +34,6 @@ public class EncryptedOfferReplyer implements IDataHandler {
                     while (seller.getBidderParticipant().size() != seller.getEncryptedOffersSet().getOffers().size()) {
                         wait(2000); //TODO : Trouver une solution pour attendre proprement
                     }
-
                     return new DataWrapper<>(seller.getOffersProductSignedBySeller(), Headers.CHECK_LIST);
                 } catch (ClassCastException e) {
                     throw new RuntimeException("Received unreadable data");

@@ -2,13 +2,17 @@ package com.projetenchere.Manager.View;
 
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.View.I_UserInterface;
+import com.projetenchere.common.Models.Bid;
+import com.projetenchere.common.View.IUserInterface;
 
-public interface IManagerUserInterface extends I_UserInterface {
+public interface IManagerUserInterface extends IUserInterface {
     void displayHello();
 
     void tellKeysGeneration();
 
     void tellKeysReady();
+
+    void diplayEndBid(String idBid);
 
     void tellSignatureConfigSetup();
 
@@ -26,4 +30,8 @@ public interface IManagerUserInterface extends I_UserInterface {
     void diplayEndBid(String idBid);
     void displayNewBid(Bid bid);
 
+
+    void tellBidRequest();
+
+    void displayNewBid(Bid bid);
 }

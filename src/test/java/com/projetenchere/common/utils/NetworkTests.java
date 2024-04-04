@@ -7,10 +7,11 @@ import org.junit.jupiter.api.*;
 
 import java.io.Serializable;
 import java.net.InetSocketAddress;
-import java.util.concurrent.*;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class NetworkTests {
     private static Server server;

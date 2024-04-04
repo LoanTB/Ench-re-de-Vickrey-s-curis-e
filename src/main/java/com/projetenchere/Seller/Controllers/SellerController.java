@@ -1,7 +1,7 @@
 package com.projetenchere.Seller.Controllers;
 
 import com.projetenchere.Seller.Model.Seller;
-import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
+import com.projetenchere.Seller.View.ISellerUserInterface;
 import com.projetenchere.Seller.network.Handlers.ChecklistOkReplyer;
 import com.projetenchere.Seller.network.Handlers.EncryptedOfferReplyer;
 import com.projetenchere.Seller.network.Handlers.ParticipationReplyer;
@@ -25,9 +25,10 @@ public class SellerController extends Controller {
     private final SellerClient client = new SellerClient();
     private final Server server = new Server(24682);
     private final Seller seller = Seller.getInstance();
-    SellerGraphicalUserInterface ui;
+    ISellerUserInterface ui;
+    private Winner winner = null;
 
-    public SellerController(SellerGraphicalUserInterface ui) {
+    public SellerController(ISellerUserInterface ui) {
         this.ui = ui;
     }
 

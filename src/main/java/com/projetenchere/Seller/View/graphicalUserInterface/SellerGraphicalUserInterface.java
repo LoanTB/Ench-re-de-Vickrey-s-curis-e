@@ -125,7 +125,7 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void tellSignatureConfigGeneration() {
-        addLogMessage("Génération de la configuration de la signature ...");
+        addLogMessage("Génération de la configuration de la signature...");
     }
 
     @Override
@@ -135,7 +135,7 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void displayEncryptedOffersSet() {
-
+        addLogMessage("Prix chiffrés envoyés à l'autorité de gestion pour traitement...");
     }
 
     @Override
@@ -234,4 +234,26 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
     }
 
 
+    @Override
+    public void showNewOfferAlert(){addLogMessage("Nouvelle offre reçue !");}
+
+    @Override
+    public void tellBidEnd() {
+        addLogMessage("Enchère finie !");
+    }
+
+    @Override
+    public void tellSendOffersToManager() {
+        addLogMessage("Envoie de la demande de résolution au gestionnaire.");
+    }
+
+    @Override
+    public void displayWinnerPrice(double price) {
+        addLogMessage("Le prix gagnant est " + price + "€");
+    }
+
+    @Override
+    public void tellResultsSend() {
+        addLogMessage("Résultats envoyés aux enchérisseurs.");
+    }
 }

@@ -4,7 +4,7 @@ import com.projetenchere.common.Models.User;
 import com.projetenchere.common.Utils.KeyFile.I_KeyFileUtil;
 import com.projetenchere.common.Utils.KeyFile.KeyFileUtilWithJKS;
 import com.projetenchere.common.Utils.SignatureUtil;
-import com.projetenchere.common.View.I_UserInterface;
+import com.projetenchere.common.View.IUserInterface;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -12,7 +12,7 @@ import java.security.Signature;
 
 public abstract class Controller {
 
-    public void setSignatureConfig(I_UserInterface ui, User user, String name) throws Exception { //TODO : name A retirer  à la fin du projet.
+    public void setSignatureConfig(IUserInterface ui, User user) throws Exception {
         ui.tellSignatureConfigSetup();
         I_KeyFileUtil keyFile = new KeyFileUtilWithJKS("_"+name);
 
@@ -29,7 +29,6 @@ public abstract class Controller {
         user.setKey(publicKey);
         ui.tellSignatureConfigReady();
     }
-
 
     public void waitSynchro(int ms) {
         synchronized (this) {

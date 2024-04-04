@@ -5,10 +5,12 @@ import org.junit.jupiter.api.*;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
-import java.security.*;
+import java.security.GeneralSecurityException;
+import java.security.KeyPair;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class SecurityTests {
     @Nested

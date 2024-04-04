@@ -1,7 +1,7 @@
 package com.projetenchere.Manager.Handlers;
 
+import com.projetenchere.Manager.Loader.ManagerMain;
 import com.projetenchere.Manager.Model.Manager;
-import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.common.Models.Bid;
 import com.projetenchere.common.Models.SignedPack.SigPack_Bid;
 import com.projetenchere.common.Utils.SignatureUtil;
@@ -21,7 +21,7 @@ public class NewBidReplyer implements IDataHandler {
             if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(sigPackBid.getObject()),
                     sigPackBid.getObjectSigned(),sigPackBid.getSignaturePubKey()))
             {
-                ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).tellFalsifiedSignatureSeller();
+                ManagerMain.getViewInstance().tellFalsifiedSignatureSeller();
                 throw new SignatureException("Seller's signature falsified.");
                 //TODO : Trouver une meilleure fin d'enchères compromises pour les cas où la signature est usurpée.
             }
