@@ -1,7 +1,7 @@
-package com.projetenchere.Bidder.Loader;
+package com.projetenchere.bidder.loader;
 
-import com.projetenchere.Bidder.Controllers.BidderController;
-import com.projetenchere.Bidder.View.IBidderUserInterface;
+import com.projetenchere.bidder.controller.BidderController;
+import com.projetenchere.bidder.view.IBidderUserInterface;
 
 import java.security.SignatureException;
 

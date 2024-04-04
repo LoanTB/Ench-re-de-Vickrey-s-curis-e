@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.security.KeyStore;
 
-import static com.projetenchere.common.Utils.CertificatSSLFile.copyJksFromInputStream;
+import static com.projetenchere.common.util.CertificatSSLFile.copyJksFromInputStream;
 
 
 public class SSLSocketFactory implements ISocketFactory {

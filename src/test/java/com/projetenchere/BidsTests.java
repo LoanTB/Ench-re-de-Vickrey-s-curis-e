@@ -1,10 +1,6 @@
 package com.projetenchere;
 
-import com.projetenchere.Manager.Controllers.ManagerController;
-import com.projetenchere.Manager.Model.Manager;
-import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
-import com.projetenchere.common.Utils.EncryptionUtil;
-import com.projetenchere.common.View.UserGraphicalUserInterface;
+import com.projetenchere.manager.controller.ManagerController;
 import com.projetenchere.common.network.Client;
 import com.projetenchere.common.network.ClientSocketWrapper;
 import com.projetenchere.common.network.Headers;
@@ -20,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 public class BidsTests {
     @Nested
-    @DisplayName("Manager")
+    @DisplayName("manager")
     @Disabled
     public class TestManager {
         private static ManagerController manager;

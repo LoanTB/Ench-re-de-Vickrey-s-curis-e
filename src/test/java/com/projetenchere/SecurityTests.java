@@ -1,6 +1,6 @@
 package com.projetenchere;
 
-import com.projetenchere.common.Utils.EncryptionUtil;
+import com.projetenchere.common.util.EncryptionUtil;
 import org.junit.jupiter.api.*;
 
 import java.math.BigInteger;

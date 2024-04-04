@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_CENTER" prefHeight="500" prefWidth="750" styleClass="vbox-main"
       stylesheets="/css/ManagerStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
-      fx:controller="com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface">
+      fx:controller="com.projetenchere.manager.view.graphicalUserInterface.ManagerGraphicalUserInterface">
     <Label fx:id="labelVBoxTitle" styleClass="title-label" text="Log Box"/>
     <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="270" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
         <VBox fx:id="messagesVBox" spacing="10" styleClass="vbox-content">

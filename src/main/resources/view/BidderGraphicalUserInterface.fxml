@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="500" prefWidth="750" styleClass="vbox-main"
       stylesheets="/css/BidderStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
-      fx:controller="com.projetenchere.Bidder.View.graphicalUserInterface.BidderGraphicalUserInterface">
+      fx:controller="com.projetenchere.bidder.view.graphicalUserInterface.BidderGraphicalUserInterface">
     <Label fx:id="labelVBoxTitle" styleClass="title-label" text="Log Box"/>
     <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="270" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
         <VBox fx:id="messagesVBox" spacing="10" styleClass="vbox-content">
