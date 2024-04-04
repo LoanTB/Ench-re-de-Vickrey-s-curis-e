@@ -1,6 +1,6 @@
 package com.projetenchere.Manager.Handlers;
 
-import com.projetenchere.Manager.ManagerApp;
+import com.projetenchere.Manager.Loader.ManagerMain;
 import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
 import com.projetenchere.common.Models.Encrypted.EncryptedOffersSet;
@@ -40,7 +40,7 @@ public class EncryptedOffersSetReplyer implements IDataHandler {
 
             EncryptedOffersSet results = new EncryptedOffersSet(enc.getSet().getBidId(), offers);
             Winner win = manager.processPrices(results, manager.getPrivateKey());
-            ManagerApp.getViewInstance().diplayEndBid(enc.getSet().getBidId());
+            ManagerMain.getViewInstance().diplayEndBid(enc.getSet().getBidId());
             return new DataWrapper<>(win, Headers.RESOLVE_BID_OK);
         } catch (Exception e) {
             throw new RuntimeException(e);
