@@ -5,6 +5,6 @@ import com.projetenchere.Seller.Loader.SellerGraphicalApp;
 
 public class SellerApp {
     public static void main(String[] args) throws Exception {
-        SellerCommandLineApp.launchApp();
+        SellerGraphicalApp.launchApp();
     }
 }
