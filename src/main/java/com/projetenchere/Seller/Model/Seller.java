@@ -52,7 +52,7 @@ public class Seller extends User {
         return EndResults;
     }
 
-    public void setEndResults(SigPack_Results endResults) {
+    public synchronized void setEndResults(SigPack_Results endResults) {
         EndResults = endResults;
     }
 

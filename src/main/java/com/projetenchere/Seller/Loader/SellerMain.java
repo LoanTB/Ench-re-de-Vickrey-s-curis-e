@@ -31,11 +31,11 @@ public class SellerMain extends Thread {
         } catch (SignatureException e) {
             throw new RuntimeException(e);
         }
-        sellerController.receiveOkUntilCheckEndAndSendResults();
+        sellerController.receiveOffers();
 
         try {
-            sellerController.sendEncryptedOffersProduct();
-            sellerController.receiveWinUntilPeriodEnd();
+            sellerController.askManagerToResolveBid();
+            sellerController.dispatchBidResults();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

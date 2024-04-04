@@ -61,7 +61,7 @@ public class SellerController extends Controller {
         return seller.getBidderParticipant().size() != seller.getEncryptedOffersSet().getOffers().size();
     }
 
-    public void receiveOkUntilCheckEndAndSendResults() {
+    public void receiveOffers() {
         server.start();
         server.addHandler(Headers.GET_PARTICIPATION, new ParticipationReplyer());
         ui.tellWaitForParticipation();
@@ -84,13 +84,10 @@ public class SellerController extends Controller {
 
         //server.removeHandler(Headers.SEND_OFFER);
         Map<PublicKey, byte[]> map = seller.getBidders();
-        while (seller.getbiddersOk().containsAll(map.keySet())) {
-               waitSynchro(1000);
-        }
         System.out.println("bjoud");
     }
 
-    public void sendEncryptedOffersProduct() throws GeneralSecurityException {
+    public void askManagerToResolveBid() throws GeneralSecurityException {
 
         SigPack_EncOffersProduct offers = seller.getOffersProductSignedBySeller();
 
@@ -100,7 +97,7 @@ public class SellerController extends Controller {
         SigPack_PriceWin results = client.sendEncryptedOffersProduct(offers);
 
         if(results==null){
-
+            return;
         }
 
         byte[] price = SignatureUtil.objectToArrayByte(results.getObject());
@@ -150,7 +147,7 @@ public class SellerController extends Controller {
         seller.setResultsAreIn(true);
     }
 
-    public void receiveWinUntilPeriodEnd(){
+    public void dispatchBidResults(){
         ui.tellWaitWinnerManifestation();
         server.addHandler(Headers.SET_WIN_EXP,new WinnerReplyer());
 
