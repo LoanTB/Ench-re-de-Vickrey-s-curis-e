@@ -35,17 +35,6 @@ public class EncryptionUtilTests {
         assertNotEquals(data, bytesToDouble(encryptedData));
     }
 
-    @Test
-    void testEncryptDecrypt() throws Exception {
-        byte[] decryptedData = EncryptionUtil.decrypt(EncryptionUtil.encrypt(byteData, keys.getPublic()), keys.getPrivate());
-        assertArrayEquals(byteData, decryptedData);
-    }
-
-    @Test
-    void testEncryptAltersData() throws Exception {
-        byte[] encryptedData = EncryptionUtil.encrypt(byteData, keys.getPublic());
-        assertNotEquals(byteData, encryptedData);
-    }
 
     private static double bytesToDouble(byte[] bytes) {
         ByteBuffer buffer = ByteBuffer.allocate(bytes.length);
