@@ -17,7 +17,7 @@ public class Client {
             System.out.println("Sending " + headerToSend);
             socket.getObjectOutputStream().writeObject(request);
             wrapped = (DataWrapper<T>) socket.getObjectInputStream().readObject();
-            System.out.println("Sending " + wrapped.getHeader());
+            System.out.println("Received " + wrapped.getHeader());
             if (!wrapped.checkHeader(headerToReceive))
                 throw new RuntimeException("Wrong header received: " + headerToReceive);
         } catch (IOException | ClassCastException | ClassNotFoundException e) {
