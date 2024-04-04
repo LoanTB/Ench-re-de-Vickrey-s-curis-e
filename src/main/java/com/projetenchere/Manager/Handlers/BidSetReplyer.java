@@ -1,5 +1,6 @@
 package com.projetenchere.Manager.Handlers;
 
+import com.projetenchere.Manager.Loader.ManagerMain;
 import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.common.Models.CurrentBids;
@@ -17,7 +18,7 @@ public class BidSetReplyer implements IDataHandler {
     public DataWrapper<SigPack_CurrentBids> handle(Serializable ignored) {
         Manager manager = Manager.getInstance();
         try {
-            ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).displayBidderAskBids();
+            ManagerMain.getViewInstance().displayBidderAskBids();
 
             byte[] signedBids = SignatureUtil.signData(Manager.getInstance().getBids(),manager.getSignature());
             SigPack_CurrentBids bids = new SigPack_CurrentBids(manager.getBids(),signedBids,manager.getKey());

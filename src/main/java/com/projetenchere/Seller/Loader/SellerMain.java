@@ -3,6 +3,8 @@ package com.projetenchere.Seller.Loader;
 import com.projetenchere.Seller.Controllers.SellerController;
 import com.projetenchere.Seller.View.ISellerUserInterface;
 
+import java.security.SignatureException;
+
 public class SellerMain extends Thread {
 
     private static ISellerUserInterface viewInstance = null;
@@ -24,13 +26,12 @@ public class SellerMain extends Thread {
             throw new RuntimeException(e);
         }
         sellerController.createMyBid();
-        sellerController.sendMyBid();
-        sellerController.receiveOkUntilCheckEndAndSendResults();
         try {
-            sellerController.sendEncryptedOffersSet();
-        } catch (Exception e) {
+            sellerController.sendMyBid();
+        } catch (SignatureException e) {
             throw new RuntimeException(e);
         }
+        sellerController.receiveOkUntilCheckEndAndSendResults();
         sellerController.displayWinner();
     }
 }

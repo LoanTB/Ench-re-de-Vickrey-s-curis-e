@@ -44,6 +44,4 @@ public interface ISellerUserInterface extends IUserInterface {
     void tellSendOffersToManager();
 
     void displayWinnerPrice(double price);
-
-    void tellResultsSend();
 }

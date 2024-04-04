@@ -251,9 +251,4 @@ public class SellerGraphicalUserInterface extends UserGraphicalUserInterface imp
     public void displayWinnerPrice(double price) {
         addLogMessage("Le prix gagnant est " + price + "€");
     }
-
-    @Override
-    public void tellResultsSend() {
-        addLogMessage("Résultats envoyés aux enchérisseurs.");
-    }
 }

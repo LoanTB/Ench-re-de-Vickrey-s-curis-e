@@ -60,7 +60,11 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
             }
         });
         refreshButton.setOnAction(actionEvent -> {
-            BidderAppLoader.getControllerInstance().initWithManager();
+            try {
+                BidderGraphicalApp.getControllerInstance().initWithManager();
+            } catch (SignatureException e) {
+                throw new RuntimeException(e);
+            }
         });
         for (TableColumn<?, ?> column : auctionsTableView.getColumns()) {
             column.setPrefWidth(auctionsTableView.getWidth() / auctionsTableView.getColumns().size());
@@ -177,7 +181,7 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
     }
 
     @Override
-    public synchronized void tellOfferWon(double priceToPay) {
+    public void tellOfferWon(double priceToPay) {
         addLogMessage("Votre offre a gagné, vous devez payer " + priceToPay + "€");
     }
 
@@ -209,11 +213,12 @@ public class BidderGraphicalUserInterface extends UserGraphicalUserInterface imp
 
     @Override
     public void tellFalsifiedSignatureManager() {
-        addLogMessage("Signature du gestionnaire falsifiée !");
+
     }
+
     @Override
     public void tellFalsifiedSignatureSeller() {
-        addLogMessage("Signature du vendeur falsifiée !");
+
     }
 
 }

@@ -1,5 +1,6 @@
 package com.projetenchere.Seller.network.Handlers;
 
+import com.projetenchere.Seller.Loader.SellerMain;
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import com.projetenchere.common.Models.PlayerStatus;
@@ -28,7 +29,7 @@ public class ChecklistOkReplyer implements IDataHandler {
                 PublicKey bidderPk = null;
                 PlayerStatus status;
 
-                (SellerGraphicalUserInterface.getInstance()).addLogMessage("Confirmation reçue..."); //TODO : Ajouter une méthode dans SellerGraphical.
+                //SellerMain.getViewInstance().addLogMessage("Confirmation reçue..."); //TODO : Ajouter une méthode dans SellerGraphical.
                 System.out.println("test");
 
 
@@ -60,7 +61,7 @@ public class ChecklistOkReplyer implements IDataHandler {
                 else {
                     msg = "mais a été falsifié.";
                 }
-                (SellerGraphicalUserInterface.getInstance()).addLogMessage("Un participant a confirmé la présence de son chiffré "+msg);
+                //SellerMain.getViewInstance().addLogMessage("Confirmation reçue..."); //TODO : Ajouter une méthode dans SellerGraphical.
 
 
                 if(!ok){

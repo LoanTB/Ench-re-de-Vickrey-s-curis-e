@@ -12,7 +12,7 @@ import java.security.Signature;
 
 public abstract class Controller {
 
-    public void setSignatureConfig(IUserInterface ui, User user) throws Exception {
+    public void setSignatureConfig(IUserInterface ui, User user, String name) throws Exception {
         ui.tellSignatureConfigSetup();
         I_KeyFileUtil keyFile = new KeyFileUtilWithJKS("_"+name);
 

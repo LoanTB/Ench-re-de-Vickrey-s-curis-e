@@ -44,10 +44,3 @@ public class BidderGraphicalApp extends Application {
         main.interrupt();
     }
 }
-
-
-
-
-
-
-

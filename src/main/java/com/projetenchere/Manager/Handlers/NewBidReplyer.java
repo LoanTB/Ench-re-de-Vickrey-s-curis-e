@@ -28,7 +28,7 @@ public class NewBidReplyer implements IDataHandler {
             Bid bid = (Bid) sigPackBid.getObject();
 
             Manager.getInstance().addBid(bid);
-            ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).displayNewBid(bid);
+            ManagerMain.getViewInstance().displayNewBid(bid);
             return new DataWrapper<>(Headers.OK_NEW_BID);
         } catch (Exception e) {
             throw new RuntimeException(e);

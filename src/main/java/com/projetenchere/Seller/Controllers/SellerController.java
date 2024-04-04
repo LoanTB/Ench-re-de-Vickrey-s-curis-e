@@ -26,7 +26,6 @@ public class SellerController extends Controller {
     private final Server server = new Server(24682);
     private final Seller seller = Seller.getInstance();
     ISellerUserInterface ui;
-    private Winner winner = null;
 
     public SellerController(ISellerUserInterface ui) {
         this.ui = ui;

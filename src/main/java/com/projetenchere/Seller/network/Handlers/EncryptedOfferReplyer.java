@@ -5,8 +5,6 @@ import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffersProduct;
-import com.projetenchere.common.Models.Encrypted.EncryptedOffer;
-import com.projetenchere.common.Models.Encrypted.SignedEncryptedOfferSet;
 import com.projetenchere.common.network.DataWrapper;
 import com.projetenchere.common.network.Headers;
 import com.projetenchere.common.network.IDataHandler;

@@ -1,5 +1,6 @@
 package com.projetenchere.Manager.Handlers;
 
+import com.projetenchere.Manager.Loader.ManagerMain;
 import com.projetenchere.Manager.Model.Manager;
 import com.projetenchere.Manager.View.graphicalUserInterface.ManagerGraphicalUserInterface;
 import com.projetenchere.common.Models.SignedPack.SigPack_EncOffer;
@@ -27,7 +28,7 @@ public class EncOffersProductReplyer implements IDataHandler {
 
             if(!SignatureUtil.verifyDataSignature(SignatureUtil.objectToArrayByte(enc.getObject()), enc.getObjectSigned(), enc.getSignaturePubKey()))
             {
-                ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).tellFalsifiedSignatureSeller();
+                ManagerMain.getViewInstance().tellFalsifiedSignatureSeller();
                 throw new SignatureException("Seller's signature falsified.");
                 //TODO : Trouver une meilleure fin d'enchères compromises pour les cas où la signature est usurpée.
             }
@@ -39,7 +40,7 @@ public class EncOffersProductReplyer implements IDataHandler {
             SigPack_PriceWin win = manager.processPrices(results, manager.getPrivateKey());
 
 
-            ((ManagerGraphicalUserInterface) ManagerGraphicalUserInterface.getInstance()).diplayEndBid(results.getBidId());
+            ManagerMain.getViewInstance().diplayEndBid(results.getBidId());
             return new DataWrapper<>(win, Headers.RESOLVE_BID_OK);
         } catch (Exception e) {
             throw new RuntimeException(e);

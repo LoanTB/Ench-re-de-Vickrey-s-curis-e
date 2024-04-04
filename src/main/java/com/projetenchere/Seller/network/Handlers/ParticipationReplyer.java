@@ -1,5 +1,6 @@
 package com.projetenchere.Seller.network.Handlers;
 
+import com.projetenchere.Seller.Loader.SellerMain;
 import com.projetenchere.Seller.Model.Seller;
 import com.projetenchere.Seller.View.graphicalUserInterface.SellerGraphicalUserInterface;
 import com.projetenchere.common.Models.SignedPack.SigPack_Confirm;
@@ -19,9 +20,9 @@ public class ParticipationReplyer implements IDataHandler {
                 try {
                     SigPack_Confirm participation = (SigPack_Confirm) data;
                     if(seller.verifyAndAddParticipant(participation)){
-                        ((SellerGraphicalUserInterface) SellerGraphicalUserInterface.getInstance()).tellNewParticipant();
+                        SellerMain.getViewInstance().tellNewParticipant();
                     }else {
-                        ((SellerGraphicalUserInterface) SellerGraphicalUserInterface.getInstance()).tellParticipationRejected();
+                        SellerMain.getViewInstance().tellParticipationRejected();
                         int nbParticipant = 0;
                         byte[] nbSigned = SignatureUtil.signData(nbParticipant,seller.getSignature());
                         return new DataWrapper<>(new SigPack_Confirm(nbParticipant, nbSigned,seller.getKey(), seller.getMyBid().getId()), Headers.OK_PARTICIPATION);

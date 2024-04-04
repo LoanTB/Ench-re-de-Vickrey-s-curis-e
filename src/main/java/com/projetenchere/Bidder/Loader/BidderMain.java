@@ -3,6 +3,8 @@ package com.projetenchere.Bidder.Loader;
 import com.projetenchere.Bidder.Controllers.BidderController;
 import com.projetenchere.Bidder.View.IBidderUserInterface;
 
+import java.security.SignatureException;
+
 public class BidderMain extends Thread {
 
     private static IBidderUserInterface viewInstance = null;
@@ -23,7 +25,11 @@ public class BidderMain extends Thread {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        bidderController.initWithManager();
+        try {
+            bidderController.initWithManager();
+        } catch (SignatureException e) {
+            throw new RuntimeException(e);
+        }
         try {
             bidderController.readAndSendOffer();
         } catch (Exception e) {

@@ -152,11 +152,6 @@ public class SellerCommandLineInterface extends AbstractUserInterface implements
     }
 
     @Override
-    public void tellResultsSend() {
-
-    }
-
-    @Override
     public void tellWaitWinnerManifestation() {
 
     }

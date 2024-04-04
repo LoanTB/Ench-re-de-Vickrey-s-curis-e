@@ -3,6 +3,8 @@ package com.projetenchere.Manager.Loader;
 import com.projetenchere.Manager.Controllers.ManagerController;
 import com.projetenchere.Manager.View.IManagerUserInterface;
 
+import java.security.SignatureException;
+
 public class ManagerMain extends Thread {
 
     private static IManagerUserInterface viewInstance = null;
@@ -23,6 +25,10 @@ public class ManagerMain extends Thread {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        managerController.init();
+        try {
+            managerController.init();
+        } catch (SignatureException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

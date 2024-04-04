@@ -37,11 +37,6 @@ public class ManagerCommandLineInterface extends AbstractUserInterface implement
     }
 
     @Override
-    public void diplayEndBid(String idBid) {
-        showMessage("L'enchère " + idBid + " a été résolue.");
-    }
-
-    @Override
     public void tellManagerReadyToProcessBids() {
         showMessage("Gestionnaire prêt à traiter des enchères");
     }
@@ -78,9 +73,4 @@ public class ManagerCommandLineInterface extends AbstractUserInterface implement
 
     @Override
     public void tellBidRequest(){showMessage("Un enchérisseur a demandé les enchères actuelles.");}
-
-    @Override
-    public void displayNewBid(Bid bid) {
-        showMessage("Nouvelle enchère reçue : " + bid.getName() + " (" + bid.getId() + ") Date:" + bid.getStartDateTime().toString());
-    }
 }
