@@ -32,6 +32,14 @@ public class SellerMain extends Thread {
             throw new RuntimeException(e);
         }
         sellerController.receiveOkUntilCheckEndAndSendResults();
+
+        try {
+            sellerController.sendEncryptedOffersProduct();
+            sellerController.receiveWinUntilPeriodEnd();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         sellerController.displayWinner();
     }
+
 }
