@@ -110,11 +110,11 @@ public class BidderController extends Controller {
 
         int participationState = (int) participationConfirmation.getObject();
         if(participationState == 0){
-            //ui.addLogMessage("Confirmation de participation rejetée.");
+            //ui.addLogMessage("Confirmation de participation rejetée."); //TODO : Créer une méthode.
             client.stopSeller();
             throw new BidAbortedException("Participation rejected.");
         }else {
-            //ui.addLogMessage("Confirmation de participation reçue.");
+            //ui.addLogMessage("Confirmation de participation reçue.");//TODO : Créer une méthode
         }
 
 
